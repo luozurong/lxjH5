@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<meta charset="utf-8">
+	<title>优惠券</title>
+	<link rel="stylesheet" type="text/css" href="css/discountCoupon.css">
+	<script src="../common/vue/vue.min.js"></script>
+ 	<script src="../common/vue/vue-resource.min.js"></script>
+ 	<script src="../common/interface.js"></script>
+ 	<script src="../common/interfaceParameters.js"></script>
+ 	<script type="text/javascript">
+	    (function(doc, win) {
+	      var docEl = doc.documentElement,
+	        isIOS = navigator.userAgent.match(/iphone|ipod|ipad/gi),
+	        dpr = isIOS ? Math.min(win.devicePixelRatio, 3) : 1,
+	        dpr = window.top === window.self ? dpr : 1, //被iframe引用时，禁止缩放
+	        scale = 1 / dpr,
+	        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+	      docEl.dataset.dpr = dpr;
+	      var recalc = function() {
+	        var width = docEl.clientWidth;
+	        if(width / dpr > 768) {
+	          width = 768 * dpr;
+	        }
+	        docEl.style.fontSize = 100 * (width / 414) + 'px';
+	      };
+	      recalc();
+	      if(!doc.addEventListener) return;
+	      win.addEventListener(resizeEvt, recalc, false);
+	    })(document, window);
+  </script>
+</head>
+<body> 
+	<div class="coupon" v-cloak>
+		<div class="coupon-nav">
+			<div @click="clickNav(0)" v-bind:class="{active: clickFlag == 0 }"><span>未使用({{unUsedList.length}})</span></div>
+			<div @click="clickNav(1)" v-bind:class="{active: clickFlag == 1 }"><span>已使用({{usedList.length}})</span></div>
+			<div @click="clickNav(2)" v-bind:class="{active: clickFlag == 2 }"><span>已过期({{overduedList.length}})</span></div>
+		</div>
+		<div class="coupon-page">
+			<div class="coupon-page-nav" v-if="clickFlag == 0">
+				<div class="couponInfoBoxMain">
+					<div class="couponInfoItem" v-for="item in unUsedList" v-if="unUsedList.length != 0">
+						<div class="couponInfo">
+							<div class="couponInfo1" :class="{couponkuai:item.overdue == 1}">
+								<div class="couponInfo1bj">
+									<div>
+										<div class="couponInfoP" v-if="item.type == 1">
+											<span class="couponInfoPB">
+												<span class="smallF">¥</span>
+												<span class="bigF">{{item.denomination}}</span>
+											</span>
+										</div>
+										<div class="couponInfoP" v-if="item.type == 2">
+											<span class="couponInfoPB">
+												<span class="bigF">{{item.denomination}}</span>
+												<span class="smallF">折</span>
+											</span>
+										</div>
+									</div>
+									<div class="couponInfoR">
+										<span v-if="item.couponCondition == 1">无门槛使用</span>
+										<span v-if="item.couponCondition == 2">满{{item.conditionMoney}}元使用</span>
+									</div>
+								</div>
+								<div :class="{couponInfoType: true}" >
+									<div class="couponInfoType1">
+										<span class="first" v-if="item.type == 1 && item.couponCondition == 2">满减券</span>
+										<span class="first" v-if="item.type == 2">折扣券</span>
+										<span class="last" v-if="item.scope == 1">适用全部商品</span>
+										<span class="last" v-if="item.scope == 2">适用于部分商品</span>
+									</div>
+									<div class="couponInfoTime">
+										<span>{{item.effectiveStart | dateTime}}-{{item.effectiveEnd | dateTime}}</span>
+									</div>
+									
+								</div>
+								<div class="couponInfoUse">
+									<span class="couponGetbt" @click="goBuy(item.couponId)">立即使用</span>
+								</div>
+							</div>
+							<div class="couponInfoRuleBox">
+								<div class="couponInfoRuleBoxbj">
+									<div></div>
+									<div></div>
+								</div>
+								<div class="couponInfoRule">
+									<div v-text="item.useMsg"></div>
+									<img v-if="item.useMsg.length > 25" dataState='1' dataStateC='1'  onclick="ruleShowAnimate(this)" src="../supermarket/images/ic_put-up@3x.png"/>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="coupon-empty"  v-if="unUsedList.length == 0">
+						<img src="images/coupon-empty.png">
+						<span>暂无可使用的优惠券</span>
+					</div>
+				</div>
+			</div>
+			<div class="coupon-page-nav" v-if="clickFlag == 1">
+				<div class="couponInfoBoxMain">
+					<div class="couponInfoItem" v-for="item in usedList" v-if="usedList.length != 0">
+						<div class="couponInfo">
+							<div class="couponInfo1">
+								<div class="couponInfo1bjGray">
+									<div class="couponInfoP" v-if="item.type == 1">
+										<span class="couponInfoPB">
+											<span class="smallF">¥</span>
+											<span class="bigF">{{item.denomination}}</span>
+										</span>
+									</div>
+									<div class="couponInfoP" v-if="item.type == 2">
+										<span class="couponInfoPB">
+											<span class="bigF">{{item.denomination}}</span>
+											<span class="smallF">折</span>
+										</span>
+									</div>
+									<div class="couponInfoR">
+										<span v-if="item.couponCondition == 1">无门槛使用</span>
+										<span v-if="item.couponCondition == 2">满{{item.conditionMoney}}元使用</span>
+									</div>
+								</div>
+								<div class="couponInfoType">
+									<div class="couponInfoType1 couponInfoType2">
+										<span class="first" v-if="item.type == 1 && item.couponCondition == 2">满减券</span>
+										<span class="first" v-if="item.type == 2">折扣券</span>
+										<span class="last" v-if="item.scope == 1">适用全部商品</span>
+										<span class="last" v-if="item.scope == 2">适用于部分商品</span>
+									</div>
+									<div class="couponInfoTime">
+										<span>{{item.effectiveStart | dateTime}}-{{item.effectiveEnd | dateTime}} &nbsp;&nbsp;已使用</span>
+									</div>
+								</div>
+							</div>
+							<div class="couponInfoRuleBox">
+								<div class="couponInfoRuleBoxbj couponInfoRuleBoxbj2">
+									<div></div>
+									<div></div>
+								</div>
+								<div class="couponInfoRule">
+									<div v-text="item.useMsg"></div>
+									<img v-if="item.useMsg.length > 25" dataState='1' dataStateC='1'  onclick="ruleShowAnimate(this)" src="../supermarket/images/ic_put-up@3x.png"/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="coupon-empty"  v-if="usedList.length == 0">
+					<img src="images/coupon-empty.png">
+					<span>暂无已使用的优惠券</span>
+				</div>
+			</div>
+			<div class="coupon-page-nav" v-if="clickFlag == 2">
+				<div class="couponInfoBoxMain">
+					<div class="couponInfoItem" v-for="item in overduedList" v-if="overduedList.length != 0">
+						<div class="couponInfo">
+							<div class="couponInfo1">
+								<div class="couponInfo1bjGray">
+									<div class="couponInfoP" v-if="item.type == 1">
+										<span class="couponInfoPB">
+											<span class="smallF">¥</span>
+											<span class="bigF">{{item.denomination}}</span>
+										</span>
+									</div>
+									<div class="couponInfoP" v-if="item.type == 2">
+										<span class="couponInfoPB">
+											<span class="bigF">{{item.denomination}}</span>
+											<span class="smallF">折</span>
+										</span>
+									</div>
+									<div class="couponInfoR">
+										<span v-if="item.couponCondition == 1">无门槛使用</span>
+										<span v-if="item.couponCondition == 2">满{{item.conditionMoney}}元使用</span>
+									</div>
+								</div>
+								<div class="couponInfoType">
+									<div class="couponInfoType1 couponInfoType2">
+										<span class="first" v-if="item.type == 1 && item.couponCondition == 2">满减券</span>
+										<span class="first" v-if="item.type == 2">折扣券</span>
+										<span class="last" v-if="item.scope == 1">适用全部商品</span>
+										<span class="last" v-if="item.scope == 2">适用于部分商品</span>
+									</div>
+									<div class="couponInfoTime">
+										<span>{{item.effectiveStart | dateTime}}-{{item.effectiveEnd | dateTime}} &nbsp;&nbsp;已过期</span>
+									</div>
+								</div>
+							</div>
+							<div class="couponInfoRuleBox">
+								<div class="couponInfoRuleBoxbj couponInfoRuleBoxbj2">
+									<div></div>
+									<div></div>
+								</div>
+								<div class="couponInfoRule">
+									<div v-text="item.useMsg"></div>
+									<img v-if="item.useMsg.length > 25" dataState='1' dataStateC='1'  onclick="ruleShowAnimate(this)" src="../supermarket/images/ic_put-up@3x.png"/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="coupon-empty" v-if="overduedList.length == 0">
+					<img src="images/coupon-empty.png">
+					<span>暂无过期的优惠券</span>
+				</div>
+			</div>
+		</div>
+	<script type="text/javascript" src="js/discountCoupon.js"></script>
+</body>
+</html>

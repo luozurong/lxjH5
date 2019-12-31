@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" />
+		<title>支付失败</title>
+		<script src="../jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="../interface.js"></script>
+		<script src="../common.js"></script>
+		<link rel="stylesheet" href="../reset.css">
+		<link rel="stylesheet" type="text/css" href="css/Successful-appointment.css" />
+		<script type="text/javascript">
+			$(document).ready(function(){
+				try{
+					setTitle("订单支付结果");
+				}catch(e){
+					
+				}
+			});
+		</script>
+	</head>
+	
+	<body>
+		<ul>
+			<li class="img-min"><img src="../images/picture_fail@3x.png" /></li>
+			<li class="success-title">
+				支付失败
+			</li>
+			<li class="time">
+				请尝试再次支付
+			</li>
+		</ul>
+	</body>
+
+</html>

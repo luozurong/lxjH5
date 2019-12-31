@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>评价</title>
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" href="../common/reset.css" />
+		<link rel="stylesheet" href="../common/common.css">
+		<link rel="stylesheet" href="../common/progress.css">
+		<script src="js/common.js"></script>
+		<link rel="stylesheet" href="css/evaluate.css">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="js/skin/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="js/skin/app.css" />
+
+		<script type="text/javascript" src="../common/common.js"></script>
+		<script type="text/javascript" src="../common/interface.js"></script>
+
+		<script src="../common/tip/lxjTip.js"></script>
+		<script src="../common/vue/vue.min.js"></script>
+		<script src="../common/vue/vue-resource.min.js"></script>
+		<script src="../common/vue/plugin/vue-scroller/vue-scroller.min.js"></script>
+
+		<script type="text/javascript">
+			(function(doc, win) {
+				var docEl = doc.documentElement,
+					isIOS = navigator.userAgent.match(/iphone|ipod|ipad/gi),
+					dpr = isIOS ? Math.min(win.devicePixelRatio, 3) : 1,
+					dpr = window.top === window.self ? dpr : 1, //被iframe引用时，禁止缩放
+					scale = 1 / dpr,
+					resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+				docEl.dataset.dpr = dpr;
+				var recalc = function() {
+					var width = docEl.clientWidth;
+					if(width / dpr > 640) {
+						width = 768 * dpr;
+					}
+					docEl.style.fontSize = 100 * (width / 320) + 'px';
+				};
+				recalc();
+				if(!doc.addEventListener) return;
+				win.addEventListener(resizeEvt, recalc, false);
+			})(document, window);
+		</script>
+		<script type="text/javascript">
+			//判断在手机设备上使用一下代码
+			/* var $windowWidth = $(window).width();
+			 setTimeout(function () {
+			     $windowWidth = $(window).width();
+			     if ($windowWidth > 640) {
+			         $windowWidth = 640; //限定最大宽度为640
+			     }
+			     $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+			 }, 100);
+			 $(window).resize(function () {
+			     $windowWidth = $(window).width();
+			     if ($windowWidth > 640) {
+			         $windowWidth = 640;
+			     }
+			     $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+			 });*/
+		</script>
+		<script type="text/javascript">
+			function goBack() {
+				var url = window.location;
+				contact.goBack("'" + url + "'");
+			}
+		</script>
+
+		<style type="text/css">
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			
+			.morentu img {
+				vertical-align: top;
+			}
+			
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			p img {
+				max-width: 100%;
+				height: auto;
+			}
+			
+			#pullUp {
+				box-sizing: content-box!important;
+			}
+			
+			.marketing {
+				background: #f3f4f5;
+			}
+			
+			.marketing-floor2 {
+				overflow: hidden;
+				background: #f3f4f5;
+			}
+			
+			._v-container {
+				background: #F3F4F5;
+			}
+				[v-cloak] {
+				display: none!important;
+			}
+			.loading-layer{
+				display: none;
+			}
+			body,
+			html {	
+				font-family: "PingFang SC", Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+			}
+		</style>
+	</head>
+
+	<body style="min-height:667px;">
+		<div class="marketing" id="marketing" v-cloak>
+			<scroller :on-infinite="infinite">
+				<div style="height:1px;margin-top:-1px;"></div>
+				<!-- <div class="vue-load"></div>-->
+				<div class="marketing-floor2">
+					<div class="marketing-floor2-wrap">
+
+						<li id="productevaluatebox" v-for="(item,index) in commodityList" :key="index" class="productevaluatebox">
+							<div class="evaluateBox">
+								<img v-if="item.userImage==''" src="images/AA.png" class="headPortrait" alt="头像" />
+
+								<img v-if="item.userImage!=''" v-bind:src="item.userImage" class="headPortrait" alt="头像" />
+
+								<span class="evaluateName">{{item.userAddress}}</span>
+								<div class="evaluate-star">
+									<img v-if="item.starLevel == 0" v-for="list in 5" src="images/ic_big-start_pre@3x.png" alt="">
+									<img v-if="item.starLevel > 0" v-for="list in item.starLevel" src="images/ic_big-start_pre@3x.png" alt="">
+									<img v-if="item.starLevel > 0" v-for="list in 5-item.starLevel" src="images/ic_big-star_nor@3x.png" alt="">
+								</div>
+							</div>
+							<div class="evaluateTime">{{item.commentTime}}&nbsp;{{item.commoditySku}}</div>
+							<pre class="evaluateContents">{{item.commentContent}}</pre>
+
+							<ul v-if="item.commentImages&&item.commentImages.length>0">
+								<!---买家评价集合图片容器-->
+								<li v-for="(item1,index1) in item.commentImages" class="commentImages">
+									<div class="product_img" v-bind:style="{ backgroundImage: 'url('+item1.thumbImgUrl+')'}">
+										<img v-bind:src="item1.imgUrl" data-preview-src="" :data-preview-group="index" />
+									</div>
+								</li>
+							</ul>
+							<!-- 卖家回复-->
+							<img v-if="item.reply==2" src="images/sanjiao_03.png" alt="小三角" class="sanjiao" />
+							<div v-if="item.reply==2" class="replyContent">
+								<span>卖家回复：</span>
+								<span>{{item.replyContent}}</span>
+								<ul style="margin-top:0.1rem;">
+									<!-- 卖家回复图片集合-->
+									<li v-for="(item2,index2) in item.replyImages" class="replyImages">
+										<div class="product_img" v-bind:style="{ backgroundImage: 'url('+item2.thumbImgUrl+')'}">
+											<img v-bind:src="item2.imgUrl" width="100px;" data-preview-src="" :data-preview-group="index" />
+										</div>
+									</li>
+								</ul>
+							</div>
+						</li>
+					</div>
+				</div>
+			</scroller>
+		</div>
+
+		<script src="js/evaluate.js"></script>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.previewimage.js"></script>
+		<script src="js/mui.zoom.js"></script>
+		<script>
+			mui.previewImage();
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,85 @@
+.emptyRecord{
+	width: 100%;
+	padding-top: 1.13rem;
+	display: -webkit-flex;
+	-webkit-align-items: center;
+	-webkit-flex-direction: column;
+}
+.emptyRecord img{
+	width: 1.8rem;
+	height: 1.8rem;
+	display: block;	
+	-webkit-flex-shrink: 0;
+}
+.emptyRecord span{
+	font-size: 0.17rem;
+	color: #ccc;
+	line-height: 1;
+	padding-top: 0.14rem;
+	text-align: center;
+	width: 100%;
+}
+
+.main{
+	width: 100%;
+	
+}
+.recordItemBox{
+	width: 100%;
+	margin-bottom: 0.12rem;
+	background-color: #fff;
+}
+.recordItemBox1{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0 0.14rem;
+}
+.recordInfo{
+	width: 100%;
+	height: 0.7rem;
+	display: -webkit-flex;
+	-webkit-align-items: flex-start;
+    -webkit-flex-direction: column;
+    -webkit-justify-content: center;
+    background-image: url(../img/ic_yijiesuan@3x.png);
+    background-size: 0.7rem auto;
+    background-position: right 0.06rem top 0;
+    background-repeat: no-repeat;
+}
+.disjiesuan{
+	 background-image: url(../img/ic_daijiesuan@3x.png);
+}
+.recordInfo .recordText{
+	font-size: 0.15rem;
+	color: #333;
+	line-height: 0.27rem;
+}
+.recordInfo .recordTime{
+	font-size: 0.14rem;
+	color: #888;
+	line-height: 0.26rem;
+}
+.recordItemBox2{
+	width: 100%;
+	display: -webkit-flex;
+	-webkit-align-items: center;
+}
+.totailPrice,.totailprofit{
+	width: 50%;
+	display: -webkit-flex;
+	-webkit-align-items: center;
+	-webkit-justify-content: center;
+	padding: 0.2rem 0;
+	-webkit-flex-direction: column;
+}
+.totailPrice span:nth-child(1),.totailprofit span:nth-child(1){
+	font-size: 0.18rem;
+	color: #333;
+	line-height: 1;
+}
+.totailPrice span:nth-child(2),.totailprofit span:nth-child(2){
+	font-size: 0.14rem;
+	color: #888;
+	line-height: 1;
+	padding-top: 0.12rem;
+}

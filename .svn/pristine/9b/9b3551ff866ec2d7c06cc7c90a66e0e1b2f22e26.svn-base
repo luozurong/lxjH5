@@ -1,0 +1,125 @@
+var mmsHost = 'http://tt.hori-gz.com:8090';
+
+var isWxBrowser = true;
+var ua = navigator.userAgent.toLowerCase();
+if(ua.match(/MicroMessenger/i) == "micromessenger") {
+	isWxBrowser = true;
+} else {
+	isWxBrowser = false;
+}
+
+
+//var mmsHost = 'http://192.168.51.41:8090';
+var vue = new Vue({
+	el: '.commander',
+	data: {
+		status: 0,
+		content: '',
+		isWxBrowser:isWxBrowser,
+		token: '1547090364937fe745b3dee44ea0a276',
+	},
+	methods: {
+		commanderContentAjax: function() {
+			var params = {
+				body: {},
+				header: {
+					token: this.token,
+					time_stamp: new Date().getTime(),
+				}
+			}
+			console.log(params);
+			var paramsStr = encodeURI(JSON.stringify(params));
+			var httpURL = mmsHost + "/mms/group/groupLeaderConscribe?str=" + paramsStr;
+			this.$http.jsonp(httpURL, {
+				emulateJSON: true,
+				method: "get",
+				dataType: "jsonp",
+				jsonp: "jsoncallback",
+				contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+			}).then(function(res) {
+				console.log(res);
+				this.content = res.body.content;
+			}, function(res) {});
+		},
+		commanderInfoAjax: function() {
+			var params = {
+				body: {},
+				header: {
+					token: this.token,
+					time_stamp: new Date().getTime(),
+				}
+			}
+			console.log(params);
+			var paramsStr = encodeURI(JSON.stringify(params));
+			var httpURL = mmsHost + "/mms/group/searchLeaderInfoStatus?str=" + paramsStr;
+			this.$http.jsonp(httpURL, {
+				emulateJSON: true,
+				method: "get",
+				dataType: "jsonp",
+				jsonp: "jsoncallback",
+				contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+			}).then(function(res) {
+				console.log(res);
+				this.status = res.body.status;
+			}, function(res) {});
+		},
+		jumpPage: function() {
+			window.event.cancelBubble = true;
+			if(!this.isCondition(this.getCookie("unionid"))) {
+				this.wxInfoAjax();
+			}
+
+			if(this.status == 2 || this.status == 3 || this.status == 4) {
+				window.location.href = "commanderInfo.htm";
+			} else if(this.status == 0) {
+				window.location.href = "successInfo.htm";
+			}
+		},
+		GetURLParameter: function(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+			var r = window.location.search.substr(1).match(reg);
+			if(r != null) return decodeURI(r[2]);
+			return null;
+		},
+		isCondition: function(param) {
+			if(param != null && param != "" && param != undefined) {
+				return true;
+			}
+			return false;
+		},
+		getBaseData: function() {
+			this.commanderContentAjax();
+			this.commanderInfoAjax();
+			
+			var that = this;
+			if(this.isWxBrowser) {
+				this.wxJsdkConfig();
+				if(this.isCondition(this.GetURLParameter("code"))) { //授权重定向页面
+					if(this.isCondition(sessionStorage.getItem("codeWechat"))) {
+						return false;
+					}
+					var codeWechat = this.GetURLParameter("code") ? this.GetURLParameter("code") : 1;
+					var appid = this.GetURLParameter("appid") ? this.GetURLParameter("appid") : '';
+					this.setCookie('appid', appid);
+					sessionStorage.setItem("codeWechat", codeWechat);
+					this.wxInfoAjax();
+					sessionStorage.setItem("wxGzhAuthStart", "0");
+					return false;
+				}
+				if(this.isCondition(this.getCookie("token"))) { //8小时内登录
+					if(this.getCookie("token").indexOf('_') == -1) { //正常用户登录，走检测用户账号状态
+						this.getTokenInfo();
+					} else { //游客登录,每次提示授权
+						//this.getTokenInfo(true);
+						this.wxLogin();
+					}
+				} else { //登录信息为空需授权
+					this.wxLogin();
+				}
+			}
+		}
+	},
+	mounted: function() {
+		this.getBaseData()
+	}
+})

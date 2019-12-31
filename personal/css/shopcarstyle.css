@@ -1,0 +1,77 @@
+@charset "utf-8";
+/* shop_car_style CSS Document */
+
+.navbar .details{ text-align:center; line-height:58px; padding:0 .78rem;}
+.navbar .nav_wrap_right{ visibility:hidden;}
+
+.Process_out{ width:100%; height:0.5rem; position:relative; background:#e8e8e8; border-bottom:0.05rem solid #e8e8e8; background:#fff;}
+.Process{ width:100%; height:0.5rem; position:absolute; top:0; z-index:99;}
+
+.Process li{ width:33.33%; height:0.5rem; float:left; text-align:center; font-size:0.12rem; padding-top:0.3rem; box-sizing:border-box; position:relative;}
+.Process li i{ width:0.25rem; height:0.25rem; display:block; background:url(../images/step_shopping-cart_pre.png) no-repeat center; background-size:contain; position:absolute; top:0.04rem; padding:0 50%; box-sizing:border-box;}
+.Process .step1{ color:#ff6b69; }
+.Process .step2 i{ background:url(../images/step_order_nor.png) no-repeat center; background-size:contain;}
+.Process .step3 i{ background:url(../images/step_submit-to_nor.png) no-repeat center; background-size:contain;}
+
+.class_line{ width:100%; padding:0 15%; height:0.6rem; position:absolute; top:0; z-index:9; box-sizing:border-box;}
+.class_line li{ width:50%; height:0.6rem; background:url(../images/step_circle_nor.png) no-repeat center 0.16rem; float:left;}
+
+.shopping_car_con{ width:100%; /*padding-bottom:0.05rem;*/ background:#e9e9e9;}
+.shopping_car_con h2{ width:100%; height:0.36rem; line-height:0.36rem; font-size:0.12rem; border-bottom:1px solid #e4e4e4; background:#fff; padding-left:0.08rem; box-sizing:border-box; }
+.shopping_car_con h2.nopad{padding-left:0;}
+.shopping_car_con h2 .circle{ display:inline-block; width:0.2rem; height:0.2rem; background:url(../images/no_check_bg.png) no-repeat center; background-size:contain; margin-top:0.08rem; float:left;}
+.shopping_car_con h2 .circle.check{background: url(../images/check_icom.png) no-repeat center;}
+.shopping_car_con h2 i{ width:0.2rem; height:0.2rem; background:url(../images/ic_shop.png) no-repeat center; background-size:contain; background-size:contain; float:left; margin:0.08rem 0.12rem 0;}
+
+/*.shopping_car_con ul{ background:#e9e9e9; padding-bottom:0.04rem;}*/
+.shopping_car_con ul li{/*  height:1.1rem; */ border-bottom:2px solid #e4e4e4; box-sizing:border-box; background: #f4f4f4; padding:0.05rem 0; padding-left:1.35rem; position:relative; padding-right:0.03rem;}
+.shopping_car_con ul li.repadd{padding-left:1.2rem;}
+.shopping_car_con ul li .circle{ display:inline-block; width:0.2rem; height:0.2rem; background:url(../images/no_check_bg.png) no-repeat center; background-size:contain; position:absolute; left:0.09rem; top:0.44rem;}
+.shopping_car_con ul li .circle.check{background: url(../images/check_icom.png) no-repeat center;}
+.shopping_car_con ul li .GoodPic{ width:120px; height:120px; position:absolute; left:0.34rem; top:0.05rem;}
+.shopping_car_con ul li .GoodPic.releft{left:0.16rem;}
+.shopping_car_con ul li .GoodPic a{display: block;width:100%;height: 100%;}
+.shopping_car_con ul li .GoodPic a img{width: 100%;}
+
+.shopping_car_con ul li .ShuoMing{ height:0.4rem; line-height:0.14rem; overflow:hidden;overflow:hidden;	/* white-space: nowrap;	text-overflow:ellipsis; */	/*  height-space:nowrap; text-overflow:ellipsis; */ font-size:0.1rem; margin-bottom:0.05rem;}
+.shopping_car_con ul li .ShuoMing a{display: block;width:100%;height: 100%;}
+.shopping_car_con ul li .FontColor{ color:#808080; font-size:0.1rem;/*  line-height:0.2rem; */}
+.shopping_car_con ul li .price{ display:block; color:#ff5855; font-size:0.14rem; line-height:0.18rem;}
+.shopping_car_con ul li .lasn{ display:block; font-size:0.12rem; line-height:0.18rem; }
+.shopping_car_con ul li a{ width:0.16rem; height:0.16rem; display:block;}
+.shopping_car_con ul li .icon1{ background:url(../images/ic_editor.png) no-repeat center; background-size:contain; position:absolute; right:0.45rem; bottom:0.08rem;}
+.shopping_car_con ul li .icon2{ background:url(../images/ic_delete.png) no-repeat center; background-size:contain; right:0rem; bottom:0rem; position:absolute; right:0.14rem; bottom:0.08rem;}
+
+.progr{width:100%;height:.45rem; position:absolute; top:0.04rem; box-sizing:border-box;}
+.progr .progrCenter{
+	margin:0 auto;width:95%;height:.45rem;background:url(../images/step.png) no-repeat center; background-size:contain;
+}
+.progr .progrCenterTwo{
+	background:url(../images/step2.png) no-repeat center;background-size:contain;
+}
+.shopping_car_totle{ width:100%;/* padding-bottom:0.05rem;*/ background:#e9e9e9;}
+.shopping_car_totle h2{ width:100%; height:0.36rem; line-height:0.36rem; font-size:0.12rem; border-bottom:1px solid #e4e4e4; background:#fff; padding-left:0.08rem; box-sizing:border-box; }
+.shopping_car_totle h2 .circle{ display:inline-block; width:0.2rem; height:0.2rem; background:url(../images/no_check_bg.png) no-repeat center; background-size:contain; margin-top:0.08rem; float:left;}
+.shopping_car_totle h2 .circle.check{background: url(../images/check_icom.png) no-repeat center;}
+
+.footer{ height:0.4rem;
+position: fixed;
+bottom: 0;
+left: 0;}
+.footer h2{ height:0.4rem; line-height:0.4rem; position:fixed; bottom:0rem;}
+.footer h2 .circle{ margin-top:0.12rem;}
+.footer h2 .total_p{ float:left;}
+.footer h2 .AllCheck{ padding:0 0.02rem 0 0.1rem; font-size:0.12rem;}
+.footer h2 .total{ padding:0 0.05rem; font-size:0.1rem; color:#ff6b69;}
+.footer h2 .total_no{ font-size:0.1rem; color:#3d3d3d;}
+.footer h2 a{ font-size:0.12rem; display:inline-block; position:absolute; right:0; top:0; width:23.8%; height:0.52rem; background:#ff6b69; text-align:center; color:#fff;}
+
+
+
+.delcover{display:none;width:100%;height:100%;position:absolute;top:0;left:0;background:rgba(0,0,0,0.5);z-index: 999;}
+.delcover .center{width:200px;height:86px;position:absolute;left:50%;margin-left:-100px;top:50%;margin-top:-43px;background: #fff;}
+.delcover .center p{display:block;text-align:center;height:46px;line-height: 46px;}
+.delcover .center .choose{width:100%;height:40px; line-height: 40px;}
+.delcover .center .choose span{color:#fff;float:left;width:50%;height: 40px; text-align:center;box-sizing:border-box;}
+.delcover .center .choose span.quxiao{background: #333;}
+.delcover .center .choose span.sure{background: #f40;}

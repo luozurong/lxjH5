@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="x-rim-auto-match" content="none">
+		<title>详情</title>
+		<link rel="stylesheet" href="../common/reset.css">
+		<link rel="stylesheet" href="css/swiper.min.css">
+		<link rel="stylesheet" type="text/css" href="css/specialtydetailpicture.css" />
+		<script src="../common/jquery-1.7.2.min.js"></script>
+		<script src="js/specialtyDetailsPreview.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../mall/js/underscore.js"></script>
+		<script src="js/swiper.min.js"></script>
+		<style type="text/css">
+			html {
+				background: #FFF;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="preview_body" style="border: 1px solid #CECECE;width: 414px;margin: 0 auto;background: #F0F0F0;">
+			<div id="mask">
+			</div>
+			<div>
+				<ul class="main">
+					<li class="picture-food">
+						<div class="productBanner swiper-container" style="height: 100%;">
+							<!-- 图片容器-->
+							<ul class="swiper-wrapper" id="product">
+								
+							</ul>
+							<div class="swiper-pagination"></div>
+						</div>
+					</li>
+					<li class="padding-left" id="shoptitle">
+						<div class="food-title">
+						</div>
+						<div>
+							<div class="left-P">
+								<img src="../common/images/ic_choise_green@3x.png" /><span>&nbsp;&nbsp;随时买&nbsp;&nbsp;&nbsp;&nbsp;</span><img src="../common/images/ic_choise_green@3x.png" />&nbsp;&nbsp;过期退
+							</div>
+							<div class="right-N">
+								<span class="people-number"></span>
+							</div>
+						</div>
+					</li>
+					<li class="none_fofofo"></li>
+					<li class="padding-left">
+						<div class="float-left shop-img">
+							
+						</div>
+						<div class="float-left shop-name-type">
+							
+						</div>
+						<div class="float-right shop-phone">
+							<a href="#callphone"><img src="img/ipone.png" /></a>
+						</div>
+					</li>
+					<li class="padding-left select address" id="sellerAddress">
+						<div class="left-F">
+							<img src="../common/images/ic_-Location-@3x.png" />
+						</div>
+						<div class="left-S">
+							<span class="shop-address"></span>
+						</div>
+					</li>
+					<li class="none_fofofo"></li>
+
+					<li class="padding-left border_bottom_s">
+						<span class="taocan">
+						套餐
+					</span>
+					</li>
+					<li class="padding-left dish-list">
+						<ul id="sellfoodlist">
+							
+						</ul>
+					</li>
+
+					<li class="padding-left select SpecialtyDetailPicture border_top_s">
+						查看图文详情
+					</li>
+					<li class="none_fofofo"></li>
+					<li class="padding-left border_bottom_s">
+						购买须知：</li>
+					<li class="padding-left use-rule ">
+
+						<ul id="rule-info">
+							<li>
+								<div>
+									有效期
+								</div>
+								<div class="nyuseTime yes_time">
+					
+								</div>
+							</li>
+							<li>
+								<div>
+									不可用日期
+								</div>
+								<div class="nyuseTime no_time">
+									
+								</div>
+							</li>
+							<li>
+								<div>
+									使用规则
+								</div>
+								<ul id="use_rule">
+									<li>
+										
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+
+				</ul>
+
+			</div>
+			<div id="phone" class="first" style="width: 414px;">
+
+				<ul class="xuanxiang" style="width: 414px;">
+					<li class="xuanxiang2">
+						
+					</li>
+				</ul>
+				<ul class="quxiao" style="width: 414px;">
+					<li class="xuanxiang2">
+						<a><b>取消</b></a>
+					</li>
+				</ul>
+
+			</div>
+			<div id="none" style="width: 100%;height: 50px;opacity: 0;">
+			</div>
+			<footer>
+				<div class="qiang-gou" id="qiang-gou" style="width: 414px;">
+					<div class="buy-left">		
+					</div>
+					<div id="open" class="buy-right">
+						<span>马上抢购</span>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</body>
+
+</html>

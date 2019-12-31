@@ -1,0 +1,252 @@
+var vue = new Vue({
+	el: '.scan',
+	data:{
+		couponInfo: null,
+		lxjApp: GetURLParameter('token') != null ? true : false,
+		showDiscFlag: true,
+		showDiscIcon: 'images/btn_ic_put-up.png',
+		couponFlag: true,
+		scanTypeFlag: true,
+		yanFlag: true,
+		userMobile: GetURLParameter('userMobile') != null ? GetURLParameter("userMobile") : '',
+		codeShow: false,
+		picCode: '',
+		telCode: '',
+		timeNum: 60,
+		picRandomUrl: '',
+		submitFlag: true,
+		couponCode: GetURLParameter('couponCode'),
+		token: GetURLParameter('token') != null ? GetURLParameter("token") : '_test',
+		uums: uumsHost,
+		mms: mmsHost
+		/*uums: 'https://tt.hori-gz.com:8443',
+		mms: 'http://192.168.51.35:8090',*/
+	},
+	filters:{
+		dateTime: function(value){
+			return value.replace(/-/g,".")
+		}
+	},
+	methods:{
+		conponAjax: function(){
+			var params = {
+				body:{
+					couponCode: this.couponCode,
+				},
+				header:{
+					token: this.token,
+					time_stamp: new Date().getTime()
+				}
+			};
+			var paramsStr = encodeURI(JSON.stringify(params));
+            var httpURL = this.mms+"/mms/servlet/getCouponDetail?str="+paramsStr;
+            this.$http.jsonp(httpURL,{
+                emulateJSON: true,
+                method: "get",
+                dataType: "jsonp",
+                jsonp: "jsoncallback",
+                contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+            }).then(function(res){ 
+            	if(res.body.result == 0){
+            		this.couponInfo = res.body.couponInfo;
+            	}
+            	console.log(res);
+            },function(res){});
+		},
+		myCoupon: function(){
+			if(this.submitFlag){
+				this.submitFlag = false
+				if(this.token.indexOf("_") == 0){
+					this.lxjApp = false;
+					this.getNewToken();
+				}else{
+					this.lxjApp = true;
+					this.getCouponAjax();
+				}
+			}
+		},
+		getCouponAjax: function(){
+			var params = {
+				body:{
+					couponId: this.couponInfo.couponId,
+					mobile: this.userMobile
+				},
+				header:{
+					token: this.token,
+					time_stamp: new Date().getTime()
+				}
+			};
+			var paramsStr = encodeURI(JSON.stringify(params));
+            var httpURL = this.mms+"/mms/servlet/receiveCoupon?str="+paramsStr;
+            this.$http.jsonp(httpURL,{
+                emulateJSON: true,
+                method: "get",
+                dataType: "jsonp",
+                jsonp: "jsoncallback",
+                contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+            }).then(function(res){ 
+            	if(res.body.result == 0){
+            		lxjTip.msg("领取成功");
+            	}else{
+            		lxjTip.msg(res.body.reason);
+            	}
+            	this.submitFlag = true;
+            	console.log(res);
+            },function(res){});
+		},
+		showDisc: function(){
+			if(this.showDiscFlag){	
+				this.showDiscIcon = 'images/ic_put-up@3x.png';
+				this.showDiscFlag = false;
+			}else{
+				this.showDiscIcon = 'images/btn_ic_put-up.png';
+				this.showDiscFlag = true;
+			}
+		},
+		sendCode: function(){
+			var mobileRex = /^[1][0-9]{10}/;
+			if(this.userMobile == '' || !mobileRex.test(this.userMobile)){
+				lxjTip.msg("请输入正确的手机号码");
+			}else{
+				this.codeShow = true;
+				this.picCodeAjax();
+			}
+		},
+		picCodeAjax(){
+			var params = {
+				body:{
+					phone:this.userMobile,
+				},
+				header:{
+					token: this.token,
+					time_stamp: new Date().getTime()
+				}
+			};
+			var paramsStr = encodeURI(JSON.stringify(params));
+            var httpURL = this.uums+"/uums/servlet/getPicRandomServlet?str="+paramsStr;
+            this.$http.jsonp(httpURL,{
+                emulateJSON: true,
+                method: "get",
+                dataType: "jsonp",
+                jsonp: "jsoncallback",
+                contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+            }).then(function(res){ 
+            	if(res.body.result == 0){
+            		this.picCode = '';
+            		this.picRandomUrl = res.body.picRandomUrl;
+            	}
+            },function(res){});
+		},
+		imgCode: function(){
+			this.picCodeAjax();
+		},
+		cancelCode: function(){
+			this.codeShow = false;
+		},
+		sureSend: function(){
+			this.codeShow = false;
+			this.messegeCodeAjax();
+		},
+		messegeCodeAjax(){
+			if(this.picCode == ''){
+				lxjTip.msg("请输入图片验证码");
+				return false;
+			}
+			var params = {
+				body:{
+					sourceClientCode: "lxj_u",
+					picRandom: this.picCode,
+					phone: this.userMobile,
+
+				},
+				header:{
+					token: this.token,
+					time_stamp: new Date().getTime()
+				}
+			};
+			var paramsStr = encodeURI(JSON.stringify(params));
+	        var httpURL = this.uums+"/uums/servlet/getRandomCodeForSmsLogin?str="+paramsStr;
+	        this.$http.jsonp(httpURL,{
+	            emulateJSON: true,
+	            method: "get",
+	            dataType: "jsonp",
+	            jsonp: "jsoncallback",
+	            contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+	        }).then(function(res){ 
+	        	console.log(res);
+	        	if(res.body.result == 0){
+	        		if(res.body.code == 0){
+	        			lxjTip.msg("信息已发送，请注意查收");
+						this.codeShow = false;
+						this.timeNumFunc();
+	        		}else if(res.body.code == 1){
+	        			lxjTip.msg("验证码不正确");
+	        		}else if(res.body.code == 2){
+	        			lxjTip.msg("同一号码当天发送次数超过限制5次");
+	        		}else if(res.body.code == 3){
+	        			this.codeShow = false;
+	        		}else if(res.body.code == 4){
+	        			lxjTip.msg("同一IP当天发送次数超过限制10次");
+	        		}else if(res.body.code == 5){
+	        			lxjTip.msg("同一号码发短信间隔时间超过限制120s");
+	        		}else if(res.body.code == 6){
+	        			lxjTip.msg("调用短信网关发送发生异常");
+	        		}
+	        	}
+        	},function(res){});
+	    },
+	    getNewToken: function(){
+	    	var params = {
+				body:{
+					mobile: this.userMobile,
+					smsVerifyCode: this.telCode
+				},
+				header:{
+					token: this.token,
+					time_stamp: new Date().getTime()
+				}
+			};
+			var paramsStr = encodeURI(JSON.stringify(params));
+	        var httpURL = this.uums+"/uums/servlet/smsGetToken?str="+paramsStr;
+	        this.$http.jsonp(httpURL,{
+	            emulateJSON: true,
+	            method: "get",
+	            dataType: "jsonp",
+	            jsonp: "jsoncallback",
+	            contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+	        }).then(function(res){ 
+	        	console.log(res);
+	        	if(res.body.result == 0){
+	        		if(res.body.code == 0){
+	        			this.token = res.body.token;
+	        		}
+	        		this.getCouponAjax();
+	        	}
+        	},function(res){});
+	    },
+	    timeNumFunc: function(){
+			var that = this;
+			that.yanFlag = false;
+			var showTime = setInterval(function(){
+				that.timeNum -= 1;
+				if(that.timeNum == 0){
+					that.timeNum = 60;
+					that.yanFlag = true;
+					clearInterval(showTime);
+				}
+			},1000);
+	    },
+	   
+	},
+	mounted: function(){
+		console.log();
+		this.conponAjax();
+		console.log("初始化成功")
+	}
+})
+function GetURLParameter(name){
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	var r = window.location.search.substr(1).match(reg);
+	if(r != null) return unescape(r[2]);
+	return null;
+}

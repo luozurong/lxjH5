@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>广告</title>
+<link rel="stylesheet" href="../common/reset.css">
+<script src="../common/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../common/interface.js"></script>
+<style type="text/css">
+img {
+	float: left;
+}
+</style>
+<script type="text/javascript">
+	function goUrl(ele) {
+		showActivity($(ele).attr("id"), "");
+	}
+</script>
+</head>
+
+<body>
+	<p>
+		<img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170608/201706081554410544773.jpg"
+			title="" alt="618_01.jpg" /><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/mall/serviceList.htm?activityId=1496908303428f30fec224e344ea9eb2"
+			target="_blank" title="618小熊电器"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170608/201706081554462905636.jpg"
+			title="" alt="618_06.jpg" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=1494398064146735d31423114854a0f2"
+			target="_blank" title="618血糖仪"><img
+			src="http://115.28.114.204:8090/upload/images/20170608/201706081630207351323.jpg"
+			title="" alt="618_10.jpg" style="max-width: 100%;" /></a><a
+			onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/mall/serviceList.htm?activityId=1496908894390f676da533d149428805"
+			target="_blank" title="618日化品"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170608/201706081631254511032.jpg"
+			title="" alt="618_02.jpg" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/mall/serviceList.htm?activityId=149690907470ae86ef2cbd2c4770a231"
+			target="_blank" title="618大米"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170608/201706081632268057509.jpg"
+			title="" alt="618_08.jpg" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/mall/serviceList.htm?activityId=149690916632b15790b215614aa18853"
+			target="_blank" title="618油"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170608/201706081633133881179.jpg"
+			title="" alt="618_04.jpg" /></a>
+	</p>
+	<style type="text/css">
+body {
+	margin: 0px;
+}
+</style>
+</body>
+
+</html>

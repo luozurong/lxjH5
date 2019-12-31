@@ -1,0 +1,44 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+import HelloWorld from '@/components/HelloWorld'
+Vue.use(Router)
+
+import App from '../App.vue'
+import home from '../views/home/home.vue'
+import test from '../views/home/test.vue'
+import test1 from '../views/home/test1.vue'
+import product from '../views/product/product.vue'
+import shoppingcart from '../views/shoppingcart/shoppingcart.vue'
+import user from '../views/personal/user.vue'
+
+export default new Router({
+  	routes: [
+	    {
+	        path: '/',
+	        component:resolve => require(['../App.vue'],resolve), 
+	      	children:[{
+		        path: '/',
+		        component:resolve => require(['../views/home/home.vue'],resolve) 
+		    },{
+		        path: 'home',
+		        component:resolve => require(['../views/home/home.vue'],resolve) 
+		    },{
+		        path: 'product',
+		        component:resolve => require(['../views/product/product.vue'],resolve) 
+		    },{
+		        path: 'shoppingcart',
+		        component:resolve => require(['../views/shoppingcart/shoppingcart.vue'],resolve) 
+		    },{
+		        path: 'user',
+		        component:resolve => require(['../views/personal/user.vue'],resolve) 
+		    }]
+	    },{
+	    	path: '/test',
+		    component:resolve => require(['../views/home/test.vue'],resolve) 
+	    },
+	    {
+	    	path: '/test1',
+		    component:resolve => require(['../views/home/test1.vue'],resolve) 
+	    }
+  	]
+})

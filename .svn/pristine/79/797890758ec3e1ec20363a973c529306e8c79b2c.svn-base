@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<header>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="css/checkProduct.css">
+		<script src="../common/js/fontSize.js"></script>
+		<title>查看货单</title>
+	</header>
+	<body>
+		<div class="checkProduct">
+			<div class="checkProduct-tab">
+				<span class="active">派货单</span>
+				<span>验货单</span>
+			</div>
+			<div class="checkProduct-send">
+				<div class="checkProduct-search">
+					<input type="text" placeholder="请输入手机号码">
+					<span>搜索</span>
+				</div>
+				<div class="checkProduct-item">
+					<span class="checkProduct-item-icon checkProduct-icon-active"></span>
+					<div class="checkProduct-item-info">
+						<div class="checkProduct-item-name">杜拉拉</div>
+						<div class="checkProduct-item-mobile">
+							<span>15693524251</span>
+							<span>数量：2件</span>
+						</div>
+						<div class="checkProduct-item-msg">
+							黄浦区水果拼团：韶光沙田柚3个|亮相即对方身份的京东数科积分速度快发送到金风科技独守空房建设的开发jsdk疯狂的风景斯柯达
+						</div>
+					</div>
+				</div>
+				<div class="checkProduct-item">
+					<span class="checkProduct-item-icon"></span>
+					<div class="checkProduct-item-info">
+						<div class="checkProduct-item-name">杜拉拉</div>
+						<div class="checkProduct-item-mobile">
+							<span>15693524251</span>
+							<span>数量：2件</span>
+						</div>
+						<div class="checkProduct-item-msg">
+							黄浦区水果拼团：韶光沙田柚3个|亮相即对方身份的京东数科积分速度快发送到金风科技独守空房建设的开发jsdk疯狂的风景斯柯达
+						</div>
+					</div>
+				</div>
+				<div class="checkProduct-fixed">
+					<div class="checkProduct-choose-all">
+						<span class="checkProduct-choose-icon"></span>
+						<span class="checkProduct-choose-word">全选</span>
+					</div>
+					<div class="checkProduct-submit">确认收货</div>
+				</div>
+			</div>
+			<div class="checkProduct-send" style="display: none;">
+				<div class="checkProduct-item">
+					<span class="checkProduct-item-icon checkProduct-icon-active"></span>
+					<div class="checkProduct-item-info">
+						<div class="checkProduct-item-name">杜拉拉</div>
+						<div class="checkProduct-item-mobile">
+							<span>数量：2件</span>
+						</div>
+						<div class="checkProduct-item-msg">
+							黄浦区水果拼团：韶光沙田柚3个|亮相即对方身份的京东数科积分速度快发送到金风科技独守空房建设的开发jsdk疯狂的风景斯柯达
+						</div>
+					</div>
+				</div>
+				<div class="checkProduct-item">
+					<span class="checkProduct-item-icon"></span>
+					<div class="checkProduct-item-info">
+						<div class="checkProduct-item-name">杜拉拉</div>
+						<div class="checkProduct-item-mobile">
+							<span>数量：2件</span>
+						</div>
+						<div class="checkProduct-item-msg">
+							黄浦区水果拼团：韶光沙田柚3个|亮相即对方身份的京东数科积分速度快发送到金风科技独守空房建设的开发jsdk疯狂的风景斯柯达
+						</div>
+					</div>
+				</div>
+				<div class="checkProduct-fixed">
+					<div class="checkProduct-choose-all">
+						<span class="checkProduct-choose-icon"></span>
+						<span class="checkProduct-choose-word">全选</span>
+					</div>
+					<div class="checkProduct-submit">确认收货</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/checkProduct.js"></script>	
+	</body>
+</html>

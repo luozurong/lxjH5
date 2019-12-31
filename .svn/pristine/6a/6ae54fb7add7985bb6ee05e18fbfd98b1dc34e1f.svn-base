@@ -1,0 +1,86 @@
+<template>
+	<div class="communitySearch">
+		<div class="searchCommunity clearfix">
+			<div class="fl">
+				<form action="javascript:void(0);" method="post" @submit="onsubmit">
+					<input type="search" name="" id="" v-model="inputVal" placeholder="搜索小区" v-focus='true'/>
+				</form>
+			</div>
+			<div class="fr" @click="$router.go(-1)">
+				取消
+			</div>
+		</div>
+		<div class="communitysBox">
+			<div class="community" v-for="community in communitys" @click='selectCommunnity'>{{community}}</div>
+		</div>
+	</div>
+</template>	
+<script type="text/javascript">
+	export default{
+		name:'communitySearch',
+		data(){
+			return{
+				inputVal:'',
+				communitys:['1','12']
+			}
+		},
+		directives: {
+		    focus: {//自定义指令--自动对焦
+		        inserted: function (el, {value}) {
+		            if (value) {
+		                el.focus();
+		            }
+		        }
+		    }
+		},
+		mounted(){
+			
+		},
+		methods:{
+			onsubmit(){
+				
+			},
+			selectCommunnity(e){
+				this.$store.commit('changeCommuinty',e.target.innerText)//修改x小区
+				this.$router.go(-2)
+			}
+		}
+	}
+</script>
+<style>
+	.searchCommunity{
+		padding: 0.05rem 0.07rem 0.05rem  0.14rem;
+	}
+	.fl{
+		width: 88%;
+	}
+	.fl input{
+		height: 0.3rem;
+		width: 100%;
+		border-radius: 0.04rem;
+		padding-left: .42rem;
+		box-sizing: border-box;
+		background: url(../../../static/images/btn_ic_search@3x.png) 0.14rem center no-repeat;
+		background-size: 0.14rem;
+		background-color: #FFFFFF;
+	}
+	.fr{
+		width: 12%;
+		text-align: center;
+		color: #FC9153;
+		font-size: 0.16rem;
+		line-height: .3rem;
+	}
+	.communitysBox{
+		background-color: #FFFFFF;
+	}
+	.community{
+		margin: 0 0.14rem;
+		height: 0.4rem;
+		line-height: 0.4rem;
+		border-top: 1px solid #F1F2F3;
+	}
+	.community:first-child{
+		border: none;
+	}
+</style>

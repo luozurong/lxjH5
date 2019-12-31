@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我的订单</title>
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<link rel="stylesheet" href="../common/reset.css" />
+		<link rel="stylesheet" href="../common/common.css">
+		<link rel="stylesheet" href="css/my_orders.css">
+		<link rel="stylesheet" type="text/css" href="../common/tip/layer.css" />
+		<link rel="stylesheet" href="../common/progress.css">
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script type="text/javascript" src="../common/jquery-2.1.4.js"></script>
+		<script src="../common/tip/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../common/DataLazyLoad.js"></script>
+		<script src="../common/common.js" type="text/javascript"></script>
+		<script src="js/myorder.js?ss=78229" type="text/javascript"></script>
+		<style>
+			a {
+				-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+			}
+			
+			.orderInformation>li {
+				width: 100%;
+				height: 1.5rem;
+				margin-bottom: 0.06rem;
+				background: #fff;
+				position: relative;
+				top: 0.06rem;
+			}
+			
+			.productInformation {
+				height: 1.08rem;
+				border-bottom: 1px solid #e8e8e8;
+			}
+			
+			.productImg {
+				width: 100%;
+				float: left;
+			}
+			
+			.productImg>img {
+				width: 0.6rem;
+				height: 0.6rem;
+				margin-top: 0.1rem;
+				margin-left: 0.1rem;
+			}
+			
+			.productDetail {
+				margin-left: 0.2rem;
+				float: right;
+				width: 80%;
+			}
+			
+			.productDetail>p {
+				margin-top: -0.7rem;
+				margin-left: 0.18rem;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+			}
+			
+			.orderBtn {
+				width: 100%;
+				margin-right: 0.1rem;
+				margin-top: 0.1rem;
+				float: right;
+				text-align: right;
+			}
+			
+			.orderBtn>a {
+				width: 20%;
+				border: 1px solid #ccc;
+				border-radius: 0.04rem;
+				text-align: center;
+				height: 0.2rem;
+				line-height: 0.2rem;
+				display: inline-block;
+				margin-right: 0.06rem;
+			}
+			
+			.productReal {
+				position: absolute;
+				top: 0rem;
+				right: 0rem;
+				width: 20%;
+			}
+			
+			.productRule {
+				margin-left: 0.18rem;
+				color: #ccc;
+				margin-right: 0.08rem;
+				overflow: hidden;
+				-webkit-line-clamp: 2;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				height: 0.4rem;
+				font-size: 12px;
+			}
+			
+			.productRule>span {
+				min-height: 0.28rem;
+				line-height: 0.14rem;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+			}
+			
+			.productTotal {
+				width: 100%;
+				position: absolute;
+				top: 0.86rem;
+				right: 0.2rem;
+				text-align: right;
+			}
+			
+			.productImgbox {
+				width: 80%;
+				overflow: hidden;
+			}
+			
+			.productImgbox>img {
+				width: 0.6rem;
+				height: 0.6rem;
+				margin-left: 0.1rem;
+				margin-top: 0.1rem;
+			}
+			
+			.productInformationbox {
+				width: 100%;
+			}
+			
+			.orderTotal {
+				margin-right: 0.1rem;
+			}
+			
+			html {
+				background: #f0f0f0;
+			}
+			
+			.img_box3 {
+				width: 1.2rem;
+				height: 1.2rem;
+				margin: 85px auto 0;
+			}
+			
+			.img_box3 img {
+				width: 100%;
+				height: 100%;
+			}
+			
+			.no_order p {
+				width: 100%;
+				text-align: center;
+			}
+			
+			body .demo-class .layui-layer-content {
+				padding: 0.26rem 7% 0.24rem;
+			}
+			
+			body .demo-class .layui-layer-btn {
+				padding: 0 0 0.26rem;
+			}
+			
+			body .demo-class .layui-layer-btn .layui-layer-btn0 {
+				height: 0.309rem;
+				line-height: 0.309rem;
+			}
+		</style>
+
+		<script>
+		</script>
+
+	</head>
+
+	<body style="font-size:14px;">
+		<input type="hidden" name="pageSize" value="10">
+		<input type="hidden" name="pageNum" value="1">
+		<ul class="orderInformation">
+		</ul>
+		<!-- cover -->
+		<div class="cancel_order_cover">
+
+		</div>
+		<!-- 待发货情况下的取消订单 -->
+		<div class="del_center" id="reimburse">
+			<p>订单取消后款项将在1-7个工作日内退还到您支付的账号</p>
+			<div class="choose clearfix">
+				<span class="canc">再想想</span>
+				<span class="sure" style="float:right;">好的</span>
+			</div>
+		</div>
+		<!-- 订单一起支付情况-->
+		<div class="del_center" id="act_pay">
+			<p>此订单与其他2个未支付订单存在促销优惠组合关系，将一并进行支付</p>
+			<div class="choose clearfix">
+				<span class="canc">取消</span>
+				<span class="sure" style="float:right;">继续</span>
+			</div>
+		</div>
+		<!-- 待付款情况下的取消订单 -->
+		<div class="del_center" id="del_center">
+			<p>您确定要取消订单吗？</p>
+			<div class="choose clearfix">
+				<span class="canc">取消</span>
+				<span class="sure" style="float:right;">确定</span>
+			</div>
+		</div>
+		<!-- 存在商品失效情况的提示 -->
+		<div class="del_center" id="checkStatus_1">
+			<p>部分商品已失效，请重新购买！</p>
+			<div class="choose" style="width: 40%;margin: 0.24rem auto 0.26rem;">
+				<span style="display: inline-block;width: 100%;border: 1px #FF661B solid; color: #FF661B;">确定</span>
+			</div>
+		</div>
+		<!-- 订单信息修改情况的提示，例如价钱和运费等修改 -->
+		<div class="del_center" id="checkStatus_2">
+			<p>订单信息已更改，请重新确认！</p>
+			<div class="choose" style="width: 40%;margin: 0.24rem auto 0.26rem;">
+				<span style="display: inline-block;width: 100%;border: 1px #FF661B solid; color: #FF661B;" onclick="flush()">确定</span>
+			</div>
+		</div>
+		<!-- 服务型订单预约时间过期提 -->
+		<div class="del_center" id="checkStatus_3">
+			<p>所选服务时间已过，请重新预约！</p>
+			<div class="choose" style="width: 40%;margin: 0.24rem auto 0.26rem;">
+				<span style="display: inline-block;width: 100%;border: 1px #FF661B solid; color: #FF661B;" onclick="Done()">确定</span>
+			</div>
+		</div>
+		<!-- 服务型订单预约时间过期提 -->
+		<div class="del_center" id="checkStatus_4">
+			<p>订单信息已更改，订单即将关闭,请重新购买！</p>
+			<div class="choose" style="width: 40%;margin: 0.24rem auto 0.26rem;">
+				<span style="display: inline-block;width: 100%;border: 1px #FF661B solid; color: #FF661B;" onclick="Done()">确定</span>
+			</div>
+		</div>
+		<!-- 订单数据异常 关闭订单 -->
+		<div class="del_center" id="checkStatus_5">
+			<p>订单信息已更改，订单即将关闭，请重新购买！</p>
+			<div class="choose" style="width: 40%;margin: 0.24rem auto 0.26rem;">
+				<span style="display: inline-block;width: 100%;border: 1px #FF661B solid; color: #FF661B;" onclick="Done()">确定</span>
+			</div>
+		</div>
+
+		<!-- 确认收货 -->
+		<div class="confir">
+			<p>您确定已经收到货了吗？</p>
+			<div class="choose clearfix">
+				<span class="canc">取消</span><span class="sure">确定</span>
+			</div>
+		</div>
+
+		<!--<div class="no_order" style="display:none;background: #f0f0f0;">
+	<div class="img_box3">
+		<img src="images/ic_no_order@3x.png" alt="" class="show" />
+	</div>
+	<div>
+		<p style="font-size:18px; padding-top:30px;">您还没有订单</p>
+		<p style="font-size: 14px;padding-top: 20px;color: #999;">赶快去逛逛吧！</p>
+	</div>
+</div>-->
+		<div class="no_order" style="width: 100%;display: none;">
+			<div id="displaynone" style="width:100%;height: 103.4px;">
+			</div>
+			<div class="nothing_img_box" style="text-align: center;width:100%;"><img id="nothing_img" src="images/ic_no_order@3x.png" style="width:90px;" alt="" /></div>
+			<div class="displaynone10" style="width:100%;height: 10px;">
+			</div>
+			<div class="nothing_text" style="text-align: center;width: 100%;font-size: 18px;height: 70px;line-height: 70px;">您还没有订单</div>
+			<div class="nothing_text" style="text-align: center;width: 100%;color: #999;font-size: 14px;">赶快去逛逛吧！</div>
+
+		</div>
+		<script type="text/javascript">
+			var windowwidth = document.documentElement.clientWidth;
+			var windowheight = document.documentElement.clientHeight;
+			document.getElementById("nothing_img").style.width = 116.43 * windowwidth / 414 + "px";
+			document.getElementById("displaynone").style.height = (windowheight - 116.43 * windowwidth / 414 - 70) * 0.3 + "px";
+		</script>
+
+		<!-- 弹出层的操作-->
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var reimburse = $("#reimburse");
+				var reimburse_canc = $("#reimburse .canc");
+				var reimburse_sure = $("#reimburse .sure");
+				var act_pay = $("#act_pay");
+				var act_pay_canc = $("#act_pay .canc");
+				var act_pay_sure = $("#act_pay .sure");
+				var confir = $(".confir");
+				var confir_canc = $(".confir .canc");
+				var confir_sure = $(".confir .sure");
+				var del_center = $("#del_center");
+				var del_center_canc = $("#del_center .canc");
+				var del_center_sure = $("#del_center .sure");
+				var cancel_order_cover = $(".cancel_order_cover");
+				//退款事件
+				reimburse_canc.click(function() {
+					cancel_order_cover.hide();
+					reimburse.hide();
+				});
+				reimburse_sure.click(function() {
+					cancel_order_cover.hide();
+					reimburse.hide();
+					updateOrderFlag();
+				});
+				//马上付款事件
+				act_pay_canc.click(function() {
+					cancel_order_cover.hide();
+					act_pay.hide();
+				});
+				act_pay_sure.click(function() {
+					cancel_order_cover.hide();
+					act_pay.hide();
+					updateOrderFlag();
+				});
+				//确认收货事件
+				confir_canc.click(function() {
+					cancel_order_cover.hide();
+					confir.hide();
+				});
+				confir_sure.click(function() {
+					cancel_order_cover.hide();
+					confir.hide();
+					updateOrderFlag();
+				});
+				//取消订单事件
+				del_center_canc.click(function() {
+					cancel_order_cover.hide();
+					del_center.hide();
+				});
+				del_center_sure.click(function() {
+					cancel_order_cover.hide();
+					del_center.hide();
+					updateOrderFlag();
+
+				});
+				$("#checkStatus_1 .choose span").click(function() {
+					cancel_order_cover.hide();
+					$("#checkStatus_1").hide();
+					updateOrderFlag();
+				});
+				$("#checkStatus_2 .choose span").click(function() {
+					cancel_order_cover.hide();
+					$("#checkStatus_2").hide();
+					location.reload();
+				});
+				//        点击遮罩层隐藏弹窗
+				//			 cancel_order_cover.click(function() {
+				//				 $(this).hide();
+				//				 reimburse.hide();
+				////				 act_pay.hide();
+				//				 confir.hide();
+				//				 del_center.hide();
+				//			 });
+				getOrderList(10);
+				$(".orderInformation").DataLazyLoad({
+					load: function(page, unLocked) {
+						var html = '';
+						var max = totalPage;
+						getOrderList(10);
+						//Check whether to end
+						page = page >= max ? 0 : page + 1;
+						//To prevent repeated load, The first parameter to the next page, No page is 0
+
+						unLocked(page);
+						/* if (page == 0) {
+						 alert($("li").length)
+						 $("<li class = 'h2'>The End!</li>").appendTo('.orderInformation');
+						 } */
+
+					}
+				});
+			});
+		</script>
+
+	</body>
+
+</html>

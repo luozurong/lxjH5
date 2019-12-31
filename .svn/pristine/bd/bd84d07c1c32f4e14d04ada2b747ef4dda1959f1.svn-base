@@ -1,0 +1,244 @@
+html {
+	background-color: #f0f0f0;
+}
+
+.appraise {
+	background-color: #fff;
+	width: 100%;
+	/*min-height: 1.13rem;*/
+}
+
+.appraise_fl {
+	float: left;
+	width: 19%;
+	height: 0.779rem;
+	background-position: center;
+	background-image: url(../images/c_s_error.png);
+	background-repeat: no-repeat;
+	background-size: 0.5rem 0.5rem;
+}
+
+#picture {
+	float: left;
+	margin-left: 0.066rem;
+}
+
+.appraiseImg {
+	margin: 0.13rem 0.133rem 0 0.146rem;
+	width: 0.5rem;
+	height: 0.5rem;
+}
+
+#textare_moni {
+	text-align: justify;
+	word-break: break-all;
+	font-size: 0.14rem;
+	box-sizing: border-box;
+	width: 100%;
+	/*min-height: 1rem;*/
+	padding-right: 0.146rem;
+	padding-bottom: 0.14rem;
+	-webkit-user-select: auto;
+}
+
+#textare_moni:empty:before {
+	content: attr(placeholder);
+	font-size: 0.14rem;
+	color: #ccc;
+}
+
+#textare_moni:focus {
+	/*content: none;*/
+}
+
+.up_tip_box {
+	float: left;
+	font-size: 0.14rem;
+	margin-left: 0.133rem;
+}
+
+.estimate {
+	/*display: inline-block;*/
+	float: left;
+	font-size: 0.22rem;
+	margin-top: 0.1rem;
+	min-height: 1rem;
+	width: 81%;
+	position: relative;
+	margin-bottom: 0.13rem;
+}
+
+.estimate div {
+	font-size: 0.14rem;
+	display: block;
+	padding-right: 0.146rem;
+	visibility: hidden;
+	word-break: break-all;
+	text-align: justify;
+}
+
+.estimate_text {
+	font-size: 0.14rem;
+	border: none;
+	resize: none;
+	outline: none;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	padding-right: 0.146rem;
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	/*min-height: 0.87rem;*/
+	word-break: break-all;
+	text-align: justify;
+	/*position: absolute;
+	top:0;
+    left:0;*/
+}
+
+.estimate_text::-webkit-input-placeholder {
+	color: #CCCCCC;
+}
+
+.upload_box {
+	width: 100%;
+	height: 0.93rem;
+	clear: left;
+	background-color: #fff;
+}
+
+.picture_img {
+	width: 0.70rem;
+	height: 0.70rem;
+	margin: 0 0 0.13rem 0.08rem;
+}
+
+#picture div {
+	display: inline-block;
+	vertical-align: top;
+	width: 0.70rem;
+	height: 0.70rem;
+	margin-left: 0.18rem;
+	margin-bottom: 0.25rem;
+	background-repeat: no-repeat;
+	background-image: url(../images/c_s_error.png);
+	background-position: center;
+	background-size: cover;
+	position: relative;
+}
+#picture div:nth-child(1){
+	margin-left:  0.08rem;
+}
+#picture div:nth-child(5){
+	margin-left:  0.08rem;
+}
+#picture div img {
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+}
+
+#picture .dele_box {
+	width: 0.16rem;
+	height: 0.16rem;
+	position: absolute;
+	top: -0.18rem;
+	right: -0.08rem;
+	padding: 0.1rem;
+	padding-right: 0;
+	z-index: 2;
+	box-sizing: content-box;
+	background-image: none;
+}
+
+#picture .dele_img {
+	width: 0.16rem;
+    height: 0.16rem;
+	z-index: 2;
+	opacity: 1;
+}
+
+.widthbackground {
+	background-size: 100% auto!important;
+}
+
+.heightbackground {
+	background-size: auto 100%!important;
+}
+#picture div.uploadimg_box{
+	background-image: none;
+}
+#picture div.uploadimg_box img{
+	opacity: 1;
+}
+.upload_img {
+	width: 0.70rem;
+	height: 0.70rem;
+	/*margin: 0 0 0.13rem 0.08rem;*/
+}
+
+.picture_text {
+	line-height: 0.7rem;
+	color: #ccc;
+}
+
+.estimate_fixed {
+	position: fixed;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	font-size: 0.173rem;
+	color: #fff;
+	width: 100%;
+	/*width: 4.14rem;*/
+	bottom: 0px;
+	background-color: #ff661b;
+}
+
+.estimate_up {
+	width: 25px;
+	height: 25px;
+	float: left;
+	/*background-color: #efefef;*/
+	/*border: 3px #a72525 solid;*/
+	-webkit-border-radius: 25%;
+	/*border-radius: 50%;*/
+	margin: 10px 13.3px 10px 14.6px;
+	;
+	/*background-color: #e05658;*/
+	display: -webkit-inline-box;
+}
+
+.estimate_name {
+	float: left;
+	height: 100%;
+	line-height: 50px;
+	color: #222222;
+	font-size: 0.14rem;
+}
+
+.estimate_click {
+	float: right;
+	/*padding: 0 0.1rem;*/
+	height: 100%;
+	width: 28%;
+	text-align: center;
+	font-size: 0.173rem;
+	color: #FFFFFF;
+	background-color: #ff661b;
+	line-height: 50px;
+}
+
+.background_1 {
+	background-image: url(../../common/images/ic_choise_green@3x.png);
+	background-repeat: no-repeat;
+	background-position: 100% center;
+	background-size: 100%;
+}
+
+.background_2 {
+	background-image: url(../../common/images/ic_gray_circle@3x.png);
+	background-repeat: no-repeat;
+	background-position: 100% center;
+	background-size: 100%;
+}

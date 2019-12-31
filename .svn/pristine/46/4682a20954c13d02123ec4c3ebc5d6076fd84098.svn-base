@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<title>万圣节活动</title>
+		<script src="../common/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.lxj_tipBackground {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				z-index: 1999993;
+				background-color: #000000;
+				opacity: 0.3;
+			}
+			
+			.lxj_tipbox {
+				border-radius: 5px;
+				text-align: center;
+				background-color: #fff;
+				height: auto;
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 1999999;
+				box-shadow: 1px 1px 5px rgba(0, 0, 0, .2);
+			}
+			
+			.lxj_content {
+				word-break: break-all;
+				line-height: 135%;
+				color: #666;
+				padding: 12px;
+			}
+			
+			.lxj_tipButtom {
+				text-align: center;
+				padding: 0 30px 33px;
+			}
+			
+			.lxj_tipButtomA0 {
+				display: inline-block;
+				background: #fff;
+				color: #FF661B;
+				border: 1px solid #FF661B;
+				border-radius: 5px;
+				padding: 0;
+				padding: 10px 0;
+				width: 34%;
+			}
+			
+			.lxj_tipButtomA1 {
+				display: inline-block;
+				background: #fff;
+				color: #666;
+				border: 1px solid #666;
+				border-radius: 5px;
+				padding: 0;
+				padding: 10px 0;
+				width: 34%;
+			}
+			
+			.lxj_tip_msg {
+				min-width: 100px;
+				max-width: 85%;
+				line-height: 24px;
+				font-size: 14px;
+				background-color: #000;
+				background-color: rgba(0, 0, 0, 0.6);
+				color: #fff;
+				box-shadow: none;
+			}
+			
+			.lxj_tip_msg .lxj_content {
+				color: #fff;
+			}
+			
+			.lxj_tip_alert {
+				min-width: 70%;
+				max-width: 70%;
+			}
+			
+			.lxj_tip_alert .lxj_content {
+				padding: 33px;
+			}
+			
+			.lxj_tip_confirm {
+				min-width: 70%;
+				max-width: 70%;
+			}
+			
+			.lxj_tip_confirm .lxj_tipButtom {
+				display: flex;
+				justify-content: space-between;
+			}
+			
+			.lxj_tip_confirm .lxj_tipButtomA0 {
+				order: 1;
+			}
+			
+			.lxj_tip_confirm .lxj_tipButtomA1 {
+				order: 0;
+			}
+			
+			.lxj_tip_confirm .lxj_content {
+				padding: 33px;
+			}
+			
+			body,
+			html {
+				width: 100%;
+				height: 100%;
+				padding: 0;
+				margin: 0;
+				background-color: #f8e879;
+			}
+		</style>
+		<!--百度统计-->
+		<script>
+			var _hmt = _hmt || [];
+			(function() {
+				var hm = document.createElement("script");
+				//			  	hm.src = "https://hm.baidu.com/hm.js?5abffc86ad56dcb448e458cac84b67dc";//tt
+				hm.src = "https://hm.baidu.com/hm.js?245cd6becb25900dbb7f9f62761431d7"; //正式id
+				var s = document.getElementsByTagName("script")[0];
+				s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+		<script type="text/javascript">
+			;
+			!(function() {
+				var windowwidth = document.documentElement.clientWidth;
+				var windowheight = document.documentElement.clientHeight;
+				var indexNum = 0;
+				var lxjTip = {
+					//消失提示语
+					msg: function msg(content, options) {
+						if(indexNum > 0) {
+							lxjTip.close();
+						}
+						var msgContent = "<div class='lxj_msg_content'>" + (content ? content : '') + "</div>";
+						//创建正文元素
+						var lxj_tipbox = document.createElement("div");
+						lxj_tipbox.setAttribute("id", "lxj_tipbox" + indexNum);
+						lxj_tipbox.className = "lxj_tipbox" + " lxj_tip_msg " + (options ? (options.skin ? options.skin : '') : '');
+						document.body.appendChild(lxj_tipbox);
+						var msgContent = document.createElement("div");
+						msgContent.className = "lxj_content";
+						msgContent.textContent = (content ? content : '');
+						lxj_tipbox.appendChild(msgContent);
+
+						lxjTip.tipAtuo(indexNum);
+						var timeOut = options ? (options.time ? options.time : 2000) : 2000;
+						eval("var settimeOut" + indexNum + "=setTimeout('lxjTip.close(" + indexNum + ")'," + timeOut + ")");
+						indexNum++;
+
+					},
+					//确认取消提示语
+					confirm: function(content, options) {
+						if(indexNum > 0) {
+							lxjTip.close();
+						}
+						//创建背景元素
+						var tipBackground = document.createElement("div");
+						tipBackground.setAttribute("id", "lxj_tipBackground" + indexNum);
+						tipBackground.className = "lxj_tipBackground";
+						document.body.appendChild(tipBackground); //把背景元素放进body标签里面
+						//创建正文元素
+						var lxj_tipbox = document.createElement("div");
+						lxj_tipbox.setAttribute("id", "lxj_tipbox" + indexNum);
+						lxj_tipbox.className = "lxj_tipbox" + " lxj_tip_confirm " + (options ? (options.skin ? options.skin : '') : '');
+						document.body.appendChild(lxj_tipbox);
+						var lxj_tipContent = document.createElement("div");
+						lxj_tipContent.className = "lxj_content";
+						lxj_tipContent.textContent = content;
+						lxj_tipbox.appendChild(lxj_tipContent);
+						var lxj_tipButtom = document.createElement("div");
+						lxj_tipButtom.className = "lxj_tipButtom";
+
+						var lxj_tipButtomA = document.createElement("div");
+						lxj_tipButtomA.className = "lxj_tipButtomA0";
+						lxj_tipButtomA.textContent = options ? (options.btn ? (options.btn[0] ? options.btn[0] : "确认") : "确认") : "确认";
+						lxj_tipButtomA.onclick = options ? (options.yes ? options.yes : lxjTip.close) : lxjTip.close;
+						lxj_tipButtom.appendChild(lxj_tipButtomA);
+
+						var lxj_tipButtomB = document.createElement("div");
+						lxj_tipButtomB.className = "lxj_tipButtomA1";
+						lxj_tipButtomB.textContent = options ? (options.btn ? (options.btn[1] ? options.btn[1] : "取消") : "取消") : "取消";
+						lxj_tipButtomB.onclick = lxjTip.close;
+						lxj_tipButtom.appendChild(lxj_tipButtomB);
+
+						lxj_tipbox.appendChild(lxj_tipButtom);
+						lxjTip.tipAtuo(indexNum);
+						indexNum++;
+
+					},
+					//确认提示语
+					alert: function(content, options) {
+						if(indexNum > 0) {
+							lxjTip.close();
+						}
+						//创建背景元素
+						var tipBackground = document.createElement("div");
+						tipBackground.setAttribute("id", "lxj_tipBackground" + indexNum);
+						tipBackground.className = "lxj_tipBackground";
+						document.body.appendChild(tipBackground); //把背景元素放进body标签里面
+						//创建正文元素
+						var lxj_tipbox = document.createElement("div");
+						lxj_tipbox.setAttribute("id", "lxj_tipbox" + indexNum);
+						lxj_tipbox.className = "lxj_tipbox" + " lxj_tip_alert " + (options ? (options.skin ? options.skin : '') : '');
+						document.body.appendChild(lxj_tipbox);
+						var lxj_tipContent = document.createElement("div");
+						lxj_tipContent.className = "lxj_content";
+						lxj_tipContent.textContent = content;
+						lxj_tipbox.appendChild(lxj_tipContent);
+						var lxj_tipButtom = document.createElement("div");
+						lxj_tipButtom.className = "lxj_tipButtom";
+
+						var lxj_tipButtomA = document.createElement("div");
+						lxj_tipButtomA.className = "lxj_tipButtomA0";
+						lxj_tipButtomA.textContent = options ? (options.btn ? (options.btn[0] ? options.btn[0] : "确认") : "确认") : "确认";
+						lxj_tipButtomA.onclick = options ? (options.btn ? options.yes : lxjTip.close) : lxjTip.close;
+						lxj_tipButtom.appendChild(lxj_tipButtomA);
+						lxj_tipbox.appendChild(lxj_tipButtom);
+						lxjTip.tipAtuo(indexNum);
+						indexNum++;
+					},
+					//关闭删除节点
+					close: function() {
+						var index = indexNum;
+						if(index == 0) {
+							index = 0;
+						} else {
+							index = Number(indexNum) - 1;
+						}
+						var tipBackgroundClose = document.getElementById("lxj_tipBackground" + index);
+						var lxj_tipboxClose = document.getElementById("lxj_tipbox" + index);
+						if(tipBackgroundClose) {
+							tipBackgroundClose.parentNode.removeChild(tipBackgroundClose);
+						}
+						if(lxj_tipboxClose) {
+							lxj_tipboxClose.parentNode.removeChild(lxj_tipboxClose);
+						}
+					},
+					//计算定位居中显示
+					tipAtuo: function(indext) {
+						var lxj_tipboxAtuo = document.getElementById("lxj_tipbox" + indext);
+						var lxj_tipboxAtuoheight = lxj_tipboxAtuo.offsetHeight;
+						var lxj_tipboxAtuowidth = lxj_tipboxAtuo.offsetWidth;
+						lxj_tipboxAtuo.style.top = (windowheight - lxj_tipboxAtuoheight) / 2 + "px";
+						lxj_tipboxAtuo.style.left = (windowwidth - lxj_tipboxAtuowidth) / 2 + "px";
+					},
+				};
+				window.lxjTip = lxjTip;
+			})();
+		</script>
+		<script type="text/javascript">
+			var u = navigator.userAgent;
+			var clientType = "";
+			if(!!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
+				clientType = "ios";
+			} else {
+				clientType = "android";
+			}
+
+			var iosTitle = "";
+			//设置标题
+			function setTitle(title) {
+				try {
+					if(clientType == "android") {
+						contact.setTitle(title);
+					} else { //ios
+						iosTitle = title;
+					}
+				} catch(e) {
+					//TODO handle the exception
+				}
+
+			}
+
+			function setIosTitle() {
+				return iosTitle;
+			}
+			var clearHistoryStatus = 0;
+			// 清除历史缓存记录
+			// 缓存清除后，后退会直接关闭当前原生界面
+			function clearHistory() {
+				try {
+					if(clientType == "android") {
+						contact.clearHistory();
+					} else { //ios
+						clearHistoryStatus = 1;
+					}
+				} catch(e) {}
+			}
+
+			function setClearHistory() {
+				return clearHistoryStatus;
+			}
+
+			function backToHomePage() {
+				try {
+					if(clientType == "android") {
+						contact.backToHomePage();
+					} else {
+						clearHistoryStatus = 2;
+					}
+				} catch(e) {}
+			}
+
+			function goBack() {
+				try {
+					if(clientType == "android") {
+						contact.goBack();
+					} else { //ios
+						contact_closeActivity();
+					}
+				} catch(e) {}
+			}
+			//获取URL参数
+			function GetURLParameter(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if(r != null) return unescape(r[2]);
+				return null;
+			}
+			var nativeState = true;
+			// @param url       url地址
+			// @param title     界面显示的标题
+			// @param type      标题或者特殊分类 1（有编辑/完成按钮）购物车2 购物车详情（共3件的提示），3分享webview，4搜索webview,5(原生自己已占用),6外链左上角带X
+			// @param data      特殊JSON数据，type1填null，type2是bean，里面有message，如{message:共3件}
+			function showActivitySpecial(url, title, type, data) {
+				if(!nativeState) {
+					return false;
+				}
+				nativeState = false;
+				setimeoutfunction = setTimeout("nativeState=true", 2000);
+				try {
+					if(clientType == "android") {
+						contact.showActivitySpecial(url, title, type, data);
+					} else {
+						contact_showActivitySpecial(url, title, type, data);
+					}
+				} catch(e) {}
+			}
+		</script>
+
+	</head>
+
+	<body>
+		<img id="imgbg" src="005.jpg" style="width: 100%;height: auto;display: block;" />
+
+	</body>
+
+	<script type="text/javascript">
+		;
+		(function($) {
+			'use strict'
+
+			function safeAdd(x, y) {
+				var lsw = (x & 0xFFFF) + (y & 0xFFFF)
+				var msw = (x >> 16) + (y >> 16) + (lsw >> 16)
+				return(msw << 16) | (lsw & 0xFFFF)
+			}
+
+			function bitRotateLeft(num, cnt) {
+				return(num << cnt) | (num >>> (32 - cnt))
+			}
+
+			function md5cmn(q, a, b, x, s, t) {
+				return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b)
+			}
+
+			function md5ff(a, b, c, d, x, s, t) {
+				return md5cmn((b & c) | ((~b) & d), a, b, x, s, t)
+			}
+
+			function md5gg(a, b, c, d, x, s, t) {
+				return md5cmn((b & d) | (c & (~d)), a, b, x, s, t)
+			}
+
+			function md5hh(a, b, c, d, x, s, t) {
+				return md5cmn(b ^ c ^ d, a, b, x, s, t)
+			}
+
+			function md5ii(a, b, c, d, x, s, t) {
+				return md5cmn(c ^ (b | (~d)), a, b, x, s, t)
+			}
+
+			function binlMD5(x, len) {
+				/* append padding */
+				x[len >> 5] |= 0x80 << (len % 32)
+				x[(((len + 64) >>> 9) << 4) + 14] = len
+
+				var i
+				var olda
+				var oldb
+				var oldc
+				var oldd
+				var a = 1732584193
+				var b = -271733879
+				var c = -1732584194
+				var d = 271733878
+
+				for(i = 0; i < x.length; i += 16) {
+					olda = a
+					oldb = b
+					oldc = c
+					oldd = d
+
+					a = md5ff(a, b, c, d, x[i], 7, -680876936)
+					d = md5ff(d, a, b, c, x[i + 1], 12, -389564586)
+					c = md5ff(c, d, a, b, x[i + 2], 17, 606105819)
+					b = md5ff(b, c, d, a, x[i + 3], 22, -1044525330)
+					a = md5ff(a, b, c, d, x[i + 4], 7, -176418897)
+					d = md5ff(d, a, b, c, x[i + 5], 12, 1200080426)
+					c = md5ff(c, d, a, b, x[i + 6], 17, -1473231341)
+					b = md5ff(b, c, d, a, x[i + 7], 22, -45705983)
+					a = md5ff(a, b, c, d, x[i + 8], 7, 1770035416)
+					d = md5ff(d, a, b, c, x[i + 9], 12, -1958414417)
+					c = md5ff(c, d, a, b, x[i + 10], 17, -42063)
+					b = md5ff(b, c, d, a, x[i + 11], 22, -1990404162)
+					a = md5ff(a, b, c, d, x[i + 12], 7, 1804603682)
+					d = md5ff(d, a, b, c, x[i + 13], 12, -40341101)
+					c = md5ff(c, d, a, b, x[i + 14], 17, -1502002290)
+					b = md5ff(b, c, d, a, x[i + 15], 22, 1236535329)
+
+					a = md5gg(a, b, c, d, x[i + 1], 5, -165796510)
+					d = md5gg(d, a, b, c, x[i + 6], 9, -1069501632)
+					c = md5gg(c, d, a, b, x[i + 11], 14, 643717713)
+					b = md5gg(b, c, d, a, x[i], 20, -373897302)
+					a = md5gg(a, b, c, d, x[i + 5], 5, -701558691)
+					d = md5gg(d, a, b, c, x[i + 10], 9, 38016083)
+					c = md5gg(c, d, a, b, x[i + 15], 14, -660478335)
+					b = md5gg(b, c, d, a, x[i + 4], 20, -405537848)
+					a = md5gg(a, b, c, d, x[i + 9], 5, 568446438)
+					d = md5gg(d, a, b, c, x[i + 14], 9, -1019803690)
+					c = md5gg(c, d, a, b, x[i + 3], 14, -187363961)
+					b = md5gg(b, c, d, a, x[i + 8], 20, 1163531501)
+					a = md5gg(a, b, c, d, x[i + 13], 5, -1444681467)
+					d = md5gg(d, a, b, c, x[i + 2], 9, -51403784)
+					c = md5gg(c, d, a, b, x[i + 7], 14, 1735328473)
+					b = md5gg(b, c, d, a, x[i + 12], 20, -1926607734)
+
+					a = md5hh(a, b, c, d, x[i + 5], 4, -378558)
+					d = md5hh(d, a, b, c, x[i + 8], 11, -2022574463)
+					c = md5hh(c, d, a, b, x[i + 11], 16, 1839030562)
+					b = md5hh(b, c, d, a, x[i + 14], 23, -35309556)
+					a = md5hh(a, b, c, d, x[i + 1], 4, -1530992060)
+					d = md5hh(d, a, b, c, x[i + 4], 11, 1272893353)
+					c = md5hh(c, d, a, b, x[i + 7], 16, -155497632)
+					b = md5hh(b, c, d, a, x[i + 10], 23, -1094730640)
+					a = md5hh(a, b, c, d, x[i + 13], 4, 681279174)
+					d = md5hh(d, a, b, c, x[i], 11, -358537222)
+					c = md5hh(c, d, a, b, x[i + 3], 16, -722521979)
+					b = md5hh(b, c, d, a, x[i + 6], 23, 76029189)
+					a = md5hh(a, b, c, d, x[i + 9], 4, -640364487)
+					d = md5hh(d, a, b, c, x[i + 12], 11, -421815835)
+					c = md5hh(c, d, a, b, x[i + 15], 16, 530742520)
+					b = md5hh(b, c, d, a, x[i + 2], 23, -995338651)
+
+					a = md5ii(a, b, c, d, x[i], 6, -198630844)
+					d = md5ii(d, a, b, c, x[i + 7], 10, 1126891415)
+					c = md5ii(c, d, a, b, x[i + 14], 15, -1416354905)
+					b = md5ii(b, c, d, a, x[i + 5], 21, -57434055)
+					a = md5ii(a, b, c, d, x[i + 12], 6, 1700485571)
+					d = md5ii(d, a, b, c, x[i + 3], 10, -1894986606)
+					c = md5ii(c, d, a, b, x[i + 10], 15, -1051523)
+					b = md5ii(b, c, d, a, x[i + 1], 21, -2054922799)
+					a = md5ii(a, b, c, d, x[i + 8], 6, 1873313359)
+					d = md5ii(d, a, b, c, x[i + 15], 10, -30611744)
+					c = md5ii(c, d, a, b, x[i + 6], 15, -1560198380)
+					b = md5ii(b, c, d, a, x[i + 13], 21, 1309151649)
+					a = md5ii(a, b, c, d, x[i + 4], 6, -145523070)
+					d = md5ii(d, a, b, c, x[i + 11], 10, -1120210379)
+					c = md5ii(c, d, a, b, x[i + 2], 15, 718787259)
+					b = md5ii(b, c, d, a, x[i + 9], 21, -343485551)
+
+					a = safeAdd(a, olda)
+					b = safeAdd(b, oldb)
+					c = safeAdd(c, oldc)
+					d = safeAdd(d, oldd)
+				}
+				return [a, b, c, d]
+			}
+
+			function binl2rstr(input) {
+				var i
+				var output = ''
+				var length32 = input.length * 32
+				for(i = 0; i < length32; i += 8) {
+					output += String.fromCharCode((input[i >> 5] >>> (i % 32)) & 0xFF)
+				}
+				return output
+			}
+
+			function rstr2binl(input) {
+				var i
+				var output = []
+				output[(input.length >> 2) - 1] = undefined
+				for(i = 0; i < output.length; i += 1) {
+					output[i] = 0
+				}
+				var length8 = input.length * 8
+				for(i = 0; i < length8; i += 8) {
+					output[i >> 5] |= (input.charCodeAt(i / 8) & 0xFF) << (i % 32)
+				}
+				return output
+			}
+
+			function rstrMD5(s) {
+				return binl2rstr(binlMD5(rstr2binl(s), s.length * 8))
+			}
+
+			function rstrHMACMD5(key, data) {
+				var i
+				var bkey = rstr2binl(key)
+				var ipad = []
+				var opad = []
+				var hash
+				ipad[15] = opad[15] = undefined
+				if(bkey.length > 16) {
+					bkey = binlMD5(bkey, key.length * 8)
+				}
+				for(i = 0; i < 16; i += 1) {
+					ipad[i] = bkey[i] ^ 0x36363636
+					opad[i] = bkey[i] ^ 0x5C5C5C5C
+				}
+				hash = binlMD5(ipad.concat(rstr2binl(data)), 512 + data.length * 8)
+				return binl2rstr(binlMD5(opad.concat(hash), 512 + 128))
+			}
+
+			function rstr2hex(input) {
+				var hexTab = '0123456789abcdef'
+				var output = ''
+				var x
+				var i
+				for(i = 0; i < input.length; i += 1) {
+					x = input.charCodeAt(i)
+					output += hexTab.charAt((x >>> 4) & 0x0F) +
+						hexTab.charAt(x & 0x0F)
+				}
+				return output
+			}
+
+			function str2rstrUTF8(input) {
+				return unescape(encodeURIComponent(input))
+			}
+
+			function rawMD5(s) {
+				return rstrMD5(str2rstrUTF8(s))
+			}
+
+			function hexMD5(s) {
+				return rstr2hex(rawMD5(s))
+			}
+
+			function rawHMACMD5(k, d) {
+				return rstrHMACMD5(str2rstrUTF8(k), str2rstrUTF8(d))
+			}
+
+			function hexHMACMD5(k, d) {
+				return rstr2hex(rawHMACMD5(k, d))
+			}
+
+			function md5(string, key, raw) {
+				if(!key) {
+					if(!raw) {
+						return hexMD5(string)
+					}
+					return rawMD5(string)
+				}
+				if(!raw) {
+					return hexHMACMD5(key, string)
+				}
+				return rawHMACMD5(key, string)
+			}
+
+			if(typeof define === 'function' && define.amd) {
+				define(function() {
+					return md5
+				})
+			} else if(typeof module === 'object' && module.exports) {
+				module.exports = md5
+			} else {
+				$.md5 = md5
+			}
+		}(this))
+	</script>
+	<script type="text/javascript">
+		setTitle(" ");
+		clearHistory();
+		backToHomePage();
+		//		lxjTip.msg("正在登录，请稍等片刻", {
+		//			time: 11000
+		//		});
+		var host = "https://" + window.location.host; //主机名,包含端口
+		var params = {};
+		var token = GetURLParameter("token");
+		var lxjversionsName = GetURLParameter("lxjversionsName");
+		var md5Token = "";
+		var mobile = "";
+		var imgstates = false;
+		var resource = false;
+		var time_stamp = new Date().getTime();
+		params.header = {
+			token: token,
+			time_stamp: time_stamp
+		};
+		params.body = {
+			method: "getMobile",
+		};
+		var param = JSON.stringify(params);
+		getmobile();
+		document.getElementById("imgbg").onload = function() {
+			imgstates = true;
+		}
+		window.onload = function() {
+			resource = true;
+		}
+		var gopageState = false;
+		$(document).ready(function() {
+			setTimeout(function() {
+				if(md5Token != "") {
+					go24page();
+					clearInterval(lisnerID);
+				} else {
+					lxjTip.msg("获取用户信息失败，退出稍后重试", {
+						time: 11000
+					});
+					clearInterval(lisnerID);
+					setTimeout("goBack()", 1000);
+				}
+			}, 5000)
+		});
+		var a = 0;
+
+		function lisner() {
+			if(md5Token != "" && imgstates == true && resource == true) {
+				go24page();
+				clearInterval(lisnerID);
+			}
+		}
+
+		function refreshData() {
+			setTimeout(function() {
+				setTimeout("goBack()", 10);
+			}, 0);
+			return 1;
+		}
+
+		function isCondition(param) {
+			if(param != null && param != "" && param != undefined) {
+				return true;
+			}
+			return false;
+		}
+
+		function go24page() {
+			if(gopageState) {
+
+			} else {
+				gopageState = true;
+				if(isCondition(lxjversionsName) && Number(lxjversionsName.replace(/[^0-9]/ig, "")) >= 3011) {
+					showActivitySpecial("http://u69699.s1.24hwgmweb.com/web/game/game_id/920484989?appid=30960&uid=" + mobile + "&token=" + md5Token, '', 6, null);
+				} else {
+					window.location.replace("http://u69699.s1.24hwgmweb.com/web/game/game_id/920484989?appid=30960&uid=" + mobile + "&token=" + md5Token);
+				}
+				//} catch(e) {
+				//	}
+			}
+
+		}
+		var lisnerID = setInterval(lisner, 100);
+
+		function getmobile() {
+			try {
+				$.ajax({
+					type: "get",
+					async: false,
+					url: host + "/mktms/servlet/getUserInfo?str=" + param,
+					dataType: "jsonp",
+					jsonp: "jsoncallback",
+					timeout: 10000,
+					jsonpCallback: "success_jsonpCallback",
+					success: function(data) {
+						console.log(JSON.stringify(data));
+						if(data.result == 0 && data.mobile) {
+							md5Token = md5("30960920484989" + data.mobile + "r42akcbupqrasw0arye9");
+							mobile = data.mobile;
+						} else {
+							lxjTip.msg("获取用户信息失败，退出稍后重试", {
+								time: 11000
+							});
+							clearInterval(lisnerID);
+							setTimeout("goBack()", 1000);
+						}
+					},
+					error: function(XmlHttpRequest, textStatus, errorThrown) {
+						lxjTip.msg("获取用户信息失败，退出稍后重试", {
+							time: 11000
+						});
+						clearInterval(lisnerID);
+						setTimeout("goBack()", 1000);
+					}
+				});
+			} catch(e) {
+				clearInterval(lisnerID);
+			}
+		}
+	</script>
+
+</html>

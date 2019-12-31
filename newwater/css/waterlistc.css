@@ -1,0 +1,243 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	/*font-family: "Microsoft YaHei", "微软雅黑";*/
+	font-size: 16px;
+}
+
+.first {
+	/*padding-top: .2rem;*/
+	display: none;
+	height: .67rem;
+	line-height: 0.67rem;
+	width: 100%;
+	text-align: center;
+	color: #222222;
+	font-size: 0.24rem;
+	background-color: #fff2f2;
+}
+
+.display-block {
+	display: block;
+}
+
+ul li {
+	overflow: hidden;
+	background: #fff;
+	padding: .1rem .6rem .1rem .3rem;
+	border-bottom: 1px solid #dadada;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+img {
+	border: none;
+}
+
+li .img {
+	width: 30%;
+	float: left;
+	height: 1.65rem;
+}
+
+.img img {
+	width: 100%;
+	float: left;
+	height: 100%;
+}
+
+ul li .info {
+	width: 63%;
+	height: 1.65rem;
+	float: left;
+	position: relative;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	padding-left: .2rem;
+}
+
+.info .introduce {
+	/*text-align: Justify;
+	text-justify: inter-ideograp;*/
+	padding-top: .2rem;
+	font-size: 0.24rem;
+	line-height: .4rem;
+	color: #222222;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.info .price_d {
+	position: absolute;
+	bottom: 0.2rem;
+	left: .2rem;
+	color: #ec584e;
+	font-size: 0.26rem;
+	font-weight: 800;
+	vertical-align: bottom;
+}
+
+.font_size2 {
+	font-size: 0.22rem;
+}
+
+.background-img {
+	background-image: url(../img/ic_choise_green@3x.png);
+	background-repeat: no-repeat;
+	background-position: 94% center;
+	background-size: 6%;
+}
+
+@media(max-device-width: 359px) {
+	* {
+		font-size: 14px;
+	}
+	.font_size2 {
+		font-size: 12px;
+	}
+	.info .price_d {
+		font-size: 16px;
+	}
+	.info .introduce {
+		font-size: 14px;
+	}
+	.first {
+		font-size: 14px;
+	}
+}
+
+.wrapper-second {
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	bottom: 0px;
+	left: -9999px;
+	width: 100%;
+	background: #FFFFFF;
+	overflow: auto;
+}
+
+.wrapper-first {
+	position: absolute;
+	top: .67rem;
+	bottom: 0px;
+}
+
+#scroller {
+	position: absolute;
+	z-index: 1;
+	/*	-webkit-touch-callout:none;*/
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	width: 100%;
+	padding: 0;
+}
+
+#myFrame {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+
+/**
+ *
+ * Pull down styles
+ *
+ */
+
+
+/*
+#pullDown {
+	background: #fff;
+	text-align: center;
+	height: 0px;
+	line-height: 40px;
+	border-bottom: 1px solid #ccc;
+	font-weight: bold;
+	font-size: 14px;
+	color: #888;
+}*/
+
+#pullUp {
+	background: #fff;
+	text-align: center;
+	height: 40px;
+	line-height: 40px;
+	padding: 5px 10px;
+	border-bottom: 1px solid #ccc;
+	font-weight: bold;
+	font-size: 14px;
+	color: #888;
+	position: relative;
+}
+
+#nomore {
+	height: 51px;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	background: #fff;
+	text-align: center;
+	display: none;
+	color: #888;
+	line-height: 51px;
+	z-index: 100000;
+}
+
+
+/*#pullDown .pullDownIcon,*/
+
+#pullUp .pullUpIcon {
+	display: block;
+	margin: 0 auto;
+	width: 40px;
+	height: 40px;
+	background: url(../img/pull-icon@2x.png) 0 0 no-repeat;
+	-webkit-background-size: 40px 80px;
+	background-size: 40px 80px;
+	-webkit-transition-property: -webkit-transform;
+	-webkit-transition-duration: 250ms;
+}
+
+
+/*#pullDown .pullDownIcon {
+				-webkit-transform: rotate(0deg) translateZ(0);
+			}*/
+
+#pullUp .pullUpIcon {
+	-webkit-transform: rotate(-180deg) translateZ(0);
+}
+
+
+/*#pullDown.flip .pullDownIcon {
+				-webkit-transform: rotate(-180deg) translateZ(0);
+			}*/
+
+#pullUp.flip .pullUpIcon {
+	-webkit-transform: rotate(0deg) translateZ(0);
+}
+
+
+/*#pullDown.loading .pullDownIcon,*/
+
+#pullUp.loading .pullUpIcon {
+	background-position: 0 100%;
+	-webkit-transform: rotate(0deg) translateZ(0);
+	-webkit-transition-duration: 0ms;
+	-webkit-animation-name: loading;
+	-webkit-animation-duration: 1.5s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+}
+
+@-webkit-keyframes loading {
+	from {
+		-webkit-transform: rotate(0deg) translateZ(0);
+	}
+	to {
+		-webkit-transform: rotate(360deg) translateZ(0);
+	}
+}

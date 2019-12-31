@@ -1,0 +1,132 @@
+var vue = new Vue({
+	el: '.scan',
+	data:{
+		lxjApp: false,
+		showDiscFlag: true,
+		showDiscIcon: 'images/btn_ic_put-up.png',
+		couponFlag: true,
+		scanTypeFlag: true,
+		yanFlag: true,
+		userMobile: '',
+		codeShow: false,
+		picCode: '',
+		timeNum: 60,
+		picRandomUrl: '',
+		token: '_4s54s54df5s4df54s5d4fs5d4f54dp',
+		uums: 'https://tt.hori-gz.com:8443',
+	},
+	methods:{
+		showDisc: function(){
+			if(this.showDiscFlag){	
+				this.showDiscIcon = 'images/ic_put-up@3x.png';
+				this.showDiscFlag = false;
+			}else{
+				this.showDiscIcon = 'images/btn_ic_put-up.png';
+				this.showDiscFlag = true;
+			}
+		},
+		sendCode: function(){
+			var mobileRex = /^[1][0-9]{10}/;
+			if(this.userMobile == '' || !mobileRex.test(this.userMobile)){
+				lxjTip.msg("请输入正确的手机号码");
+			}else{
+				this.codeShow = true;
+				this.picCodeAjax();
+			}
+		},
+		picCodeAjax(){
+			var params = {
+				body:{
+					phone:this.userMobile,
+				},
+				header:{
+					token: this.token,
+					time_stamp: new Date().getTime()
+				}
+			};
+			var paramsStr = encodeURI(JSON.stringify(params));
+            var httpURL = this.uums+"/uums/servlet/getPicRandomServlet?str="+paramsStr;
+            this.$http.jsonp(httpURL,{
+                emulateJSON: true,
+                method: "get",
+                dataType: "jsonp",
+                jsonp: "jsoncallback",
+                contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+            }).then(function(res){ 
+            	if(res.body.result == 0){
+            		this.picCode = '';
+            		this.picRandomUrl = res.body.picRandomUrl;
+            	}
+            },function(res){});
+		},
+		imgCode: function(){
+			this.picCodeAjax();
+		},
+		cancelCode: function(){
+			this.codeShow = false;
+		},
+		sureSend: function(){
+			this.codeShow = false;
+			this.messegeCodeAjax();
+		},
+		messegeCodeAjax(){
+			if(this.picCode == ''){
+				lxjTip.msg("请输入图片验证码");
+				return false;
+			}
+			var params = {
+				body:{
+					sourceClientCode: "lxj_u",
+					picRandom: this.picCode,
+					phone: this.userMobile,
+
+				},
+				header:{
+					token: this.token,
+					time_stamp: new Date().getTime()
+				}
+			};
+			var paramsStr = encodeURI(JSON.stringify(params));
+	        var httpURL = this.uums+"/uums/servlet/getRandomCodeForWxBind?str="+paramsStr;
+	        this.$http.jsonp(httpURL,{
+	            emulateJSON: true,
+	            method: "get",
+	            dataType: "jsonp",
+	            jsonp: "jsoncallback",
+	            contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+	        }).then(function(res){ 
+	        	console.log(res);
+	        	if(res.body.result == 0){
+	        		if(res.body.code == 0){
+	        			lxjTip.msg("信息已发送，请注意查收");
+						this.codeShow = false;
+						this.timeNumFunc();
+	        		}else if(res.body.code == 1){
+	        			lxjTip.msg("验证码不正确");
+	        			this.picCodeAjax();
+	        		}else if(res.body.code == 2){
+	        			this.codeShow = false;
+	        		}else if(res.body.code == 3){
+	        			lxjTip.msg("同一号码当天发送次数超过限制（同一短信模板当天最多10次");
+	        			this.codeShow = false;
+	        		}
+	        	}
+        	},function(res){});
+	    },
+	    timeNumFunc: function(){
+			var that = this;
+			that.yanFlag = false;
+			var showTime = setInterval(function(){
+				that.timeNum -= 1;
+				if(that.timeNum == 0){
+					that.timeNum = 60;
+					that.yanFlag = true;
+					clearInterval(showTime);
+				}
+			},1000);
+	    }
+	},
+	mounted: function(){
+		console.log("初始化成功")
+	}
+})

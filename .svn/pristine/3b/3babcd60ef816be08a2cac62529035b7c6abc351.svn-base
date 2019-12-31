@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" href="../../common/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/orderDetail.css" />
+		<script src="../../common/interface.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../../common/tip/lxjTip.css" />
+		<script src="../../common/tip/lxjTip.js" type="text/javascript" charset="utf-8"></script>
+		<title>订单详情</title>
+	</head>
+	<style type="text/css">
+		body,
+		html {
+			font-family: "PingFang SC", Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+			background-color: #f3f4f5;
+		}
+		
+		body {
+			font-size: 14px;
+		}
+		
+		input {
+			outline: none;
+			/*去ios内阴影、圆角*/
+			-webkit-appearance: none;
+			border-radius: 0;
+			border: none;
+			margin: 0;
+			padding: 0;
+			font-weight: normal;
+		}
+		
+		input,
+		textarea,
+		a {
+			-webkit-tap-highlight-color: transparent;
+		}
+		
+		* {
+			-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+		}
+		
+		[v-cloak] {
+			display: none!important;
+		}
+		
+		#app {
+			width: 100%;
+			/*height: 1000px;
+			position: relative;
+			background-image: url('12.png');
+			background-position: 0 0;
+			background-size: 100% auto;
+			background-repeat: no-repeat;*/
+		}
+		
+		.line_01 {
+			width: 100%;
+			height: 1px;
+			background-color: #eee;
+			/*transform: scaleY(0.5);
+		-webkit-transform: scaleY(0.5)*/
+		}
+	</style>
+
+	<body style="width: 100%;">
+		<div id="app" v-cloak>
+
+			<div class="chairmanInfo" v-if="jsonData!=null">
+				<div class="chairmanAddressBox">
+					<div class="chairmanName" v-if="jsonData.orderStatus&jsonData.orderStatus==1&stateZhifu">
+						<span>订单状态：</span><span class="taobaoC" v-if="jsonData.orderStatus==1&stateZhifu">已支付</span>
+					</div>
+					<div class="chairmanName">
+						<span>团长信息：</span><span>{{jsonData.leaderName}}</span><span>{{jsonData.leaderMobile}}</span>
+					</div>
+					<div class="chairmanAddress">
+						提货地址：{{jsonData.receiveAddress}}
+					</div>
+					<div class="chairmanName">
+						<span>提货人：</span><span>{{jsonData.receiverName}}</span><span>{{jsonData.receiverMobile}}</span>
+					</div>
+					<div class="chairmanName">
+						<span>总订单号：</span><span>{{totalNo}}</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="grouponName" v-if="jsonData!=null">
+				{{jsonData.activityName}}
+			</div>
+
+			<div class="orderCommodities" v-if="jsonData!=null">
+				<div class="commoditiesItem" v-for="(items,indexs) in jsonData.ordersInfo">
+					<div class="sellerName">
+						<img src="../member/images/ic_shop@3x.png" />
+						<span>{{items.sellerName}}</span>
+						<span class="taobaoC" v-if="items.orderStatus==1&!stateZhifu">待发货</span><span class="taobaoC" v-if="items.orderStatus==2">待收货</span><span class="taobaoC" v-if="items.orderStatus==5">已完成</span><span class="huiseC" v-if="items.orderStatus==6">交易关闭</span>
+					</div>
+
+					<div class="commoditiesList">
+
+						<div class="commodityBox" v-for="(item ,index) in items.commodityList">
+							<div class="commodity">
+								<div class="commodityImg">
+									<img v-bind:src="item.commodityImg" />
+								</div>
+								<div class="commodityInfo">
+									<div class="commodityName">
+										{{item.commodityName}}
+									</div>
+									<div class="commodityPrice">
+										<span class="commodityPriceBox">
+										<span>¥{{String(parseFloat(item.commodityPrice).toFixed(2)).split('.')[0]}}.</span><span>{{String(parseFloat(item.commodityPrice).toFixed(2)).split('.')[1]}}</span>
+										</span>
+										<span class="commodityNum">x{{item.commodityCount}}</span>
+									</div>
+								</div>
+							</div>
+							<div class="serviceButtonBox" v-if="items.orderStatus==5&&item.shbtnKey==0">
+								<span   v-if="item.sfzcshStatus == 1" @click="serviceJump(items.orderNo,item.commodityPrice,item.commodityId,item.commodityCount)">申请售后</span>	
+								<span    v-if="item.sfzcshStatus== 0 && item.process != 16 && item.process != 3 && item.process!=6" class="serviceButtonDis" >申请售后</span>
+								<span   v-if="item.sfzcshStatus== 0 && item.process == 3" @click="writeAddress(item.safeguardNo,items.orderNo)">填写地址</span>
+								<span   v-if="item.sfzcshStatus== 0 && item.process == 6" @click="receivingProduct(item.safeguardNo,14)">确认收货</span>
+								<span   v-if=" item.sfzcshStatus== 0 && item.process == 16" @click="confirmServise(item.safeguardNo,15)">确认已维修</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="commoditiesItemPrice">
+						<div class="commoditiesItemPriceBox">
+							<span>共{{items.sellerCount}}件商品  合计：</span><span>¥{{String(parseFloat(items.totalPrice).toFixed(2)).split('.')[0]}}.</span><span>{{String(parseFloat(items.totalPrice).toFixed(2)).split('.')[1]}}</span>
+						</div>
+
+					</div>
+					<div class="line" style="width: 100%;height: 1px;box-sizing: border-box;padding: 0 0.14rem;">
+						<div class="line_01"></div>
+					</div>
+					<div class="orderInfo">
+						<div class="orderNum">
+							订单编号：{{items.orderNo}}
+						</div>
+						<div class="orderTime">
+							下单时间：{{items.orderTime}}
+						</div>
+						<div class="orderRemarkBox" v-if="items.orderMsg&&items.orderMsg.length>0">
+							<span>备注：</span><pre v-text="items.orderMsg"></pre>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="footerBox" v-if="jsonData!=null">
+				<div>
+					团购结束后统一发货，请留意微信团购群提货通知
+				</div>
+				<div>
+					如有疑问，请直接联系团长
+					<a v-bind:href="'tel:'+jsonData.leaderMobile">{{jsonData.leaderMobile}}</a>
+				</div>
+			</div>
+
+		</div>
+
+		<script src="js/orderDetail.js"></script>
+	</body>
+
+</html>

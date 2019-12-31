@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>联享秘籍</title>
+		<link rel="stylesheet" type="text/css" href="css/swiper.min.css?yy=4" />
+		<link rel="stylesheet" type="text/css" href="css/style.css?yy=4" />
+		<script src="../common/jquery-2.1.4.js"></script>
+		<script src="js/swiper.jquery.min.js?yu=345" type="text/javascript" charset="utf-8"></script>
+		<script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?8c52200d641ce1d54f5f177242293cad";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+
+		<style type="text/css">
+		</style>
+	</head>
+	<style type="text/css">
+		.detail01,.detail02,.detail03,.detail04,.detail05{
+			position: absolute;
+			height: 20%;
+			width: 30%;
+		}
+		.detail01 img,.detail02 img,.detail03 img,.detail04 img,.detail05 img{
+			width: 100%;
+			height: 100%;
+		}
+		 @-webkit-keyframes twink {
+		 	/*透明度由0到1*/
+		 	0% {
+		 		opacity: .5;
+		 		transform: scale(1.05);
+		 		-webkit-transform: scale(1.05);
+		 		/*透明度为0*/
+		 	}
+		 	50% {
+		 		opacity: .7;
+		 		transform: scale(1);
+		 		-webkit-transform: scale(1);
+		 	}
+		 	100% {
+		 		opacity: 1;
+		 		transform: scale(0.95);
+		 		-webkit-transform: scale(0.95);
+		 		/*透明度为1*/
+		 	}
+ 		}
+ 		
+		.twinkPlay{
+			animation: twink 1s infinite ease-in-out;
+			-webkit-animation: twink 1s infinite ease-in-out;;
+		}
+		.detail01{
+			top: 25%;
+			left: 12%;
+		}
+		.detail02{
+			top: 25%;
+			right: 11%;
+		}
+		.detail03{
+			top: 47%;
+			left: 36%;
+		}
+		.detail04{
+			top: 67%;
+			left: 12%;
+		}
+		.detail05{
+			top: 67%;
+			right: 11%;
+		}
+	</style>
+	<body>
+		<div class="swiper-container">
+			<div class="swiper-wrapper" style="background: url(img/diwen.jpg) repeat-y;">
+				<div class="swiper-slide" style="background: url(img/01.jpg) center center no-repeat; background-size: contain;" data-hash="slide1">
+				</div>
+				<div class="swiper-slide" style="background: url(img/BG02.jpg) center center no-repeat; background-size: contain;position: relative;" data-hash="slide2">
+					<div class="detail01"><img src="img/01.png"/></div>
+					<div class="detail02"><img src="img/02.png"/></div>
+					<div class="detail03"><img src="img/03.png"/></div>
+					<div class="detail04"><img src="img/04.png"/></div>
+					<div class="detail05"><img src="img/05.png"/></div>
+				</div>
+			</div>
+			<div class="swiper-button-next twinklingPlay"></div>
+		</div>
+		<script>
+			var mySwiper = new Swiper('.swiper-container', {
+				direction: 'vertical',
+				nextButton:'.swiper-button-next',
+				hashnav:true,
+			});
+			$(".detail01").click(function(){
+				window.location.href='detail01.htm#slide1';
+			})
+			$(".detail02").click(function(){
+				window.location.href='detail02.htm#slide2';
+			})
+			$(".detail03").click(function(){
+				window.location.href='detail03.htm#slide3';
+			})
+			$(".detail04").click(function(){
+				window.location.href='detail04.htm#slide4';
+			})
+			$(".detail05").click(function(){
+				window.location.href='detail05.htm#slide5';
+			})
+			function GetURLParameter(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if(r != null) return unescape(r[2]);
+				return null;
+			}
+			$(function(){
+				var idx=GetURLParameter("idx");
+				switch(idx){
+					case "1":
+						$(".detail01").addClass("twinkPlay");
+						break;
+					case "2":
+						$(".detail02").addClass("twinkPlay");
+						break;
+					case "3":
+						$(".detail03").addClass("twinkPlay");
+						break;
+					case "4":
+						$(".detail04").addClass("twinkPlay");
+						break;
+					case "5":
+						$(".detail05").addClass("twinkPlay");
+						break;
+					default:
+						$(".detail01").addClass("twinkPlay");
+				}
+			})
+		</script>
+	</body>
+
+</html>

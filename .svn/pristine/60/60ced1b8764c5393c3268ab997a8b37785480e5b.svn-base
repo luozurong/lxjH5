@@ -1,0 +1,155 @@
+var token="149394630333c4333f7851ed4892ae4c";
+var host="http://118.190.8.134:8090";
+var time_stamp = getTimeStamp();
+var areaCode = "4400100001";
+
+//价格小数点后字体较小
+$(".confirm-goods-price").each(function(){
+    var dataValue = $(this).attr("data-value");
+    var dataValueArray = dataValue.split(".");
+    $(this).find("span").eq(0).text("￥"+dataValueArray[0]);
+    $(this).find("span").eq(1).text("."+dataValueArray[1]);
+});
+
+//小计小数点后字体较小
+$(".confirm-total-price").each(function(){
+    var dataValue = $(this).attr("data-value");
+    var dataValueArray = dataValue.split(".");
+    $(this).find("span").eq(0).text("￥"+dataValueArray[0]);
+    $(this).find("span").eq(1).text("."+dataValueArray[1]);
+});
+
+//小计小数点后字体较小
+$(".pay").each(function(){
+    var dataValue = $(this).attr("data-value");
+    var dataValueArray = dataValue.split(".");
+    $(this).find("span").eq(0).text("￥"+dataValueArray[0]);
+    $(this).find("span").eq(1).text("."+dataValueArray[1]);
+});
+
+//减号的颜色
+$(".confirm-goods-input").each(function(){
+    var inputNum = $(this).val();
+    if(inputNum>1){
+        $(this).prev().addClass("confirm-goods-pre-active");
+    }else{
+        $(this).prev().removeClass("confirm-goods-pre-active");
+    }
+});
+
+//商品数量减少
+function subNum(sub){
+    var inputNum = $(sub).next().val();
+    var dataValue = $(sub).next().attr("data-value");
+    inputNum--;
+    if(inputNum>0){
+        $(sub).next().val(inputNum);
+    }
+    if(inputNum <= 1){
+        $(sub).removeClass("confirm-goods-pre-active");
+    }
+    if(inputNum<dataValue){
+        $(sub).next().next().removeClass("confirm-goods-next-active");
+    }
+}
+
+//商品数量增加
+function addNum(add){
+    var dataValue = $(add).prev().attr("data-value");
+    var inputNum = $(add).prev().val();
+    inputNum++;
+    if(dataValue>=inputNum){
+        $(add).prev().val(inputNum);
+    }
+    if(dataValue ==inputNum){
+        $(add).addClass("confirm-goods-next-active");
+    }
+    if(inputNum>1){
+        $(add).prev().prev().addClass("confirm-goods-pre-active");
+    }
+}
+
+//只有失效商品是的结算状态为禁用状态
+if($(".confirm-all>div").length ==0){
+    $(".confirm-fixed .gopay").addClass("gopayover");
+}
+
+//编辑留言时底部提交订单栏隐藏
+$(".comfirm-say").focus(function(){
+   $(".confirm-fixed").hide();
+    console.log(1);
+});
+$(".comfirm-say").blur(function(){
+    $(".confirm-fixed").show();
+});
+
+//获取收货地址
+var areaParam = {};
+var defaultReceiverId;
+areaParam.body = {
+    type: 1
+};
+areaParam.header={
+    token:token,
+    time_stamp:time_stamp
+};
+var areaParamString = JSON.stringify(areaParam);
+$.ajax({
+    type: "get",
+    url:host+"/mms/servlet/getUserReceiverInfo?str="+areaParamString,
+    async: false,
+    dataType: "jsonp",
+    jsonp: "jsoncallback",
+    jsonpCallback: "success_jsonpCallback",
+    success: function(data) {
+        $(".confirm-left").html();
+        var defaultReceiver = data.defaultReceiver;
+        defaultReceiverId = defaultReceiver.id;
+        //判断是否有地址
+        if(data.receiverFlag == 1) {
+            var confirmAddr = _.template($("#confirmAddr").html());
+            $(".confirm-left").append(confirmAddr(defaultReceiver));
+        }else{
+            $(".confirm-left").append('<div class="confirm-choose-addr">请选择地址</div>');
+        }
+    }
+});
+//确认订单的数据获取
+var shoppingCartId = '149388843190b3803c484d2a44529392, 149388912752719645691edf487293da';
+console.log(shoppingCartId);
+
+var confirmParam = {};
+var flag = false;
+if(!flag){
+    //购物车购买
+    confirmParam.body = {
+        shoppingCartId:shoppingCartId
+    };
+}else{
+    //立即购买
+    confirmParam.body = {
+        commodityId:1
+    };
+}
+
+
+confirmParam.header = {
+    token:token,
+    time_stamp:time_stamp
+};
+
+var confirmParamString = JSON.stringify(confirmParam);
+console.log(confirmParam);
+$.ajax({
+    type: "get",
+    url:host+"/mms/servlet/confirmOrder?str="+confirmParamString,
+    async: false,
+    dataType: "jsonp",
+    jsonp: "jsoncallback",
+    jsonpCallback: "success_jsonpCallback",
+    success: function(data) {
+        console.log(data);
+    }
+});
+
+

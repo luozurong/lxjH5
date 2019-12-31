@@ -1,0 +1,157 @@
+			* {
+				padding: 0;
+				margin: 0;
+			}
+			/*@media(max-device-width: 340px) {
+	html { font-size:100px;}
+}
+@media (min-device-width: 340px) and (max-device-width: 380px) {
+	html { font-size:120px;}
+}
+@media (min-device-width: 380px) and (max-device-width: 420px) {
+	html { font-size:140px;}
+}
+@media (min-device-width: 420px) and (max-device-width: 450px) {
+	html { font-size:140px;}
+}
+@media  (min-device-width: 450px) {
+	html { font-size:160px;}
+}*/
+			html,
+			body {
+				min-height: 100%;
+				background-color: #f3f4f5;
+			}
+			
+			body {
+				font-size: 0;
+				color: #6a6a6a;
+			}
+			
+			a {
+				color: #51aef4;
+				text-decoration: none;
+			}
+			
+			li {
+				list-style: none;
+			}
+			
+			.listBox {
+				padding-left: 0.7523rem;
+				
+				font-size: 0.13rem;
+				border-top: 1px #f0f0f0 solid;
+				background: #fff;
+			}
+			
+			.listBox li {
+				position: relative;
+				border-bottom: 1px solid #f0f0f0;
+				margin-bottom: 0.1545rem;
+				padding-right: 0.1133rem;
+				color: #666;
+			}
+			
+			.listBox li:last-child {
+				margin-bottom: 0;
+			}
+			
+			.listBox li:first-child {
+				color: #3cbca3;
+				margin-top: 0.1545rem;
+			}
+			
+			.listBox li .before {
+				position: absolute;
+				left: -11.58%;
+				top: 0.5em;
+				height: 150%;
+				width: 2px;
+				background: #f0f0f0;
+			}
+			.listBox li:last-child .before{
+				/*display: none;*/
+			}
+			.listBox li .after {
+				position: absolute;
+				left: -11.58%;
+				top: 0.4em;
+				width: 2px;
+				height: 2px;
+				background: #ddd;
+				border-radius: 4px;
+				-webkit-transform: scale(4);
+			}
+			
+			.listBox li:first-child .after {
+				background:none;
+				background-image:url(../images/ic_circle_green@3x.png);
+				border-radius: 6px;
+				background-size: 100%;
+				background-position: center;
+				background-repeat: no-repeat;
+				-webkit-transform: scale(6);
+			}
+			.listBox li p {
+				font-size: 0.0773rem;
+				text-align: justify;
+				word-break: break-all;
+			}
+			.listBox li p:first-child {
+				font-size: 0.1082rem;
+				line-height: 125%;
+			}
+			
+			
+			.detail {
+				padding-bottom: 10px;
+			}
+			
+			.time {
+				padding-bottom: 13px;
+			}
+			
+			.delivery {
+				min-height: 0.823rem;
+				font-size: 0.10821rem;
+				color: #666;
+				border-bottom: 10px solid #F3F4F5;
+				background: #Fff;
+			}
+			.left_span{
+				display: inline-block;
+				width: 23%;
+				white-space: nowrap;
+			}
+			
+			.imgBox {
+				width: 0.5rem;
+				height: 0.5rem;
+				/*padding: 0.04rem;*/
+				margin: 0.1545rem 0.139rem 0.1649rem 0.1133rem;
+				float: left;
+				background-repeat: no-repeat;
+				background-image: url(../images/c_s_error.png);
+				background-position: center;
+				background-size: cover;
+				
+			}
+			
+			.imgBox img {
+				width: 100%;
+				height: 100%;
+			}
+			
+			.dMessage {
+				min-height: 0.823rem;
+				overflow: hidden;
+				line-height: normal;
+			}
+			.dMessage p{
+				margin-top: 0.015rem;
+			}
+			
+			.status {
+				color: #3cbca3;
+			}

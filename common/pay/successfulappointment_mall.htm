@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+	<meta name="format-detection" content="telephone=no" />
+	<title>商城</title>
+	<link rel="stylesheet" href="../reset.css">
+	<link rel="stylesheet" type="text/css" href="css/Successful-appointment.css" />
+	<script src="../jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="../interface.js"></script>
+	<script src="../common.js "></script>
+	<script type="text/javascript">
+	var token=GetURLParameter("token");
+	var orderNo=GetURLParameter("orderNo");
+	function seeOrder(){
+		try{
+			showActivity(host+"/mms/html5/personal/my_order.htm?backHomePage=1&orderStatus=1"+"&token="+token,"待发货订单");
+		}catch(e){
+			
+		}
+	}
+	$(document).ready(function(){
+		try{
+			 backToHomePage();
+			setTitle("订单支付结果");
+		}catch(e){
+			
+		}
+	});
+	</script>
+
+</head>
+
+<body style="font-size:0.18rem;">
+<ul>
+	<li class="img-min"><img src="../images/picture_success@3x.png" /></li>
+	<li class="success-title">
+				支付成功
+			</li>
+	<li class="time" >
+		我们将尽快为您发出您购买的商品
+	</li>
+	<li class="lookOrders"><a onclick="seeOrder()">查看订单</a>
+</ul>
+</body>
+
+</html>

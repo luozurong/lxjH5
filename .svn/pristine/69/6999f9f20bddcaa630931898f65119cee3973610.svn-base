@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" href="../../common/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/commanderPersonal.css" />
+		<script src="../../common/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/interface.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../../common/tip/lxjTip.css" />
+		<script src="../../common/tip/lxjTip.js" type="text/javascript" charset="utf-8"></script>
+		<title>我的</title>
+	</head>
+	<style type="text/css">
+		body,
+		html {
+			font-family: "PingFang SC", Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+			background-color: #f3f4f5;
+		}
+		
+		body {
+			font-size: 14px;
+		}
+		
+		input {
+			outline: none;
+			/*去ios内阴影、圆角*/
+			-webkit-appearance: none;
+			border-radius: 0;
+			border: none;
+			margin: 0;
+			padding: 0;
+			font-weight: normal;
+		}
+		
+		input,
+		textarea,
+		a {
+			-webkit-tap-highlight-color: transparent;
+		}
+		
+		* {
+			-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+		}
+		
+		[v-cloak] {
+			display: none!important;
+		}
+		
+		#app {
+			width: 100%;
+			position: relative;
+			/*background-image: url('11.png');
+			background-position: 0 0;
+			background-size: 100% auto;
+			background-repeat: no-repeat;*/
+		}
+		
+		.line_01 {
+			width: 100%;
+			height: 1px;
+			background-color: #eee;
+			/*transform: scaleY(0.5);
+		-webkit-transform: scaleY(0.5)*/
+		}
+		
+		.fade-enter-active {
+			transition: all 1.5s ease;
+		}
+		
+		.fade-leave-active {
+			transition: opacity 1s;
+		}
+		
+		.fade-enter {
+			transform: translateX(-100%);
+		}
+		
+		.fade-leave-to {
+			opacity: 0;
+		}
+	</style>
+
+	<body style="width: 100%;">
+		<div id="app" v-cloak>
+			<div class="memberInfo">
+				<div class="memberImgBox">
+					<div class="memberImg">
+						<div v-if="personalData!=null" :style="{ backgroundImage: 'url('+personalImg+')' }"></div>
+					</div>
+				</div>
+				<div class="memberInfoBox">
+					<div class="memberName" v-if="personalData!=null">
+						<span>{{personalData.groupLeaderName}}</span>
+						<div class="chairmanLogo">
+							<img src="img/tuanzhanghuizhang@3x.png" />
+							<span>团长徽章</span>
+						</div>
+					</div>
+					<div class="memberJoinTime" v-if="personalData!=null">
+						加入时间：{{personalData.applyTime}}
+					</div>
+				</div>
+			</div>
+
+			<div class="mainBox">
+				<div class="moneyBox">
+					<div class="moneyBox1 moneyBox2">
+						<div class="moneyBox3">
+							<div class="money" v-if="personalData!=null">
+						         {{String(parseFloat(personalData.withdrawMoney).toFixed(2))}}
+							</div>
+							<div class="moneyInfo">
+								可提现(元)
+							</div>
+						</div>
+						<div class="submitButton" v-show="stateTixian==1" v-if="personalData!=null&&personalData.withdrawMoney>0" v-on:click="getWithdrawCash(personalData.withdrawMoney)">
+							全部提现
+						</div>
+						<div class="submitButton" v-show="stateTixian==2" style="border-color: #ccc;color: #ccc;">
+							审核中
+						</div>
+
+					</div>
+					<div class="moneyBox1">
+						<div class="money" v-if="personalData!=null">
+							{{String(parseFloat(personalData.settleMoney).toFixed(2))}}
+						</div>
+						<div class="moneyInfo">
+							待结算(元)
+						</div>
+					</div>
+				</div>
+				<div class="moneyBox">
+					<div class="moneyBox1">
+						<div class="money" v-if="personalData!=null">
+							{{String(parseFloat(personalData.salesMoney).toFixed(2))}}
+						</div>
+						<div class="moneyInfo">
+							累计销售(元)
+						</div>
+					</div>
+					<div class="moneyBox1">
+						<div class="money" v-if="personalData!=null">
+							{{String(parseFloat(personalData.profitMoney).toFixed(2))}}
+						</div>
+						<div class="moneyInfo">
+							累计利润(元)
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="moreDetail">
+				<div class="moreItem" v-on:click="goWithdrawalRecord()">
+					<img src="img/ic_tixianmingxi@3x.png"/>
+					<span>提现明细</span>
+					<img src="img/ic_more-@3x.png"/>
+				</div>
+				<div class="line_01"></div>
+				<div class="moreItem" v-on:click="goProfitRecord()">
+					<img src="img/ic_liyunmingxi@3x.png"/>
+					<span>利润明细</span>
+					<img src="img/ic_more-@3x.png"/>
+				</div>
+				<div class="line_01"></div>
+				<div class="moreItem" v-on:click="goGrouponLaederRule()">
+					<img src="img/ic_guizeshuoming@3x.png"/>
+					<span>规则说明</span>
+					<img src="img/ic_more-@3x.png"/>
+				</div>
+			</div>
+			<div class="kongbai" style="width: 100%;height: 0.53rem;opacity: 0;" >			
+			</div>
+			
+			<div class="grouponActivity-nav">
+				<div class="grouponActivity-nav-item">
+					<img src="img/nav_btn_ic_pintuan_nor@3x.png" alt="" v-on:click="goGrouponActivity()">
+					<div v-on:click="goGrouponActivity()">拼团</div>
+				</div>
+				<div class="grouponActivity-nav-item">
+					<img src="img/nav_btn_ic_order_nor@3x.png" alt="" v-on:click="goCommanderOrder()">
+					<div v-on:click="goCommanderOrder()">订单</div>
+				</div>
+				<div class="grouponActivity-nav-item">
+					<img src="img/nav_btn_ic_mine_pre@3x.png" alt="">
+					<div class="grouponActivity-nav-active">我的</div>
+				</div>
+			</div>
+
+		</div>
+
+		<script src="js/commanderPersonal.js?y=001"></script>
+	</body>
+
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="format-detection" content="telephone=no">
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<title>注册</title>
+		<link rel="stylesheet" href="../../common/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/register.css" />
+		<link rel="stylesheet" type="text/css" href="../../common/tip/lxjTip.css">
+		<script src="../../common/tip/lxjTip.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/share.js" type="text/javascript" charset="utf-8"></script>
+	    <script src="../../common/interfaceParameters.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK.js" type="text/javascript" charset="utf-8"></script>
+
+
+	</head>
+	<style type="text/css">
+		html,
+		body {
+			width: 100%;
+			font-family: "PingFang SC", Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+			min-height: 100%;
+			background-color: #fff;
+			color: #222222;
+			height: 100%;
+		}
+		body{
+			font-size: 14px;
+		}
+		
+		* {
+			-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+			/*-webkit-user-select: none;
+				user-select: none;*/
+		}
+		
+		[v-cloak] {
+			display: none!important;
+		}
+		
+		.bgblack07 {
+			background-color: rgba(0, 0, 0, 0.1)!important;
+		}
+		
+		.flew_grow2 {
+			-webkit-flex-grow: 2;
+		}
+		
+		.flew_grow3 {
+			-webkit-flex-grow: 3;
+		}
+		
+		.flew_grow4 {
+			-webkit-flex-grow: 4;
+		}
+		
+		.flew_grow5 {
+			-webkit-flex-grow: 5;
+		}
+		
+		.btClick {
+			position: absolute;
+			width: 46%;
+			height: 11%;
+			bottom: 12%;
+			left: 27%;
+		}
+		
+		#mainContent {
+			width: 100%;
+			height: 177vw;
+			position: relative;
+			overflow: hidden;
+			background-image: url('images/registerActivity/wxfx-bj.jpg');
+			background-position: 0 0;
+			background-size: 100% auto;
+			background-repeat: no-repeat;
+		}
+		#mainContent2{
+			width: 100%;
+			height: 177vw;
+			position: relative;
+			overflow: hidden;
+			background-image: url('images/registerActivity/wxfx-cg.jpg');
+			background-position: 0 0;
+			background-size: 100% auto;
+			background-repeat: no-repeat;
+		}
+		#app{
+			position: relative;
+			width: 100%;
+			height: 100%;
+		}
+		.line_01 {
+			width: 100%;
+			height: 1px;
+			background-color: #eee;
+			/*transform: scaleY(0.5);
+		-webkit-transform: scaleY(0.5)*/
+		}
+	</style>
+
+	<body>
+		<div id="app" v-cloak>
+			<!--顶部栏部分-->
+			<!--<div id="mainContent" >
+				<div class="content_box">
+					<div class="content_box1">
+						<div class="mobile_box" v-on:click="mobileFocus()">
+							<input v-model="phoneNum" type="tel" class="ccolorbb" v-bind:class="{colorRedinput:mobileF}" name="userMobile" id="userMobile" :placeholder="mobileplaceholder" value="" onkeyup="value=value.replace(/[^\d\-]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d\-]/g,''))" maxlength="11" />
+						</div>
+						<div class="verificationCode_box">
+							<div class="verificationCode_box1">
+								<div class="verificationCodeInput" v-on:click="mobileFocus3()">
+									<input v-model="randomCodeNum" type="tel" v-bind:class="{colorRedinput:randomCodeF}" class="ccoloraa" name="verificationCode" id="verificationCode" :placeholder="randomCodeplaceholder" value="" onkeyup="value=value.replace(/[^\d\-]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d\-]/g,''))" maxlength="5" />
+								</div>
+								<div class="verificationCodebt" v-on:click="getPicRandom(1)">
+									<div class="verificationCodebtText">
+										{{randomContent}}
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="bottombt_box">
+							<div class="sendBt" v-on:click="inviteNewUser()" v-show="newUserState">
+
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>-->
+			
+			
+			<div class="mainBox">
+				<div class="phoneBox">
+					<img src="images/ic_phone@3x.png"/>
+					<div class="phoneBox2">
+						<div class="phoneBox3">
+							<span>+86</span><span></span>
+							<input type="tel" v-model="phoneNum" v-on:blur="inputOnblur()" name="phone" :placeholder="mobileplaceholder" id="phone" value="" onkeyup="value=value.replace(/[^\d\-]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d\-]/g,''))" maxlength="11" />
+						</div>
+						<div class="line_01"></div>
+					</div>				
+				</div>
+				<div class="message">
+					<img src="images/ic_massage@3x.png"/>
+					<div class="messageBox2">
+						<div class="messageBox3">
+							<input v-model="randomCodeNum" v-on:blur="inputOnblur()" type="tel" name="message" :placeholder="messageplaceholder" id="message" value="" onkeyup="value=value.replace(/[^\d\-]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d\-]/g,''))" maxlength="7" />
+							<span v-show="!randomCodeNumState" v-on:click="getPicRandom()">{{randomContent}}</span>
+							<span class="colorCCC" v-show="randomCodeNumState">{{randomContent}}</span>
+						</div>
+						<div class="line_01"></div>
+					</div>
+				</div>
+				<div class="logoButton" v-on:click="loginOrRegister()">
+					验证并登录
+				</div>
+			</div>
+			
+			<div  id="footerText">
+				<img v-show="isAgree" v-on:click="isAgree=!isAgree" src="images/btn_ic_press@3x.png"/><img v-on:click="isAgree=!isAgree" v-show="!isAgree" src="images/btn_ic_pressNo@3x.png"/><span>注册账号就视为已阅读并同意<a href="https://bbs.hori-gz.com:8443/ctmsH5/homePage/service_agreement.html" target="_Blank">用户协议</a></span>
+			</div>
+			
+			<!--弹窗部分部分-->
+			<div id="popup" v-show="popupState">
+				<!--短信验证前图像验证-->
+				<div class="picRandom_box" >
+					<div class="flew_grow2">
+					</div>
+					<div class="picRandom_box2">
+						<div class="content1">
+							请填写图像验证码
+						</div>
+						<div class="picRandom_box3">
+							<input v-model="picRandomNum" v-on:click="mobileFocus2()" v-on:blur="inputOnblur()" type="tel" name="picRandomNum" id="picRandomNum" value="" />
+							<div class="img_box" v-on:click="getPicRandom()">
+								<img v-bind:src="picRandomUrl" />
+							</div>
+						</div>
+						<div class="content2">
+							图像验证码可点击刷新
+						</div>
+						<div id="bt_box">
+							<div id="cancel" v-on:click="cancelRandom()">
+								取消
+							</div>
+							<div id="confirm" v-on:click="confirmRandom()">
+								确认
+							</div>
+						</div>
+					</div>
+					<div class="flew_grow5">
+					</div>
+				</div>
+
+				
+			</div>
+
+		</div>
+
+	</body>
+	<script src="js/register.js" type="text/javascript" charset="utf-8"></script>
+
+</html>

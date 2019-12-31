@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" />
+		<title>选择地址</title>
+		<link rel="stylesheet" href="../reset.css">
+		<link rel="stylesheet" href="receiveraddress.css" />
+		<link rel="stylesheet" type="text/css" href="../tip/lxjTip.css" />
+		<script src="../jquery-2.1.4.js"></script>
+		<script src="../tip/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../underscore.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../mall/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../interface.js"></script>
+		<script src="../tip/lxjTip.js" type="text/javascript" charset="utf-8"></script>
+		<script src="receiverAddress.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			(function(doc, win) {
+				var docEl = doc.documentElement,
+					isIOS = navigator.userAgent.match(/iphone|ipod|ipad/gi),
+					dpr = isIOS ? Math.min(win.devicePixelRatio, 3) : 1,
+					dpr = window.top === window.self ? dpr : 1, //被iframe引用时，禁止缩放
+					scale = 1 / dpr,
+					resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+				docEl.dataset.dpr = dpr;
+				var recalc = function() {
+					var width = docEl.clientWidth;
+					if(width / dpr > 768) {
+						width = 768 * dpr;
+					}
+					docEl.style.fontSize = 100 * (width / 414) + 'px';
+				};
+				recalc();
+				if(!doc.addEventListener) return;
+				win.addEventListener(resizeEvt, recalc, false);
+			})(document, window);
+		</script>
+		<style type="text/css">
+			.demo3 {
+				min-width: 70%;
+				max-width: 70%;
+			}
+			
+			.demo3 .lxj_tipButtom {
+				display: -webkit-flex;
+				justify-content: space-between;
+			}
+			
+			.demo3 .lxj_tipButtomA0 {
+				order: 1;
+				font-size: 0.17rem;
+			}
+			
+			.demo3 .lxj_tipButtomA1 {
+				order: 0;
+				font-size: 0.17rem;
+			}
+			
+			.demo3 .lxj_content {
+				padding: 40px;
+				font-size: 0.16rem;
+			}
+			
+			.demo2 {
+	
+			}
+			
+			.demo2 .lxj_content {
+				padding: 40px;
+				font-size: 0.16rem;
+			}
+			
+			.demo2 .lxj_tipButtom {
+				
+			}
+			
+			.demo2 .lxj_tipButtomA0 {				
+				font-size: 0.17rem;
+				width: 90%;
+			}
+			
+			#changename::-webkit-input-placeholder {
+				color: #CCCCCC;
+			}
+			
+			.line_01 {
+				width: 100%;
+				height: 1px;
+				background-color: #F0F0F0;
+				transform: scaleY(0.5);
+				-webkit-transform: scaleY(0.5)
+			}
+		</style>
+		<script type="text/javascript">
+			window.addEventListener('load', function() {
+				FastClick.attach(document.body);
+			}, false);
+		</script>
+	</head>
+
+	<body>
+		<ul id="addresslist">
+		</ul>
+		<script id="address_yes_use" type="text/html">
+			<li id="<%=id%>" name="<%=id%>" value="<%=isDefault%>" class="address_isInarea">
+				<div class="address_first_line" value="<%=full%>">
+					<img src="ic_-Location-@3x.png" />
+					<div class="address_boxz">
+						<div class="address_name_number">
+							<!--<div class="picture">
+								<img src="ic_name@3x.png" />
+							</div>-->
+							<div class="a_number">
+								<span class="name"><%=username%></span>
+								<span class="phone"><%=mobile%></span>
+							</div>
+						</div>
+						<div class="address-detail">
+							<!--<div class="picture">
+								<img src="ic_-Location-@3x.png" />
+							</div>-->
+							<div class="d_address">
+								<span><%=address%></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="line_01">
+
+				</div>
+			</li>
+			<li class="address" name="<%=id%>">
+				<div class="address_second_line">
+					<div class="address_default">
+						<img name="<%=id%>" value="<%=isDefault%>" src="ic_default@3x.png" />
+						<span>默认</span>
+					</div>
+					<div class="address_edit_dele">
+						<div class="address_dele" name="<%=id%>" onclick="deleAddress(this)">
+							<img src="ic_delete@3x.png" />
+							<span class="text_dele">删除</span>
+						</div>
+						<div class="address_edit" name="<%=id%>" onclick="editAddress(this)">
+							<img src="ic_edit@3x.png" />
+							<span class="text_edit">编辑</span>
+						</div>
+
+					</div>
+				</div>
+			</li>
+			<li class="margin_bottom" name="<%=id%>"></li>
+		</script>
+
+		<script id="address_no_use" type="text/html">
+			<li class="disable-address" id="<%=id%>" name="<%=id%>">
+				<div class="address_first_line">
+					<div class="address-left">
+						<div class="address_name_number">
+							<div class="picture">
+								<img src="ic_name@3x.png" />
+							</div>
+							<div class="a_number">
+								<span class="name"><%=userName%></span>
+								<span class="phone"><%=mobile%></span>
+							</div>
+						</div>
+						<div class="address-detail">
+							<div class="picture">
+								<img src="ic_-Location-@3x.png" />
+							</div>
+							<div class="d_address">
+								<span><%=address%></span>
+							</div>
+						</div>
+					</div>
+					<!--<div class="address-right">
+						<img src="../images/btn_red@3x.png" />
+					</div>-->
+				</div>
+			</li>
+			<li class="address" name="<%=id%>">
+				<div class="address_second_line">
+					<div class="address_default">
+						<img name="<%=id%>" value="<%=isDef%>" onclick="changeDefault(this)" src="ic_default@3x.png" />
+						<span>设为默认</span>
+					</div>
+					<div class="address_edit_dele">
+						<div class="address_dele" name="<%=id%>" onclick="deleAddress(this)">
+							<img src="ic_delete@3x.png" />
+							<span class="text_dele">删除</span>
+						</div>
+						<div class="address_edit" name="<%=id%>" onclick="editAddress(this)">
+							<img src="ic_edit@3x.png" />
+							<span class="text_edit">编辑</span>
+						</div>
+
+					</div>
+				</div>
+			</li>
+			<li class="margin_bottom" name="<%=id%>"></li>
+		</script>
+
+		<!-----提示框开始----->
+		<!--<div id="tip_bg"></div>
+		<div id="tip">
+			<div id="tip_text">
+				确定删除地址
+			</div>
+			<div id="tip_buttom">
+				<div id="tip_buttom_no" onclick="deleNAddress()">
+					取消
+				</div>
+				<div id="tip_buttom_yes" onclick="deleYAddress()">
+					确定
+				</div>
+			</div>
+		</div>-->
+		<!-----提示框结束----->
+		<!-----修改收货人名字开始------>
+		<div class="bgblack" onclick="closeChangewindowC()" style="display: none;width: 100%;height: 100%;background-color:#000;opacity:0.3;position: absolute;top: 0;z-index: 99;">
+
+		</div>
+		<div id="changeusername" style="display: none;width: 80%;height:1.98rem;position: fixed;top: 0;left: 0;bottom: 0;right: 0;margin: auto;z-index: 999;background-color: #fff;border-radius: 5px;">
+
+			<div style="width: 100%;height: 0.74rem;text-align: center;line-height:0.74rem;font-size: 0.14rem;color: #222;">
+				修改收货人姓名
+			</div>
+			<input type="text" name="changename" id="changename" value="" maxlength="11" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\ ]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\ ]/g,''))" oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\ ]/g,'')" placeholder="请输入真实的收货人姓名" style="outline:none;-webkit-appearance: none;box-sizing: border-box;text-align: left;padding-left:0.2rem;width: 80%;height: 26%;z-index: 999;margin-left: 10%;border: 1px solid #ff661b;color: #222;border-radius: 5px;font-size: 0.14rem;" />
+			<div onclick="closeChangewindow()" style="width: 100%;height: 0.5rem;position: absolute;bottom: 0;border-top:1px solid #e8e8e8 ;text-align: center;color: #fc9153;box-sizing: border-box;line-height: 0.5rem;font-size:16px ;">
+				确定
+			</div>
+		</div>
+
+		<!-----修改收货人名字结束------>
+		<!-----没有地址开始----->
+		<div id="no_have_address">
+			<div id="no_have_address_img">
+				<img src="ic_location@3x.png" />
+			</div>
+			<div id="no_have_address_text">
+				暂无收货地址
+			</div>
+		</div>
+		<!-----没有地址结束----->
+		<div id="none_bottom" style="width: 100%;height: 0.7rem;opacity: 0;"></div>
+		<footer>
+			<div class="address_border">
+				<div id="new_address" onclick="addInfo()">
+					添加新地址
+				</div>
+			</div>
+		</footer>
+	</body>
+
+</html>

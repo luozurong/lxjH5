@@ -1,0 +1,342 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" type="text/css" href="../common/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/choujiang_min.css" />
+		<link rel="stylesheet" type="text/css" href="../common/tip/layer.css" />
+		<script src="../common/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../mall/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/tip/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/interface.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			window.addEventListener('load', function() {
+				FastClick.attach(document.body);
+			}, false);
+		</script>
+
+		<title>集福抽奖</title>
+
+		<script type="text/javascript">
+			var $windowWidth = $(window).width();
+			$windowWidth = $(window).width();
+			if($windowWidth > 640) {
+				$windowWidth = 640;
+			}
+			$("html").css("font-size", (100 / 320) * $windowWidth + "px");
+			$(window).resize(function() {
+				$windowWidth = $(window).width();
+				if($windowWidth > 640) {
+					$windowWidth = 640;
+				}
+				$("html").css("font-size", (100 / 320) * $windowWidth + "px");
+			});
+		</script>
+		<style type="text/css">
+			html{
+				background-color: #faf0cf;
+			}
+		</style>
+
+
+	</head>
+
+	<body>
+
+				
+				<header>
+					<div id="head_img">
+
+						<div class="text_box">
+							<div class="text_box1" style="width: 100%;height: 72%;">
+
+							</div>
+							<div class="text_box2" style="width: 65%;height: 21%;margin: 0 auto;overflow: hidden;">
+								<div class="text_box_b">
+									<div class="text_list text_list_scroll" style="-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);">
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+
+				</header>
+				<!------船体部分开始------->
+				<div id="shipbg">
+					<img src="images/youlun_03.png" />
+
+				</div>
+				<!------船体部分结束------->
+				<!------老虎机开始------->
+				<div class="main2">
+					<div id="red_packet">
+
+						<img id="img_none" src="images/pbg_03.png" style="width: 92%;display: none;" />
+						<div id="bglightB">
+
+							<div id="bglightY">
+
+								<div class="container">
+									<div id="container_box1" style="width: 100%;height: 63%;">
+										<div id="container_box11" style="width: 100%;height: 7%;">
+
+										</div>
+										<div id="container_box12" style="width: 100%;height: 89%;">
+											<div id="container_box121" style="width: 75%;height: 100%;margin:0 auto">
+												<div class="container_box1211" style="width: 100%;height:10%;">
+
+												</div>
+												<div class="container_box1212" style="width: 87%;height: 82%;margin: 0 auto;">
+													<div class="num_box1" style="width: 33%;height: 100%;float: left;overflow: hidden;">
+														<div class="num-con num-con1" id="donghua1" style="-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);">
+														</div>
+													</div>
+													<div class="num_box1" style="width: 34%;height: 100%;float: left;overflow: hidden;">
+														<div class="num-con num-con2" id="donghua2" style="-webkit-transform: translate3d(0, -100%, 0);transform: translate3d(0, -100%, 0);">
+														</div>
+													</div>
+													<div class="num_box1" style="width: 33%;height: 100%;float: left;overflow: hidden;">
+														<div class="num-con num-con3" id="donghua3" style="-webkit-transform: translate3d(0, -200%, 0);transform: translate3d(0, -200%, 0);">
+														</div>
+													</div>
+
+												</div>
+											</div>
+
+										</div>
+
+									</div>
+									<div id="container_box2" style="width: 100%;height: 15%;">
+										<div id="bt_click" style="width: 50%;margin: 0 auto;height: 100%;-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);">
+
+										</div>
+
+									</div>
+									<div id="container_box3" style="width: 100%;height: 22%;">
+										<div id="container_box31" style="width: 100%;height: 34%;">
+
+										</div>
+										<div id="bt_rule" onclick="ruleOpen()" style="width: 25%;height: 38%;margin: 0 auto;">
+
+										</div>
+									</div>
+
+									<div id="fufen">
+										<!--福分数量-->
+										<div id="fufen_xiaohao">
+											
+										</div>
+										<div id="fufen_number">
+											
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<!------老虎机结束------->
+				<!--我的中奖纪录开始-->
+				<div id="main_box2">
+					<div id="content_text_box">
+						<div class="xian">
+							<div class="xian_content_text">
+								&nbsp;
+							</div>
+							<div id="content_text">
+								我的中奖记录
+							</div>
+							<div class="xian_content_text">
+								&nbsp;
+							</div>
+
+						</div>
+
+					</div>
+					<div id="prize_have_none">
+
+					</div>
+					<div id="content_img">
+						<!--<div class="img_yes">
+					<img src="images/duihuan1_03_03_03.png" />
+					<div class="prize_title_box">
+						<div class="prize_title">
+							自然牌五常大米添加大奖低矮胶带机就爱绝代双骄的
+						</div>
+					</div>
+					<div class="prize_number_box">
+						<div class="prize_number">
+							兑奖码:01234567890
+						</div>
+					</div>
+					<div class="prize_way_box">
+						<div class="prize_way">
+							请在物业工作时间内，到管理处兑换奖品
+						</div>
+					</div>
+					<div class="prize_time_box">
+						<div class="prize_time">
+							2016.12.25至 2017.1.25 有效
+						</div>
+					</div>
+				</div>
+				
+				<div class="img_no">
+					<img src="images/guoqi2_05.png" />
+					<div class="prize_title_box">
+						<div class="prize_title">
+							自然牌&nbsp;五常大米&nbsp;10KG
+						</div>
+					</div>
+					<div class="prize_number_box">
+						<div class="prize_number">
+							兑奖码:01234567890
+						</div>
+					</div>
+					<div class="prize_way_box">
+						<div class="prize_way">
+							请到物业管理处兑换奖品
+						</div>
+					</div>
+					<div class="prize_time_box">
+						<div class="prize_time">
+							2016.12.25至 2017.1.25 有效
+						</div>
+					</div>
+				</div>
+				<div class="img_no">
+					<img src="images/duihuan2_05.png" />
+					<div class="prize_title_box">
+						<div class="prize_title">
+							清洁牌&nbsp;全屋清扫5小时套餐
+						</div>
+					</div>
+					<div class="prize_number_box">
+						<div class="prize_number">
+							兑奖码:01234567890
+						</div>
+					</div>
+					<div class="prize_way_box">
+						<div class="prize_way">
+							请到物业管理处兑换奖品
+						</div>
+					</div>
+					<div class="prize_time_box">
+						<div class="prize_time">
+							2016.12.25至 2017.1.25 有效
+						</div>
+					</div>
+				</div>-->
+
+					</div>
+
+				</div>
+				<!--我的中奖纪录结束-->
+				<!--活动规则开始-->
+				<div id="bgwindow" class="bgwindow_color"></div>
+				<div id="rule_big_box" class="bgwindow_color" style="z-index:999;">
+					<div id="rule_box">
+						<div id="bt_close" onclick="ruleClose()">
+							<img src="images/close.png" style="width: 100%;padding-right: 17px;padding-bottom: 17px;" />
+						</div>
+						<div id="rule_li" style="-webkit-overflow-scrolling: touch;overflow-y: scroll;">
+							<iframe src="" scrolling="yes" width="100%" height="100%" style="border: none;"></iframe>
+						</div>
+					</div>
+				</div>
+				<!--活动规则结束-->
+				<!-----中奖信息开始------->
+				<div id="prize_window_open" class="bgwindow_color">
+					<div id="prize_big_box">
+						<div id="prize_content">
+							恭喜你获得
+						</div>
+						<div id="prize_img">
+							<div class="prize_img_box" style="width: 50%;height: 100%;margin: 0 auto;" name="" onclick="openPrizeview()">
+
+							</div>
+
+						</div>
+						<div id="prize_quan_box">
+							<div class="img_yes" style="z-index: 2;">
+								<img src="images/exchange_03.png" />
+								<div class="prize_title_box">
+									<div class="prize_title">
+										
+									</div>
+								</div>
+								<div class="prize_number_box">
+									<div class="prize_number">
+										
+									</div>
+								</div>
+								<div class="prize_way_box">
+									<div class="prize_way">
+										
+									</div>
+								</div>
+								<div class="prize_time_box">
+									<div class="prize_time">
+										
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div id="yuncai_img">
+							<div id="yun_left">
+							</div>
+							<div id="yun_right">
+							</div>
+						</div>
+
+						<div id="new_fufen">
+							当前福分：<strong> </strong>&nbsp;购物可获得更多
+						</div>
+						<div id="bt_last_box">
+							<div id="bt_sure_box">
+								<div id="bt_sure" onclick="prizeWindowClose()">
+									<img src="images/sure_03.png" />
+								</div>
+							</div>
+							<div id="bt_share_box">
+								<div id="bt_share" onclick="fenxiangOpen()">
+									<img src="images/share_03.png" />
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div id="prize_top_box">
+
+					</div>
+				</div>
+				<!-----中奖信息结束------->
+				<footer>
+					<div id="bottom_color" class="bottom_img" style="position: relative;">
+						<div class="bottom_img" id="bottom">
+
+						</div>
+
+					</div>
+
+				</footer>
+				<div style="height: 100%;">
+					<img src="images/footimg.png" style="display:block;width: 100%;height: auto;padding: 0;margin: 0;" />
+				</div>
+	
+
+	</body>
+	
+	<script src="js/choujiang_min.js?yu=001" type="text/javascript" charset="utf-8"></script>
+
+</html>

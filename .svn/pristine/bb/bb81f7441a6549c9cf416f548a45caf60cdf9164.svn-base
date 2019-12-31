@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" />
+		<title>预约维修</title>
+		<link rel="stylesheet" href="css/mui.mimn.css">
+		<link rel="stylesheet" type="text/css" href="css/mui.picker.min.css" />
+		<link rel="stylesheet" href="../common/reset.css">
+		<link rel="stylesheet" type="text/css" href="css/maintainIndex.css" />
+		<link rel="stylesheet" type="text/css" href="../common/tip/layer.css" />
+		<script src="../common/jquery-1.7.2.min.js"></script>
+		<script src="../common/tip/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript " src="../common/coupons/coupons_common.js "></script>
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script src="../common/common.js "></script>
+		<script type="text/javascript " src="js/index.js "></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.picker.min.js"></script>
+	</head>
+
+	<body>
+
+		<ul class="main-conten">
+			<!--维修项目-->
+			<li id="service" style="border: none;">
+				<div class="picture"><img src="../common/images/c_error.png"></div>
+				<div class="info">
+					<div class="title"></div>
+					<div class="price"><span id="price"></span><span>元/台</span></div>
+				</div>
+				<!--<span class="font_size2">¥&nbsp;元/台</span>-->
+			</li>
+			<li id="introduce">
+				<div class="introduce">
+				</div>
+				<div id="introduce_more" style="display: none;width: 100%;text-align: center;">
+					<img src="img/ic_down@3x.png" style="width: 0.3rem;" />
+				</div>
+			</li>
+			<li class="main-none"></li>
+			<li class="select" id="address">
+				<div class="address-left">
+					<div class="a-number">
+						<img src="../common/images/ic_name@3x.png"  style="padding-top: 0.05rem;"/>
+						<span class="name" id="userName">名字</span>
+						<span class="phone" id="telephone">电话</span>
+					</div>
+					<div class="b-address">
+						<img src="img/ic_-Location-@3x.png" style="margin-top: 0.1rem;" />
+						<span class="address" id="userAddress">地址</span>
+					</div>
+				</div>
+				<div id="address_none" style="display: none;">
+					请选择服务地址
+				</div>
+			</li>
+
+			<li class="select Time-choose" data-options='{"type":"minutes","customData":{"i":[{"text":"00","value":"00"},{"text":"30","value":"30"}]},"labels":["年", "月", "日", "小时", "分"]}'>
+				<span>
+							上门时间:
+						</span>
+				<span id="result" class="ui-alert"></span>
+			</li>
+
+			<li class="right-R" id="Pay" style="border: none;">
+				<div class="pay-left pat-type">
+					<p> 支付方式</p>
+				</div>
+				<div class="pay-right">
+					<span class="pay-span">在线支付</span>
+					<span id="pay-warn" class="pay-span">此服务仅支持在线支付</span>
+				</div>
+			</li>
+			<li class="main-none2"></li>
+			<li class="right-R" id="liuyanten" style="border: none;">
+				<span id="liuyan">备注留言:</span><input type="text" id="remark" placeholder="订单备注（20字以内)" onclick="newviewopen(this.id)" maxlength="20" onkeyup="value=value.replace(/[\&\%\#]/g,'')" onpaste="value=value.replace(/[\&\%\#]/g,'')" oncontextmenu="value=value.replace(/[\&\%\#]/g,'')" />
+			</li>
+			<li class="main-none2"></li>
+			<li class="right-R select" id="Coupons" style="border: none;">
+				<div id="coupon-num" class="pay-left ">
+					<span>优惠券</span><span class="coupon-use-num no-coupon-use" id="useCoupon"></span>
+				</div>
+				<div id="reduce" class="pay-right no-reduce-money">
+					<span id="coupon"></span>
+					<!--<img id="hcho"  src="img/ic_more-@3x.png" alt="右边箭头" />-->
+				</div>
+			</li>
+
+		</ul>
+		<div id="div-none"></div>
+		<footer>
+			<div class="f_l buy">
+				<div class="buy-left">
+					<span class="text-total">合计:</span>
+					<span class="total-font-red buy-number"><span class="font_size3">¥&nbsp;</span><span id="total_item_1"></span></span>
+					<span class="preferential-prices">
+							<!-- 有内容时价格是红色，没内容是空白 -->
+					</span>
+				</div>
+				<div id="open1" onclick="doSubmit()" class="buy-right ">
+					<span>确定预约</span>
+				</div>
+			</div>
+		</footer>
+	</body>
+
+</html>

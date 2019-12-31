@@ -1,0 +1,236 @@
+* {
+	padding: 0;
+	margin: 0;
+	font-size: 0.14rem;
+	-webkit-tap-highlight-color: transparent
+}
+
+body {
+	background: #f3f4f5;
+}
+
+input::placeholder {
+	color: #ccc;
+	font-size: 0.16rem;
+}
+
+[v-cloak] {
+	display: none;
+}
+
+.checkProduct-tab {
+	width: 100%;
+	height: 0.5rem;
+	background: #fff;
+	text-align: center;
+}
+
+.checkProduct-tab span {
+	display: inline-block;
+	line-height: 0.44rem;
+	margin: 0.03rem 0.23rem 0 0.23rem;
+	color: #aaa;
+	font-size: 0.17rem;
+}
+
+.checkProduct-tab span.active {
+	border-bottom: 0.03rem solid #fc9153;
+	color: #333;
+}
+
+.checkProduct-search {
+	display: flex;
+	display: -webkit-flex;
+	padding: 0 0.14rem;
+	margin-top: 0.19rem;
+	margin-bottom: 0.2rem;
+}
+
+.checkProduct-search form {
+	flex-grow: 2;
+	-webkit-flex-grow: 2;
+	border: none;
+	outline: none;
+	font-size: 0.16rem;
+}
+
+.checkProduct-search input {
+	width: 100%;
+	height: 100%;
+	background-image: url(../img/ic_recerch@3x.png);
+	background-repeat: no-repeat;
+	background-position: 0.14rem center;
+	background-size: 0.14rem;
+	border: none;
+	outline: none;
+	padding-left: 0.36rem;
+	font-size: 0.16rem;
+	line-height: 0.21rem;
+    padding: 0.09rem 0 0.09rem 0.36rem;
+}
+
+.checkProduct-search span {
+	display: inline-block;
+	flex-shrink: 0;
+	-webkit-flex-shrink: 0;
+	width: 0.7rem;
+	line-height: 0.39rem;
+	margin-left: 0.14rem;
+	background: #fc9153;
+	color: #fff;
+	font-size: 0.17rem;
+	text-align: center;
+	border-radius: 0.05rem;
+}
+
+input[type=search]::-webkit-search-cancel-button {
+	-webkit-appearance: none;
+	position: relative;
+	height: .15rem;
+	width: .3rem;
+	background-image: url(../img/btn_cancle@3x.png);
+	background-position: center;
+	background-size: 0.12rem;
+	background-repeat: no-repeat;
+}
+
+input[type=search]::-webkit-search-cancel-button:after {}
+
+.checkProduct-item {
+	display: flex;
+	display: -webkit-flex;
+	background: #fff;
+	padding: 0.08rem 0.14rem 0.1rem;
+	align-items: center;
+	-webkit-align-items: center;
+	margin-top: 0.12rem;
+}
+
+.checkProduct-item-icon {
+	flex-shrink: 0;
+	-webkit-flex-shrink: 0;
+	display: inline-block;
+	width: 0.22rem;
+	height: 0.22rem;
+	border-radius: 100%;
+	background-image: url(../img/btn_ic_choose_nor@3x.png);
+	background-size: cover;
+	margin-right: 0.3rem;
+}
+
+.checkProduct-icon-active {
+	background-image: url(../img/btn_ic_choise_pre@3x.png);
+}
+
+.checkProduct-icon-hui {
+	background-image: url(../img/btn_ic_choise@3x.png);
+}
+
+.checkProduct-item-info {
+	flex-grow: 2;
+	-webkit-flex-grow: 2;
+}
+
+.checkProduct-item-name {
+	font-size: 0.18rem;
+	color: #333;
+}
+
+.checkProduct-item-mobile {
+	font-size: 0.15rem;
+	color: #555;
+	margin-top: 0.06rem;
+}
+
+.checkProduct-item-msg {
+	font-size: 0.15rem;
+	color: #555;
+	margin-top: 0.04rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.checkProduct-fixed {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	z-index: 1;
+	width: 100%;
+	background: #fff;
+	display: flex;
+	display: -webkit-flex;
+}
+
+.checkProduct-choose-all {
+	flex-grow: 2;
+	-webkit-flex-grow: 2;
+	line-height: 0.53rem;
+	display: flex;
+	display: -webkit-flex;
+	align-items: center;
+	-webkit-align-items: center;
+	border-top: 1px solid #eee;
+}
+
+.checkProduct-submit {
+	flex-shrink: 0;
+	-webkit-flex-shrink: 0;
+	width: 1.2rem;
+	height: 0.58rem;
+	font-size: 0.17rem;
+	background: #fc9153;
+	color: #fff;
+	line-height: 0.58rem;
+	text-align: center;
+}
+
+.checkProduct-choose-all .checkProduct-choose-icon {
+	display: inline-block;
+	width: 0.22rem;
+	height: 0.22rem;
+	border-radius: 100%;
+	background-image: url(../img/btn_ic_choose_nor@3x.png);
+	background-size: cover;
+	margin-left: 0.14rem;
+	margin-right: 0.14rem;
+}
+
+.checkProduct-fixed .checkProduct-icon-active {
+	display: inline-block;
+	width: 0.22rem;
+	height: 0.22rem;
+	border-radius: 100%;
+	background-image: url(../img/btn_ic_choise_pre@3x.png);
+	background-size: cover;
+	margin-left: 0.14rem;
+	margin-right: 0.14rem;
+}
+
+.checkProduct-choose-word {
+	display: inline-block;
+	color: #333;
+	margin-top: 0.01rem;
+}
+
+.product-margin {
+	height: 0.6rem;
+	width: 100%;
+}
+
+.empty-product img {
+	display: block;
+	width: 1.8rem;
+	height: 1.8rem;
+	margin: 1.2rem auto 0;
+}
+
+.empty-product span {
+	display: block;
+	text-align: center;
+	margin-top: 0.12rem;
+	font-size: 0.17rem;
+	color: #ccc;
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>广告</title>
+<link rel="stylesheet" href="../common/reset.css">
+<script src="../common/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../common/interface.js"></script>
+<style type="text/css">
+img {
+	float: left;
+}
+</style>
+<script type="text/javascript">
+	function goUrl(ele) {
+		showActivity($(ele).attr("id"), "");
+	}
+</script>
+</head>
+
+<body>
+	<p>
+		<img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170421/201704210954223085544.jpg"
+			title="" alt="01-无链接.jpg" /> 
+			<a onclick="goUrl(this)"
+				id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=149248409929e71c7a7700a3419b89d4"
+				target="_blank" title="宝苞农场"> 
+				<img style="max-width: 100%;"
+				src="http://115.28.114.204:8090/upload/images/20170421/201704210954266781563.jpg"
+				title="" alt="02-连接到单品.jpg" />
+			</a>
+			<a onclick="goUrl(this)"
+				id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=149248386449ec13ef916f764670b457"
+				target="_blank" title="高明">
+				<img style="max-width: 100%;"
+				src="http://115.28.114.204:8090/upload/images/20170421/201704210954342661205.jpg"
+				title="" alt="03-链接到单品.jpg" />
+			</a>
+			<a onclick="goUrl(this)"
+				id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=149248397047ea2cc655dbee49828fe8"
+				target="_blank" title="小小山寨王">
+				<img style="max-width: 100%;"
+				src="http://115.28.114.204:8090/upload/images/20170421/201704210954403887255.jpg"
+				title="" alt="04-链接到单品.jpg" />
+			</a>
+			<a onclick="goUrl(this)"
+				id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=14924835340541b4fdd426b6445b8b28"
+				target="_blank" title="从化">
+				<img style="max-width: 100%;"
+				src="http://115.28.114.204:8090/upload/images/20170421/201704210954471698211.jpg"
+				title="" alt="05-链接到单品.jpg" />
+			</a>
+			<img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170421/201704210954535783650.jpg"
+			title="" alt="06-无连接.jpg" />
+			<img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170421/201704210955009399124.jpg"
+			title="" alt="07-连接到分类产品列表.jpg" />
+			<img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170421/201704210955028926970.jpg"
+			title="" alt="08-链接到产品分类列表.jpg" />
+			<img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170421/201704210955046773699.jpg"
+			title="" alt="09无连接.jpg" />
+	</p>
+	<style type="text/css">
+body {
+	margin: 0px;
+}
+</style>
+</body>
+
+</html>

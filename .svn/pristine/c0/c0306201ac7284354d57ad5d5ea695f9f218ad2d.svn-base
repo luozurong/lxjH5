@@ -1,0 +1,66 @@
+<template>
+	<div class="search">
+		<span @click='communitySelect'>
+			<span class="icon icon1"></span>
+			{{$store.state.commuintyName}}
+			<span class="icon icon2"></span>
+		</span>
+		<span class="searchGoods"></span>
+	</div>
+</template>
+<script type="text/javascript">
+//	import
+	export default{
+		name:'search',
+		data(){
+			return{
+				commuintyName:'合立正通小区'
+			}
+		},
+		methods:{
+			communitySelect(){
+				this.$router.push({path:'/communitySelect'})
+			}
+		}
+	}
+</script>
+<style scoped="scoped">
+	.search{
+		position: fixed;
+		width: 100%;
+		left: 0;
+		top: 0;
+		text-align: center;
+		height: 50px;
+		line-height: 50px;
+		z-index: 111;
+		background-color: #FFFFFF;
+		color: #333333;
+		font-size: 16px;
+	}
+	.searchGoods{
+		position: absolute;
+		top: 15px;
+		right: 10px;
+		display: inline-block;
+		width: 20px;
+		height: 20px;
+		background: url(../../static/images/nav_btn_ic_search@3x.png) left center no-repeat;
+		background-size: 100%;
+	}
+	.icon{
+		display: inline-block;
+		width: 14px;
+		height: 14px;
+		margin: 0 2px;
+		vertical-align: middle;
+	}
+	.icon1{
+		background: url(../../static/images/nav_btn_ic_location@3x.png) left center no-repeat;
+		background-size: 100%;
+	}
+	.icon2{
+		background: url(../../static/images/nav_btn_ic_put-down@3x.png) left center no-repeat;
+		background-size: 100%;
+	}
+</style>

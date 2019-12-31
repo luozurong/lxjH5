@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品清单</title>
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+    <link rel="stylesheet" href="../common/reset.css" />
+    <link rel="stylesheet" href="../common/common.css">
+    <link rel="stylesheet" href="css/productList.css">
+    <link rel="stylesheet" href="../common/progress.css">
+    <script type="text/javascript"	src="../common/jquery-2.1.4.js"></script>
+    <script type="text/javascript"	src="../common/interface.js"></script>
+    <script src="js/underscore.js"></script>
+    <script src="js/productList.js"></script>
+
+</head>
+
+<body>
+<ul id="productList" >
+	   <!--<li class="shoppingcart">
+         <div class="productimg">
+             <img src="images/rice.jpg" alt=""/>
+         </div>
+         <div class="productdetail">
+             <p ><%=commodityName%></p>
+             <span class="productprice">￥<%=price%></span>
+             <div class="shoppingnum">
+                 ×44
+             </div>
+         </div>
+     </li>
+     <li class="shoppingcart">
+         <div class="productimg">
+             <img src="images/rice.jpg" alt=""/>
+         </div>
+         <div class="productdetail">
+             <p >嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯</p>
+             <span class="productprice" style="font-size:12px;">￥<span style="font-size:16px;">11</span>.<span>45</span></span>
+             <div class="shoppingnum">
+                x55
+             </div>
+         </div>
+     </li>-->
+</ul>
+<script id="productListTemplate" type="text/html">
+     <li class="shoppingcart">
+         <div class="productimg">
+             <img src="<%=photo%>" alt=""/>
+         </div>
+         <div class="productdetail">
+             <p><%=commodityName%></p>
+             <!--<span class="productprice"><span class="fuhao">￥</span><%=price%></span>-->
+             <span class="productprice" style="font-size:12px;">¥<span style="font-size:16px;"><%=priceintegerT%></span>.<span><%=pricescaleT%></span></span>
+             <div class="shoppingnum">
+                 ×<%=count%>
+             </div>
+         </div>
+     </li>
+	</script>
+</body>
+</html>

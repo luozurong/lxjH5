@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" href="../../common/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/withdrawalRecord.css" />
+		<script src="../../common/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/interface.js" type="text/javascript" charset="utf-8"></script>
+		<title>提现记录</title>
+	</head>
+	<style type="text/css">
+		body,
+		html {
+			font-family: "PingFang SC", Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+			background-color: #f3f4f5;
+		}
+		
+		body {
+			font-size: 14px;
+		}
+		
+		input {
+			outline: none;
+			/*去ios内阴影、圆角*/
+			-webkit-appearance: none;
+			border-radius: 0;
+			border: none;
+			margin: 0;
+			padding: 0;
+			font-weight: normal;
+		}
+		
+		input,
+		textarea,
+		a {
+			-webkit-tap-highlight-color: transparent;
+		}
+		
+		* {
+			-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+		}
+		
+		[v-cloak] {
+			display: none!important;
+		}
+		
+		#app {
+			width: 100%;
+			/*height: 1000px;
+			position: relative;
+			background-image: url('12.png');
+			background-position: 0 0;
+			background-size: 100% auto;
+			background-repeat: no-repeat;*/
+		}
+		
+		.line_01 {
+			width: 100%;
+			height: 1px;
+			background-color: #eee;
+			/*transform: scaleY(0.5);
+		-webkit-transform: scaleY(0.5)*/
+		}
+	</style>
+
+	<body style="width: 100%;">
+		<div id="app" v-cloak>
+			<div class="emptyRecord" v-if="recordData!=null&&recordList.length==0">
+				<img src="img/empty.png" />
+				<span>暂无提现记录</span>
+			</div>
+			<div class="main" v-if="recordData!=null&&recordList.length>0">
+				<div class="recordItemBox" v-for="(item,index) in recordList">
+					<div class="recordItem">
+						<div class="recordInfo">
+							<div class="recordText" v-if="item.status==0">
+								提现审核中
+							</div>
+							<div class="recordText" v-if="item.status==1">
+								提现成功
+							</div>
+							<div class="recordText" v-if="item.status==2">
+								提现失败
+							</div>
+							<div class="recordTime">
+								{{item.createTime}}
+							</div>
+						</div>
+						<span v-bind:class="{taobClor:item.status==0,redClor:item.status==2}">¥{{item.cashNum}}</span>
+					</div>
+					<div class="line_01" v-if="index!=(recordList.length-1)"></div>
+				</div>				
+			</div>
+		</div>
+
+		<script src="js/withdrawalRecord.js"></script>
+	</body>
+
+</html>

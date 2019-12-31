@@ -1,0 +1,8 @@
+<template>
+	<div>商品详情</div>
+</template>
+<style>
+	*{
+		font-size: 0.14rem;
+	}
+</style>

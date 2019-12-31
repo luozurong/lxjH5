@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<header>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="../../common/reset.css" />
+		<link rel="stylesheet" href="css/commander.css">
+		<script src="../common/js/fontSize.js"></script>
+		<script src="../../common/vue/vue.min.js"></script>
+		<script src="../../common/vue/vue-resource.min.js"></script>
+		<script src="../../common/vue/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/interface.js" type="text/javascript" charset="utf-8"></script>
+		<title>团长招募</title>
+		<style type="text/css">
+			body{
+				font-size: 14px;
+			}
+		</style>
+	</header>
+	<body>
+		<div class="commander">
+			<div class="commander-content">
+				<img src="" alt="">
+				<div class="commander-div" v-html="content"></div>
+			</div>
+			<div class="kongbai" style="width: 100%;height: 0.45rem;opacity: 0;" >			
+			</div>
+			<div class="commander-submit">
+				<span @click="jumpPage()">成为团长</span>
+			</div>	
+		</div>
+		<script src="js/commander.js?y=001"></script>
+	</body>
+</html>

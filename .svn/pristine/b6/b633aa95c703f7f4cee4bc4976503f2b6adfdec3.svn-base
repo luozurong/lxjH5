@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<header>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="css/grouponDetail.css">
+		<script src="../common/js/fontSize.js"></script>
+		<title>活动详情</title>
+	</header>
+	<body>
+		<div>
+			<div class="grouponDetail-time">
+				<div class="grouponDetail-ing">
+					<div class="grouponDetail-ing-tip">距离本次活动结束仅剩</div>
+					<div class="grouponDetail-ing-date">
+						<span class="grouponDetail-ing-bg">03</span>
+						<span>天</span>
+						<span class="grouponDetail-ing-bg">04</span>
+						<span>小时</span>
+						<span class="grouponDetail-ing-bg">30</span>
+						<span>分</span>
+						<span class="grouponDetail-ing-bg">20</span>
+						<span>秒</span>
+					</div>
+				</div>
+				<div class="grouponDetail-over">活动已结束</div>
+			</div>
+			<div class="grouponDetail-product">
+				<div class="grouponDetail-product-item">
+					<img class="grouponDetail-product-pic" src="../../common/images/ic_weixin@3x.png" alt="">
+					<div class="grouponDetail-product-main">
+						<div class="grouponDetail-product-name">梅州沙田柚甄选产地直销梅州沙田柚甄选产地直销梅州沙田柚甄选产梅州沙田柚甄选</div>
+						<div class="grouponDetail-product-other">
+							<span>预计利润￥1.00/份</span>
+							<span>剩余230件</span>
+						</div>
+						<div class="grouponDetail-product-price">
+							<span class="grouponDetail-price-pre">9</span>
+							<span class="grouponDetail-price-next">.99</span>
+							<img src="img/btn_ic_in@3x.png" alt="">
+						</div>
+					</div>
+				</div>
+				<div class="grouponDetail-product-item">
+					<img class="grouponDetail-product-pic" src="../../common/images/ic_weixin@3x.png" alt="">
+					<div class="grouponDetail-product-main">
+						<div class="grouponDetail-product-name">梅州沙田柚甄选产地直销梅州沙田柚甄选产地直销梅州沙田柚甄选产梅州沙田柚甄选</div>
+						<div class="grouponDetail-product-other">
+							<span>预计利润￥1.00/份</span>
+							<span>剩余230件</span>
+						</div>
+						<div class="grouponDetail-product-price">
+							<span class="grouponDetail-price-pre">9</span>
+							<span class="grouponDetail-price-next">.99</span>
+							<img src="img/btn_ic_in@3x.png" alt="">
+						</div>
+					</div>
+				</div>
+				<div class="grouponDetail-product-item">
+					<img class="grouponDetail-product-pic" src="../../common/images/ic_weixin@3x.png" alt="">
+					<div class="grouponDetail-product-main">
+						<div class="grouponDetail-product-name">梅州沙田柚甄选产地直销梅州沙田柚甄选产地直销梅州沙田柚甄选产梅州沙田柚甄选</div>
+						<div class="grouponDetail-product-other">
+							<span>预计利润￥1.00/份</span>
+							<span>剩余230件</span>
+						</div>
+						<div class="grouponDetail-product-price">
+							<span class="grouponDetail-price-pre">9</span>
+							<span class="grouponDetail-price-next">.99</span>
+							<img src="img/btn_ic_in@3x.png" alt="">
+						</div>
+					</div>
+				</div>
+				<div class="grouponDetail-product-item">
+					<div class="grouponDetail-product-num">已选中2件商品</div>
+				</div>
+			</div>
+			<div class="grouponDetail-nav">
+				<div class="grouponDetail-nav-left">生成接龙</div>
+				<div class="grouponDetail-right">一键推广</div>
+			</div>
+		</div>
+		<script src="js/grouponDetail.js"></script>	
+	</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+		<meta name="screen-orientation" content="portrait" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="full-screen" content="yes">
+		<meta name="x5-fullscreen" content="true">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<script src="../common/interfaceParameters.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<title>第三方授权</title>
+	</head>
+	<style type="text/css">
+		#gowx {
+			width: 40%;
+			height: 80px;
+			background-color: #FC9153;
+			position: fixed;
+			color: #fff;
+			font-size:25px;
+			line-height: 80px;
+			text-align: center;
+			border-radius:40px ;			
+			top: 30%;
+			left: 30%;
+		}
+	</style>
+
+	<body>
+		<div id="gowx" onclick="getwx()">
+			去授权
+		</div>
+		<script type="text/javascript">
+			function getwx() {			
+				var params = {
+					body: {
+						surl: window.location.href,
+						signatureUrl: window.location.href
+					}
+				};
+				var paramsStr = encodeURIComponent(JSON.stringify(params));
+				var httpURL = uumsHost + "/uums/wxGzh/wxGzhThirdAuthServlet";				
+				$.ajax({
+					type: "get",
+					url: httpURL,
+					async: true,
+					dataType: "jsonp",
+					jsonp: "jsoncallback",
+					jsonpCallback: "success_jsonpCallback",
+					success: function(data) {
+						window.location.href=data.authUrl
+					},
+					error: function(XmlHttpRequest, textStatus, errorThrown) {					
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

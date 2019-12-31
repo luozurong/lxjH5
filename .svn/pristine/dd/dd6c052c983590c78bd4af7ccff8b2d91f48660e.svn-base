@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品清单</title>
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" href="../common/reset.css" />
+    <link rel="stylesheet" href="../common/common.css">
+    <link rel="stylesheet" href="css/productList.css?3331">
+    <link rel="stylesheet" href="../common/progress.css">
+    <script type="text/javascript"	src="../common/jquery-2.1.4.js"></script>
+    <script type="text/javascript"	src="../common/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="../common/interface.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/underscore.js"></script>
+    <script type="text/javascript">
+        //判断在手机设备上使用一下代码
+        var $windowWidth = $(window).width();
+        setTimeout(function() {
+            $windowWidth = $(window).width();
+            if ($windowWidth > 640) {
+                $windowWidth = 640; //限定最大宽度为640
+            }
+            $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+        }, 100);
+        $(window).resize(function() {
+            $windowWidth = $(window).width();
+            if ($windowWidth > 640) {
+                $windowWidth = 640;
+            }
+            $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+        });
+    </script>
+    <script type="text/javascript">
+        function goBack()
+        {
+            var url=window.location;
+            contact.goBack("'"+url+"'");
+        }
+    </script>
+    <script src="js/productList.js"></script>
+</head>
+<body>
+<ul   id="productList">
+</ul>
+ <script id="productListTemplate" type="text/html">
+     <li class="shoppingcart">
+         <div class="productimg">
+             <img src="<%=photo%>" alt=""/>
+         </div>
+         <div class="productdetail">
+             <p><%=commodityName%></p>
+             <!--<p><%=commodityDetails%></p>-->
+             <span class="productprice" style="font-size:0.12rem;">￥<span style="font-size:0.16rem;"><%=priceintegerT%></span>.<span><%=pricescaleT%></span></span>
+             <div class="shoppingnum">
+                 ×<%=count%>
+             </div>
+         </div>
+     </li>
+	</script>
+</body>
+</html>

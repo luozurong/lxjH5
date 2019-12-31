@@ -1,0 +1,4 @@
+<template>
+	<div>
+		<router-link to='test1'>专题列表</router-link></div>
+</template>

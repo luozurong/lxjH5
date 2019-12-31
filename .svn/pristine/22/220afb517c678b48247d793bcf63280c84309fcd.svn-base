@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+	<head lang="en">
+		<meta charset="UTF-8">
+		<title>服务商城列表</title>
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" type="text/css" href="../common/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/serviceCategory.css?lishu=1123">
+		<!--<link rel="stylesheet" type="text/css" href="../common/iscroll/iscroll.css"/>-->
+		<script type="text/javascript" src="../common/jquery-2.1.4.js"></script>
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script src="../common/interfaceParameters.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/underscore.js"></script>
+		<script src="js/md5.js"></script>
+		<script type="text/javascript">
+			(function(doc, win) {
+				var docEl = doc.documentElement,
+					isIOS = navigator.userAgent.match(/iphone|ipod|ipad/gi),
+					dpr = isIOS ? Math.min(win.devicePixelRatio, 3) : 1,
+					dpr = window.top === window.self ? dpr : 1, //被iframe引用时，禁止缩放
+					scale = 1 / dpr,
+					resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+				docEl.dataset.dpr = dpr;
+				var recalc = function() {
+					var width = docEl.clientWidth;
+					if(width / dpr > 768) {
+						width = 768 * dpr;
+					}
+					docEl.style.fontSize = 100 * (width / 414) + 'px';
+				};
+				recalc();
+				if(!doc.addEventListener) return;
+				win.addEventListener(resizeEvt, recalc, false);
+			})(document, window);
+		</script>
+	</head>
+
+	<body>
+		<div class="box-wrap" style="display: none;">
+			<!--栏目介绍图-->
+			<div class="introduce-clumn" id="introduceClumn">
+				<img src="" onerror='this.src="images/logo1@3x.png"' />
+			</div>
+			<div class="border-bottom"></div>
+		</div>
+		<div id="wrapper" class="wrapper-second">
+			<div id="scroller" style="background-color: #F3F4F5;">
+				<div id="pullDown">
+					<span class="pullDownIcon"></span><span class="pullDownLabel"></span>
+				</div>
+				<!--空容器让商品数据加载进来-->
+				<div id="clumnList" class="clumn-list clear">
+					<div class="introduce-clumn" >
+						<img src="images/logo1@3x.png" onerror='this.src="images/logo1@3x.png"' />
+					</div>
+				</div>
+				<script id="clumnListTemplate" type="text/html">
+					<div class="list-item fl clear" name="<%=id%>" onclick="getActivity($(this))">						
+						<div class="list-info">
+							<h1><%=positiveHead%></h1>
+							<p>
+								<%=subHead%>
+							</p>
+						</div>
+						<div class="list-logo">
+							<img src="<%=imgUrl%>" alt="" />
+						</div>
+						
+					</div>
+				</script>
+				<div id="pullUp" style="display: none;">
+					<!--<div id="nomore">
+					                    没有更多数据了
+	                </div>-->
+					<span class="pullUpIcon"></span><span class="pullUpLabel">向上拉更多惊喜</span>
+				</div>
+				<div class="noData">
+					没有更多数据了
+				</div>
+				<!--<div id="nomoretip" style="width: 100%;height: 0.4rem;line-height: 0.4rem;display: none;z-index: 999999;background-color:#F0F0F0 ;font-size:14px;text-align: center;">
+						没有更多数据了			
+				</div>-->
+			</div>
+
+		</div>
+		<div class="activitylose" style="width: 100%;display: none;">
+			<div id="displaynone" style="width:100%;height: 103.4px;">
+			</div>
+			<div class="nothing_img_box" style="text-align: center;width:100%;"><img id="nothing_img" src="images/ic_close@2x.png" style="width:90px;" alt="" /></div>
+			<div class="displaynone10" style="width:100%;height: 10px;">
+			</div>
+			<div class="nothing_text" style="text-align: center;width: 100%;font-size: 18px;height: 70px;line-height: 70px;">活动已下线</div>
+		</div>
+		<script src="js/iscroll.js"></script>
+		<script type="text/javascript" src="js/serviceCategory.js?lishu=123"></script>
+		<script type="text/javascript">
+			var windowwidth = document.documentElement.clientWidth;
+			var windowheight = document.documentElement.clientHeight;
+			document.getElementById("nothing_img").style.width = 116.43 * windowwidth / 414 + "px";
+			document.getElementById("displaynone").style.height = (windowheight - 116.43 * windowwidth / 414 - 70) * 0.3 + "px";
+		</script>
+	</body>
+
+</html>

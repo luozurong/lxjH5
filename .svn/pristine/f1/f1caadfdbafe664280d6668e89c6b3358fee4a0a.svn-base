@@ -1,0 +1,233 @@
+<template>
+	<div class="product" v-title data-title="所有商品">
+		<div class="product-left">
+			<scroller :noDataText="noDataText" :on-infinite="infinite">
+				<span>为您推荐</span>
+				<span>柴米油盐</span>
+				<span>为您推荐</span>
+				<span>柴米油盐</span>
+				<span>为您推荐</span>
+				<span>柴米油盐</span>
+				<span>为您推荐</span>
+				<span>柴米油盐</span>
+				<span>为您推荐</span>
+				<span>柴米油盐</span>
+				<span>为您推荐</span>
+				<span>柴米油盐</span>
+				<span>为您推荐</span>
+				<span>柴米油盐</span>
+				<span>为您推荐</span>
+				<span>柴米油盐</span>
+				<span>为您推荐</span>
+				<span>柴米油盐</span>
+				<span>为您推荐</span>
+				<span>柴米油盐</span>
+				<span>为您推荐</span>
+				<span>柴米油盐</span>
+				<span>为您推荐</span>
+				<span>柴米油盐</span>
+				<span>为您推荐</span>
+				<span>柴米油盐</span>
+				<span>为您推荐</span>
+				<span>柴米油盐</span>
+			</scroller>
+		</div>
+		<div class="product-right">
+			<scroller :noDataText="noDataText" :on-infinite="loadProduct">
+				<div class="product-container">
+					<div class="product-wrap">手机数码</div>
+					<div class="product-item">
+						<div>
+							<img src="../home/images/banner1.jpg">
+							<span>手机</span>
+						</div>
+						<div>
+							<img src="../home/images/banner1.jpg">
+							<span>手机</span>
+						</div>
+						<div>
+							<img src="../home/images/banner1.jpg">
+							<span>手机</span>
+						</div>
+						<div>
+							<img src="../home/images/banner1.jpg">
+							<span>手机</span>
+						</div>
+						<div>
+							<img src="../home/images/banner1.jpg">
+							<span>手机</span>
+						</div>
+					</div>
+					
+				</div>
+				<div class="product-container">
+					<div class="product-wrap">进口食品</div>
+					<div class="product-item">
+						<div>
+							<img src="../home/images/banner2.jpg">
+							<span>手机</span>
+						</div>
+						<div>
+							<img src="../home/images/banner2.jpg">
+							<span>水电费</span>
+						</div>
+						<div>
+							<img src="../home/images/banner3.jpg">
+							<span>地方</span>
+						</div>
+						<div>
+							<img src="../home/images/banner3.jpg">
+							<span>富士达</span>
+						</div>
+						<div>
+							<img src="../home/images/banner1.jpg">
+							<span>订单</span>
+						</div>
+					</div>
+				</div>
+				<div class="product-container">
+					<div class="product-wrap">进口食品</div>
+					<div class="product-item">
+						<div>
+							<img src="../home/images/banner2.jpg">
+							<span>手机</span>
+						</div>
+						<div>
+							<img src="../home/images/banner2.jpg">
+							<span>水电费</span>
+						</div>
+						<div>
+							<img src="../home/images/banner3.jpg">
+							<span>地方</span>
+						</div>
+						<div>
+							<img src="../home/images/banner3.jpg">
+							<span>富士达</span>
+						</div>
+						<div>
+							<img src="../home/images/banner1.jpg">
+							<span>订单</span>
+						</div>
+					</div>
+				</div>
+			</scroller> 
+		</div>
+	</div>
+</template>
+<script>
+	import Vue from 'vue'
+	import VueScroller from 'vue-scroller'
+	Vue.use(VueScroller)
+	export default{
+		data:function(){
+			return{
+				infiniteFlag: false,
+				loadProductFlag: false,
+				noDataText:''
+			}
+		},
+		methods:{
+			infinite:function(done) {
+	        	if (!this.infiniteFlag) {      
+		            done(true);
+		            return;
+		        }
+		        setTimeout(function() {
+		            
+			        done();   
+		         
+		        }, 500)
+	      	},
+	      	loadProduct: function(done){
+	      		if (!this.loadProductFlag) {      
+		            done(true);
+		            return;
+		        }
+		        setTimeout(function() {
+		            
+			        done();   
+		         
+			    }, 500);
+	      	}
+		},
+		mounted:function(){
+			
+		}
+	}
+</script>
+<style scoped>
+	*{
+		font-size: 0.14rem;
+	}
+	body,html{
+		height:100%;
+	}
+	body{
+		background: #fff;
+	}
+	.product{
+		height: 100%;
+	}
+	.product-left{
+		width: 1.14rem;
+		box-sizing: border-box;
+		height: 100%;
+	}
+	.product-left span{
+		display: block;
+		width: 1rem;
+		text-align: center;
+		line-height: 0.26rem;
+		background: #fc9153;
+		margin: 0.14rem auto;
+		border-radius: 0.14rem;
+	}
+	.product-right{
+		box-sizing: border-box;
+		height: 100%;
+		overflow: auto !important;
+	}
+	.product-left ._v-container{
+		width: 1.14rem !important;
+		border-right: 1px solid #ccc;
+		background: #fff;
+	}
+	.product-right ._v-container{
+		margin-left: 1.14rem;
+		width: 3rem !important;
+		background: #fff;
+	}
+	.product .loading-layer{
+		opacity: 0;
+		line-height: 0.63rem;
+	}
+	.spinner-holder{
+		display: none;
+	}
+	.product-wrap{
+		font-size: 0.15rem;
+		color: #333;
+		line-height: 0.3rem;
+		margin-top: 0.18rem;
+		margin-left: 0.21rem;
+		margin-bottom: 0.18rem;
+	}
+	.product-item{
+		width: 100%;
+		overflow: hidden;
+	}
+	.product-item div{
+		width: 0.7rem;
+		float:left;
+		margin-left: 0.23rem;
+	}
+	.product-item div img{
+		width: 0.7rem;
+		height: 0.7rem;
+	}
+	.product-item span{
+		line-height: 0.41rem;
+		display: block;
+		text-align: center;
+	}
+</style>

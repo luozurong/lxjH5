@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>卡券</title>
+<link rel="stylesheet" type="text/css" href="../reset.css" />
+<script src="../jquery.min.js-2.00.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="hori.util.js"></script>
+<script src="../common.js"></script>
+<script type="text/javascript" src="../interface.js"></script>
+<script src="coupons_common.js"></script>
+<script src="coupons.js"></script>
+</head>
+<style type="text/css">
+html,body {
+	min-height: 100%;
+	/*font-family: "Microsoft Yahei";*/
+	background: #f0f0f0;
+}
+.coupons_detail .name{
+ 	height:0.36rem;
+ 	line-height:0.36rem;
+}
+.coupons_detail p {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	line-height: 0.24rem;
+}
+.coupons_detail .name{
+	height: 0.36rem;
+	line-height: 0.36rem;
+}
+.title {
+	height: 0.7rem;
+}
+
+.tilte li {
+	font-size: 0.29rem;
+	float: left;
+	width: 50%;
+	text-align: center;
+	height: 0.7rem;
+	line-height: 0.7rem;
+	position: relative;
+}
+
+.list_box {
+	padding: 3% 2%;
+}
+
+.list {
+	height: 1.5rem;
+	border: 1px solid #CDE6FF;
+	margin-bottom: 2%;
+	/*border-radius: 0.12rem;*/
+	background: #fff;
+	cursor: pointer;
+}
+
+.checked {
+	background: url(../images/ic_choise_red@3x.png) 94% 50% no-repeat;
+	background-size: 6%;
+}
+
+.imgBox_2 {
+	float: left;
+	width: 30%;
+	height: 100%;
+	text-align: center;
+	font-size: 0.3rem;
+	background: url(../images/blue.png)left center no-repeat;
+	background-size:100%;
+	/*border-radius: 0.1rem 0 0 0.1rem;*/
+}
+
+.imgBox_2 .card_name {
+	display: inline-block;
+	font-size: 0.26rem;
+	padding-top: 0.2rem;
+	text-overflow: ellipsis;
+	width: 80%;
+	overflow: hidden;
+	white-space: nowrap;
+	height: 0.5rem;
+	line-height: 0.5rem;
+}
+
+.imgBox_2 .price_1 {
+	font-size: 0.48rem;
+	color: #fff;
+	margin-top: 0.02rem;
+	font-weight: 600;
+}
+
+.coupons_detail {
+	font-size: 0.3rem;
+	float: left;
+	padding: 0.1rem 0 0 0.1rem;
+	width: 65%;
+}
+
+.name {
+	font-size: 0.32rem;
+	padding-top: 0.1rem;
+	color: #98d9fb;
+	font-weight: 600;
+}
+/*.condition加在list里面，即detailId*/
+.condition {
+	font-size: 0.25rem;
+	padding-top: 0.22rem;
+	padding-bottom: 0.1rem;
+	color: #c1c1c1;
+	width: 80%;
+}
+/*.time_limit加在imgBox_2里面，detailId的子元素*/
+.time_limit {
+	font-size: 0.24rem;
+	color: #c5c5c5;
+}
+
+.time_limit>span {
+	font-size: 0.24rem;
+}
+
+.arrow {
+	width: 66%;
+    height: 0.06rem;
+    position: absolute;
+    bottom: 0;
+    left: 14%;
+    background: #FF661B;
+}
+
+.background_list {
+	border: 1px #efe3e3 solid;
+	background: #f9f9f9;
+	color: #d1d1d1;
+}
+.background_list .name{
+	color: #C2C2C2;
+}
+
+.background_imgBox {
+	background: url(../images/grey.png)left center no-repeat;
+	background-size:100%;
+}
+
+
+.no_order {
+	width: 35%;
+	margin: 85px auto;
+	display: none;
+}
+
+.no_order .show {
+	width: 100%;
+}
+
+.no_order p{
+	font-size: 18px;
+    padding-top: 30px;
+    width: 100%;
+    text-align: center;
+}
+
+.no_order .shopping {
+	width: 100%;
+	display: none;
+}
+.card_name{
+	color: #FFF;
+}
+</style>
+
+<body>
+	<div class="tilte" style="background: #fff;">
+		<ul class="title">
+			<li class="available">可用优惠券（<span id="validCount"></span>）
+				<div class="arrow"></div></li>
+			<li class="disabled">不可用优惠券（<span id="inValidCount"></span>）
+				<div class="arrow" style="display: none;width: 75%;left: 10%;"></div></li>
+		</ul>
+	</div>
+	<div>
+		<ul class="list_box" id="available_list" style="display: block;">
+		<!--<li class='list checked' id='list[i].detailId'  name='"+list[i].couponId+"'>
+		 <div class='imgBox_2' >
+		 <p class='card_name' >list[i].name</p>
+		 <p class='price_1' name='list[i].denomination'>list[i].denomination</p>
+		 </div>
+		 <div class='coupons_detail'>
+		 <p class='name'>满80可用</p>
+		 <p class='condition'>仅限<span>快快快快快一已地方的方法</p>
+		 <p class='time_limit'>有效期：<span>startTime-endTime</span></p>
+		 </div></li>-->
+		</ul>
+		<ul class="list_box" id="disabled_list" style="display: none;">
+		</ul>
+		<div class="no_order">
+			<img src="../images/ic_zanwuyouhui@3x.png" alt="" class="show" />
+			<div>
+				<p>暂无优惠券</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/checkLogistics.css" />
+		<script src="../common/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/underscore.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/interface.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/checkLogistics.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+	</head>
+	<script type="text/javascript">
+		(function(doc, win) {
+			var docEl = doc.documentElement,
+				isIOS = navigator.userAgent.match(/iphone|ipod|ipad/gi),
+				dpr = isIOS ? Math.min(win.devicePixelRatio, 3) : 1,
+				resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+			docEl.dataset.dpr = dpr;
+			var recalc = function() {
+				var width = docEl.clientWidth;
+				if(width / dpr > 640) {
+					width = 640 * dpr;
+				}
+				docEl.style.fontSize = 100 * (width / 320) + 'px';
+			};
+			recalc();
+			if(!doc.addEventListener) return;
+			win.addEventListener(resizeEvt, recalc, false);
+		})(document, window);
+	</script>
+
+	<body>
+		<div class="delivery">
+			<div class="imgBox"></div>
+			<!--<div class="dMessage">
+				<p style="padding-top:0.1rem">物流状态&nbsp;<span class="status"></span></p>
+				<p style="padding-top: 0.02rem;">承运来源：<span class="company"></span></p>
+				<p><span class="oType">运单编号：</span><span class="number"></span></p>
+				<p>官方电话：<a class="phone" href="tel:暂无">暂无</a>
+				</p>
+			</div>-->
+		</div>
+		<script id="shopTem" type="text/html">
+			<div class="dMessage">
+				<p style="margin-top:0.1145rem;font-size: 0.11595rem;"><span class="left_span">物流状态</span><span class="status"></span></p>
+				<p ><span class="left_span">承运来源：</span>商家配送</p>
+				<p ><span class="left_span">配送人：</span><%=deliveryMan%></p>
+				<p><span class="left_span">联系电话：</span><a class="phone" href="tel:<%=deliveryPhone%>"><%=deliveryPhone%></a></p>
+			</div>
+		</script>
+		<script id="thirdTem" type="text/html">
+			<div class="dMessage">
+				<p style="margin-top:0.1145rem;font-size: 0.11595rem;"><span class="left_span">物流状态</span><span class="status"></span></p>
+				<p><span class="left_span">承运来源：</span><%=logisticsName%></p>
+				<p><span class="left_span">运单编号：</span><span class="number"><%=logisticsCode%></span></p>
+				<p><span class="left_span">官方电话：</span><a class="phone" href="tel:暂无">暂无</a></p>
+			</div>
+		</script>
+		<ul class="listBox">
+		</ul>
+		<script id="traces" type="text/html">
+			<li>
+				<p class="detail">
+					<%=AcceptStation%>
+				</p>
+				<p class="time">
+					<%=AcceptTime%>
+				</p>
+				<span class="before"></span><span class="after"></span>
+			</li>
+		</script>
+	</body>
+
+</html>

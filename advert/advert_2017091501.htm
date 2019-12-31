@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" />
+		<title>广告</title>
+		<link rel="stylesheet" href="../common/reset.css">
+		<script src="../common/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script>
+			var _hmt = _hmt || [];
+			(function() {
+				var hm = document.createElement("script");
+				hm.src = "https://hm.baidu.com/hm.js?5abffc86ad56dcb448e458cac84b67dc";
+				var s = document.getElementsByTagName("script")[0];
+				s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+
+		<style type="text/css">
+			img {
+				float: left;
+				display: block;
+			}
+			
+			* {
+				-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+			}
+		</style>
+		<style type="text/css">
+			body {
+				margin: 0px;
+			}
+		</style>
+		<script type="text/javascript">
+			function goUrl() {
+				_hmt.push(['_trackEvent', '上传按钮点击', 'click','DIY页面']);//百度统计 免费换领点击次数
+				window.open("https://jinshuju.net/f/w7RYIQ");
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="mainbox" style="position: relative;display: inline-block;">
+			<img style="max-width:100%;min-width: 100%;" src="images/20170915/diy.jpg" title="DIY" alt="DIY.jpg" />
+			<div id="goDiy" onclick="goUrl()" style="width: 58%;height: 7%;position: absolute;top: 22%;left: 21%;">
+			</div>
+		</div>
+
+	</body>
+
+</html>

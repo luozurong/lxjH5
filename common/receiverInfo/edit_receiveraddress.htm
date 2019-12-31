@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" />
+		<title>编辑地址</title>
+		<link rel="stylesheet" href="../reset.css">
+		<link rel="stylesheet" type="text/css" href="edit_receiveraddress.css" />
+		<link rel="stylesheet" type="text/css" href="../tip/layer.css" />
+		<link rel="stylesheet" type="text/css" href="mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="mui.picker.css" />
+		<link rel="stylesheet" type="text/css" href="mui.poppicker.css" />
+		<script src="../jquery-2.1.4.js"></script>
+		<script src="../tip/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../idangerous.swiper.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common.js"></script>
+		<script src="../interface.js"></script>
+		<script src="edit_receiveraddress.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lazyload-min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			body {
+				margin: 0;
+				padding: 0;
+				/*font-family: "Microsoft YaHei", "微软雅黑";*/
+				font-size: 14px;
+				font-family: " ";
+				background-color: #F0F0F0;
+				line-height: 100%;
+			}
+			
+			body .demo_two .layui-layer-btn {
+				padding: 0 0.46rem 0.51rem;
+				height: 0.618rem;
+			}
+			
+			body .demo_two .layui-layer-content {
+				font-size: 14px;
+				padding: 0.51rem;
+				line-height: 0.417rem;
+			}
+			
+			body .demo_two .layui-layer-btn a {
+				height: 0.587rem;
+				line-height: 0.587rem;
+				font-size: 14px;
+				width: 42.5%;
+			}
+			
+			.layui-layer-hui .layui-layer-content {
+				box-sizing: content-box;
+			}
+			
+			.details_address {
+				font-size: 14px;
+				border: none;
+				resize: none;
+				outline: none;
+				overflow-x: hidden;
+				overflow-y: hidden;
+				padding: 0;
+				padding-right: 012.9375px;
+				box-sizing: border-box;
+				width: 100%;
+				height: 100%;
+				word-break: break-all;
+				text-align: justify;
+			}
+			
+			.details_address::-webkit-input-placeholder {
+				color: #CCCCCC;
+				;
+			}
+			/*自定义选择器样式*/
+			
+			.mui-poppicker-header {
+				background-color: #FFF;
+				padding: 0;
+			}
+			
+			.mui-poppicker-header .mui-btn {
+				border: none;
+				padding: 13px 15px;
+				background-color: #FFF;
+				font-size: 16px;
+			}
+			
+			.mui-poppicker-btn-cancel {
+				margin-left: 15px;
+				color: #222;
+			}
+			
+			.mui-picker {
+				background-color: #eeeeee;
+			}
+			
+			.mui-pciker-rule-ft {
+				border: none;
+				background-color: #fff;
+				z-index: 0;
+			}
+			
+			.mui-pciker-list li.highlight {
+				color: #fc9153;
+				font-size: 17px;
+			}
+			
+			.mui-poppicker-body {
+				background-color: #fff;
+			}
+			
+			.mui-btn:enabled:active {
+				color: #222;
+				border: none;
+				background-color: #fff;
+			}
+			
+			.mui-poppicker-btn-ok {
+				color: #fc9153;
+				margin-right: 15px;
+			}
+			
+			.mui-btn-blue:enabled:active {
+				color: #FF661B;
+				border: none;
+				background-color: #fff;
+			}
+			
+			.mui-poppicker-header .mui-btn {
+				-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+				-webkit-user-modify: read-write-plaintext-only;
+				outline: none;
+				box-shadow: none;
+			}
+		</style>
+		<script type="text/javascript">
+			var autoTextarea = function(elem, extra, maxHeight) {
+				extra = extra || 0;
+				var isFirefox = !!document.getBoxObjectFor || 'mozInnerScreenX' in window,
+					isOpera = !!window.opera && !!window.opera.toString().indexOf('Opera'),
+					addEvent = function(type, callback) {
+						elem.addEventListener ?
+							elem.addEventListener(type, callback, false) :
+							elem.attachEvent('on' + type, callback);
+					},
+					getStyle = elem.currentStyle ? function(name) {
+						var val = elem.currentStyle[name];
+
+						if(name === 'height' && val.search(/px/i) !== 1) {
+							var rect = elem.getBoundingClientRect();
+							return rect.bottom - rect.top -
+								parseFloat(getStyle('paddingTop')) -
+								parseFloat(getStyle('paddingBottom')) + 'px';
+						};
+
+						return val;
+					} : function(name) {
+						return getComputedStyle(elem, null)[name];
+					},
+					minHeight = parseFloat(getStyle('height'));
+
+				elem.style.resize = 'none';
+
+				var change = function() {
+					var scrollTop, height,
+						padding = 0,
+						style = elem.style;
+
+					if(elem._length === elem.value.length) return;
+					elem._length = elem.value.length;
+
+					if(!isFirefox && !isOpera) {
+						padding = parseInt(getStyle('paddingTop')) + parseInt(getStyle('paddingBottom'));
+					};
+					scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+
+					elem.style.height = minHeight + 'px';
+					if(elem.scrollHeight > minHeight) {
+						if(maxHeight && elem.scrollHeight > maxHeight) {
+							height = maxHeight - padding;
+							style.overflowY = 'auto';
+						} else {
+							height = elem.scrollHeight - padding;
+							style.overflowY = 'hidden';
+						};
+						style.height = height + extra + 'px';
+						scrollTop += parseInt(style.height) - elem.currHeight;
+						document.body.scrollTop = scrollTop;
+						document.documentElement.scrollTop = scrollTop;
+						elem.currHeight = parseInt(style.height);
+					};
+				};
+
+				addEvent('propertychange', change);
+				addEvent('input', change);
+				addEvent('focus', change);
+				change();
+			};
+		</script>
+	</head>
+
+	<body>
+		<div id="bg_color">
+
+			<div id="choose_name" class="wid_max border_bottom">
+				<span class="left_span">收货人:</span>
+				<input type="text" name="receive_name" id="receive_name" class="right_buttom" placeholder="请输入真实收货人姓名" maxlength="11" onkeyup="" onpaste="value=value.replace(/[^a-zA-Z0-9\u4e00-\u9fa5\ ]/g,'')" oncontextmenu="value=value.replace(/[^a-zA-Z0-9\u4e00-\u9fa5\ ]/g,'')" />
+			</div>
+
+			<div id="choose_number" class="wid_max border_bottom">
+				<span class="left_span">手机号码:</span>
+				<input type="tel" name="receive_phone" id="receive_phone" class="right_buttom" placeholder="请输入手机号码" onkeyup="value=value.replace(/[^\d\-]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d\-]/g,''))" maxlength="11" />
+			</div>
+			<div id="choose_address1" class="wid_max border_bottom">
+				<span class="left_span" id="select_ssq">省 市 区</span>
+			</div>
+			<div id="choose_address2" class="wid_max border_bottom">
+				<span class="left_span" id="select_jd">街道</span>
+			</div>
+
+			<div class="wid_max" onclick="focusOndetails()" style="min-height: 100px;">
+				<textarea id="details_address" maxlength="45" class="details_address" placeholder="详细地址" style="height: 100%;"></textarea>
+			</div>
+			<script type="text/javascript">
+				var text = document.getElementById("details_address");
+				autoTextarea(text);
+
+				function focusOndetails() {
+					document.getElementById("details_address").focus();
+				}
+			</script>
+
+		</div>
+		<div class="address_default wid_max" onclick="changeDefault()" id="isDef" value="0">
+			<img src="btn_ic_nor@3x.png" />
+			<span>设为默认</span>
+		</div>
+		<!--<div class="choose_address_on">
+			<div class="bt_text">
+				<div id="bt_no" onclick="choose_No()">
+					取消
+				</div>
+				<div id="bt_yes" onclick="choose_Yes()">
+					完成
+				</div>
+			</div>
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+				</div>
+			</div>
+		</div>-->
+		<!-----提示框开始----->
+		<div id="tip_bg"></div>
+		<!--<div id="tip">
+			<div id="tip_text">
+				你确定删除该地址吗？
+			</div>
+			<div id="tip_buttom">
+				<div id="tip_buttom_no" onclick="deleNAddress()">
+					取消
+				</div>
+				<div id="tip_buttom_yes" onclick="deleYAddress()">
+					确定
+				</div>
+			</div>
+		</div>-->
+		<!-----提示框结束----->
+		<!-----底部按钮开始----->
+		<div style="width: 100%;height: 100px;opacity: 0;float: left;">
+		</div>
+		<footer>
+			<div id="bt_buttom">
+				<div id="baoz_bt" onclick="saveAddress()">
+					保存
+				</div>
+				<!--<div id="dele_bt" onclick="deleAddress()">
+					删除
+				</div>-->
+
+			</div>
+		</footer>
+		<!-----底部按钮结束----->
+		<script type="text/javascript">
+			var cityData3 = [];
+			var cityData1 = [];
+
+			sessionStorage.setItem("province", "0000");
+			sessionStorage.setItem("cities", "0000");
+			sessionStorage.setItem("counties", "0000");
+			sessionStorage.setItem("street", "0000");
+			var cityPicker3;
+			var cityPicker1;
+			var closeStatut = 0;
+			LazyLoad.js(['mui.min.js',
+				'mui.picker.js',
+				'mui.poppicker.js'
+			], function() {
+				mui.init();
+				mui.ready(function() {
+					cityPicker1 = new mui.PopPicker({
+						layer: 1
+					});
+					cityPicker1.setData(cityData1);
+					var showCityPickerButton = document.getElementById('choose_address2');
+					var cityResult = document.getElementById('select_jd');
+					showCityPickerButton.addEventListener('tap', function(event) {
+						$("textarea,input").blur();
+						if(!isCondition(sessionStorage.getItem("provinceCode")) || !isCondition(sessionStorage.getItem("cityCode")) || !isCondition(sessionStorage.getItem("areaCode"))) {
+							layer.msg("请先选省市区", {
+								time: 2000
+							});
+							return false;
+						}
+						if(!isCondition(cityData1) && sessionStorage.getItem("streetNone") == 1) {
+							layer.msg("空街道信息", {
+								time: 2000
+							});
+							cityResult.innerText = "暂不选择";
+							sessionStorage.setItem("townCode", "9999999");
+							sessionStorage.setItem("streetchange", "true");
+							return false;
+						}
+						if(cityPicker3.getSelectedItems()[0].value != sessionStorage.getItem("townCode")) {
+							var indexArray = getIndexfromarray(sessionStorage.getItem("townCode"), "0000", "0000", cityData1);
+							cityPicker1.pickers[0].setSelectedIndex(indexArray[0] || 0, 500);
+						}
+						if(sessionStorage.getItem("selsectStreet") != null && sessionStorage.getItem("selsectStreet") != undefined && cityData1.length > 0) {
+							console.log(sessionStorage.getItem("selsectStreet"));
+							//	console.log(cityPicker1)
+							setTimeout(function() {
+								cityPicker3.hide();
+								cityPicker1.show(function(items) { //返回 false 可以阻止选择框的关闭
+									cityResult.innerText = items[0].text;
+									sessionStorage.setItem("townCode", (items[0].value || ''));
+									sessionStorage.setItem("streetchange", "true");
+								});
+							}, 250);
+
+						}
+
+					}, false);
+
+					cityPicker3 = new mui.PopPicker({
+						layer: 3
+					});
+					cityPicker3.setData(cityData3);
+					cityPicker3.pickers[1].setSelectedIndex(0);
+					cityPicker3.pickers[2].setSelectedIndex(0);
+
+					var showCityPickerButton = document.getElementById('choose_address1');
+					var cityResult3 = document.getElementById('select_ssq');
+					//					
+					showCityPickerButton.addEventListener('tap', function(event) {
+						$("textarea,input").blur();
+						//var cityPicker3close="true";
+
+						if(!isCondition(cityData3)) {
+							return false;
+						}
+
+						if(cityPicker3.getSelectedItems()[0].value != sessionStorage.getItem("provinceCode") || cityPicker3.getSelectedItems()[1].value != sessionStorage.getItem("cityCode") || cityPicker3.getSelectedItems()[2].value != sessionStorage.getItem("areaCode")) {
+							var indexArray = getIndexfromarray(sessionStorage.getItem("provinceCode"), sessionStorage.getItem("cityCode"), sessionStorage.getItem("areaCode"), cityData3);
+							cityPicker3.pickers[0].setSelectedIndex(indexArray[0] || 0, 500);
+							cityPicker3.pickers[1].setSelectedIndex(indexArray[1] || 0, 500);
+							cityPicker3.pickers[2].setSelectedIndex(indexArray[2] || 0, 500);
+						}
+						setTimeout(function() {
+							cityPicker1.hide();
+							cityPicker3.show(function(items) { //返回 false 可以阻止选择框的关闭			
+								if(sessionStorage.getItem("endscrollState") != "true") {
+									return false;
+								}
+								if(!isCondition(items[1].value) || !isCondition(items[2].value) || ajaxState != "true") { //预防数据还没加载完毕就点确定
+									if(closeStatut == 0) {
+										return false;
+									}
+								}
+								cityResult3.innerText = (items[0].text || '') + " " + (items[1].text || '') + " " + (items[2].text || '');
+								sessionStorage.setItem("selsectStreet", (items[2].value));
+								sessionStorage.setItem("provinceCode", (items[0].value || ''));
+								sessionStorage.setItem("cityCode", (items[1].value || ''));
+								sessionStorage.setItem("areaCode", (items[2].value || ''));
+								ajaxState = "true";
+								sessionStorage.setItem("townCode", '');
+								sessionStorage.setItem("cityAreachange", "true");
+								cityResult.innerText = "街道";
+								cityData1 = [];
+								cityPicker1.setData(cityData1);
+								if(isCondition(items[2].value)) {
+									getAddressdate(2, (items[2].value), 'street');
+								}
+							});
+						}, 200);
+
+					}, false);
+				});
+				getAddressdate(1, 1000, "province");
+
+			});
+		</script>
+
+	</body>
+
+</html>

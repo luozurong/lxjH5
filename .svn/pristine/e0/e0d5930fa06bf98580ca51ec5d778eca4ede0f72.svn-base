@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" href="../../common/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/commodityDetail.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.2.6/css/swiper.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.2.6/js/swiper.min.js"></script>
+		<script src="../../common/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/interface.js" type="text/javascript" charset="utf-8"></script>
+		<title>商品详情</title>
+	</head>
+	<style type="text/css">
+		body,
+		html {
+			font-family: "PingFang SC", Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+		}
+		
+		.swiper-pagination-bullet-active {
+			background-color: #FC9153 !important;
+		}
+		
+		input {
+			outline: none;
+			/*去ios内阴影、圆角*/
+			-webkit-appearance: none;
+			border-radius: 0;
+			border: none;
+			margin: 0;
+			padding: 0;
+			font-weight: normal;
+		}
+		
+		input,
+		textarea,
+		a {
+			-webkit-tap-highlight-color: transparent;
+		}
+		
+		* {
+			-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+		}
+		
+		[v-cloak] {
+			display: none!important;
+		}
+	</style>
+
+	<body style="background-color: #f3f4f5;width: 100%;">
+		<div id="app" v-cloak>
+			<div class="productDetail" data-title="商品详情">
+				<div class="productPhoto_box">
+					<div class="productPhotopadding_box">
+					</div>
+					<div class="productPhotoContent_box">
+						<div class="swiper-container">
+							<div class="swiper-wrapper">
+								<div class="swiper-slide" v-for="(item,index) in photo">
+									<div class="photoItem" :style="{ backgroundImage: 'url('+item.thumUrl+')' }">
+									</div>
+								</div>
+							</div>
+							<div class="swiper-pagination"></div>
+						</div>
+					</div>
+
+				</div>
+				<div class="line_01">
+				</div>
+				
+				<div class="productName" v-if="productInfoData!=null&&productInfoData.commodityName!=''" v-text="productInfoData.commodityName">
+				</div>
+				<div class="productPrice_box" v-if="productInfoData!=null">
+					<span class="productPrice">
+						¥<span><span v-text="String(parseFloat(productInfoData.price).toFixed(2)).split('.')[0]"></span>.<span class="minproductPrice" v-text="String(parseFloat(productInfoData.price).toFixed(2)).split('.')[1]"></span></span>						
+					</span>
+					</span>
+
+				</div>
+
+				<div class="sellerInfo_box padding_bottom0" v-if="productInfoData!=null">
+					<div class="sellerName_box">
+						<img src="images/sellerName_logo.png" />
+						<span v-text="productInfoData.sellerName">					
+				</span>
+					</div>
+					<div class="line_01">
+					</div>
+					<div class="thirdbaoInfo_box">
+						<div class="thirdbaoItem" ><!--v-if="productInfoData.product[0].ppsq=='品牌授权'"-->
+							<img src="images/quality@3x.png" />
+							<span>
+						品牌授权
+					</span>
+						</div>
+						<div class="thirdbaoItem" ><!--v-if="productInfoData.product[0].zpbz=='正品保证'"-->
+							<img src="images/quality@3x.png" />
+							<span>
+						正品保证
+					</span>
+						</div>
+						<div class="thirdbaoItem" ><!--v-if="productInfoData.product[0].sevenDay=='7天退换货'"-->
+							<img src="images/quality@3x.png" />
+							<span>
+						7天退换货 
+					</span>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="detailContent" v-if="isShowdetail(productInfoData)">
+					<div class="detailContentTitle_box">
+						<div class="detailContentTitle">
+							商品详情
+						</div>
+						<div class="line_01">
+						</div>
+					</div>
+					<div class="detailContentMain" id="detailContentMain" v-if="productInfoData.commodityDetail!='000x000'" v-html="productInfoData.commodityDetail">
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<script src="js/commodityDetail.js"></script>
+	</body>
+
+</html>

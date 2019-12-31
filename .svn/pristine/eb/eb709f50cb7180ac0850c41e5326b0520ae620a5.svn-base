@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>订单详情</title>
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<link rel="stylesheet" href="../common/reset.css" />
+		<link rel="stylesheet" href="../common/common.css">
+		<link rel="stylesheet" href="css/order_details.css?ss=567">
+		<link rel="stylesheet" href="css/orderconfirmation.css">
+		<link rel="stylesheet" href="../common/progress.css">
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script type="text/javascript" src="../common/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="../common/jquery.SuperSlide.2.1.1.js"></script>
+		<script type="text/javascript">
+			function isCondition(param) {
+				if(param != null && param != "" && param != undefined) {
+					return true;
+				}
+				return false;
+			}
+			function doubleValue(price) {
+				return(Math.round(price * 10000) / 10000).toFixed(2);
+			}
+			//判断在手机设备上使用一下代码.number
+			var $windowWidth = $(window).width();
+			setTimeout(function() {
+				$windowWidth = $(window).width();
+				if($windowWidth > 640) {
+					$windowWidth = 640; //限定最大宽度为640
+				}
+				$("html").css("font-size", (100 / 320) * $windowWidth + "px");
+			}, 100);
+			$(window).resize(function() {
+				$windowWidth = $(window).width();
+				if($windowWidth > 640) {
+					$windowWidth = 640;
+				}
+				$("html").css("font-size", (100 / 320) * $windowWidth + "px");
+			});
+
+			//获取URL参数
+			function GetURLParameter(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if(r != null) return unescape(r[2]);
+				return null;
+			}
+
+			var token = GetURLParameter("token");
+			var orderNo = GetURLParameter("orderNo");
+			var timestamp = new Date().getTime();
+			var orderStatus = -1;
+			var backHomePage = GetURLParameter("backHomePage");//回退到生活首页
+			if (backHomePage=="1") {
+				 backToHomePage();
+			}
+
+			sessionStorage.setItem("host", host);
+			setTitle("订单详情");
+			setRefreshOnResume(); //刷新界面
+
+			var operateOrderNo;
+			var operateOrderStatus;
+			var operateOrderType;
+			var operateFlag;
+			//跳转到售后服务页面
+			function getService(title, url) {
+				showActivity(host + "/mms/html5/personal/" + decodeURI(url), title);
+			}
+			//进入评价页面
+			function evaluate(title, url) {
+				showActivity(host + "/mms/html5/personal/" + decodeURI(url), title);
+			}
+			//跳转到查看物流页面
+			function checkLogistics(title, url) {
+				showActivity(host + "/mms/html5/personal/" + decodeURI(url), title);
+			}
+			function flush(){
+				location.reload();
+			}
+			function pay(title, url, orderNo) {
+				operateOrderNo = orderNo;
+				var time_stamp = Date.parse(new Date());
+				var data = "{" +
+					"\"body\":{\"orderNo\":\"" + orderNo + "\",\"orderStatus\":'-1'}," +
+					"\"header\":{\"token\":\"" + token + "\",\"time_stamp\":\"" + time_stamp + "\"}" + "}";
+				$.ajax({
+					type: "get",
+					url: host + "/mms/servlet/getOrderInfoByOrderNo?str=" + data,
+					dataType: "jsonp",
+					//传递给请求处理程序，用以获得jsonp回调函数名的参数名(默认为:callback)
+					jsonp: "jsoncallback",
+					//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名
+					jsonpCallback: "success_jsonpCallback",
+					success: function(odata) {
+						if(odata.result == 0) {
+								if(odata.payTimeStatus != 0) { //预约时间超时
+									showActivity(host + "/mms/html5/personal/" + decodeURI(url), title);
+								} else {
+									$("#checkStatus_3").show();
+									$(".cancel_order_cover").show();
+								}
+							/* if(odata.commodityStatus != 0) { //没有下架的商品在订单中
+							} else {
+								$("#checkStatus_4").show();
+								$(".cancel_order_cover").show();
+							} */
+						}
+					}
+				});
+			}
+			function Done(){
+				operateFlag=3;
+				updateOrderFlag();
+			}
+			function verifyOrder(){
+				var $cancel_order_cover = $(".cancel_order_cover");
+				var flag = false;
+				var params={};
+				params.header={
+					 token: token,
+					 time_stamp : timestamp
+				};
+				params.body={
+					 orderNo : operateOrderNo,
+				};
+				var paramData = JSON.stringify(params);
+				var reqUrl = host+"/mms/servlet/verifyCommodityOrder?str="+paramData;
+				
+				$.ajax({
+					type: "post", //jquey是不支持post方式跨域的
+					async: false,
+					url: reqUrl, //跨域请求的URL
+					dataType: "jsonp",
+					//传递给请求处理程序，用以获得jsonp回调函数名的参数名(默认为:callback)
+					jsonp: "jsoncallback",
+					//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名
+					jsonpCallback: "success_jsonpCallback",
+					//成功获取跨域服务器上的json数据后,会动态执行这个callback函数
+					success: function(data) {
+						if(data.result == 0){
+							if(data.statusFlag == 1 && data.priceFlag == 1){
+								flag = true;
+							}else{
+								if(data.statusFlag == 0){//没有此商品,关闭订单
+									$cancel_order_cover.css("display", "block");
+									$("#checkStatus_1").show();
+									operateFlag = 3;
+								}else{
+									if(data.priceFlag == 0){//订单价格信息有变动
+										getChangedOrderInfo();
+									}
+								}
+								flag = false;
+							}
+						}
+					}
+				});
+				return flag;
+			}
+			function flush(){
+				location.reload();
+			}
+			function getChangedOrderInfo(){
+				var params={};
+				params.header={
+					 token: token,
+					 time_stamp : timestamp
+				};
+				params.body={
+					 orderNo : operateOrderNo,
+				};
+				var paramData = JSON.stringify(params);
+				var reqUrl = host+"/mms/servlet/getChangeOrderInfo?str="+paramData;
+				$.ajax({
+					type: "post", //jquey是不支持post方式跨域的
+					async: false,
+					url: reqUrl, //跨域请求的URL
+					
+					dataType: "jsonp",
+					//传递给请求处理程序，用以获得jsonp回调函数名的参数名(默认为:callback)
+					jsonp: "jsoncallback",
+					//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名
+					jsonpCallback: "success_jsonpCallback",
+					//成功获取跨域服务器上的json数据后,会动态执行这个callback函数
+					success: function(data) {
+						if(data.result == 0){
+							if (data.breakOrderStatus==1) {//订单数据出错
+								$("#checkStatus_5").show();
+								$(".cancel_order_cover").show();
+							}else{
+								$("#checkStatus_2").show();
+								$(".cancel_order_cover").show();
+							}
+						}
+					}
+				});
+			}
+
+			function getOrderData() {
+
+				var params = {};
+				params.header = {
+					token: token,
+					time_stamp: timestamp
+				};
+				params.body = {
+					orderStatus: orderStatus,
+					orderDetailNo: orderNo,
+					pageSize: 0,
+					pageNum: 0
+
+				};
+				var paramData = JSON.stringify(params);
+				var reqUrl = host + "/mms/servlet/getCommodityOrderList?str=" + paramData;
+				$.ajax({
+					type: "get", //jquey是不支持post方式跨域的
+					async: false,
+					url: reqUrl, //跨域请求的URL
+					dataType: "jsonp",
+					//传递给请求处理程序，用以获得jsonp回调函数名的参数名(默认为:callback)
+					jsonp: "jsoncallback",
+					//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名
+					jsonpCallback: "success_jsonpCallback",
+					//成功获取跨域服务器上的json数据后,会动态执行这个callback函数
+					success: function(json) {
+						console.debug("json:" + JSON.stringify(json));
+						orderDataList = json.orderDetail;
+						showOrderData();
+					}
+				});
+			}
+
+			function showOrderData() {
+
+				var orderHtml = '';
+				//$.each(orderDataList, function(orderIndex, orderValue) {
+					var orderNo = orderDataList.orderNo;
+					var corderList = orderDataList.commodityOrderList;
+					var orderValue=orderDataList;
+					var deliveryTime = "";
+
+					var commodityInfoHtml = "<div class='number'><p>订单编号：<span>"+orderValue.orderNo+"</span></p></div>"; //"<li class='clearfix'></li>"
+				
+					$.each(corderList, function(corderIndex, corderValue) {
+						if(orderValue.type == 3) {
+							deliveryTime = corderValue.deliveryTime
+						}
+						commodityInfoHtml = commodityInfoHtml + "<div class='goods_info'><div class='GoodPic'><a href='javascript:;'>" +
+							"<img src='" + corderValue.thumbLogo + "'></a></div><p class='ShuoMing'><span class='property'>" + corderValue.commodityName + "</span><span class='spec'>" +
+							corderValue.commodityDetails + "</span></p><div class='pri'><div class='price'>¥" + parseFloat(corderValue.commitPrice).toFixed(2) + "</div><div class='num'>x" + corderValue.counts +
+							"</div></div></div>";
+					});
+					$("#order_list_content li").append(commodityInfoHtml);
+					var $div=$(".goods_info").eq(0);
+					var $status=orderValue.status;
+				    if(orderValue.type == 1){//商品订单
+						if($status == 0){//代付款
+							$div.addClass("addObligation");
+						}else if($status == 1){//待发货
+							$div.addClass("addWaitsend");
+						}else if($status == 2){//待收货
+							$div.addClass("addWaitget");
+						}else if($status == 3){//退款中
+							$div.addClass("addRefund");
+						}else if($status == 4){//售后处理中
+							$div.addClass("addProcessing");
+						}else if($status == 5){//交易成功
+							$div.addClass("addHadfinish");
+						}else if($status == 6){//订单关闭
+							$div.addClass("addHadclose");
+						}
+					}else if(orderValue.type == 3){//服务类型订单
+						$(".spec").hide();
+						$(".property").css({"height":"0.8rem","line-height":"0.8rem","-webkit-line-clamp":"1"});
+					   if($status == 0){//代付款
+					   		$div.addClass("addObligation");
+						}else if($status == 1){//待服务
+							$div.addClass("addWaitserve");
+						}else if($status == 2){//已服务
+							$div.addClass("addHadserve");
+						}else if($status == 3){//退款中
+							$div.addClass("addRefund");
+						}else if($status == 4){//售后处理中
+							$div.addClass("addProcessing");
+						}else if($status == 5){//交易成功
+							$div.addClass("addHadfinish");
+						}else if($status == 6){//订单关闭
+							$div.addClass("addHadclose");
+						}
+					}		
+					$("#username").html(orderValue.receiverName);
+					$("#phone").html(orderValue.receiverPhone);
+					$("#address").html(orderValue.receiverAddress);
+
+					if(orderValue.type == 1) {
+						$(".deliver").show();
+						$("#serviceTime").hide();
+					} else if(orderValue.type == 3) {
+						$("#serviceTime .right").html("<span>" + deliveryTime + "</span>")
+					}
+					if(orderValue.freight == 0){
+						$("#deliverPrice").html("免邮");
+					}else{
+						$("#deliverPrice").html("¥"+parseFloat(orderValue.freight).toFixed(2));
+					}
+					$("#orderPrice").html("¥" + orderValue.orderPrice);
+					$("#couponDenomination").html("-¥" + parseFloat(orderValue.couponDenomination).toFixed(2));
+					$("#fullReducedFee").html("-¥" + parseFloat(orderValue.fullReducedFee).toFixed(2));
+					$("#totalPrice").html("¥" + orderValue.totalPrice);
+					$(".practical-price .createTime").html("下单时间:" + orderValue.createTime);
+
+					var btnHtml = getOrderBtnHtml(orderValue.type, orderValue.status, orderNo,orderValue.expressage,orderValue.comment,corderList);          
+					if (isCondition(btnHtml)) {
+						$("#footinfo").append(btnHtml);
+					}else{
+						$("#footinfo").hide()
+					}
+					
+	//			});
+
+			}
+
+			function getOrderBtnHtml(type, status, orderNo,expressage,comment,corderList) {
+				var orderBtnHtml = "";
+				var operateData = "?orderNo=" + orderNo;
+				if(corderList.length==1){
+					 var commodityId=corderList[0].commodityId;
+				}
+				var payUrl = "<a href=\"javascript:pay('付款','pay.htm" + operateData + "','" + orderNo + "');\" class='act_pay'>马上付款</a>";
+				var delOrderUrl = "<a href=\"javascript:operateOrders(3,'" + orderNo + "','" + status + "','" + type + "')\" class='del_order'>取消订单</a>";
+				var refundUrl = "<a href=\"javascript:getService('申请售后','service.htm" + operateData + "')\" >申请售后</a>";
+				var getGoodUrl = "<a href=javascript:operateOrders(2,'" + orderNo + "','" + status + "','" + type + "')>确认收货</a>";
+				var refundOnUrl = "" + "<a href=\"###\">退款中</a>";
+				var refundInUrl = "<a href=\"###\" class='process'>售后处理中</a>";
+				var checkLogistics = "<a href=\"javascript:checkLogistics('查看物流','checkLogistics.htm" + operateData + "');\" >查看物流</a>";
+				//点击评价按钮跳转评价页面进行各个商品的评价
+				var evaluate = "<a href=\"javascript:evaluate('商品评价','productEvaluate.htm"+ operateData +"');\" >评价</a>";
+				var evaluates = "<a href=\"javascript:evaluate('商品评价','writeproductEvaluate.htm"+ operateData + "&commodityId="+commodityId+"');\" >评价</a>";
+			   
+				if(type == 1) { //商品订单
+					var orderBtnHtml = "";
+					if(status == 0){//待付款
+						payText = '需支付：';
+						orderBtnHtml =  delOrderUrl + payUrl;
+					}else if(status == 1){//待发货
+						orderBtnHtml = delOrderUrl;
+					}else if(status == 2){//待收货
+						//判断是否有查看物流按钮，1是有物流按钮
+						if(expressage==0){
+							orderBtnHtml =  getGoodUrl ;
+						}else{
+							orderBtnHtml =   checkLogistics+getGoodUrl;
+						}
+					}else if(status == 3){//退款中
+						if(expressage==0){
+							orderBtnHtml = refundOnUrl;
+						}else{
+							orderBtnHtml = checkLogistics+refundOnUrl;
+						}
+					}else if(status == 4){//售后处理中
+						if(expressage==0){
+							//待评价和已评价的区分
+							if(comment==0){
+								if(corderList.length==1){
+									orderBtnHtml = evaluates;
+								}else{
+									orderBtnHtml = evaluate;
+								}
+							}else{
+								orderBtnHtml = "";
+							}
+							
+						}else{
+							//待评价和已评价的区分
+							if(comment==0){
+								if(corderList.length==1){
+									orderBtnHtml =evaluates+checkLogistics;
+								}else{
+									orderBtnHtml =evaluate+checkLogistics;
+								}
+							}else{
+								orderBtnHtml = checkLogistics;
+							}							
+						}
+					}else if(status == 5){//交易成功
+						if(expressage==0){
+							if(comment==0){
+								if(corderList.length==1){
+									orderBtnHtml =evaluates+refundUrl;
+								}else{
+									orderBtnHtml =evaluate+refundUrl;
+								}
+							}else{
+								orderBtnHtml = refundUrl;
+							}
+						}else{
+							//待评价和已评价的区分
+							if(comment==0){
+								if(corderList.length==1){
+									orderBtnHtml = evaluates+checkLogistics+refundUrl;
+								}else{
+									orderBtnHtml =evaluate+checkLogistics+refundUrl;
+								}
+							}else{
+								orderBtnHtml = checkLogistics+refundUrl;
+							}														
+						}
+					}else if(status == 6){//订单关闭
+						orderBtnHtml = "";
+					}			
+				} else if(type == 3) { //服务类型订单
+					if(status == 0) { //代付款
+						orderBtnHtml = delOrderUrl + payUrl;
+						payText = '需支付：';
+					} else if(status == 1) { //待服务
+						orderBtnHtml = delOrderUrl;
+					} else if(status == 2) { //已服务
+						orderBtnHtml = getGoodUrl;
+					} else if(status == 3) { //退款中
+						orderBtnHtml = refundOnUrl;
+					} else if(status == 4) { //售后处理中
+						orderBtnHtml = "";
+					} else if(status == 5) { //交易成功
+						orderBtnHtml = refundUrl;
+					} else if(status == 6) { //订单关闭
+						orderBtnHtml = "";
+					}
+				}
+
+				return orderBtnHtml;
+			}
+
+			/*  可用全局变量
+			    operateOrderNo 订单流水号
+				operateOrderStatus 订单状态
+				operateOrderType  订单类型
+			*/
+			function operateOrders(currentOperateFlag, currentOrderNo, currentStatus, currentType) {
+				//设置所需的全局参数
+				operateOrderNo = currentOrderNo;
+				operateOrderStatus = currentStatus;
+				operateOrderType = currentType;
+				operateFlag = currentOperateFlag;
+				var $del_order_cover = $("#del_center");
+				var $cancel_order_cover = $(".cancel_order_cover");
+
+				if(operateFlag == 3) {
+					var params = {};
+					params.header = {
+						token: token,
+						time_stamp: timestamp
+					};
+					params.body = {
+						orderNo: operateOrderNo,
+						orderStatus: "-1"
+					};
+					var paramData = JSON.stringify(params);
+					var reqUrl = host + "/mms/servlet/getOrderStatusByOrderNo?str=" + paramData
+					$.ajax({
+						type: "get",
+						async: false,
+						url: reqUrl,
+						dataType: "jsonp",
+						//传递给请求处理程序，用以获得jsonp回调函数名的参数名(默认为:callback)
+						jsonp: "jsoncallback",
+						//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名
+						jsonpCallback: "success_jsonpCallback",
+						success: function(odata) {
+							if(odata.result == 0) {
+								var status = odata.status;
+								var type = odata.type;
+								if(status == 4 || status == 2) {
+									if(type == 3) {
+										appAlert("提示", "店铺已安排服务，不能取消订单");
+									} else if(type == 1) {
+										appAlert("提示", "店铺已发货，不能取消订单");
+									}
+									clearHistory();
+									window.location.reload();
+								} else {
+									$cancel_order_cover.css("display", "block");
+									if(status == 1) {
+										$("#reimburse").css("display", "block");
+									} else if(status == 0) {
+										$("#del_center").css("display", "block");
+									};
+
+								}
+
+							}
+						}
+					});
+				} else if(operateFlag == 2) { //确定收货  弹窗提示  待改
+					$cancel_order_cover.css("display", "block");
+					$(".confir").css("display", "block");
+				} else {
+					updateOrderFlag(operateFlag);
+				};
+			}
+
+			/*  可用全局变量
+			    operateOrderNo 订单流水号
+				operateOrderStatus 订单状态
+				operateOrderType  订单类型
+			*/
+			function updateOrderFlag() {
+				var params = {};
+				params.header = {
+					token: token,
+					time_stamp: timestamp
+				};
+				params.body = {
+					orderNo: operateOrderNo,
+					flag: operateFlag
+				};
+				var paramData = JSON.stringify(params);
+				var reqUrl = host + "/mms/servlet/operateOrders?str=" + paramData;
+
+				$.ajax({
+					type: "post", //jquey是不支持post方式跨域的
+					async: false,
+					url: reqUrl, //跨域请求的URL
+					dataType: "jsonp",
+					//传递给请求处理程序，用以获得jsonp回调函数名的参数名(默认为:callback)
+					jsonp: "jsoncallback",
+					//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名
+					jsonpCallback: "success_jsonpCallback",
+					//成功获取跨域服务器上的json数据后,会动态执行这个callback函数
+					success: function(json) {
+						//appAlert("确认取消订单json",JSON.stringify(json));
+						$(".orderInformation").empty();
+						/*currentPageNum = 1;
+						page = 2;
+						appAlert("ssspage",page);
+						getOrderList();*/
+						if(operateFlag == 2) { //确认收货
+							//根据订单详情送优惠券信息
+							var getCouponUrl = host + "/mms/servlet/getWelfareAfterConfirmReceived?str=" + paramData;
+							$.ajax({
+								type: "get", //jquey是不支持post方式跨域的
+								async: false,
+								url: getCouponUrl, //跨域请求的URL
+								dataType: "jsonp",
+								jsonp: "jsoncallback",
+								jsonpCallback: "success_jsonpCallback",
+								success: function(json) {
+
+								}
+							});
+						}
+						window.location.reload();
+					}
+				});
+			}			
+		</script>
+	</head>
+
+	<body class="bgcolor" style="background: #F0F0F0;">
+		<!--header s-->
+		<!--进度条 b-->
+		<div id="progress">
+			<span></span>
+		</div>
+		<!--商品信息 S-->
+		<div class="order_shop clearfix">
+			<ul class="ul01" id="order_list_content">
+				<li class='clearfix'>
+					<!--<div class='number'>
+						<p>订单编号：<span></span></p>
+					</div>
+					<div class='goods_info'>
+					<div class='GoodPic'>
+						<a href='javascript:;'><img src='images/ic_jingyiwei.png'></a>
+					</div>
+					<p class='ShuoMing'>
+						<span class='property'>格力董小姐400G内存手机</span>
+						<span class="spec">M码 白色</span>
+					</p>
+					
+					<div class='pri'>
+					<div class='price'>￥ 99.9</div>
+					<div class='num'>x4</div>
+					</div>
+					</div>
+					<div class='goods_info' style="background: url(images/ic_hadfinish@3x.png);">
+						<div class='GoodPic'>
+							<a href='javascript:;'><img src='images/ic_jingyiwei.png'></a>
+						</div>
+						<p class='ShuoMing'><span class='property'>格力董小姐400G内存手机</span></p>
+						<div class='pri'>
+						<div class='price'>￥ 99.9</div>
+						<div class='num'>x4</div>
+						</div>
+					</div>-->
+				</li>
+			</ul>
+
+		</div>
+		<!--商品信息 E-->
+		<!--收货地址信息 S-->
+		<div class="address_sel clearfix backno" style="display:block;border: none;">
+			<div class="address-info">
+				<img src="images/ic_name@3x.png" alt="联系人图标" style="width:0.14rem;" />
+				<p class="address-name" id="username" style="padding-left:0.1rem;"></p>
+				<p class="address-phone" id="phone"></p>
+			</div>
+			<div class="address-details" style="display: -webkit-box;">
+				<img src="images/ic_-Location-@3x.png" alt="地址图标" style="width:0.14rem;" />
+				<p id="address" style="padding-left:0.1rem;padding-top: 0.03rem;"></p>
+			</div>
+		</div>
+		<!--收货地址信息 E-->
+		<!--type==3时候隐藏-->
+		<ul class="deliver" style="display:none;">
+			<li class="deliverLi clearfix" style="border: none;">
+				<div class="deliverWay">
+					配送费：
+				</div>
+				<div class="Dway">
+					<!--<p style="padding-top: 0.1rem;">快递</p>-->
+					<p style="color: #FF661B;height: 0.3rem;line-height: 0.3rem;padding: 0.1rem 0;" id="deliverPrice"></p>
+				</div>
+			</li>
+			<!--<li class="logisticsLi clearfix">
+				<div class="logistics">
+					物流单号
+				</div>
+				<div class="logistics_num">
+					<p style="padding-top: 0.15rem;" id="logisticsNum"></p>
+					<p id="logisticsC"></p>
+				</div>
+			</li>-->
+		</ul>
+		<!--支付信息 S-->
+		<div class="clearfix paydetail">
+			<ul id="order-detail">
+				<!--服务时间type==1时候隐藏-->
+				<li class='bottonline' id="serviceTime">
+					<div class='left'>
+						<p>服务时间</p>
+					</div>
+					<div class='right'></div>
+				</li>
+				<li>
+					<div class='left'>
+						<p>支付方式</p>
+					</div>
+					<div class='right'><span>在线支付</span></div>
+				</li>
+				<li class='bottonmargin'></li>
+				<li>
+					<div class='left'>
+						<p>消费金额</p>
+					</div>
+					<div class='right'><span id="orderPrice"></span></div>
+				</li>
+				<li class='bottonline' style="border: none">
+					<div class='left'>
+						<p>优惠金额</p>
+					</div>
+					<div class='right'><span id="couponDenomination"></span></div>
+				</li>
+				<li class='bottonline'>
+					<div class='left'>
+						<p>满减金额</p>
+					</div>
+					<div class='right'><span id="fullReducedFee"></span></div>
+				</li>
+				<li class='practical-price'><span>实付金额：</span><span class='red' id="totalPrice"></span>
+					<p class='createTime'></p>
+				</li>
+			</ul>
+		</div>
+		<!--支付信息 E-->
+
+		<div class="act_method" id="footinfo">
+		</div>
+		<div style="height: 50px;width: 100%;background: #f0f0f0;">
+
+		</div>
+
+		<!-- 最外层弹窗-->
+		<div class="cancel_order_cover">
+
+		</div>
+		<!-- 待发货情况下的取消订单 -->
+		<div class="del_center" id="reimburse">
+			<p>订单取消后款项将在1-7个工作日内退还到您支付的账号</p>
+			<div class="choose clearfix">
+				<span class="canc">再想想</span>
+				<span class="sure" style="float:right;">好的</span>
+			</div>
+		</div>
+		<!-- 订单一起支付情况-->
+		<div class="del_center" id="act_pay">
+			<p>此订单与其他2个未支付订单存在促销优惠组合关系，将一并进行支付</p>
+			<div class="choose clearfix">
+				<span class="canc">取消</span>
+				<span class="sure" style="float:right;">继续</span>
+			</div>
+		</div>
+		<!-- 待付款情况下的取消订单 -->
+		<div class="del_center" id="del_center">
+			<p>您确定要取消订单吗？</p>
+			<div class="choose clearfix">
+				<span class="canc">取消</span>
+				<span class="sure" style="float:right;">确定</span>
+			</div>
+		</div>
+
+		<!-- 确认收货 -->
+		<div class="confir">
+			<p>您确定已经收到货了吗？</p>
+			<div class="choose clearfix">
+				<span class="canc">取消</span><span class="sure">确定</span>
+			</div>
+		</div>
+		 <div class="del_center" id="checkStatus_1">
+			 <p>部分商品已失效，请重新购买！</p>
+			 <div class="choose" style="width: 40%;margin: 0.24rem auto 0.26rem;">
+				 <span style="display: inline-block;width: 100%;border: #FF661B solid 1px;color: #FF661B;">确定</span>
+			 </div>
+		 </div>
+		  <!-- 订单信息修改情况的提示，例如价钱和运费等修改 -->
+		 <div class="del_center" id="checkStatus_2">
+			 <p>订单信息已更改，请重新确认！</p>
+			 <div class="choose" style="width: 40%;margin: 0.24rem auto 0.26rem;">
+				 <span style="display: inline-block;width: 100%;border: #FF661B solid 1px;color: #FF661B;" onclick="flush()">确定</span>
+			 </div>
+		 </div>	
+		 <!-- 服务型订单预约时间过期提 -->
+	 <div class="del_center" id="checkStatus_3">
+		 <p>所选服务时间已过,订单即将关闭！</p>
+		 <div class="choose" style="width: 40%;margin: 0.24rem auto 0.26rem;">
+			 <span style="display: inline-block;width: 100%;border: #FF661B solid 1px;color: #FF661B;" onclick="Done()">确定</span>
+		 </div>
+	 </div>
+	  <!-- 服务型订单预约时间过期提 -->
+	 <div class="del_center" id="checkStatus_4">
+		 <p>订单信息已更改，订单即将关闭,请重新购买！</p>
+		 <div class="choose" style="width: 40%;margin: 0.24rem auto 0.26rem;">
+			 <span style="display: inline-block;width: 100%;border: #FF661B solid 1px;color: #FF661B;" onclick="Done()">确定</span>
+		 </div>
+	 </div>
+	  <!-- 订单数据异常 关闭订单 -->
+	 <div class="del_center" id="checkStatus_5">
+		 <p>订单信息已更改，订单即将关闭,请重新购买！</p>
+		 <div class="choose" style="width: 40%;margin: 0.24rem auto 0.26rem;">
+			 <span style="display: inline-block;width: 100%;border: #FF661B solid 1px;color: #FF661B;" onclick="Done()">确定</span>
+		 </div>
+	 </div>	
+		<!-- 弹出层的操作-->
+		<script type="text/javascript">
+			$(document).ready(function() {
+				getOrderData();
+				var reimburse = $("#reimburse");
+				var reimburse_canc = $("#reimburse .canc");
+				var reimburse_sure = $("#reimburse .sure");
+				var act_pay = $("#act_pay");
+				var act_pay_canc = $("#act_pay .canc");
+				var act_pay_sure = $("#act_pay .sure");
+				var confir = $(".confir");
+				var confir_canc = $(".confir .canc");
+				var confir_sure = $(".confir .sure");
+				var del_center = $("#del_center");
+				var del_center_canc = $("#del_center .canc");
+				var del_center_sure = $("#del_center .sure");
+				var cancel_order_cover = $(".cancel_order_cover");
+				//退款事件
+				reimburse_canc.click(function() {
+					cancel_order_cover.hide();
+					reimburse.hide();
+				});
+				reimburse_sure.click(function() {
+					cancel_order_cover.hide();
+					reimburse.hide();
+					updateOrderFlag();
+				});
+				//马上付款事件
+				act_pay_canc.click(function() {
+					cancel_order_cover.hide();
+					act_pay.hide();
+				});
+				act_pay_sure.click(function() {
+					cancel_order_cover.hide();
+					act_pay.hide();
+					updateOrderFlag();
+				});
+				//确认收货事件
+				confir_canc.click(function() {
+					cancel_order_cover.hide();
+					confir.hide();
+				});
+				confir_sure.click(function() {
+					cancel_order_cover.hide();
+					confir.hide();
+					updateOrderFlag();
+				});
+				//取消订单事件
+				del_center_canc.click(function() {
+					cancel_order_cover.hide();
+					del_center.hide();
+				});
+				del_center_sure.click(function() {
+					cancel_order_cover.hide();
+					del_center.hide();
+					updateOrderFlag();
+
+				});
+				 $("#checkStatus_1 .choose span").click(function(){
+				 	cancel_order_cover.hide();
+				 	$("#checkStatus_1").hide();
+				 });
+				 $("#checkStatus_2 .choose span").click(function(){
+				 	cancel_order_cover.hide();
+				 	$("#checkStatus_2").hide();
+				 });			
+				
+				//        点击遮罩层隐藏弹窗
+//				cancel_order_cover.click(function() {
+//					$(this).hide();
+//					reimburse.hide();
+//					act_pay.hide();
+//					confir.hide();
+//					del_center.hide();
+//				});
+			})
+		</script>
+	</body>
+
+</html>

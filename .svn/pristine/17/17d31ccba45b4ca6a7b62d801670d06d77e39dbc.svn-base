@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="css/grouponDetail.css">
+		<link rel="stylesheet" href="../../common/tip/lxjTip.css">
+		<script src="../../common/tip/lxjTip.js"></script>
+		<script src="../../common/vue/vue.min.js"></script>
+		<script src="../../common/vue/vue-resource.min.js"></script>
+		<script src="../../common/interface.js"></script>	
+		<script src="../../common/interfaceParameters.js"></script>
+		<script src="../common/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK.js"></script>
+		<script src="js/clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+		<title>活动详情</title>
+	</head>
+	<body>
+		<div v-cloak class="grouponDetail">
+			<div class="grouponDetail-time">
+				<div class="grouponDetail-ing" v-if="isEnd == 0">
+					<div class="grouponDetail-ing-tip">距离本次活动结束仅剩</div>
+					<div class="grouponDetail-ing-date">
+						<span class="grouponDetail-ing-bg" v-text="dayTime">03</span>
+						<span>天</span>
+						<span class="grouponDetail-ing-bg" v-text="hhTime">04</span>
+						<span>小时</span>
+						<span class="grouponDetail-ing-bg" v-text="mmTime">30</span>
+						<span>分</span>
+						<span class="grouponDetail-ing-bg" v-text="ssTime">20</span>
+						<span>秒</span>
+					</div>
+				</div>
+				<div  v-if="isEnd == 1" class="grouponDetail-over">活动已结束</div>
+			</div>
+			<div class="grouponDetail-product">
+				<div class="grouponDetail-product-item" v-if="commanderDetailAttr.length > 0"  v-for="(list,index) in commanderDetailAttr" :key="index">
+					<div class="grouponDetail-product-pic">
+						<img class="grouponDetail-product-pic-img" :src="list.imgUrl" alt="">
+						<img class="grouponDetail-product-emptyshop" v-if="list.stock<=0" src="img/emptyshop.png"/>
+					</div>					
+					<div class="grouponDetail-product-main">
+						<div class="grouponDetail-product-name" v-on:click="goDetail(list.commodityId)" v-text="list.commodityName"></div>
+						<div class="grouponDetail-product-other">
+							<span>预计利润￥{{list.profit}}/份</span>
+							<span>剩余{{list.stock}}件</span>
+						</div>
+						<div class="grouponDetail-product-price">
+							<span class="grouponDetail-price-pre">{{list.buyPrice | pricePre}}</span>
+							<span class="grouponDetail-price-next">{{list.buyPrice | priceNext}}</span>
+							<img @click="chooseFunc(index)" v-if="list.chooseFlag && isEnd == 0&&list.stock>0" src="img/btn_ic_in@3x.png" alt="">
+							<img @click="chooseFunc(index)" v-if="!list.chooseFlag && isEnd == 0&&list.stock>0" src="img/btn_ic_off@3x.png" alt="">
+						</div>
+					</div>
+				</div>
+				<div class="grouponDetail-product-item" v-if="isEnd == 0">
+					<div class="grouponDetail-product-num">已选中{{chooseNum}}件商品</div>
+				</div>
+			</div>
+			<div class="grouponDetail-share" @click="shareHide()" v-if="isWxBrowser && shareFlag">
+				<img src="img/share_icon@3x.png" alt="">
+				<div class="grouponDetail-share-word">
+					<div>立即推广给好友吧~</div>
+					<div>点击屏幕右上角将本页分享给好友</div>
+				</div>
+			</div>
+			<div class="grouponDetail-nav" >
+				<div class="grouponDetail-nav-left" @click="copyUrl()" v-clipboard:copy="getOrderSolitaireString" v-clipboard:success="onCopy" v-clipboard:error="onError">生成接龙</div>
+				<div v-if="isEnd == 0" @click="spreadGoods()" class="grouponDetail-right">一键推广</div>
+				<div v-if="isEnd == 1" class="grouponDetail-right" @click="checkProduct()">查看货单</div>
+			</div>
+		</div>
+		<script src="js/grouponDetail.js"></script>	
+	</body>
+</html>

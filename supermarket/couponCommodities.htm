@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<title>优惠商品使用列表</title>
+		<link rel="stylesheet" href="../common/reset.css" />
+		<link rel="stylesheet" href="css/couponCommodities.css">
+		<link rel="stylesheet" href="../common/tip/lxjTip.css">
+		<script src="../common/interface.js"></script>
+		<script src="../common/interfaceParameters.js"></script>
+		<script src="../common/tip/lxjTip.js"></script>
+		<script src="../common/vue/vue.min.js"></script>
+		<script src="../common/vue/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/vue/vue-resource.min.js"></script>
+		<script src="../common/vue/plugin/vue-scroller/vue-scroller.min.js"></script>
+		<script type="text/javascript">
+			(function(doc, win) {
+				var docEl = doc.documentElement,
+					isIOS = navigator.userAgent.match(/iphone|ipod|ipad/gi),
+					dpr = isIOS ? Math.min(win.devicePixelRatio, 3) : 1,
+					dpr = window.top === window.self ? dpr : 1, //被iframe引用时，禁止缩放
+					scale = 1 / dpr,
+					resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+				docEl.dataset.dpr = dpr;
+				var recalc = function() {
+					var width = docEl.clientWidth;
+					if(width / dpr > 768) {
+						width = 768 * dpr;
+					}
+					docEl.style.fontSize = 100 * (width / 414) + 'px';
+				};
+				recalc();
+				if(!doc.addEventListener) return;
+				win.addEventListener(resizeEvt, recalc, false);
+			})(document, window);
+		</script>
+		<style type="text/css">
+			.bannerNone {
+				height: 1px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="marketing" id="marketing" v-cloak>
+			<scroller :no-Data-Text="noDataText4" :on-infinite="infinite">
+				<div class="vue-load"></div>
+				<div class="marketing-floor1">
+					<div class="marketing-banner" :class="{bannerNone:banner==''}"></div>
+					<div class="commodityItemBox">
+						<div class="commodityItemBox2" v-for="(item,index) in commodityList">
+							<div class="commodityItem" v-on:click="goDetail(item.id)">
+								<img class="commodityItemImg" v-bind:src="item.thumLogo"  />
+								<div class="commodityInfo">
+									<div class="commodityName">
+										{{item.name}}
+									</div>
+									<div class="commodityPrice">
+										<span class="prcieBox"><span class="newPrice bigPrice">¥<span class="bigPrice" v-text="String(parseFloat(item.skuMinPrice).toFixed(2)).split('.')[0]">0</span>.<span v-text="String(parseFloat(item.skuMinPrice).toFixed(2)).split('.')[1]" class="smallPrice">00</span></span><span class="oldPrice" v-if="item.originalPrice>0">¥{{item.originalPrice}}</span></span>
+										<img v-on:click="selectSku(item.id)" src="images/btn_ic_shopping-car@3x.png" />
+									</div>
+								</div>
+							</div>
+							<div class="line_01">								
+							</div>
+						</div>
+												
+					</div>					
+				</div>
+			
+			</scroller>
+			<div class="footerButton" v-on:click="goShoppingcart()">
+				去购物车
+			</div>
+			<div class="bgTangcan" v-show="skuShowstate>0">
+				<div class="bugInfo_box" v-show="bugInfoAminateS">
+					<div class="bugInfo" id="bugInfoAminate" v-if="productInfoData!=null">
+						<div class="closeLogo" v-on:click="closeSelecSku()">
+							<img src="images/btn_ic_close@3x.png" />
+						</div>
+						<div class="bugprizeInfo" v-show="!inputFocusState">
+							¥<span v-if="selectPrice!=null&&giftbagId==''"><span v-text="String(parseFloat(selectPrice).toFixed(2)).split('.')[0]">0</span>.<span class="minproductPrice" v-text="String(parseFloat(selectPrice).toFixed(2)).split('.')[1]">00</span></span><span v-if="selectPrice==null&&giftbagId==''"><span v-text="String(parseFloat(productInfoData.product[0].minPrice).toFixed(2)).split('.')[0]">0</span>.<span class="minproductPrice" v-text="String(parseFloat(productInfoData.product[0].minPrice).toFixed(2)).split('.')[1]">00</span></span><span v-if="productInfoData.product[0].minPrice<productInfoData.product[0].maxPrice&&selectPrice==null"> ~ ¥<span><span v-text="String(parseFloat(productInfoData.product[0].maxPrice).toFixed(2)).split('.')[0]"></span>.<span class="minproductPrice" v-text="String(parseFloat(productInfoData.product[0].maxPrice).toFixed(2)).split('.')[1]">00</span></span>
+							</span>
+							<span v-if="giftbagId!=''"><span v-text="String(parseFloat(productInfoData.giftBagPrice).toFixed(2)).split('.')[0]">0</span>.<span class="minproductPrice" v-text="String(parseFloat(productInfoData.giftBagPrice).toFixed(2)).split('.')[1]">00</span>
+							</span>
+						</div>
+						<div class="hadChaooseSkuInfo" v-show="inputFocusState" v-text="skuSelectTip">
+						</div>
+						<div class="line_01box" v-show="!inputFocusState">
+							<div class="line_01">
+							</div>
+						</div>
+						<div class="commoditySku_box" v-show="!inputFocusState">
+							<div class="commoditySkuItems" v-if="commoditySku.length>0" v-for="(items,index3) in commoditySku">
+								<div class="skuName" v-text="items.skuName">
+								</div>
+								<div class="skuParamName">
+									<span class="paramNameN" v-bind:class="{paramNameY:skuSelectList[index3]==item.paramId,paramNameF:skuisSelect[index3][index4]}" v-on:click="selectTagFun(index3,index4,item,items,skuisSelect[index3][index4])" v-for="(item,index4) in items.skuValues" v-text="item.paramName">
+								</span>
+									<!--<span class="paramNameF">
+									立即购买立
+								</span>
+								<span class="paramNameN">
+									立即购买立
+								</span>-->
+								</div>
+							</div>
+						</div>
+						<div class="line_01box">
+							<div class="line_01">
+							</div>
+						</div>
+						<div class="bugNumber_box">
+							<div class="bugNumberText">
+								数量
+							</div>
+							<div class="reducebt" v-bind:class="{reducefall:bugNumber<=1}" v-on:click="reducebugNumber()">
+							</div>
+							<input type="tel" v-model="bugNumber" v-on:blur="blurInput()" v-on:focus="focusInput()" name="bugNumber" id="bugNumber" value="1" />
+							<div class="addbt" v-bind:class="{addbfall:bugNumber>=maxstockQuantity}" v-on:click="addbugNumber()">
+							</div>
+						</div>
+						<div class="bugAffirm" v-on:click="goConfirmOrder()">
+							<span>
+							确定
+						</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/couponCommodities.js"></script>
+	</body>
+
+</html>

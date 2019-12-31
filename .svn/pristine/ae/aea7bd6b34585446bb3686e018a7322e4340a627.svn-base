@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>商家登录</title>
+        <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+        <meta name="format-detection" content="telephone=no" />
+        <link rel="stylesheet" href="../common/reset.css" />
+        <link rel="stylesheet" href="../common/common.css">
+        <link rel="stylesheet" href="../common/progress.css">
+        <link rel="stylesheet" href="../mall/js/skin/layer.css">
+        <link rel="stylesheet" href="css/index.css">
+        <script type="text/javascript"	src="../common/jquery-1.11.2.min.js"></script>
+        <script src="../mall/js/layer.js"></script>
+        <script src="../common/interface.js"></script>
+    </head>
+    <body>
+        <div class="logo-info">
+            <img src="images/aaa.png" class="logo" alt=""/>
+            <p>联享家商家端</p>
+        </div>
+        <div class="phone-info">
+            <input type="text" placeholder="请输入手机号" class="phone" id="phone"/>
+            <div class="phone-delete">×</div>
+        </div>
+        <div class="password-info">
+            <input type="password" placeholder="请输入密码" class="password"/>
+            <div class="password-delete">×</div>
+        </div>
+        <div class="register-info">
+            <div class="register" >登&nbsp;录</div>
+        </div>
+        <!--<div class="vertions">V1.0.0</div>-->
+    </body>
+    <script src="js/index.js"></script>
+</html>

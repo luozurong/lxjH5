@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<header>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="css/grouponActivity.css">
+		<script src="../common/js/fontSize.js"></script>
+		<script src="../../common/vue/vue.min.js"></script>
+		<script src="../../common/vue/vue-resource.min.js"></script>
+		<script src="../../common/vue/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" href="../../common/tip/lxjTip.css">
+		<script src="../../common/interface.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/tip/lxjTip.js"></script>
+		<title>拼团活动</title>
+	</header>
+	<body>
+		<div class="grouponActivity" v-cloak>
+			<div class="grouponActivity-item" v-for="(item,index) in grouponActivityAttr" :key ="index" @click="jumpPage(item.activityId)">
+				<div class="grouponActivity-item-left">
+					<div class="grouponActivity-name" v-text="item.activityName">苹果拼团活动</div>
+					<div class="grouponActivity-time">{{item.startTime}} - {{item.endTime}}</div>
+				</div>
+				<div class="grouponActivity-item-right">
+					<span>{{item.status | statusFilter}}</span>
+					<img src="img/ic_more-@3x.png" alt="">
+				</div>
+			</div>
+			<div class="grouponActivity-margin"></div>
+			<div class="grouponActivity-nav">
+				<div class="grouponActivity-nav-item">
+					<img src="img/nav_btn_ic_pintuan_pre@3x.png" alt="">
+					<div class="grouponActivity-nav-active">拼团</div>
+				</div>
+				<div class="grouponActivity-nav-item">
+					<img src="img/nav_btn_ic_order_nor@3x.png" alt="" @click="goCommanderOrder()">
+					<div @click="goCommanderOrder()">订单</div>
+				</div>
+				<div class="grouponActivity-nav-item">
+					<img src="img/nav_btn_ic_mine_nor@3x.png" alt="" @click="goCommanderPersonal()">
+					<div @click="goCommanderPersonal()">我的</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/grouponActivity.js"></script>	
+	</body>
+</html>

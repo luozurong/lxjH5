@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" />
+		<title>团购券详情</title>
+		<link rel="stylesheet" href="../common/reset.css">
+		<link rel="stylesheet" type="text/css" href="../common/tip/layer.css" />
+		<script src="../common/jquery-2.1.4.js"></script>
+		<script src="../common/tip/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script src="../common/underscore.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/specialty_order_detail.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			a {
+				text-decoration: none;
+				color: #000;
+			}
+			
+			html {
+				font-size: 100px;
+				width: 100%;
+				height: 100%;
+			}
+			
+			body {
+				font-size: 0.12rem;
+				/*font-family: "Microsoft Yahe;*/
+				background: #fff;
+				width: 100%;
+			}
+			
+			@media(max-device-width: 340px) {
+				html {
+					font-size: 100px;
+				}
+			}
+			
+			@media (min-device-width: 340px) and (max-device-width: 380px) {
+				html {
+					font-size: 120px;
+				}
+			}
+			
+			@media (min-device-width: 380px) and (max-device-width: 420px) {
+				html {
+					font-size: 140px;
+				}
+			}
+			
+			@media (min-device-width: 420px) and (max-device-width: 450px) {
+				html {
+					font-size: 140px;
+				}
+			}
+			
+			@media (min-device-width: 450px) {
+				html {
+					font-size: 160px;
+				}
+			}
+			
+			.title {
+				height: 0.858rem;
+				width: 100%;
+				border-top: 10px solid #f0f0f0;
+				border-bottom: 1px solid #e8e8e8;
+			}
+			
+			.title p {
+				width: 60%;
+				text-align: center;
+				margin: 0px auto;
+				padding-top: 0.28rem;
+				line-height: 150%;
+			}
+			
+			.img-min {
+				height: 1.9rem;
+			}
+			
+			.img-min div {
+				width: 1.2rem;
+				height: 1.2rem;
+				margin: 0 auto;
+				padding-top: 0.35rem;
+			}
+			
+			.img-min img {
+				width: 100%;
+				height: 100%;
+			}
+			
+			.specialty_num {
+				text-align: center;
+				margin-bottom: 0.1rem;
+				color: #222222;
+				font-size: 0.122rem;
+			}
+			
+			.specialty_time {
+				text-align: center;
+				color: #666666;
+				font-size: 0.1rem;
+				font-size: 14px;
+				margin-bottom: 0.286rem;
+			}
+			
+			#bt_buttom {
+				height: 0.286rem;
+				width: 100%;
+			}
+			
+			.bt_refund {
+				line-height: 0.286rem;
+				width: 1rem;
+				text-align: center;
+				background: #ff661b;
+				color: #fff;
+				font-size: 0.122rem;
+				margin: 0 auto;
+				border-radius: 6px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+
+		<ul id="specialty_list_order">
+		</ul>
+		<script id="specialty_list" type="text/html">
+			<li class="title">
+				<p id="price_title">
+					<%=groupCouponName%>
+				</p>
+			</li>
+			<li class="img-min">
+				<div id="specialty_pic">
+					<img src="<%=qrImg%>" />
+				</div>
+			</li>
+			<li class="specialty_num">
+				<span class="Coupon-code"><%=groupCouponCode%></span>
+			</li>
+			<li class="specialty_time">
+				有效期至：<span class="Coupon-code"><%=validityEndDate%></span>
+			</li>
+		</script>
+
+		<div id="bt_buttom">
+			<script id="specialty_status" type="text/html">
+				<div class="bt_refund" id="<%=groupCouponstatus%>">
+					申请退款
+				</div>
+			</script>
+		</div>
+	</body>
+
+</html>

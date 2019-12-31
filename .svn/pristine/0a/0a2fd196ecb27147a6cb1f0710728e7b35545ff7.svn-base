@@ -1,0 +1,1177 @@
+<template>
+	<div class="confirmOrder" v-title data-title="提交订单">
+		<div class="receiverInfo" v-on:click="selectAddress()">
+			<div class="receiverLogo" v-if="receiverId!='null'">
+				<img src="../../../static/images/ic_-Location-@3x.png" />
+			</div>
+			<div class="receiverNone" v-if="receiverId=='null'||receiverId==''">
+				请选择收货地址
+			</div>
+			<div class="receiverInfo_box" v-if="receiverId!='null'">
+				<div class="receiverName">
+					<span v-text="receiverName"></span><span v-text="receiverphone"></span>
+				</div>
+				<div class="receiverDetail" v-text="address">
+				</div>
+			</div>
+			
+			<div class="moreLogo">
+				<img src="../../../static/images/ic_more-@3x.png" />
+			</div>
+		</div>
+		<div class="sellerList" v-if="sellerList.length>0" v-for="(items,index) in sellerList">
+			<div class="sellerName">
+				<img src="../../../static/images/sellerName_logo.png" />
+				<span v-text="items.sellerName"></span>
+			</div>
+			<!--<div class="line_01box">
+				<div class="line_01">
+
+				</div>
+			</div>-->
+			<div class="commodity" v-for="(item,index2) in items.commodityList">
+				<div class="commodityImg" :style="{ backgroundImage: 'url('+item.commodityLogo+')' }">
+				</div>
+				<div class="commodityInfo">
+					<div class="commodityName" v-text="item.commodityName"></div>
+					<div class="commodityDetail" v-text="item.commodityDetail"></div>
+					<div class="commodityPrice">
+						<span class="commodityPriceS">¥<span v-text="String(parseFloat(item.commodityPrice).toFixed(2)).split('.')[0]"></span>.<span class="minproductPrice" v-text="String(parseFloat(item.commodityPrice).toFixed(2)).split('.')[1]"></span></span>
+						<div class="commodityNumber">
+							<div class="reducebt" v-on:click="reduceData(item.id?item.id:item.commodityId,shoppingCartCount[item.id?item.id:item.commodityId])" v-bind:class="{reducefall:shoppingCartCount[item.id?item.id:item.commodityId]<=1}">
+							</div>
+							<input type="tel" v-model="shoppingCartCount[item.id?item.id:item.commodityId]" v-on:blur="blurInput(item.id?item.id:item.commodityId,item.stockQuantity,shoppingCartCount[item.id?item.id:item.commodityId])" v-on:focus="focusInput()" name="bugNumber" class="bugNumber" id="bugNumber" value="1" />
+							<div class="addbt" v-on:click="addData(item.id?item.id:item.commodityId,shoppingCartCount[item.id?item.id:item.commodityId],item.stockQuantity)" v-bind:class="{addbfall:shoppingCartCount[item.id?item.id:item.commodityId]>=100||shoppingCartCount[item.id?item.id:item.commodityId]>=item.stockQuantity}">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="orderInfo">
+				<div class="freightInfo_box">
+					<span>运费</span><span v-show="getSellerPriceItem(items,sellerFavorableToatlList,'freight')>0">¥{{getSellerPriceItem(items,sellerFavorableToatlList,'freight')}}</span><span v-if="getSellerPriceItem(items,sellerFavorableToatlList,'freight')<=0&&receiverId!=''">免邮</span>
+				</div>
+				<div class="line_01">
+				</div>
+				<div class="freightInfo_box">
+					<span>运费优惠</span><span >减 ¥{{getSellerPriceItem(items,sellerFavorableToatlList,'redecefreight')?getSellerPriceItem(items,sellerFavorableToatlList,'redecefreight'):0.00}}</span>
+				</div>
+				<div class="line_01">
+				</div>
+				<div class="freightInfo_box">
+					<span>满减优惠</span><span >减 ¥{{getSellerPriceItem(items,sellerFavorableToatlList,'redecedFee')?getSellerPriceItem(items,sellerFavorableToatlList,'redecedFee'):0.00}}</span>
+				</div>
+				<div class="line_01" >
+				</div>
+				<div class="leaveWord_box">
+					<span>留言：</span>
+					<textarea class="leaveWord" v-model="sellerRemark[index].content" name="" rows="" placeholder="选填给商家留言(45字内)" maxlength="45" cols=""></textarea>
+				</div>
+				<div class="line_01">
+				</div>
+				<div class="storeTotalprice">
+					<span class="flew_grow2"></span><span>共{{getSellerPriceItem(items,sellerFavorableToatlList,'counts')}}件商品</span><span> 小计：</span><span class="commodityPriceS" v-show="getSellerPriceItem(items,sellerFavorableToatlList,'price')>=0">¥<span v-text="String(parseFloat(getSellerPriceItem(items,sellerFavorableToatlList,'price')).toFixed(2)).split('.')[0]">0</span>.<span class="minproductPrice" v-text="String(parseFloat(getSellerPriceItem(items,sellerFavorableToatlList,'price')).toFixed(2)).split('.')[1]">00</span></span>
+				</div>
+			</div>
+		</div>
+
+		<div class="invalidList" v-if="invalidList.length>0">
+			<div class="sellerName">
+				失效 商品(不在配送范围)
+			</div>
+			<div class="commodity" v-for="(item3,index3) in invalidList">
+				<div class="commodityImg" :style="{ backgroundImage: 'url('+item3.commodityLogo+')' }">
+				</div>
+				<div class="commodityInfo">
+					<div class="commodityName">
+						{{item3.commodityName}}
+					</div>
+					<div class="commodityDetail">
+						{{item3.commodityName}}
+					</div>
+					<div class="commodityPrice">
+						<span class="commodityPriceS">¥<span v-text="String(parseFloat(item3.commodityPrice).toFixed(2)).split('.')[0]">0</span>.<span class="minproductPrice" v-text="String(parseFloat(item3.commodityPrice).toFixed(2)).split('.')[1]">00</span></span>
+						<div class="commodityNumber">
+							x{{item3.commodityCount}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="kongBottom">
+		</div>
+		<div class="footerButton">
+			<div class="line_01">
+			</div>
+			<div class="footerButtonMain">
+				<div class="totailPrice">
+					<span class="totailPricetext">应付款：</span>
+					<span class="commodityPriceS">¥<span  v-text="String(parseFloat(commitPrice).toFixed(2)).split('.')[0]">0</span>.<span class="minproductPrice" v-text="String(parseFloat(commitPrice).toFixed(2)).split('.')[1]">00</span></span>
+				</div>
+				<div class="saveOrder" v-on:click="beforesaveMultiCommodityOrder()">
+					<span>
+						提交订单
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+<script type="text/javascript">
+	import Vue from 'vue';
+	import axios from '../../common/js/http.js'
+	import wx from 'weixin-js-sdk'
+	export default {
+		name: 'confirmOrder',
+		data() {
+			return {
+				token: this.$store.state.token,
+				commodityId: this.$route.params.commodityId,
+				shoppingCartIds: this.$route.params.shoppingCartIds,
+				areaCode: this.$store.state.organizationSeq,
+				mmsHost: this.$store.state.mmsHost,
+				uumsHost: this.$store.state.uumsHost,
+				orderInfoData: null,//下单商品数据
+				OrderFreightdata: null,//下单商品费用信息
+				sellerList: [],
+				sellerRemark: [],//留言分店铺数组
+				shoppingCartCount: {},//商品数量控制
+				invalidList: [],//失效商品列表
+				inputFocusState: false,
+				bugType: this.$route.params.bugType,//下单类型，1为购物车下单2为单个商品购买
+				commoditySkuAttrIds: this.$route.params.commoditySkuAttrIds,//商品规格
+				commodityCounts: this.$route.params.commodityCounts,//商品数量
+				receiverId: "",//收货地址id
+				address: null,
+				receiverName: null,
+				receiverphone: null,
+				totalPrice: null, //总价金额
+				commitPrice: 0.00, //付款金额
+				sellerFavorableToatlList: [],//订单费用细分店铺优惠和店铺运费
+				appId: '',//支付参数公众号
+				saveState:false,//下单点击控制快速点击
+			}
+		},
+		methods: {
+			getUserReceiverInfo: function(receiverInfoId) {//查询是否有默认地址或者根据地址id查询相关地址信息
+				var that = this;
+				let params = {
+					body: {
+						type: 1,//type=1是查默认地址，id不用
+						id: receiverInfoId
+					},
+					header: {
+						token: this.token,
+						time_stamp: new Date().getTime()
+					}
+				}
+				if(this.isCondition(receiverInfoId)) {//type=3是根据id查地址信息
+					params.body.type = 3;
+				}
+				let paramsStr = encodeURI(JSON.stringify(params));
+				let httpURL = this.mmsHost + "/mms/servlet/getUserReceiverInfo?str=" + paramsStr;
+				/*this.$http.jsonp(httpURL, {
+					emulateJSON: true,
+					method: "get",
+					dataType: "jsonp",
+					jsonp: "jsoncallback",
+					contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+				})*/
+				axios.post(this.mmsHost + "/mms/servlet/getUserReceiverInfo", params).then(function(res) {
+					
+					if(res.data.receiverFlag == 1) {//receiverFlag=1，该地址可用
+						if(that.isCondition(receiverInfoId)) {//页面地址展示拼接
+							that.receiverId = receiverInfoId;
+							that.address = res.data.receiver.provinceName+res.data.receiver.cityName+res.data.receiver.areaName+res.data.receiver.townName+res.data.receiver.detailAddress;
+							that.receiverName = res.data.receiver.username;
+							that.receiverphone = res.data.receiver.mobile;
+						} else {//页面地址展示
+							that.receiverId = res.data.defaultReceiver.id;
+							that.address = res.data.defaultReceiver.address;
+							that.receiverName = res.data.defaultReceiver.username;
+							that.receiverphone = res.data.defaultReceiver.mobile;
+						}
+						that.getconfirmOrderDetail();//根据地址查询商品是否在配送范围
+					} else {//该地址不可用，或者没有地址
+						that.getconfirmOrderDetail();//根据地址查询商品是否在配送范围
+					}
+
+				}, function(res) {})
+
+			},
+			getconfirmOrderDetail: function() {
+				var that = this;
+				let params = {};
+				if(this.bugType == 2) {//单个商品下单的请求参数
+					params.body = {
+						commodityId: this.commodityId,
+						receiverId: this.receiverId,
+						commoditySkuAttrIds: this.commoditySkuAttrIds,
+						commodityCount: this.commodityCounts
+					}
+				} else if(this.bugType == 1) {//购物车下单的请求参数
+					params.body = {
+						shoppingCartIds: this.shoppingCartIds.join(","),//购物车id，数组字符串
+						receiverId: this.receiverId,
+					}
+				} else {
+					return false;
+				}
+				params.header = {
+					token: this.token,
+					time_stamp: new Date().getTime()
+				}
+				axios.post(this.mmsHost + "/mms/servlet/confirmOrder", params).then(function(res) {
+					that.orderInfoData = res.data;
+					that.sellerList = res.data.sellerList;//有效商品列表
+					that.invalidList = res.data.invalidList;//无效商品列表
+					//that.sellerRemark=[];
+					for(let i = 0; i < res.data.sellerList.length; i++) {//生成留言控制数组
+						var s = {
+							sellerId: res.data.sellerList[i].sellerId,
+							content: ''
+						}
+						that.sellerRemark.push(s);
+					}
+					//if(that.bugType == 1){
+					if(that.isCondition(sessionStorage.getItem("shoppingCartCount"))) {
+						that.shoppingCartCount = JSON.parse(sessionStorage.getItem("shoppingCartCount"))
+					} else {
+						that.shoppingCartCount = that.getCommodityCounts(that.sellerList);
+					}
+					that.calculateOrderFreight();
+					//}
+
+				}, function(res) {})
+
+			},
+			calculateOrderFreight: function(id, num) {
+				var that = this;
+				if(that.isCondition(id)) {
+					that.shoppingCartCount[id] = num;
+					sessionStorage.setItem("shoppingCartCount", JSON.stringify(that.shoppingCartCount));
+				}
+				let params = {};
+				if(this.bugType == 2) {
+					params.body = {
+						//shoppingCartIds: this.shoppingCartIds,
+						commodityId: that.commodityId,
+						receiverId: that.receiverId,
+						commoditySkuAttrIds: that.commoditySkuAttrIds,
+						commodityCount: that.shoppingCartCount[that.commodityId]
+					}
+
+				} else if(that.bugType == 1) {
+					params.body = {
+						shoppingCartCount: that.shoppingCartCount,
+						receiverId: that.receiverId,
+					}
+				} else {
+					return false;
+				}
+				params.header = {
+					token: that.token,
+					time_stamp: new Date().getTime()
+				}
+				axios.post(this.mmsHost + "/mms/servlet/calculateOrderFreight", params).then(function(res) {
+					that.OrderFreightdata = res.data;
+					that.sellerFavorableToatlList = res.data.sellerFavorableToatlList;
+					that.totalPrice = res.data.totalPrice;
+					that.commitPrice = parseFloat(Number(res.data.realTotalPrice) + Number(res.data.totalFreight ? res.data.totalFreight : 0)).toFixed(2);
+					if(res.data.result == 0) {
+						if(that.isCondition(id)) {
+							that.shoppingCartCount[id] = num;
+							sessionStorage.setItem("shoppingCartCount", JSON.stringify(that.shoppingCartCount));
+						}
+					}
+					/*for (let i=0;i<res.data.commoditySku.length;i++) {
+						that.skuSelectList.push('0000')
+					}*/
+				}, function(res) {})
+			},
+			saveMultiCommodityOrder: function(categoryType, shoppingCartCount, commodityCount, commoditySkuId) {
+				var that = this;
+				let params = {};
+				if(shoppingCartCount == 'aaa') {
+					params.body = {
+						categoryType: 2,
+						orderSource: 2, //下单来源微信
+						areaOrgaSeq: this.areaCode,
+						commodityId: this.commodityId,
+						commodityCount: that.shoppingCartCount[that.commodityId],
+						commoditySkuId: commoditySkuId,
+						receiverId: this.receiverId,
+						totalPrice: this.totalPrice,
+						commitPrice: this.commitPrice,
+						freightList: this.OrderFreightdata.sellerFreight,
+						sellerReducedFeeList: this.OrderFreightdata.sellerReducedFeeList,
+						sellerRemark: this.sellerRemark,
+					};
+				} else {
+					params.body = {
+						categoryType: 2,
+						orderSource: 2,
+						shoppingCartCount: this.shoppingCartCount,
+						areaOrgaSeq: this.areaCode,
+						receiverId: this.receiverId,
+						totalPrice: this.totalPrice,
+						commitPrice: this.commitPrice,
+						freightList: this.OrderFreightdata.sellerFreight,
+						sellerReducedFeeList: this.OrderFreightdata.sellerReducedFeeList,
+						sellerRemark: this.sellerRemark,
+					};
+				}
+				params.header = {
+					token: this.token,
+					time_stamp: new Date().getTime()
+				};
+				if(!this.isCondition(this.receiverId)) {
+					lxjTip.msg('请选择收货地址', {
+						time: 3000
+					});
+					return false;
+				}
+				if (this.saveState) {
+					return false;
+				}
+				this.saveState=true;
+				axios.post(this.mmsHost + "/mms/servlet/saveMultiCommodityOrder", params).then(function(res) {
+					//that.OrderFreightdata = res.data;
+					if (res.data.result == 0) {
+						that.verifyCommodityOrder(res.data.orderNo);
+					}else{
+						lxjTip.alert('订单信息异常，请退出重新下单')
+						that.saveState=false;
+					}				
+				}, function(res) {
+					that.saveState=false;
+				})
+			},
+			accreditAjax: function() {
+				var that = this;
+				var params = {
+					body: {
+						surl: window.location.href.split('#')[0],
+						signatureUrl: window.location.href.split('#')[0],
+					}
+				};
+				var paramsStr = encodeURIComponent(JSON.stringify(params));
+				var httpURL = this.uumsHost + "/uums/wxGzh/wxGzhAuth?str=" + paramsStr;
+				that.$http.jsonp(httpURL, {
+					emulateJSON: true,
+					method: "get",
+					dataType: "jsonp",
+					jsonp: "jsoncallback",
+					contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+				}).then(function(res) {
+					if(res.data.result == 0) {
+						that.appId = res.data.appid
+						wx.config({
+							debug: false,
+							appId: res.data.appid,
+							timestamp: res.data.timestamp,
+							nonceStr: res.data.noncestr,
+							signature: res.data.signature,
+							jsApiList: ["hideAllNonBaseMenuItem", 'chooseWXPay']
+						});
+						wx.ready(function() {
+							wx.hideAllNonBaseMenuItem();
+						});
+					}
+				}, function(res) {});
+			},
+			verifyCommodityOrder: function(orderN) {
+				var that = this;
+				let params = {
+					body: {
+						orderNo: orderN,
+					},
+					header: {
+						token: this.token,
+						time_stamp: new Date().getTime()
+					}
+				}
+				axios.post(this.mmsHost + "/mms/servlet/verifyCommodityOrder", params).then(function(res) {
+					if(res.data.result == 0) {
+						if(res.data.statusFlag == 1 && res.data.priceFlag == 1 && res.data.giftBagLimitFlag == 1) {
+							that.getPayInfo(orderN);
+						} else {
+							if(res.data.statusFlag == 0) { //没有此商品,关闭订单
+								lxjTip.confirm('订单信息已更改，订单即将关闭，请重新购买！', {
+									skin: 'demo3',
+									yes: function(index) {
+										lxjTip.close(); //如果设定了yes回调，需进行手工关闭
+									}
+								});
+								that.cancelOrder(orderN);
+							} else if(res.data.priceFlag == 0) {
+								//订单价格信息有变动
+								that.getChangedOrderInfo(orderN);
+							}
+						}
+					}
+
+				}, function(res) {})
+			},
+			//关闭订单
+			cancelOrder: function(orderN) {
+				var that = this;
+				let params = {
+					body: {
+						totalOrderNo: orderN,
+					},
+					header: {
+						token: this.token,
+						time_stamp: new Date().getTime()
+					}
+				}
+				axios.post(this.mmsHost + "/mms/servlet/cancelNotPayOrder", params).then(function(res) {}, function(res) {})
+			},
+			//订单价格变更
+			getChangedOrderInfo: function(orderN) {
+				var that = this;
+				let params = {
+					body: {
+						totalOrderNo: orderN,
+					},
+					header: {
+						token: this.token,
+						time_stamp: new Date().getTime()
+					}
+				}
+				axios.post(this.mmsHost + "/mms/servlet/getChangeOrderInfo", params).then(function(res) {
+					if(res.data.result == 0) {
+						if(res.data.breakOrderStatus != 1) {
+							lxjTip.confirm('订单信息已更改，请重新确认!', {
+								skin: 'demo3',
+								yes: function(index) {
+									lxjTip.close(); //如果设定了yes回调，需进行手工关闭
+									that.verifyCommodityOrder(orderN);
+								}
+							});
+							that.commitPrice=res.data.payPrice;
+						} else {
+							lxjTip.confirm('订单信息已更改，订单即将关闭，请重新购买！', {
+								skin: 'demo3',
+								yes: function(index) {
+									lxjTip.close(); //如果设定了yes回调，需进行手工关闭
+								}
+							});
+							that.cancelOrder(orderN);
+						}
+					}
+				}, function(res) {})
+			},
+			//开始生成预付款订单信息
+			getPayInfo: function(orderN) {
+				var that = this;
+				let params = {
+					body: {
+						pay_method: "5",
+						orderNo: orderN,
+						appid: this.appId,
+						channel_flag: "3",
+						openid:this.$store.state.openid,
+						//openid: this.$store.state.openid,
+					},
+					header: {
+						token: this.token,
+						time_stamp: new Date().getTime()
+					}
+				}
+				axios.post(this.mmsHost + "/mms/servlet/getWxPrepayidRequest", params).then(function(res) {
+					var sd = res.data;
+					//lxjTip.msg(res.data);
+					//that.onBridgeReady(sd.obj.appid, sd.obj.timestamp, sd.obj.noncestr, sd.obj.package, sd.obj.sign, orderN)
+					wx.chooseWXPay({
+						timestamp: sd.obj.timestamp,
+						nonceStr: sd.obj.noncestr,
+						package: sd.obj.package,
+						signType: "MD5",
+						paySign: sd.obj.sign,
+						success: function(res) {
+							//var msgee=JSON.stringify(res)
+							that.getWxPayOrderStatus(orderN, that.appId)
+						},
+						cancel: function(res) {
+							//var msgee=JSON.stringify(res)
+							that.getWxPayOrderStatus(orderN, that.appId)
+						},fail:function(res) {
+							//var msgee=JSON.stringify(res)
+							lxjTip.alert(res)
+						}
+					});
+					//that.OrderFreightdata = res.data;
+					/*for (let i=0;i<res.data.commoditySku.length;i++) {
+						that.skuSelectList.push('0000')
+					}*/
+				}, function(res) {})
+			},
+			onBridgeReady: function(appId, timeStamp, nonceStr, ppackage, paySign, orderN) {
+				var that = this;
+				WeixinJSBridge.invoke(
+					'getBrandWCPayRequest', {
+						"appId": appId,
+						"timeStamp": timeStamp,
+						"nonceStr": nonceStr,
+						"package": ppackage,
+						"signType": "MD5",
+						"paySign": paySign
+					},
+					function(res) {
+						if(res.err_msg == "get_brand_wcpay_request:ok") {
+							//lxjTip.msg('支付成功');
+							that.getWxPayOrderStatus(orderN, appId)
+						} else {
+							lxjTip.msg('取消支付');
+							that.getWxPayOrderStatus(orderN, appId)
+						} // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+					}
+				);
+			},
+			//获取支付结果
+			getWxPayOrderStatus: function(orderN, appid) {
+				var that = this;
+				let params = {
+					body: {
+						orderNo: orderN,
+						pay_method: "5",
+						channel_flag: "3",
+						appid: appid,
+					},
+					header: {
+						token: this.token,
+						time_stamp: new Date().getTime()
+					}
+				}
+				axios.post(this.mmsHost + "/mms/servlet/getWxPayOrderStatus", params).then(function(res) {
+						if(res.data.result == 0) {
+							if(res.data.obj.trade_state == 'SUCCESS') {
+								lxjTip.msg('支付成功');
+								setTimeout(() => {
+									that.$router.replace({
+										name: 'paySuccess',
+										params: {
+										}
+									});
+								}, 500);
+							} else {
+								that.$router.replace({
+									name: 'myOrder',
+									params: {
+										orderStatus: "0",
+										orderStatusName:"待付款"
+									}
+								});
+							}
+						} else {
+							that.$router.replace({
+								name: 'myOrder',
+								params: {
+									orderStatus: "0",
+									orderStatusName:"待付款"
+								}
+							});
+						}
+					},
+					function(res) {
+						lxjTip.msg("网络失败")
+					})
+			},
+			//缓存商品数量
+			getCommodityCounts: function(list) {
+				let shoppingCartCountg = {};
+				for(var i = 0; i < list.length; i++) {
+					for(var j = 0; j < list[i].commodityList.length; j++) {
+						shoppingCartCountg[list[i].commodityList[j].id ? list[i].commodityList[j].id : list[i].commodityList[j].commodityId] = list[i].commodityList[j].commodityCount;
+					}
+				}
+				return shoppingCartCountg;
+			},
+			beforesaveMultiCommodityOrder: function() {
+				if(this.bugType == '2') {
+					//开始商品购买流程
+					this.saveMultiCommodityOrder(2, 'aaa', this.commodityCounts, this.sellerList[0].commodityList[0].commoditySkuId)
+				} else {
+					//开始购物车购买流程
+
+					this.saveMultiCommodityOrder(2, this.shoppingCartCount)
+				}
+
+			},
+			getSellerPriceItem: function(items, list, key) {
+				let PriceItem = {};
+				for(var i = 0; i < list.length; i++) {
+					if(list[i].sellerId == items.sellerId) {
+						var numt = 0;
+						PriceItem["price"] = Number(list[i].sellerTotalPrice) + Number(list[i].freight? list[i].freight : 0) - Number(list[i].redecedFee ? list[i].redecedFee : 0);
+						for(var j = 0; j < items.commodityList.length; j++) {
+							numt = this.shoppingCartCount[items.commodityList[j].id ? items.commodityList[j].id : items.commodityList[j].commodityId] + numt
+						}
+						PriceItem["counts"] = numt;
+						PriceItem["privilege"] = (list[i].freePriceInfo ? list[i].freePriceInfo : '') + "   " + (list[i].freightInfo ? list[i].freightInfo : '');
+						PriceItem["freightInfo"] = (list[i].freightInfo ? list[i].freightInfo : '');
+						PriceItem["freight"] = (list[i].originalFreight ? String(parseFloat(list[i].originalFreight).toFixed(2)) : "0.00");
+						PriceItem["redecefreight"] = String(parseFloat((list[i].originalFreight ? list[i].originalFreight : 0)-(list[i].freight ? list[i].freight : 0)).toFixed(2));
+						PriceItem["redecedFee"] = (list[i].redecedFee ? String(parseFloat(list[i].redecedFee).toFixed(2)): "0.00");
+						break;
+					}
+				}
+				return PriceItem[key];
+			},
+			//增加数量操作
+			addData: function(id, num, stockQuantity) {
+				//this.getWxPayOrderStatus(0,0);
+				//return false;
+				//var newItem = item;
+				if(num >= stockQuantity) {
+					lxjTip.msg('亲，老板没那么多存货呢!', {
+						time: 1500
+					});
+					return false;
+				}
+				if(num >= 100) {
+					lxjTip.msg('亲，商品购买数量已达上限了!', {
+						time: 1500
+					});
+					return false;
+				}
+				num++;
+				this.calculateOrderFreight(id, num);
+				//newItem.shoppingCartCount = Number(item.shoppingCartCount) + 1;
+				//vue.addShoppingcart(newItem.id, count, e, newItem);
+			},
+			//减少数量操作
+			reduceData: function(id, num) {
+				if(num <= 1) {
+					return false;
+				}
+				num--;
+				this.calculateOrderFreight(id, num);
+				//vue.addShoppingcart(newItem.id, cont, e, newItem);
+			},
+			focusInput: function() {
+				this.inputFocusState = true;
+			},
+			blurInput: function(id, stockQuantity, num) {
+				if(num == '') {
+					num = 1;
+				}
+				if(isNaN(num)) {
+					num = 1;
+				}
+				if(num<=0) {
+					num = 1;
+				}
+				if(num > 100) {
+					lxjTip.msg('亲，商品购买数量已达上限了!', {
+						time: 1500,
+						skin: 'demo1'
+					});
+					num = 100;
+				}
+				if(stockQuantity < num) {
+					lxjTip.msg('亲，老板没那么多存货呢!', {
+						time: 1500,
+						skin: 'demo1'
+					});
+					num = stockQuantity;
+				}
+				this.calculateOrderFreight(id, num);
+			},
+			selectAddress: function() {
+				this.$router.push({
+					path: '../personal/address/',
+					name: 'address',
+					params: {
+						hadChooseReceiverId: this.receiverId,
+						chooseState:2
+					}
+				})
+			},
+			isCondition: function(param) {
+				if(param != null && param != "" && param != undefined) {
+					return true;
+				}
+				return false;
+			},
+			getbasicData: function() {
+				this.$route.params.bugType ? sessionStorage.setItem("confirmOrderbugType", this.$route.params.bugType) : this.bugType = sessionStorage.getItem("confirmOrderbugType");
+				if(this.bugType == 1) {
+					this.$route.params.shoppingCartIds ? sessionStorage.setItem("confirmOrdershoppingCartIds", this.$route.params.shoppingCartIds) : this.shoppingCartIds = (sessionStorage.getItem("confirmOrdershoppingCartIds")).split(',');
+				} else {
+					this.$route.params.commoditySkuAttrIds ? sessionStorage.setItem("confirmOrdercommoditySkuAttrIds", this.$route.params.commoditySkuAttrIds) : this.commoditySkuAttrIds = (sessionStorage.getItem("confirmOrdercommoditySkuAttrIds")).split(',');
+					this.$route.params.commodityId ? sessionStorage.setItem("confirmOrdercommodityId", this.$route.params.commodityId) : this.commodityId = sessionStorage.getItem("confirmOrdercommodityId");
+					this.$route.params.commodityCounts ? sessionStorage.setItem("confirmOrdercommodityCounts", this.$route.params.commodityCounts) : this.commodityCounts = sessionStorage.getItem("confirmOrdercommodityCounts");
+				}
+				if(this.isCondition(sessionStorage.getItem("hadChooseReceiverId"))) {
+					this.getUserReceiverInfo(sessionStorage.getItem("hadChooseReceiverId"));
+				} else {
+					this.getUserReceiverInfo();
+				}
+				this.accreditAjax();
+			},
+
+		},
+		mounted: function() {
+			if(window.location.href.indexOf("pageFrom=wx")>=0){				
+			}else{
+				var sst = this.$store.state.host + "/mms/html5/wechatH5/dist/index.htm?pageFrom=wx" + window.location.hash;
+				window.location.replace(sst)
+			}
+			//console.log(this.commoditySkuAttrIds);
+			this.getbasicData();
+		},
+		watch: {
+			shoppingCartCount(newVal, oldVal) {
+			},
+			commitPrice(newVal, oldVal) {
+				this.commitPrice = newVal;
+			},
+
+		}
+	}
+
+	//function 
+	/*if(typeof WeixinJSBridge == "undefined") {
+		if(document.addEventListener) {
+			document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+		} else if(document.attachEvent) {
+			document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+			document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+		}
+	} else {
+		onBridgeReady();
+	}*/
+</script>
+<style scoped="scoped">
+	.line_01 {
+		width: 100%;
+		height: 1px;
+		background-color: #eee;
+		/*transform: scaleY(0.5);
+		-webkit-transform: scaleY(0.5)*/
+	}
+	
+	.line_01box {
+		width: 100%;
+		box-sizing: border-box;
+		padding: 0 0.14rem;
+	}
+	
+	.receiverInfo {
+		width: 100%;
+		padding: 0.18rem 0.14rem 0.17rem;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		background-color: #fff;
+		color: #555;
+		font-size: 0.14rem;
+	}
+	
+	.receiverNone {
+		flex-grow: 2;
+		color: #555;
+		font-size: 0.14rem;
+		line-height: 0.16rem;
+	}
+	
+	.receiverLogo {
+		width: 0.18rem;
+		flex-grow: 0;
+		flex-shrink: 0;
+		padding-right: 0.14rem;
+	}
+	
+	.receiverInfo_box {
+		width: 10%;
+		flex-grow: 3;
+	}
+	
+	.receiverName {
+		width: 100%;
+		display: flex;
+	}
+	
+	.receiverName span:nth-child(1) {
+		overflow: hidden;
+		-webkit-line-clamp: 1;
+		text-overflow: ellipsis;
+		-webkit-box-orient: vertical;
+		display: -webkit-box;
+	}
+	
+	.receiverName span:nth-child(2) {
+		flex-shrink: 0;
+		padding-left: 0.2rem;
+	}
+	
+	.receiverDetail {
+		width: 100%;
+		padding-top: 0.1rem;
+		line-height: 0.2rem;
+	}
+	
+	.receiverLogo img,
+	.moreLogo img {
+		width: 100%;
+		height: auto;
+		display: block;
+	}
+	
+	.moreLogo {
+		width: 0.07rem;
+		flex-grow: 0;
+		flex-shrink: 0;
+	}
+	
+	.sellerList {
+		width: 100%;
+		box-sizing: border-box;
+		margin-top: 0.12rem;
+		background-color: #fff;
+	}
+	
+	.sellerName {
+		width: 100%;
+		box-sizing: border-box;
+		padding: 0.12rem 0.14rem;
+		display: flex;
+		align-items: center;
+	}
+	
+	.sellerName img {
+		width: 0.18rem;
+		height: auto;
+		display: block;
+		flex-shrink: 0;
+		flex-grow: 0;
+		padding-right: 0.14rem;
+	}
+	
+	.sellerName span {
+		color: #333;
+		font-size: 15px;
+		font-size: 0.153rem;
+		line-height: 0.2rem;
+		overflow: hidden;
+		-webkit-line-clamp: 1;
+		text-overflow: ellipsis;
+		-webkit-box-orient: vertical;
+		display: -webkit-box;
+	}
+	
+	.sellerList .commodity,
+	.invalidList .commodity {
+		width: 100%;
+		box-sizing: border-box;
+		padding: 0 0.14rem;
+		background-color: #f8f8f8;
+		color: #333;
+		display: flex;
+		align-items: flex-start;
+		margin-top: 0.1rem;
+	}
+	
+	.invalidList {
+		width: 100%;
+		box-sizing: border-box;
+		margin-top: 0.12rem;
+		background-color: #fff;
+		padding-bottom: 0.1rem;
+	}
+	
+	.invalidList .sellerName {
+		color: #FC9153;
+	}
+	
+	.invalidList .commodityName {
+		color: #aaa;
+	}
+	
+	.invalidList .commodityPriceS {
+		color: #aaa;
+	}
+	
+	.invalidList .commodityNumber {
+		color: #aaa;
+		font-size: 0.17rem;
+	}
+	
+	.sellerList .commodity:nth-child(2),
+	.invalidList .commodity:nth-child(2) {
+		margin-top: 0;
+	}
+	
+	.commodityImg {
+		width: 0.8rem;
+		height: 0.8rem;
+		flex-shrink: 0;
+		flex-grow: 0;
+		margin: 0.15rem 0.14rem 0.15rem 0;
+		background-color: #fff;
+		background-position: center;
+		background-size: contain;
+		background-repeat: no-repeat;
+	}
+	
+	.commodityInfo {
+		flex-grow: 2;
+	}
+	
+	.commodityInfo .commodityName {
+		width: 100%;
+		line-height: 0.22rem;
+		font-size: 14px;
+		font-size: 0.14rem;
+		height: 0.44rem;
+		overflow: hidden;
+		-webkit-line-clamp: 2;
+		text-overflow: ellipsis;
+		-webkit-box-orient: vertical;
+		display: -webkit-box;
+		margin-top: 0.11rem;
+	}
+	/*.sellerList .commodityInfo .commodityName {
+		width: 100%;
+		line-height: 0.22rem;
+		height: 0.44rem;
+		overflow: hidden;
+		-webkit-line-clamp: 2;
+		text-overflow: ellipsis;
+		-webkit-box-orient: vertical;
+		display: -webkit-box;
+	}*/
+	
+	.commodityInfo .commodityDetail {
+		line-height: 0.22rem;
+		width: 100%;
+		overflow: hidden;
+		-webkit-line-clamp: 1;
+		text-overflow: ellipsis;
+		-webkit-box-orient: vertical;
+		display: -webkit-box;
+		color: #aaa;
+		font-size: 12.6px;
+		font-size: 0.126rem;
+	}
+	
+	.commodityPrice {
+		width: 100%;
+		display: flex;
+		align-items: flex-end;
+	}
+	
+	.commodityPriceS {
+		flex-grow: 2;
+		color: #FC9153;
+		font-size: 17.3px;
+		font-size: 0.173rem;
+	}
+	.commodityPriceS span{
+		font-size: 17.3px;
+		font-size: 0.173rem;
+	}
+	
+	.commodityPriceS span.minproductPrice {
+		font-size: 12px;
+		font-size: 0.12rem;
+	}
+	
+	.commodityNumber {
+		display: flex;
+		align-items: center;
+	}
+	
+	.reducebt {
+		width: 0.26rem;
+		height: 0.26rem;
+		background-image: url(../../../static/images/list_btn_ic_subtract@3x.png);
+		background-size: contain;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+	
+	.addbt {
+		width: 0.26rem;
+		height: 0.26rem;
+		background-image: url(../../../static/images/list_btn_ic_add@3x.png);
+		background-size: contain;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+	
+	.reducefall {
+		background-image: url(../../../static/images/ic_cut_-no-active-.png)!important;
+	}
+	
+	.addbfall {
+		background-image: url(../../../static/images/ic_add_-active_no.png)!important;
+	}
+	
+	.bugNumber {
+		width: 0.33rem;
+		height: 0.2rem;
+		text-align: center;
+		outline: none;
+		font-size: 0.16rem;
+		line-height: 0.2rem;
+		background-color: #F8F8F8;
+	}
+	
+	.orderInfo {
+		width: 100%;
+		box-sizing: border-box;
+		padding: 0 0.14rem;
+		background-color: #fff;
+	}
+	
+	.freightInfo_box {
+		width: 100%;
+		box-sizing: border-box;
+		padding: 0.2rem 0;
+		display: flex;
+		align-items: center;
+	}
+	
+	.freightInfo_box span:nth-child(1) {
+		flex-grow: 2;
+		line-height: 0.2rem;
+		font-size: 0.14rem;
+		flex-shrink: 0;
+		color: #333;
+	}
+	
+	.freightInfo_box span:nth-child(2) {
+		flex-grow: 0;
+		line-height: 0.2rem;
+		font-size: 0.14rem;
+		text-decoration: line-through;
+		color: #333;
+	}
+	
+	.privilege span:nth-child(2) {
+		text-decoration: none;
+	}
+	
+	.freightInfo_box span:last-child {
+		flex-grow: 0;
+		padding-left: 0.08rem;
+		line-height: 0.2rem;
+		font-size: 0.14rem;
+		color: #333;
+		text-decoration: none;
+	}
+	
+	.privilege span:last-child {
+		color: #555;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 1;
+		-webkit-box-orient: vertical;
+	}
+	
+	.leaveWord_box {
+		width: 100%;
+		display: flex;
+		align-items: flex-start;
+	}
+	
+	.leaveWord_box span {
+		font-size: 15px;
+		font-size: 0.15rem;
+		line-height: 0.21rem;
+		padding-top: 0.15rem;
+	}
+	
+	.leaveWord_box textarea {
+		flex-grow: 2;
+		margin: 0.16rem 0 0.14rem;
+		font-size: 0.14rem;
+		line-height: 0.2rem;
+		height: 0.6rem;
+		outline: none;
+		resize: none;
+		border: none;
+	}
+	
+	.leaveWord_box textarea::-webkit-input-placeholder {
+		color: #CCCCCC;
+	}
+	
+	.storeTotalprice {
+		width: 100%;
+		display: flex;
+		align-items: flex-end;
+		font-size: 0.14rem;
+		line-height: 0.3rem;
+		box-sizing: border-box;
+		padding: 0.08rem 0;
+	}
+	
+	.storeTotalprice .commodityPriceS {
+		flex-grow: 0;
+		height: 0.3rem;
+	}
+	
+	.flew_grow2 {
+		flex-grow: 2;
+	}
+	
+	.kongBottom {
+		width: 100%;
+		height: 0.65rem;
+		background-color: transparent;
+	}
+	
+	.footerButton {
+		width: 100%;
+		height: 53px;
+		height: 0.53rem;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		background-color: #fff;
+		display: flex;
+		flex-direction: column;
+	}
+	
+	.footerButtonMain {
+		flex-grow: 2;
+		width: 100%;
+		height: 90%;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-end;
+	}
+	
+	.saveOrder {
+		flex-shrink: 0;
+		width: 29%;
+		height: 100%;
+		background-color: #FC9153;
+		color: #fff;
+		font-size: 17.3px;
+		font-size: 0.173rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.saveOrder span{
+		font-size: 17.3px;
+		font-size: 0.173rem;
+	}
+	
+	.totailPrice {
+		flex-grow: 2;
+		padding-left: 0.14rem;
+	}
+	
+	.totailPricetext {
+		font-size: 0.16rem;
+		color: #222;
+	}
+</style>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+
+	<head lang="en">
+		<meta charset="UTF-8">
+		<title>编写商品评价</title>
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<link rel="stylesheet" href="../common/reset.css" />
+		<link rel="stylesheet" href="../common/common.css">
+		<link rel="stylesheet" type="text/css" href="../common/tip/layer.css" />
+		<link rel="stylesheet" href="../personal/css/writeproductEvaluate.css?yu=001" />
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../mall/js/skin/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../mall/js/skin/app.css" />
+		<script src="js/lazyload-min.js?v=017a26177f" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../common/jquery-2.1.4.js"></script>
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script src="../common/tip/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../mall/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			body {
+				background-color: #fff;
+			}
+			
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4px;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			
+			.mui-slider .mui-slider-group .mui-slider-item img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+			
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			p img {
+				max-width: 100%;
+				height: auto;
+			}
+		</style>
+		<script type="text/javascript">
+			window.addEventListener('load', function() {
+				FastClick.attach(document.body);
+			}, false);
+			//设置对应的机型显示
+			(function(doc, win) {
+				var docEl = doc.documentElement,
+					isIOS = navigator.userAgent.match(/iphone|ipod|ipad/gi),
+					dpr = isIOS ? Math.min(win.devicePixelRatio, 3) : 1,
+					dpr = window.top === window.self ? dpr : 1, //被iframe引用时，禁止缩放
+					scale = 1 / dpr,
+					resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+				docEl.dataset.dpr = dpr;
+				var recalc = function() {
+					var width = docEl.clientWidth;
+					if(width / dpr > 768) {
+						width = 768 * dpr;
+					}
+					docEl.style.fontSize = 100 * (width / 414) + 'px';
+				};
+				recalc();
+				if(!doc.addEventListener) return;
+				win.addEventListener(resizeEvt, recalc, false);
+			})(document, window);
+			var autoTextarea = function(elem, extra, maxHeight) {
+				extra = extra || 0;
+				var isFirefox = !!document.getBoxObjectFor || 'mozInnerScreenX' in window,
+					isOpera = !!window.opera && !!window.opera.toString().indexOf('Opera'),
+					addEvent = function(type, callback) {
+						elem.addEventListener ?
+							elem.addEventListener(type, callback, false) :
+							elem.attachEvent('on' + type, callback);
+					},
+					getStyle = elem.currentStyle ? function(name) {
+						var val = elem.currentStyle[name];
+
+						if(name === 'height' && val.search(/px/i) !== 1) {
+							var rect = elem.getBoundingClientRect();
+							return rect.bottom - rect.top -
+								parseFloat(getStyle('paddingTop')) -
+								parseFloat(getStyle('paddingBottom')) + 'px';
+						};
+
+						return val;
+					} : function(name) {
+						return getComputedStyle(elem, null)[name];
+					},
+					minHeight = parseFloat(getStyle('height'));
+
+				elem.style.resize = 'none';
+
+				var change = function() {
+					var scrollTop, height,
+						padding = 0,
+						style = elem.style;
+
+					if(elem._length === elem.value.length) return;
+					elem._length = elem.value.length;
+
+					if(!isFirefox && !isOpera) {
+						padding = parseInt(getStyle('paddingTop')) + parseInt(getStyle('paddingBottom'));
+					};
+					scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+
+					elem.style.height = minHeight + 'px';
+					if(elem.scrollHeight > minHeight) {
+						if(maxHeight && elem.scrollHeight > maxHeight) {
+							height = maxHeight - padding;
+							style.overflowY = 'auto';
+						} else {
+							height = elem.scrollHeight - padding;
+							style.overflowY = 'hidden';
+						};
+						style.height = height + extra + 'px';
+						scrollTop += parseInt(style.height) - elem.currHeight;
+						document.body.scrollTop = scrollTop;
+						document.documentElement.scrollTop = scrollTop;
+						elem.currHeight = parseInt(style.height);
+					};
+				};
+
+				addEvent('propertychange', change);
+				addEvent('input', change);
+				addEvent('focus', change);
+				change();
+			};
+		</script>
+	</head>
+
+	<body>
+		<div class="appraise">
+			<div class="appraise_fl">
+				<!--<img src="images/c_s_error.png" class="appraiseImg" alt="" />-->
+			</div>
+			<!--标题，需要js对接-->
+			<div class="appraise_f2"></div>
+		</div>
+		<div class="estimate">
+
+			<textarea id="evaluateText" maxlength="100" class="estimate_text" placeholder="亲！说说什么吧，您的感受对其他朋友很重要哦！"></textarea>
+			<script type="text/javascript">
+				var text = document.getElementById("evaluateText");
+				autoTextarea(text);
+			</script>
+
+			<!--				<div id="textare_moni" contenteditable="plaintext-only" placeholder="亲！说说什么吧，您的感受对其用户很重要哦！"></div>
+-->
+		</div>
+		<div class="upload_box">
+			<div id="picture">
+				<!--<div class="img_box" oimg="images/btn_add@3x.png" name="images/btn_add@3x.png" style='background-image:url(images/btn_add@3x.png)'><div class='dele_box' onclick='delePicture(this)'><img class='dele_img' src='images/btn_ic_cancel@3x.png'/></div><img src="201705231547351170401.jpg" data-preview-src='' data-preview-group='1' /></div>
+                <div class="img_box" oimg="images/btn_add@3x.png" name="images/btn_add@3x.png" style='background-image:url(images/btn_add@3x.png)'><div class='dele_box' onclick='delePicture(this)'><img class='dele_img' src='images/btn_ic_cancel@3x.png'/></div><img src="201705231547351170401.jpg" data-preview-src='' data-preview-group='1' /></div>
+        <div class="img_box" oimg="images/btn_add@3x.png" name="images/btn_add@3x.png" style='background-image:url(images/btn_add@3x.png)'><div class='dele_box' onclick='delePicture(this)'><img class='dele_img' src='images/btn_ic_cancel@3x.png'/></div><img src="201705231547351170401.jpg" data-preview-src='' data-preview-group='1' /></div>
+        <div class="img_box" oimg="images/btn_add@3x.png" name="images/btn_add@3x.png" style='background-image:url(images/btn_add@3x.png)'><div class='dele_box' onclick='delePicture(this)'><img class='dele_img' src='images/btn_ic_cancel@3x.png'/></div><img src="201705231547351170401.jpg" data-preview-src='' data-preview-group='1' /></div>-->
+
+				<div class="img_box uploadimg_box">
+					<img id="uploadimg" class="upload_img" src="images/btn_add@3x.png" onclick="imageUpload()" />
+				</div>
+				<div class="content_box" style="line-height: 0.86rem;font-size: 0.14rem;color:#CCC;padding-left:0.14rem;display: inline-block">
+
+				</div>
+			</div>
+			<!--<div class="up_tip_box">
+        <span class="picture_text">发照片</span>
+    </div>-->
+		</div>
+		<div class="display_none" style="width: 100%;height: 58px;opacity: 1;clear: left;background-color:#f3f4f5;vertical-align: middle"></div>
+
+		<div class="data_fixed">
+			<div class="estimate_fixed" onclick="doSubmit()">发 表 评 价</div>
+		</div>
+
+		<!--<script src="../mall/js/mui.min.js"></script>
+<script src="js/mui.previewimage.js"></script>
+<script src="../mall/js/mui.zoom.js"></script>
+<script type="text/javascript">
+    mui.previewImage();
+</script>-->
+
+	</body>
+	<script src="js/writeproductEvaluate.js" type="text/javascript" charset="utf-8"></script>
+
+</html>
+<!--此优化上传图片需ios客户端升级才可用-->
+<script type="text/javascript">
+	//	LazyLoad.js(['../mall/js/fastclick.js'], function() {
+	//		window.addEventListener('load', function() {
+	//			FastClick.attach(document.body);
+	//		}, false);
+	//	});
+	//	LazyLoad.js(['../common/interface.js',
+	//		'../common/jquery-2.1.4.js',
+	//		'../common/tip/layer.js',
+	//		'js/writeproductEvaluate.js'
+	//	], function() {
+	//
+	//	});
+
+	//	LazyLoad.js(['../mall/js/mui.min.js', 'js/mui.previewimage.js', '../mall/js/mui.zoom.js'], function() {
+	//		mui.previewImage();
+	//	});
+</script>

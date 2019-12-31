@@ -1,0 +1,224 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	/*font-family: "Microsoft YaHei", "微软雅黑";*/
+	font-size: 16px;
+	word-break:break-all;
+}
+
+.main-conten {
+	background-color: #fff;
+}
+
+.main-conten li {
+	overflow: hidden;
+	background: #fff;
+	line-height: 150%;
+	color: #222222;
+	font-size: .123rem;
+	/*margin: .1rem 0 .1rem 0;*/
+	border-bottom: 1px solid #e8e8e8;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	height: 0.78rem;
+	-webkit-tap-highlight-color: rgba(255,255,255,0);
+}
+
+.main-conten li .logo {
+	width: .58rem;
+	height: .58rem;
+	float: left;
+	text-align: center;
+
+}
+.main-conten li .logo span{
+	height: 100%;
+	vertical-align: middle;
+	display: inline-block;
+}
+.main-conten li .logo img {
+	max-width: 100%;
+	max-height: 100%;
+	vertical-align: middle;
+	/*vertical-align: middle;*/
+	/*后面修改的*/
+	/*padding-top:0.2rem;*/
+}
+
+.main-conten li .title {
+	/*float: right;
+	width: 80%;*/
+	line-height: 0.58rem;
+	/*padding-right: 0.217rem;*/
+	padding-left: 5.5%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	/*后面修改的*/
+	/*padding-top: 0.2rem;*/
+}
+
+.main-conten .padding-left {
+	padding: .1rem 8% .1rem 0;
+	margin-left:.1rem;
+}
+
+.main-conten .select {
+	background-image: url(../../common/images/ic_more-@3x.png);
+	background-repeat: no-repeat;
+	background-position: 98% center;
+	background-size: 4.5%;
+}
+
+html {
+	background-color: #FFFFFF;
+}
+
+@media (max-width: 640px) {
+	.main-conten li {
+		font-size: 16px;
+	}
+}
+@media (max-width: 374px) {
+	.main-conten li {
+		font-size: 15px;
+	}
+}
+/*
+@media only screen and (min-width: 320px) and (max-width: 374px) {
+	.main-conten li {
+		font-size: 0.28rem;
+	}
+}
+
+@media screen and (min-width: 375px) and (max-width: 413px) {
+	.main-conten li {
+		font-size: 0.26rem;
+	}
+}*/
+/*@media screen and (min-width: 300px) and (max-width: 640px) {
+	.main-conten li {
+		font-size: 0.216rem;
+	}
+}*/
+.wrapper-second {
+	position: absolute;
+	z-index: 1;
+	top: .0;
+	bottom: 0px;
+	left: -9999px;
+	width: 100%;
+	background: #fff;
+	overflow: auto;
+}
+
+.wrapper-first {
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	bottom: 0px;
+	left: -9999px;
+}
+
+#scroller {
+	position: absolute;
+	z-index: 1;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	width: 100%;
+	padding: 0;
+}
+
+#myFrame {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+
+/**
+ *
+ * Pull down styles
+ *
+ */
+
+
+/*
+#pullDown {
+	background: #fff;
+	text-align: center;
+	height: 0px;
+	line-height: 40px;
+	border-bottom: 1px solid #ccc;
+	font-weight: bold;
+	font-size: 14px;
+	color: #888;
+}*/
+
+#pullUp {
+	background: #fff;
+	text-align: center;
+	height: 40px;
+	line-height: 40px;
+	padding: 5px 10px;
+	border-bottom: 1px solid #e8e8e8;
+	font-weight: bold;
+	font-size: 14px;
+	color: #888;
+}
+
+
+/*#pullDown .pullDownIcon,*/
+
+#pullUp .pullUpIcon {
+	display: block;
+	margin: 0 auto;
+	width: 40px;
+	height: 40px;
+	background: url(../img/pull-icon@2x.png) 0 0 no-repeat;
+	-webkit-background-size: 40px 80px;
+	background-size: 40px 80px;
+	-webkit-transition-property: -webkit-transform;
+	-webkit-transition-duration: 250ms;
+}
+
+
+/*#pullDown .pullDownIcon {
+				-webkit-transform: rotate(0deg) translateZ(0);
+			}*/
+
+#pullUp .pullUpIcon {
+	-webkit-transform: rotate(-180deg) translateZ(0);
+}
+
+
+/*#pullDown.flip .pullDownIcon {
+				-webkit-transform: rotate(-180deg) translateZ(0);
+			}*/
+
+#pullUp.flip .pullUpIcon {
+	-webkit-transform: rotate(0deg) translateZ(0);
+}
+
+
+/*#pullDown.loading .pullDownIcon,*/
+
+#pullUp.loading .pullUpIcon {
+	background-position: 0 100%;
+	-webkit-transform: rotate(0deg) translateZ(0);
+	-webkit-transition-duration: 0ms;
+	-webkit-animation-name: loading;
+	-webkit-animation-duration: 2s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+}
+
+@-webkit-keyframes loading {
+	from {
+		-webkit-transform: rotate(0deg) translateZ(0);
+	}
+	to {
+		-webkit-transform: rotate(360deg) translateZ(0);
+	}
+}

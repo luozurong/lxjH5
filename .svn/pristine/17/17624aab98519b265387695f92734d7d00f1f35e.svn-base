@@ -1,0 +1,55 @@
+var mmsHost = 'https://tt.hori-gz.com:8443';
+var token = '154710682104b137cafbfcb745d7aef4'
+var vue = new Vue({
+	el: '.grouponActivity',
+	data: {
+		token: token,
+		grouponActivityAttr: [],
+	},
+	filters: {
+		statusFilter: function(value){
+			console.log(value);
+			if(value == 1){
+				return '未开始';
+			}else if(value == 2){
+				return '进行中';
+			}else if(value == 3){
+				return '已结束';
+			}
+		}
+	},
+	methods: {
+		commanderActivityAjax: function(){  
+            var params = {
+                body: {
+                	pageNum: 1,
+                	pageSize: 1000,
+                },
+                header: {
+                    token: this.token,
+                    time_stamp: new Date().getTime(),
+                }
+            }
+            console.log(params);
+            var paramsStr = encodeURI(JSON.stringify(params));
+            var httpURL = mmsHost + "/mms/group/getGroupActivityList?str=" + paramsStr;
+            this.$http.jsonp(httpURL, {
+                emulateJSON: true,
+                method: "get",
+                dataType: "jsonp",
+                jsonp: "jsoncallback",
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            }).then(function(res) {
+                console.log(res);
+                this.grouponActivityAttr = res.body.list;
+            }, function(res) {});
+        },
+        jumpPage: function(activityId){
+        	console.log(activityId);
+        	window.location.href = "grouponDetail.htm?activityId=" + activityId + "&token=" + this.token;
+        }
+	},
+	mounted: function(){
+		this.commanderActivityAjax();
+	}
+})

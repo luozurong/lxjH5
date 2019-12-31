@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>商品详情</title>
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" href="../common/reset.css" />
+		<link rel="stylesheet" href="css/productDetail.css?444">
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.2.6/css/swiper.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.2.6/js/swiper.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../common/tip/lxjTip.css">
+		<script src="../common/tip/lxjTip.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/vue/axios.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/javascript">
+			// 统计代码
+			var clientType = GetURLParameter('clientType'); //客户端类型
+			var ID = GetURLParameter('commodityId'); //商品ID
+			var from = GetURLParameter('from'); //渠道id
+			if(!clientType) {
+				var u = navigator.userAgent;
+				if(!!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
+					clientType = "ios";
+				} else {
+					clientType = "android";
+				}
+				if(clientType != 'android') {
+					clientType = 'ios'
+				};
+			}
+			var _hmt = _hmt || [];
+			_hmt.push(['_setAutoPageview', false]);
+			if(ID) {
+				if(from) {
+					_hmt.push(['_trackPageview', '/client=' + clientType + '-商品-商品详情-商品ID=' + ID + '-渠道ID=' + from]);
+				} else {
+					_hmt.push(['_trackPageview', '/client=' + clientType + '-商品-商品详情-商品ID=' + ID]);
+				}
+			}
+			(function() {
+				var hm = document.createElement("script");
+				//hm.src = "https://hm.baidu.com/hm.js?5abffc86ad56dcb448e458cac84b67dc";//tt
+				hm.src = "https://hm.baidu.com/hm.js?f4647d4a859d520f3c190ca6e72c68a4"; //lxj
+				var s = document.getElementsByTagName("script")[0];
+				s.parentNode.insertBefore(hm, s);
+			})();
+			//end
+			//判断在手机设备上使用一下代码
+			(function(doc, win) {
+				var docEl = doc.documentElement,
+					isIOS = navigator.userAgent.match(/iphone|ipod|ipad/gi),
+					dpr = isIOS ? Math.min(win.devicePixelRatio, 3) : 1,
+					dpr = window.top === window.self ? dpr : 1, //被iframe引用时，禁止缩放
+					scale = 1 / dpr,
+					resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+				docEl.dataset.dpr = dpr;
+				var recalc = function() {
+					var width = docEl.clientWidth;
+					if(width / dpr > 768) {
+						width = 768 * dpr;
+					}
+					docEl.style.fontSize = 100 * (width / 414) + 'px';
+				};
+				recalc();
+				if(!doc.addEventListener) return;
+				win.addEventListener(resizeEvt, recalc, false);
+			})(document, window);
+		</script>
+
+		<style type="text/css">
+			body,
+			html {
+				font-family: "PingFang SC", Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+			}
+			
+			.swiper-pagination-bullet-active {
+				background-color: #FC9153 !important;
+			}
+			
+			input {
+				outline: none;
+				/*去ios内阴影、圆角*/
+				-webkit-appearance: none;
+				border-radius: 0;
+				border: none;
+				margin: 0;
+				padding: 0;
+				font-weight: normal;
+			}
+			
+			input,
+			textarea,
+			a {
+				-webkit-tap-highlight-color: transparent;
+			}
+			
+			[v-cloak] {
+				display: none!important;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: #f3f4f5;">
+		<div id="app" v-cloak>
+			<div class="productDetail" data-title="商品详情">
+				<div class="productPhoto_box">
+					<div class="productPhotopadding_box">
+					</div>
+					<div class="productPhotoContent_box">
+						<div class="swiper-container">
+							<div class="swiper-wrapper">
+								<div class="swiper-slide" v-for="(item,index) in photo">
+									<div class="photoItem" :style="{ backgroundImage: 'url('+item.photoUrl+')' }">
+									</div>
+								</div>
+							</div>
+							<div class="swiper-pagination"></div>
+						</div>
+					</div>
+				</div>
+				<!--<div class="discountsInfo" v-if="productInfoData!=null&&productInfoData.promotionInfo!='0'">
+					<span>促销</span>
+					<span v-text="productInfoData.promotionInfo"></span>
+				</div>-->
+
+				<div class="productPrice_box" v-if="productInfoData!=null">
+					<span class="productPrice" v-if="giftbagId==''">
+						¥<span><span v-text="String(parseFloat(productInfoData.product[0].minPrice).toFixed(2)).split('.')[0]"></span>.<span class="minproductPrice" v-text="String(parseFloat(productInfoData.product[0].minPrice).toFixed(2)).split('.')[1]"></span></span><span v-if="productInfoData.product[0].minPrice<productInfoData.product[0].maxPrice"> ~ <span><span v-text="String(parseFloat(productInfoData.product[0].maxPrice).toFixed(2)).split('.')[0]">0</span>.<span class="minproductPrice" v-text="String(parseFloat(productInfoData.product[0].maxPrice).toFixed(2)).split('.')[1]"></span></span>
+					</span>
+					</span>
+					<span class="productPrice" v-if="giftbagId!=''">
+						¥<span><span v-text="String(parseFloat(productInfoData.giftBagPrice).toFixed(2)).split('.')[0]"></span>.<span class="minproductPrice" v-text="String(parseFloat(productInfoData.giftBagPrice).toFixed(2)).split('.')[1]"></span></span>
+					</span>
+					</span>
+					<span class="productfufen" v-if="productInfoData.product[0].commodityFufen>0">
+						赠{{productInfoData.product[0].commodityFufen}}福分
+					</span>
+					<span class="buypeople" v-text="productInfoData.product[0].buyPeople">				
+			        </span>
+				</div>
+				<div class="productName" v-if="productInfoData!=null&&productInfoData.product[0].commodityName!=''" v-text="productInfoData.product[0].commodityName">
+				</div>
+				<!--5.2版本后新增优惠券-->
+				<!--&&lxjversionsName>=5200-->
+				<div class="couponBox" v-if="couponList.length>0&&lxjversionsName>=5108">
+					<div class="line_01">
+					</div>
+					<div class="couponMain" v-on:click="couponMoreState=!couponMoreState">
+						<span>领券</span>
+						<div class="couponListBox">
+							<div class="couponItem" v-if="couponList.length>0">
+								<span class="couponItembj1"></span>
+								<span class="couponItembj2" v-if="couponList[0].type==1&&couponList[0].couponCondition==1">{{couponList[0].denomination}}元优惠券</span>
+								<span class="couponItembj2" v-if="couponList[0].type==1&&couponList[0].couponCondition==2">满{{couponList[0].conditionMoney}}减{{couponList[0].denomination}}</span>
+								<span class="couponItembj2" v-if="couponList[0].type==2&&couponList[0].couponCondition==1">{{couponList[0].denomination}}折扣券</span>
+								<span class="couponItembj2" v-if="couponList[0].type==2&&couponList[0].couponCondition==2">满{{couponList[0].conditionMoney}}打{{couponList[0].denomination}}折券</span>
+								<span class="couponItembj3"></span>
+							</div>
+							<div class="couponItem" v-if="couponList.length>1">
+								<span class="couponItembj1"></span>
+								<span class="couponItembj2" v-if="couponList[1].type==1&&couponList[1].couponCondition==1">{{couponList[1].denomination}}元优惠券</span>
+								<span class="couponItembj2" v-if="couponList[1].type==1&&couponList[1].couponCondition==2">满{{couponList[1].conditionMoney}}减{{couponList[1].denomination}}</span>
+								<span class="couponItembj2" v-if="couponList[1].type==2&&couponList[1].couponCondition==1">{{couponList[1].denomination}}折扣券</span>
+								<span class="couponItembj2" v-if="couponList[1].type==2&&couponList[1].couponCondition==2">满{{couponList[1].conditionMoney}}打{{couponList[1].denomination}}折券</span>
+								<span class="couponItembj3"></span>
+							</div>													
+						</div>
+						<img class="moreCoupon" src="images/btn_ic_more@3x.png" />
+					</div>
+				</div>				
+				<div class="promotionInfoBox" v-if="productInfoData!=null&&productInfoData.privilegeArr!=null&&productInfoData.privilegeArr.length>0&&productInfoData.privilegeArr[0].type!=null">
+					<div class="line_01">
+					</div>
+					<div class="promotionInfoMain">
+						<span>促销</span>
+						<div class="promotionInfoList">
+							<div class="promotionInfoItem" v-for="(itempri,indexpri) in productInfoData.privilegeArr">
+								<span v-if="itempri.type==1">满减</span><span v-if="itempri.type==2">包邮</span>
+								<span>{{itempri.name}}</span>
+							</div>							
+						</div>
+					</div>
+				</div>
+
+				<!--运费屏蔽-->
+				<!--<div class="freight_box productPrice_box" v-if="productInfoData!=null">
+					<span class="freight" v-if="productInfoData.freight>0">
+						运费：{{productInfoData.freight}}元
+					</span>
+					<span class="freight" v-if="productInfoData.freight==0">
+						免邮
+					</span>					
+				</div>-->
+				<div class="sellerInfo_box padding_bottom0" v-if="productInfoData!=null">
+					<div class="sellerName_box">
+						<img src="images/sellerName_logo.png" />
+						<span v-text="productInfoData.sellerName">					
+				</span>
+					</div>
+					<div class="line_01">
+					</div>
+					<div class="thirdbaoInfo_box">
+						<div class="thirdbaoItem" v-if="productInfoData.product[0].ppsq=='品牌授权'">
+							<img src="images/quality@3x.png" />
+							<span>
+						品牌授权
+					</span>
+						</div>
+						<div class="thirdbaoItem" v-if="productInfoData.product[0].zpbz=='正品保证'">
+							<img src="images/quality@3x.png" />
+							<span>
+						正品保证
+					</span>
+						</div>
+						<div class="thirdbaoItem" v-if="productInfoData.product[0].sevenDay=='7天退换货'">
+							<img src="images/quality@3x.png" />
+							<span>
+						7天退换货 
+					</span>
+						</div>
+					</div>
+
+				</div>
+				<div class="evaluateInfo sellerInfo_box" v-if="commentData!=null&&productInfoData!=null&&commentData.commentCount>0">
+					<div class="evaluateTotail">
+						商品评价({{commentData.commentCount}})
+					</div>
+					<div class="line_01">
+					</div>
+					<div class="evaluateUserInfo">
+						<div class="evaluateUser">
+							<img v-bind:src="commentData.userImage?commentData.userImage:defalutPic" />
+							<span v-text="commentData.userAddress"></span>
+						</div>
+						<div class="evaluateStarLevel">
+							<img src="images/ic_big-start_pre@3x.png" v-for="list in commentData.starLevel>0?commentData.starLevel:5" />
+							<img src="images/ic_big-star_nor@3x.png" v-for="list in commentData.starLevel>0?5-commentData.starLevel:0" />
+						</div>
+					</div>
+					<div class="evaluateTime">
+						{{commentData.commentTime}}&nbsp;{{commentData.commoditySku}}
+					</div>
+					<div class="evaluateContent">
+						<div class="evaluateText">
+							<pre v-html="commentData.commentContent"></pre>
+						</div>
+						<div class="evaluateImg">
+							<div class="evaluateImgItem" v-if="commentData.commentImages.length>0&&item.imgUrl!=''" v-for="(item,indexc) in commentData.commentImages">
+								<div class="commentImage" v-on:click="commentImgpreview(item.imgUrl)" :style="{ backgroundImage: 'url('+item.thumbImgUrl+')' }">
+									<!--:style="{ backgroundImage: 'url('+item.photoUrl+')' }"-->
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="replyContent_box" v-if="commentData.reply==2">
+						<div class="replyContentlogo">
+							<img src="images/sanjiao_03.png" />
+						</div>
+						<div class="replyContent">
+							<div class="replyContentText">
+								<pre>卖家回复：{{commentData.replyContent}}</pre>
+							</div>
+							<div class="replyContentImg">
+								<div class="evaluateImgItem" v-if="commentData.replyImages.length>0&&item.imgUrl!=''" v-for="(item,indexreply) in commentData.replyImages">
+									<div class="commentImage" v-on:click="commentImgpreview(item.imgUrl)" :style="{ backgroundImage: 'url('+item.thumbImgUrl+')' }">
+										<!--:style="{ backgroundImage: 'url('+item.photoUrl+')' }"-->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="evaluateButton" v-if="commentData.commentCount>1">
+						<span v-on:click="goEvaluate()">
+					查看全部评价
+				</span>
+					</div>
+				</div>
+				<div class="detailContent" v-if="isShowdetail(productInfoData)">
+					<div class="detailContentTitle_box">
+						<div class="detailContentTitle">
+							商品详情
+						</div>
+						<div class="line_01">
+						</div>
+						<div class="productCommodity" v-if="productInfoData.hasParams=='Yes'||productInfoData.hasParam2=='Yes'">
+							<div class="productCommodityItem" v-if="productInfoData.hasParams=='Yes'&&productInfoData.productCommodity[0].productPlace!='0'">
+								<span>
+							产地
+						</span>
+								<span v-text="productInfoData.productCommodity[0].productPlace">
+						</span>
+							</div>
+							<div class="productCommodityItem" v-if="productInfoData.hasParams=='Yes'&&productInfoData.productCommodity[0].productWeight!='0'">
+								<span>
+							净重
+						</span>
+								<span v-text="productInfoData.productCommodity[0].productWeight">						
+						</span>
+							</div>
+							<div class="productCommodityItem" v-if="productInfoData.hasParam2=='Yes'" v-for="(item,index2) in productInfoData.productCommodity[1].customParamsList" :key="index2">
+								<span v-text="item.customParamsName">
+						</span>
+								<span v-text="item.customParamsValue">
+						</span>
+							</div>
+						</div>
+					</div>
+					<div class="detailContentMain" id="detailContentMain" v-if="productInfoData.productDetail!='000x000'" v-html="productInfoData.productDetail">
+					</div>
+				</div>
+				<div class="recommendProduct" v-if="productInfoData!=null&&productInfoData.product[0].recommendPhoto.length>0">
+					<div class="recommendProductTitle">
+						推荐商品
+					</div>
+					<div class="recommendProductList">
+						<div class="recommendProductItem_box" v-for="(item,index) in productInfoData.product[0].recommendPhoto">
+							<div class="recommendProductItem" v-on:click="goOtherproduct(item.photoLink)">
+								<div class="recommendProductphoto" :style="{ backgroundImage: 'url('+item.photoUrl+')' }">
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div class="kongBottom" v-if="productInfoData!=null">
+				</div>
+				<div class="footerButton" v-show="giftbagId==''">
+					<div class="line_01">
+					</div>
+					<div class="footerButtonMain">
+						<div class="favoriteImg">
+							<div class="favoriteImg_box">
+								<img class="favoriteNo" v-on:click="addUserComOrSellerLove(1)" v-show="favorite==0" src="images/ic_-collection-@3x.png" />
+								<img class="favoriteYes" v-on:click="addUserComOrSellerLove(0)" v-show="favorite==1" src="images/ic_-collectioned@3x.png" />
+							</div>
+						</div>
+						<div class="shoppingcartNum">
+							<div class="shoppingcartNum_box" v-on:click="goshoppingcar()">
+								<img src="images/btn_ic-_shopping-cart@3x.png" />
+								<span id="shoppingcartNum" v-text="shoppingcartCount" v-show="shoppingcartCount!=0"></span>
+							</div>
+						</div>
+						<div class="joinShoppingcart" v-on:click="selectSku(1)">
+							<span>
+						加入购物车
+					</span>
+						</div>
+						<div class="goSaveOrder" v-on:click="selectSku(2)">
+							<span>
+						立即购买
+					</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="footerButton" id="giftbagBug" v-show="giftbagId!=''">
+					<span v-on:click="selectSku(2)">
+						立即购买
+					</span>
+				</div>
+				<!--优惠券领取-->
+				<div class="bgTangcan" v-show="couponMoreState">
+					<div id="couponInfoI" class="couponInfoBox" v-show="couponMoreState2">
+						<div class="couponInfoBoxTitle">
+							<div class="couponInfoBoxTitleBox">
+								<span>优惠券</span>
+								<img v-on:click="aminateFun()" src="images/btn_ic_close@3x.png"/>
+							</div>							
+						</div>
+						<div class="couponInfoBoxMain" v-if="couponList.length>0">
+							<div class="couponInfoItem" v-for="(itemc,indexc) in couponList">
+								<div class="couponInfo">
+									<div class="couponInfo1">
+										<div class="couponInfo1bj">
+											<div class="couponInfoP">
+												<span class="couponInfoPB"><span class="smallF" v-if="itemc.type==1">¥</span><span class="bigF">{{itemc.denomination}}</span><span class="smallF" v-if="itemc.type==2">折</span></span>
+											</div>
+											<div class="couponInfoR">
+												{{itemc.couponCondition==1?'无门槛使用':('满'+itemc.conditionMoney+'元可用')}}
+											</div>
+										</div>
+										<div class="couponInfoType">
+											<div class="couponInfoType1">
+												<span v-if="itemc.type==1&&itemc.couponCondition==2" class="quanLogo">满减券</span><span  v-if="itemc.type==2" class="quanLogo">折扣券</span><span>{{itemc.scope==1?'适用于全部商品':'适用于部分商品'}}</span>
+											</div>
+											<div class="couponInfoTime">
+												<span>{{itemc.effectiveStart}}-{{itemc.effectiveEnd}}</span><span class="couponUsebt" v-if="itemc.useState==1&&itemc.receiveState==0" >已使用</span><span class="couponUsebt" v-if="itemc.useState==0&&itemc.receiveState==0" v-on:click="goUseCoupon(itemc.couponId)">立即使用</span><span v-if="itemc.receiveState==1" class="couponGetbt" v-on:click="getCoupon(itemc.couponId)">点击领取</span>
+											</div>
+										</div>
+									</div>
+									<div class="couponInfoRuleBox">
+										<div class="couponInfoRuleBoxbj">
+											<div></div>
+											<div></div>
+										</div>
+										<div class="couponInfoRule">
+											<div >
+												{{itemc.useMsg}}
+											</div>
+											<img v-if="itemc.useMsg.length>=20" dataState='1' dataStateC='1'  onclick="ruleShowAnimate(this)" src="images/ic_put-up@3x.png"/>
+										</div>
+									</div>
+								</div>
+							</div>																												
+						</div>
+					</div>
+				</div>
+
+				<div class="bgTangcan" v-show="skuShowstate>0">
+					<div class="bugInfo_box" v-show="bugInfoAminateS">
+						<div class="bugInfo" id="bugInfoAminate"  v-if="productInfoData!=null">
+							<div class="closeLogo" v-on:click="closeSelecSku()">
+								<img src="images/btn_ic_close@3x.png" />
+							</div>
+							<div class="bugprizeInfo" v-show="!inputFocusState">
+								¥<span v-if="selectPrice!=null&&giftbagId==''"><span v-text="String(parseFloat(selectPrice).toFixed(2)).split('.')[0]">0</span>.<span class="minproductPrice" v-text="String(parseFloat(selectPrice).toFixed(2)).split('.')[1]">00</span></span><span v-if="selectPrice==null&&giftbagId==''"><span v-text="String(parseFloat(productInfoData.product[0].minPrice).toFixed(2)).split('.')[0]">0</span>.<span class="minproductPrice" v-text="String(parseFloat(productInfoData.product[0].minPrice).toFixed(2)).split('.')[1]">00</span></span><span v-if="productInfoData.product[0].minPrice<productInfoData.product[0].maxPrice&&selectPrice==null"> ~ ¥<span><span v-text="String(parseFloat(productInfoData.product[0].maxPrice).toFixed(2)).split('.')[0]"></span>.<span class="minproductPrice" v-text="String(parseFloat(productInfoData.product[0].maxPrice).toFixed(2)).split('.')[1]">00</span></span>
+								</span>
+								<span v-if="giftbagId!=''"><span v-text="String(parseFloat(productInfoData.giftBagPrice).toFixed(2)).split('.')[0]">0</span>.<span class="minproductPrice" v-text="String(parseFloat(productInfoData.giftBagPrice).toFixed(2)).split('.')[1]">00</span>
+								</span>
+							</div>
+							<div class="hadChaooseSkuInfo" v-show="inputFocusState" v-text="skuSelectTip">
+							</div>
+							<div class="line_01box" v-show="!inputFocusState">
+								<div class="line_01">
+								</div>
+							</div>
+							<div class="commoditySku_box" v-show="!inputFocusState">
+								<div class="commoditySkuItems" v-if="commoditySku.length>0" v-for="(items,index3) in commoditySku">
+									<div class="skuName" v-text="items.skuName">
+									</div>
+									<div class="skuParamName">
+										<span class="paramNameN" v-bind:class="{paramNameY:skuSelectList[index3]==item.paramId,paramNameF:skuisSelect[index3][index4]}" v-on:click="selectTagFun(index3,index4,item,items,skuisSelect[index3][index4])" v-for="(item,index4) in items.skuValues" v-text="item.paramName">
+								</span>
+										<!--<span class="paramNameF">
+									立即购买立
+								</span>
+								<span class="paramNameN">
+									立即购买立
+								</span>-->
+									</div>
+								</div>
+							</div>
+							<div class="line_01box">
+								<div class="line_01">
+								</div>
+							</div>
+							<div class="bugNumber_box">
+								<div class="bugNumberText">
+									数量
+								</div>
+								<div class="reducebt" v-bind:class="{reducefall:bugNumber<=1}" v-on:click="reducebugNumber()">
+								</div>
+								<input type="tel" v-model="bugNumber" v-on:blur="blurInput()" v-on:focus="focusInput()" name="bugNumber" id="bugNumber" value="1" />
+								<div class="addbt" v-bind:class="{addbfall:bugNumber>=maxstockQuantity}" v-on:click="addbugNumber()">
+								</div>
+							</div>
+							<div class="bugAffirm" v-on:click="goConfirmOrder()">
+								<span>
+							确定
+						</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<script src="js/productDetail.js?mall=004"></script>
+	</body>
+
+</html>

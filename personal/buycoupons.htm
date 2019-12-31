@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>团购券</title>
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<link rel="stylesheet" href="../common/reset.css" />
+		<link rel="stylesheet" href="../common/common.css">
+		<link rel="stylesheet" href="css/buycoupons.css?difj=5689">
+		<link rel="stylesheet" href="../common/progress.css">
+		<script type="text/javascript" src="../common/jquery-2.1.4.js"></script>
+		<script type="text/javascript" src="../common/jquery.SuperSlide.2.1.1.js"></script>
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script type="text/javascript">
+			setTitle("团购券");
+			setRefreshOnResume();
+			function GetURLParameter(name){
+				var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+			    if(r!=null)return  unescape(r[2]); return null;
+			};
+			var token=GetURLParameter("token");
+			var countFlag = 0;
+			var couponType = 1;
+			var time_stamp = Date.parse(new Date());
+			var data = "{\"body\":{" +
+				"\"countFlag\":" + countFlag + "," +
+				"\"couponType\":" + couponType + "}," +
+				"\"header\":{" +
+				"\"token\":\"" + token + "\"," +
+				"\"time_stamp\":\"" + time_stamp + "\"" +
+				"}" +
+				"}";
+			var requestURL = host + "/mms/servlet/getAllCoupons?str=" + data;
+			$.ajax({
+				type: "get",
+				url: requestURL,
+				async: true,
+				dataType: "jsonp",
+				jsonp: "jsoncallback",
+				jsonpCallback: "success_jsonpCallback",
+				success: function(data) {
+					if (data.result == 0) {
+						var list=data.groupCouponList;
+						if(list.length==0){
+							$(".no_order").show();
+							$("body").css("background-color","#fff");
+						}
+						for(var i=0;i<list.length;i++){
+							var oHtml="<li class='list' id='"+list[i].orderNo+"'>"+
+											"<div>"+
+												"<div class='listdetail'>"+
+													"<p id='groupCouponName' class='name'>"+list[i].commodityName+"</p>"+
+													"<p class='dataline'><span id='status'>有效期至："+list[i].validityEndDate+"</span></p>"+
+												"</div>"+
+												"<div class='qrcode'>"+
+													"<img src='"+list[i].qrImg+"'/><p>"+list[i].code+"</p></div></div></li>";
+							$(".box").append(oHtml);
+							var status=list[i].status;
+							switch(status){
+								case 1:
+//									$(".box li:last-child").find(".name").css("height","0.46rem");
+									break;
+								case 2:
+									$(".box li:last-child").find("#status").text("已使用").css({"background":"#ec5349","border":"1px solid #ec5349","border-radius":"0.02rem","padding":"0rem 0.05rem","color":"#fff"});
+									$(".box li:last-child").css("background","#dadada");
+									break;
+								case 3:
+									$(".box li:last-child").find("#status").text("退款中").css({"border":"0.01rem solid #ec5349","color":"#ec5349","border-radius":"0.02rem","padding":"0rem 0.05rem"});
+									break;
+								case 4:
+									$(".box li:last-child").find("#status").text("已退款").css({"background":"#ec5349","border":"1px solid #ec5349","border-radius":"0.02rem","padding":"0rem 0.05rem","color":"#fff"});
+									$(".box li:last-child").css("background","#dadada");
+									break;
+								case 5:
+									$(".box li:last-child").find("#status").text("已过期，退款中").css({"border":"0.01rem solid #ec5349","color":"#ec5349","border-radius":"0.02rem","padding":"0rem 0.05rem"});
+									break;
+								case 6:
+									$(".box li:last-child").find("#status").text("已过期，已退款").css({"background":"#ec5349","border":"1px solid #ec5349","border-radius":"0.02rem","padding":"0rem 0.05rem","color":"#fff"});
+									$(".box li:last-child").css("background","#dadada");
+									break;
+							}
+						}
+						$(".list").click(function(){
+							var orderNo=$(this).attr("id");
+							showActivity(host+"/mms/html5/personal/specialty_order_detail.htm?orderNo="+orderNo,"团购券详情");
+						});
+					}
+				}
+			});
+		</script>
+		<style type="text/css">
+			.no_order {
+				width: 35%;
+				margin: 85px auto;
+				display: none;
+			}
+			
+			.no_order .show {
+				width: 100%;
+			}
+			
+			.no_order p{
+				font-size: 18px;
+			    padding-top: 30px;
+			    width: 100%;
+			    text-align: center;
+			}
+			
+			.no_order .shopping {
+				width: 100%;
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<ul class="box">
+			<!--<li class='list' id='list[i].orderNo'>
+				<div>
+					<div class='listdetail'>
+						<p id='groupCouponName' class="name">拉斯克奖东方，丽景是开放了数据库飞洛，杉矶快发了啥积分老师发，的克里斯剪短发了，数据库发了快速减肥了上，课就发上来的附件费水电费水电费水电费水电费水电费水电费水电费水电费水电费水电费水电费水电费水电费是试带回家</p>
+						<p class="dataline">
+						<span id='status'>有效期至：2016/6/6</span></p>
+					</div>
+				<div class='qrcode'>
+					<img src='images/223ffbc7-7d4e-4508-8ea6-b7ef38e78710@3x.png'/>
+					<p style="font-size: 0.1rem;">820-472-473</p>
+				</div>
+				</div>
+			</li>-->
+		</ul>
+		<!--<div class="no_order">
+			<img src="../common/images/ic_zanwuyouhui@3x.png" alt="" class="show" />
+			<div>
+				<p>暂无团购券</p>
+			</div>
+		</div>-->
+		<div class="no_order" style="width: 100%;display: none;">
+        	<div id="displaynone" style="width:100%;height: 103.4px;">       		
+        	</div>
+        	<div class="nothing_img_box" style="text-align: center;width:100%;" ><img id="nothing_img" src="../common/images/ic_zanwuyouhui@3x.png"  style="width:90px;" alt=""/></div>
+        	<div class="displaynone10" style="width:100%;height: 10px;">       		
+        	</div>
+        	<div class="nothing_text" style="text-align: center;width: 100%;font-size: 18px;height: 70px;line-height: 70px;" >暂无团购券</div>        	
+        </div>
+        <script type="text/javascript">
+        	var windowwidth=document.documentElement.clientWidth;
+        	var windowheight=document.documentElement.clientHeight;
+        	document.getElementById("nothing_img").style.width=116.43*windowwidth/414+"px";
+        	document.getElementById("displaynone").style.height=(windowheight-116.43*windowwidth/414-70)*0.3+"px";
+        </script>
+	</body>
+
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta content="width=device-width, initial-scale=1, minimum-scale=0.333, maximum-scale=0.333, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="css/confirmOrderNew.css">
+    <script src="../common/jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="../common/interface.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/underscore.js"></script>
+    <script>
+        function resize(){
+            var deviceWidth = document.documentElement.clientWidth;
+            if(deviceWidth > 1242) deviceWidth = 1242;
+            document.documentElement.style.fontSize = deviceWidth / 1.242 + 'px';
+        }
+        window.onresize=resize;
+        resize();
+    </script>
+</head>
+<body>
+<div class="confirm-addr">
+    <div class="confirm-left"></div>
+    <script type="text/html" id="confirmAddr">
+        <div class="confirm-top">
+            <img src="images/name.png" alt="">
+            <span  class="confirm-top-name"><%=username%></span>
+            <span  class="confirm-top-tel"><%=mobile%></span>
+        </div>
+        <div class="confirm-left-addr">
+            <img src="images/location.png" alt="">
+            <span><%=areaAddress%></span>
+        </div>
+    </script>
+    <div class="confirm-right">
+        <img src="images/ic_more-@3x.png" alt="">
+    </div>
+</div>
+<div class="confirm-all">
+    <div class="confirm-shop" data-sellerId="0001">
+        <div class="confirm-shop-name">
+            <img src="images/sellerName_logo.png" alt="">
+            <span>花王婴幼儿用品专卖店</span>
+        </div>
+        <div class="confirm-shop-item" data-id="001">
+            <div class="confirm-goods">
+                <img class="confirm-goods-pic" src="images/goods.png" alt="">
+                <div class="confirm-goods-main">
+                    <div class="confirm-goods-name">花王三倍透气原装进口纸尿裤L54(你大爷的) 花王三倍透气原装进口纸尿裤L54</div>
+                    <div>
+                        <div class="confirm-goods-price" data-value="68.00">
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="confirm-goods-num">
+                            <i onclick="subNum(this)" class="confirm-goods-pre "></i>
+                            <input class="confirm-goods-input" type="text" data-value="10" value="2" readonly>
+                            <i  onclick="addNum(this)" class="confirm-goods-next "></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="confirm-shop-item" data-id="002">
+            <div class="confirm-goods">
+                <img class="confirm-goods-pic" src="images/goods.png" alt="">
+                <div class="confirm-goods-main">
+                    <div class="confirm-goods-name">花王三倍透气原装进口纸尿裤L54(你大爷的) 花王三倍透气原装进口纸尿裤L54</div>
+                    <div>
+                        <div class="confirm-goods-price" data-value="70.00">
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="confirm-goods-num">
+                            <i onclick="subNum(this)" class="confirm-goods-pre "></i>
+                            <input class="confirm-goods-input" type="text" data-value="10" value="5" readonly>
+                            <i  onclick="addNum(this)" class="confirm-goods-next "></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="confirm-shop-item" data-id="003">
+            <div class="confirm-goods">
+                <img class="confirm-goods-pic" src="images/goods.png" alt="">
+                <div class="confirm-goods-main">
+                    <div class="confirm-goods-name">花王三倍透气原装进口纸尿裤L54(你大爷的) 花王三倍透气原装进口纸尿裤L54</div>
+                    <div>
+                        <div class="confirm-goods-price" data-value="85.00">
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="confirm-goods-num">
+                            <i onclick="subNum(this)" class="confirm-goods-pre "></i>
+                            <input class="confirm-goods-input" type="text" data-value="10" value="1" readonly>
+                            <i  onclick="addNum(this)" class="confirm-goods-next "></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="confirm-shop" data-sellerId="0002">
+        <div class="confirm-shop-name">
+            <img src="  images/sellerName_logo.png" alt="">
+            <span>花王婴幼儿用品专卖店</span>
+        </div>
+        <div class="confirm-shop-item" data-id="004">
+            <div class="confirm-goods">
+                <img class="confirm-goods-pic" src="images/goods.png" alt="">
+                <div class="confirm-goods-main">
+                    <div class="confirm-goods-name">花王三倍透气原装进口纸尿裤L54(你大爷的) 花王三倍透气原装进口纸尿裤L54</div>
+                    <div>
+                        <div class="confirm-goods-price" data-value="68.00">
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="confirm-goods-num">
+                            <i onclick="subNum(this)" class="confirm-goods-pre "></i>
+                            <input class="confirm-goods-input" type="text" data-value="10" value="2" readonly>
+                            <i  onclick="addNum(this)" class="confirm-goods-next "></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="confirm-shop-item" data-id="005">
+            <div class="confirm-goods">
+                <img class="confirm-goods-pic" src="images/goods.png" alt="">
+                <div class="confirm-goods-main">
+                    <div class="confirm-goods-name">花王三倍透气原装进口纸尿裤L54(你大爷的) 花王三倍透气原装进口纸尿裤L54</div>
+                    <div>
+                        <div class="confirm-goods-price" data-value="70.00">
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="confirm-goods-num">
+                            <i onclick="subNum(this)" class="confirm-goods-pre "></i>
+                            <input class="confirm-goods-input" type="text" data-value="10" value="5" readonly>
+                            <i  onclick="addNum(this)" class="confirm-goods-next "></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="confirm-shop-over">
+    <div class="confirm-shop">
+        <div class="confirm-shop-name confirm-shop-name-over">
+            <span>失效商品 (不在配送范围)</span>
+        </div>
+        <div class="confirm-shop-item">
+            <div class="confirm-goods">
+                <img class="confirm-goods-pic" src="images/goods.png" alt="">
+                <div class="confirm-goods-main">
+                    <div class="confirm-goods-name  confirm-goods-name-over">花王三倍透气原装进口纸尿裤L54(你大爷的) 花王三倍透气原装进口纸尿裤L54</div>
+                    <div>
+                        <div class="confirm-goods-price confirm-goods-price-over" data-value="60.00">
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="confirm-goods-num confirm-goods-num-over">x2</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="confirm-remark">
+    <div class="confirm-remark-shipping">
+        <span>配送费</span>
+        <span>免邮</span>
+        <s>￥8.00</s>
+    </div>
+    <div class="confirm-remark-counpon">
+        <span>优惠券</span>
+        <img src="images/ic_more-@3x.png" alt="">
+        <span class="confirm-counpon-num">暂无优惠券</span>
+    </div>
+    <div class="confirm-remark-word">
+        <span>留言</span>
+        <input type="text" placeholder="选填给商家留言(45字内)" maxlength="45">
+    </div>
+    <div class="confirm-remark-total">
+            <span class="confirm-total-price" data-value="228.00">
+                <span></span>
+                <span></span>
+            </span>
+        <span>共<span>3</span>商品 小计</span>
+
+    </div>
+</div>
+<div class="confirm-pay">
+    <div>支付方式</div>
+    <div>
+        <div>在线支付</div>
+        <div>此服务仅支持在线支付方式</div>
+    </div>
+</div>
+<div class="confirm-fixed">
+    <div>
+        <div class="pay" data-value="228.00">应付款：
+            <span></span>
+            <span></span>
+        </div>
+        <div class="pay-sub">
+            <span>
+                总额：￥<span class="paytotal">238.00</span>
+            </span>
+            <span>
+                满减：￥<span>10.00</span>
+            </span>
+        </div>
+    </div>
+    <div class="gopay">提交订单</div>
+</div>
+<script src="js/confirmOrderNew.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" />
+		<title>广告</title>
+		<link rel="stylesheet" href="../common/reset.css">
+		<link rel="stylesheet" type="text/css" href="../common/tip/lxjTip.css" />
+		<script src="../common/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script src="../common/tip/lxjTip.js" type="text/javascript" charset="utf-8"></script>
+
+		<style type="text/css">
+			img {
+				float: left;
+				display: block;
+			}
+			
+			* {
+				-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+			}
+		</style>
+		<script type="text/javascript">
+			var giftbagId = GetURLParameter("giftbagId");
+			if(!isCondition(giftbagId)) {
+				giftbagId = '';
+			}
+
+			function goUrl(ele) {
+//				lxjTip.msg($(ele).attr("id") + "&giftbagId=" + giftbagId, {
+//					time: 10000
+//				})
+				showActivity($(ele).attr("id") + "&giftbagId=" + giftbagId, "商品详情");
+			}
+			$(function() {
+				setTitle("操你大爷的");
+				lxjTip.msg(window.location.href, {
+					time: 10000
+				})
+			})
+			//获取URL参数
+			function GetURLParameter(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if(r != null) return unescape(r[2]);
+				return null;
+			}
+
+			function isCondition(param) { // (!typeof(a) === undefined)
+				if(param != null && param != "" && param != undefined) {
+					return true;
+				}
+				return false;
+			}
+		</script>
+	</head>
+
+	<body>
+		<p>
+			<img style="max-width: 100%;" src="images/20170803/01.png" title="" alt="礼包首图" />
+			<a onclick="goUrl(this)" id="https://tt.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=14715053816182683a67aa6d40228835" target="_blank" title=""><img style="max-width: 50%;min-width: 50%;" src="images/20170803/02.png" title="" alt="商品优惠1" /></a>
+			<a onclick="goUrl(this)" id="https://tt.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=14715053816182683a67aa6d40228835" target="_blank" title=""><img style="max-width: 50%;min-width: 50%;" src="images/20170803/03.png" title="" alt="商品优惠2" /></a>
+			<a onclick="goUrl(this)" id="https://tt.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=14715053816182683a67aa6d40228835" target="_blank" title=""><img style="max-width: 50%;min-width: 50%;" src="images/20170803/04.png" title="" alt="商品优惠3" /></a>
+			<a onclick="goUrl(this)" id="https://tt.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=14715053816182683a67aa6d40228835" target="_blank" title=""><img style="max-width: 50%;min-width: 50%;" src="images/20170803/05.png" title="" alt="商品优惠4" /></a>
+			<a onclick="goUrl(this)" id="https://tt.hori-gz.com:8443/mms/html5/mall/productDetail.htm?commodityId=146908673957e2ae905d26f041df9431" target="_blank" title=""><img style="max-width: 100%;min-width: 100%;" src="images/20170803/06.png" title="" alt="优惠活动" /></a>
+			<a onclick="goUrl(this)" id="https://tt.hori-gz.com:8443/mms/html5/mall/productDetail.htm?commodityId=146908673957e2ae905d26f041df9431" target="_blank" title=""><img style="max-width: 100%;min-width: 100%;" src="images/20170803/07.png" title="" alt="优惠活动" /></a>
+
+		</p>
+		<style type="text/css">
+			body {
+				margin: 0px;
+			}
+		</style>
+	</body>
+
+</html>

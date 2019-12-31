@@ -1,0 +1,408 @@
+.clear:after {
+	content: '';
+	display: block;
+	clear: both;
+	height: 0;
+	visibility: hidden;
+}
+
+.clear {
+	zoom: 1;
+}
+
+#thelist {
+	background: #fff;
+}
+
+.add-maintainlist {
+	/*width: 100%;*/
+	overflow: hidden;
+	background: #fff;
+	padding: 0.05rem 0.05rem 0.05rem 0;
+	margin:0 0.1rem;
+	/*padding: 0.05rem 0.10rem;*/
+	border-bottom: 1px solid #f0f0f0;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+	height:0.9rem;
+}
+
+.add-maintainlist .picture {
+	width: 0.8rem;
+	float: left;
+	height: 0.8rem;
+}
+
+.picture img {
+	width: 100%;
+	height: 100%;
+	vertical-align: top;
+}
+
+.picture span {
+	height: 100%;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.add-maintainlist .info {
+	width: 70%;
+	height: .9rem;
+	float: left;
+	position: relative;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	padding-left: .1rem;
+	padding-right: 0.1rem;
+}
+
+ul li .price {
+	font-size: 0.12rem;
+	color: #fc9153;
+	/*font-weight: 500;*/
+	position: absolute;
+	bottom: 0.08rem;
+}
+
+.add-maintainlist {
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+.info .title {
+	font-size: 0.12rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.info .introduce {
+	/*text-align: Justify;
+	text-justify: inter-ideograp;*/
+	font-size: 0.1rem;
+	line-height: .16rem;
+	padding-top: 0.05rem;
+	color: #888;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+
+/*ul li {*/
+
+
+/*background-image: url(../img/ic_more-@3x.png);*/
+
+
+/*background-repeat: no-repeat;*/
+
+
+/*background-position: 98% center;*/
+
+
+/*background-size: 5%;*/
+
+
+/*}*/
+
+.wrapper-second {
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	bottom: 51px;
+	left: -9999px;
+	width: 100%;
+	background: rgb(243, 244, 245);
+	overflow: auto;
+}
+
+.wrapper-first {
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	bottom: 0px;
+	left: -9999px;
+}
+
+#scroller {
+	position: absolute;
+	z-index: 1;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	width: 100%;
+	padding: 0;
+}
+
+#myFrame {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+
+/**
+ *
+ * Pull down styles
+ *
+ */
+
+
+/*
+#pullDown {
+	background: #fff;
+	text-align: center;
+	height: 0px;
+	line-height: 40px;
+	border-bottom: 1px solid #ccc;
+	font-weight: bold;
+	font-size: 14px;
+	color: #888;
+}*/
+
+#pullUp {
+	background: #fff;
+	text-align: center;
+	height: 40px;
+	line-height: 40px;
+	padding: 5px 10px;
+	border-bottom: 1px solid #ccc;
+	font-weight: bold;
+	font-size: 12px;
+	color: #888;
+}
+
+
+/*#pullDown .pullDownIcon,*/
+
+#pullUp .pullUpIcon {
+	display: block;
+	margin: 0 auto;
+	width: 40px;
+	height: 40px;
+	background: url(../images/pull-icon@2x.png) 0 0 no-repeat;
+	-webkit-background-size: 40px 80px;
+	background-size: 40px 80px;
+	-webkit-transition-property: -webkit-transform;
+	-webkit-transition-duration: 250ms;
+}
+
+
+/*#pullDown .pullDownIcon {
+				-webkit-transform: rotate(0deg) translateZ(0);
+			}*/
+
+#pullUp .pullUpIcon {
+	-webkit-transform: rotate(-180deg) translateZ(0);
+}
+
+
+/*#pullDown.flip .pullDownIcon {
+				-webkit-transform: rotate(-180deg) translateZ(0);
+			}*/
+
+#pullUp.flip .pullUpIcon {
+	-webkit-transform: rotate(0deg) translateZ(0);
+}
+
+
+/*#pullDown.loading .pullDownIcon,*/
+
+#pullUp.loading .pullUpIcon {
+	background-position: 0 100%;
+	-webkit-transform: rotate(0deg) translateZ(0);
+	-webkit-transition-duration: 0ms;
+	-webkit-animation-name: loading;
+	-webkit-animation-duration: 2s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+}
+
+
+/*福分标签*/
+
+#fufen {
+	display: inline-block;
+	padding: 0.01rem 0.02rem;
+	margin-left: 0.20rem;
+	font-size: 0.10rem;
+}
+
+.fufen0 {
+	background: none;
+	color: #ff661b;
+}
+
+.fufen1 {
+	background: #ff661b;
+	color: #fff;
+	border-radius: 0.04rem;
+}
+
+
+/*购物车图标*/
+
+.shoppingcart {
+	display: inline-block;
+	font-size: 0;
+	position: fixed;
+	width: 0.42rem;
+	height: .42rem;
+	bottom: 0.72rem;
+	right: 0.2rem;
+	z-index: 999998;
+}
+
+.shoppingcart>img {
+	width: 100%;
+}
+
+.shoppingnum {
+	display: block;
+	background: #ff661b;
+	border-radius: 50%;
+	color: #fff;
+	text-align: center;
+	font-size: 0.08rem;
+	position: absolute;
+	top: 0;
+	left: 60%;
+	width: 0.16rem;
+	height: 0.16rem;
+	line-height: 0.16rem;
+	/*padding: 0.02rem 0.01rem;*/
+	/*box-sizing: border-box;*/
+}
+
+
+/*置顶图标*/
+
+.top {
+	position: fixed;
+	right: 0.2rem;
+	bottom: 0.2rem;
+	width: 0.42rem;
+	z-index: 9999;
+	display: none;
+}
+
+#activityLose {
+	width: 100%;
+	position: absolute;
+	top: 85px;
+	text-align: center;
+	display: none;
+	z-index: 100;
+}
+
+.footer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background: #fff;
+	height: 50px;
+	border-top: 0.01rem solid #e8e8e8;
+}
+
+.shopCar {
+	float: left;
+	/* margin-left: 0.1rem; */
+	height: 50px;
+	/*width: 22%;*/
+	margin-left: 0.1082rem;
+}
+
+.img_box1 {
+	margin: 0 auto;
+	position: relative;
+	/*height: 50px;*/
+	/*width: 50px;*/
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+.img_box1 img {
+	/*width:45px;*/
+	/*height: 100%;*/
+	width: 0.2164rem;
+	padding-top:.09rem;
+	display: block;
+}
+
+#totalPrice span {
+	color: #fc9153;
+}
+.fuhao{
+	font-size: 0.1339rem;
+}
+.img_box1 span {
+	
+	background-color: #ff525c;
+	border-radius: 100%;
+	position: absolute;
+	width: 0.123rem;
+	height: 0.123rem;
+	line-height:0.123rem;
+	top: .035rem;
+	right:-0.07rem;
+	font-size: .08rem;
+	color: #fff;
+	text-align: center;
+	border:2px solid #fff;
+	display: none;
+}
+
+.totalPrice {
+	font-size: 0.12rem;
+	float: left;
+	height: 50px;
+	/* line-height: 50px; */
+	/* padding-left: 0.1rem; */
+	margin-left: 8%;
+	box-sizing: border-box;
+	width: 44%;
+	position: relative;
+}
+
+.totalPriceT {
+	line-height: 50px;
+	font-size:.1339rem;
+	color:#333333;
+}
+#decimal{
+	font-size: 0.0927rem;
+}
+.totalPriceTR {
+	width: 100%;
+	position: absolute;
+	top: 6px;
+}
+
+.integer {
+	font-size: 0.1339rem;
+}
+
+#decimal {
+	font-size: 0.0927rem;
+}
+
+#totalReducePrice {
+	width: 100%;
+	position: absolute;
+	bottom: 6px;
+}
+
+.payFor {
+	height: 50px;
+	line-height: 50px;
+	float: right;
+	width: 28%;
+	text-align: center;
+	background-color:#fc9153;
+	color: #fff;
+	font-size: 0.1339rem;
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}

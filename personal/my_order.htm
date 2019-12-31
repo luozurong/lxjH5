@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<link rel="stylesheet" href="../common/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../common/tip/lxjTip.css" />
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script src="../common/tip/lxjTip.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/vue/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../mall/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+		<title>我的订单</title>
+		<style type="text/css">
+			html,
+			body {
+				width: 100%;
+				min-height: 100%;
+				background-color: #f3f4f5;
+				color: #333;
+				font-size: 14px;
+			}
+			
+			* {
+				-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+			}
+		</style>
+		<script type="text/javascript">
+			window.addEventListener('load', function() {
+				FastClick.attach(document.body);
+			}, false);
+		</script>
+		<script type="text/javascript">
+			(function(doc, win) {
+				var docEl = doc.documentElement,
+					isIOS = navigator.userAgent.match(/iphone|ipod|ipad/gi),
+					dpr = isIOS ? Math.min(win.devicePixelRatio, 3) : 1,
+					dpr = window.top === window.self ? dpr : 1, //被iframe引用时，禁止缩放
+					scale = 1 / dpr,
+					resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+				docEl.dataset.dpr = dpr;
+				var recalc = function() {
+					var width = docEl.clientWidth;
+					if(width / dpr > 768) {
+						width = 768 * dpr;
+					}
+					docEl.style.fontSize = 100 * (width / 414) + 'px';
+				};
+				recalc();
+				if(!doc.addEventListener) return;
+				win.addEventListener(resizeEvt, recalc, false);
+			})(document, window);
+		</script>
+		<style type="text/css">
+			#app {
+				width: 100%;
+				min-height: 100%;
+				overflow: hidden;
+			}
+			
+			.commodity_order {
+				width: 100%;
+				min-height: 0.8rem;
+				background-color: #fff;
+				margin-bottom: 0.1rem;
+			}
+			
+			.nothing0 {
+				-webkit-order: 0;
+				-webkit-flex-grow: 5;
+			}
+			
+			.nothing1 {
+				-webkit-order: 1;
+				-webkit-flex-grow: 5;
+			}
+			
+			.nothing3 {
+				-webkit-order: 3;
+				-webkit-flex-grow: 5;
+			}
+			
+			.colorTb {
+				color: #FC9153!important;
+			}
+			
+			.border_colorTb {
+				border-color: #FC9153!important;
+			}
+			
+			.line_01 {
+				width: 100%;
+				height: 1px;
+				background-color: #F0F0F0;
+				transform: scaleY(0.5);
+				-webkit-transform: scaleY(0.5);
+			}
+			
+			.commodity_order .shop_product {
+				width: 100%;
+				box-sizing: border-box;
+			}
+			
+			.shop_product .shop {
+				width: 100%;
+				display: -webkit-flex;
+				-webkit-flex-direction: row;
+				-webkit-align-items: center;
+				padding-bottom: 0.1rem;
+				padding: 0.1rem 0.13rem;
+				box-sizing: border-box;
+				border-bottom: 1px solid #e1e1e1;
+			}
+			
+			.shop_product .shop img {
+				-webkit-order: 0;
+				-webkit-flex-grow: 0;
+				width: 0.18rem;
+				height: 0.18rem;
+				/*background-image: url(images/sellerName_logo.png);
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: 100%;*/
+			}
+			
+			.shop_product .shop .shopName {
+				-webkit-order: 0;
+				-webkit-flex-grow: 1;
+				font-size: 0.14rem;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				-webkit-line-clamp: 1;
+				padding-left: 0.15rem;
+			}
+			
+			.shop_product .product_list {
+				position: relative;
+			}
+			
+			.shop_product .product_list .product {
+				width: 100%;
+				display: -webkit-flex;
+				-webkit-flex-direction: row;
+				-webkit-align-items: center;
+				padding: 0.22rem 0.13rem 0.22rem 0.13rem;
+				background-color: #F8F8F8;
+				box-shadow: 1px 0px #DADADA;
+				box-sizing: border-box;
+			}
+			
+			.shop_product .product_list .product:nth-child(n+2) {
+				margin-top: 0.06rem;
+			}
+			
+			.product_list .product img:nth-child(1) {}
+			
+			.product_list .product .product_img {
+				-webkit-order: 0;
+				-webkit-flex-grow: 0;
+				width: 0.7rem;
+				height: 0.7rem;
+				min-height: 0.7rem;
+				min-width: 0.7rem;
+				background-image: url(images/c_s_error.png);
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: contain;
+			}
+			
+			.product_list .product .product_detail {
+				position: relative;
+				max-height: 0.9rem;
+				width: 54%;
+				-webkit-order: 0;
+				-webkit-align-self: stretch;
+				-webkit-flex-grow: 0;
+				font-size: 0.14rem;
+				padding-left: 0.15rem;
+				overflow: hidden;
+				display: -webkit-flex;
+				-webkit-flex-direction: column;
+			}
+			
+			.product_list .product .product_detail .product_introduce {
+				-webkit-order: 0;
+				-webkit-flex-grow: 0;
+				width: 100%;
+				line-height: 150%;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				-webkit-line-clamp: 2;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				margin-top: -0.03rem;
+				color: #333;
+			}
+			
+			.product_list .product .product_detail .product_type {
+				-webkit-order: 2;
+				-webkit-flex-grow: 0;
+				width: 100%;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				padding-top: 0.1rem;
+				color: #aaa;
+				-webkit-line-clamp: 1;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				font-size: 0.13rem;
+			}
+			
+			.product_list .product .product_price_number {
+				-webkit-order: 2;
+				-webkit-flex-grow: 1;
+				-webkit-flex-shrink: 0;
+				display: -webkit-flex;
+				-webkit-flex-direction: column;
+				-webkit-align-self: stretch;
+				text-align: right;
+				/*align-items: flex-end;*/
+			}
+			
+			.product_list .product .product_price_number .product_price {
+				-webkit-order: 0;
+				-webkit-flex-grow: 2;
+				color: #333;
+				text-align: right;
+				font-size: 0.16rem;
+			}
+			
+			.product_list .product .product_price_number .product_price span:nth-child(2) {
+				/*font-size: 0.14rem;*/
+			}
+			
+			.product_list .product .product_price_number .product_number {
+				-webkit-order: 1;
+				color: #aaa;
+			}
+			
+			.product_list .orderStateimg {
+				position: absolute;
+				right: 0.03rem;
+				top: 0;
+				width: 0.8rem;
+			}
+			
+			.totalprice_buttom {
+				width: 100%;
+				padding: 0.15rem 0 0;
+			}
+			
+			.totalprice_buttom .totalprice_box {
+				width: 100%;
+				padding: 0 0.13rem 0.15rem;
+				box-sizing: border-box;
+				display: -webkit-flex;
+				-webkit-align-items: flex-end;
+			}
+			
+			.totalprice_buttom .totalprice_box .totalnumber {
+				-webkit-order: 1;
+				-webkit-flex-grow: 0;
+				font-size: 0.14rem;
+				white-space: nowrap;
+			}
+			
+			.totalprice_buttom .totalprice_box .totalprice {
+				-webkit-order: 2;
+				-webkit-flex-grow: 0;
+				white-space: nowrap;
+				text-align: right;
+				padding-left: 0.05rem;
+				font-size: 0.17rem;
+				font-weight: 500;
+			}
+			
+			.totalprice_buttom .totalprice_box .totalprice span:nth-child(1) {
+				color: #333;
+				font-size: 0.14rem;
+				font-weight: 100;
+			}
+			
+			.totalprice_buttom .totalprice_box .totalprice span:nth-child(2) {
+				font-size: 0.16rem;
+			}
+			
+			.totalprice_buttom .totalprice_box .totalprice span:nth-child(3) {
+				font-size: 0.13rem;
+			}
+			
+			.totalprice_buttom .buttoms_box {
+				width: 100%;
+				padding: 0.12rem 0rem 0.12rem;
+				box-sizing: border-box;
+				display: -webkit-flex;
+				font-size: 0.14rem;
+			}
+			
+			.totalprice_buttom .buttoms_box .div_buttom {
+				-webkit-order: 1;
+				-webkit-flex-grow: 0;
+				font-size: 0.14rem;
+				text-align: center;
+				line-height: 0.28rem;
+				height: 0.3rem;
+				width: 0.8rem;
+				/*min-width: 0.7rem;*/
+				border-radius: 0.15rem;
+				/*padding: 0.05rem 0;*/
+				box-sizing: border-box;
+				border: 1px solid #555;
+				color: #333;
+				margin-right: 0.2rem;
+				text-align: center;
+				white-space: nowrap;
+				box-sizing: border-box;
+			}
+			
+			.bt_color_fc9153 {
+				color: #FC9153;
+				border-color: #FC9153;
+			}
+			
+			.totalprice_buttom .buttoms_box .div_buttom:nth-last-child(1) {
+				margin-right: 0.13rem
+			}
+			
+			#app .displayblock {
+				display: block;
+			}
+			
+			.displaynone {
+				display: none;
+			}
+			
+			.orderState {
+				color: #FC9153;
+				-webkit-flex-shrink: 0;
+				font-size: 0.14rem;
+			}
+			
+			[v-cloak] {
+				display: none!important;
+			}
+			/*确认按钮*/
+			
+			.demo3 {
+				min-width: 70%;
+				max-width: 70%;
+			}
+			
+			.demo3 .lxj_tipButtom {
+				display: -webkit-flex;
+				justify-content: space-between;
+			}
+			
+			.demo3 .lxj_tipButtomA0 {
+				-webkit-order: 1;
+				font-size: 0.17rem;
+			}
+			
+			.demo3 .lxj_tipButtomA1 {
+				-webkit-order: 0;
+				font-size: 0.17rem;
+			}
+			
+			.demo3 .lxj_content {
+				padding: 40px;
+				font-size: 0.16rem;
+			}
+			
+			.demo2 {}
+			
+			.demo2 .lxj_content {
+				padding: 40px;
+				font-size: 0.16rem;
+			}
+			
+			.demo2 .lxj_tipButtom {}
+			
+			.demo2 .lxj_tipButtomA0 {
+				font-size: 0.17rem;
+				width: 90%;
+			}
+			
+			.everyBtn {
+				position: relative;
+				right: -0.4rem;
+				color: #666;
+				width: 0.9rem;
+				text-align: right;
+				font-size: 0.13rem;
+			}
+			
+			.processMsg {
+				color: #FC9153;
+				position: absolute;
+				top: 0.3rem;
+				right: 0.1rem;
+			}
+		</style>
+	</head>
+
+	<body style="min-height: 100%;background-color: #f3f4f5;">
+		<div id="app">
+
+			<div id="myorder">
+				<!-- 全部订单模板-->
+				<div v-cloak class="commodity_order" v-if="orderStatus!='4'" v-for='items in orderList'>
+					<div class="shop_product">
+						<div class="shop" v-if="items.type!=8">
+							<img src="images/sellerName_logo.png" onerror="javascript:this.src='images/sellerName_logo.png';" />
+							<div class="shopName">
+								{{items.sellerName}}
+							</div>
+							<div class="orderState" v-if="items.status==0">
+								待付款
+							</div>
+							<div class="orderState" v-if="items.status==1">
+								待发货
+							</div>
+							<div class="orderState" v-if="items.status==2">
+								待收货
+							</div>
+							<div class="orderState" v-if="items.status==3">
+								退款中
+							</div>
+							<div class="orderState" v-if="items.status==4">
+								售后处理中
+							</div>
+							<div class="orderState" v-if="items.status==5">
+								已完成
+							</div>
+							<div class="orderState" v-if="items.status==6" style="color:#ccc;">
+								交易关闭
+							</div>
+							<div class="orderState" v-if="items.status==7" style="color:#ccc;">
+								已拒收
+							</div>
+						</div>
+						<div class="shop" v-else="">
+							<img src="images/ic_order@3x.png" onerror="javascript:this.src='images/ic_order@3x.png';" />
+							<div class="shopName">
+								订单信息
+							</div>
+							<div class="orderState" v-if="items.status==0">
+								待付款
+							</div>
+							<div class="orderState" v-if="items.status==1">
+								待发货
+							</div>
+							<div class="orderState" v-if="items.status==2">
+								待收货
+							</div>
+							<div class="orderState" v-if="items.status==3">
+								退款中
+							</div>
+							<div class="orderState" v-if="items.status==4">
+								售后处理中
+							</div>
+							<div class="orderState" v-if="items.status==5">
+								已完成
+							</div>
+							<div class="orderState" v-if="items.status==6" style="color:#ccc;">
+								交易关闭
+							</div>
+							<div class="orderState" v-if="items.status==7" style="color:#ccc;">
+								已拒收
+							</div>
+						</div>
+						<!--data_orderNo='' v-bind:data_orderNo='items.orderNo'-->
+						<div style="margin: 0.1rem 0 0.1rem 0.12rem;font-size: 0.16rem;color:#888;">订单编号：{{items.orderNo}}</div>
+						<div class="product_list" v-on:click="getOrderDetail(items.orderNo,items.orderTpye,items.totalOrderNo)">
+							<div class="product" v-for='item in items.commodityList'>
+								<div class="product_img" v-bind:style="{ backgroundImage: 'url('+item.thumbLogo+')' }"></div>
+								<div class="product_detail">
+									<div class="product_introduce" v-text='item.commodityName'></div>
+									<!--<div class="nothing1">
+                                    </div>-->
+									<div class="product_type" v-if="items.type==1" v-text='item.commodityDetails'>
+									</div>
+									<div class="product_type" v-if="items.orderTpye==9&&items.groupLeaderKey==0">
+										预计利润 ¥ {{item.profit}}/份
+									</div>
+									<!--<div class="nothing3">
+                                    </div>-->
+								</div>
+								<div class="product_price_number">
+									<div class="product_price">
+										¥<span v-text="String(item.commodityPrice).split('.')[0]"></span>.<span v-text="String(item.commodityPrice).split('.')[1]"></span>
+									</div>
+									<div class="product_number">
+										x{{item.counts}}
+									</div>
+								</div>
+								<div class="everyBtn">{{item.processMsg}}</div>
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="totalprice_buttom">
+						<div class="totalprice_box">
+							<div class="nothing0">
+							</div>
+							<div class="totalnumber">
+								共{{items.commodityCounts}}件商品
+							</div>
+							<div class="totalprice colorTb" v-if="items.status==0">
+								<span>待付款：</span>¥<span v-text="String(items.totalPrice).split('.')[0]"></span>.<span v-text="String(items.totalPrice).split('.')[1]"></span>
+							</div>
+							<div class="totalprice colorTb" v-else>
+								<span>实付款：</span>¥<span v-text="String(items.totalPrice).split('.')[0]"></span>.<span v-text="String(items.totalPrice).split('.')[1]"></span>
+							</div>
+							<div class="totalprice colorTb" v-if="items.orderTpye==9&&items.groupLeaderKey==0">
+								<span>&nbsp;&nbsp;预计利润合计：</span>¥<span v-text="String(items.orderProfit).split('.')[0]"></span>.<span v-text="String(items.orderProfit).split('.')[1]"></span>
+							</div>
+						</div>
+						<div class="line_01" v-show="items.orderTpye!=9"></div><!--9团购订单无按钮-->
+						<!-- typy=8表示活动订单，否则不是活动订单-->
+						<div class="buttoms_box" v-if="getButtom(items.status,items.expressage,items.comment,items.type)" v-show="items.orderTpye!=9">
+							<div class="nothing0">
+							</div>
+							<!-- comment=1表示订单已超过30天，不可以评价-->
+							<!-- 通过评价次数判断是否有再次评价按钮，如果评价两次则消失评价按钮-->
+							<div class="div_buttom" v-if="items.type!=8&&items.comment==0&&items.commentTimes==1" v-on:click="goEvaluate(items.orderNo,items.commodityList.length,items.commodityList[0].commodityId)">
+									追加评价
+							</div>
+							<div class="div_buttom" v-if="items.type!=8&&items.comment==0&&items.commentTimes==0" v-on:click="goEvaluate(items.orderNo,items.commodityList.length,items.commodityList[0].commodityId)">
+									评价
+							</div>
+							<div class="div_buttom" v-if="items.status==0" v-on:click="beforeCancel(items.orderNo)">
+								取消订单
+							</div>
+							<div class="div_buttom" v-if="items.status==1&&items.type==8" v-on:click="beforeCancel(items.orderNo)">
+								取消订单
+							</div>
+							<div class="div_buttom colorTb border_colorTb" v-if="items.status==0" v-on:click="goPay(items.orderNo,items.type)">
+								马上付款
+							</div>
+							<div class="div_buttom bt_color_fc9153" v-if="items.status==2" v-on:click="receivingProduct(items.orderNo)">
+								确认收货
+							</div>
+							<div class="div_buttom" v-if="items.type==1&&items.expressage==1" v-on:click="checkLogistics(items.orderNo)">
+								查看物流
+							</div>
+							<div class="div_buttom" v-if="items.type!=8&&items.status==5" v-on:click="shoppingAgain(items)">
+								再次购买
+							</div>
+							<div class="div_buttom" v-if="items.status==99" v-on:click="deleOrder(items.orderNo)">
+								删除订单
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 售后订单模板-->
+				<div v-cloak class="commodity_order" v-if="orderStatus=='4'" v-for='items in orderList'>
+					<div class="shop_product">
+						<!-- 每个订单右上角的订单标签-->
+						<div style="width:100%;overflow:hidden;box-sizing: border-box;position: relative;height:0.6rem;line-height:0.2rem;padding-bottom: 0.1rem;padding: 0.1rem 0.13rem;display:-webkit-flex">
+							<span style="font-size:0.13rem; position: relative;left: 0.1rem;color:#888;">
+								<div>售后编号</div>
+								<div>{{items.safeguardNo}}</div>
+							</span>
+							<span class="processMsg" style="font-size:0.13rem;text-align:right;" v-text="items.processMsg"></span>
+						</div>
+						<div class="product_list" v-on:click="getOrderDetail(items.orderNo,items.safeguardType,items.totalOrderNo)">
+							<div class="product">
+								<div class="product_img" v-bind:style="{ backgroundImage: 'url('+items.imgUrl+')' }"></div>
+								<div class="product_detail">
+									<div class="product_introduce" v-text='items.commodityName'></div>
+									<div class="product_type" v-if="items.type==1" v-text='items.commodityDetails'>
+									</div>
+								</div>
+								<div class="product_price_number">
+									<div class="product_price">
+										¥<span v-text="String(items.simplePrice).split('.')[0]"></span>.<span v-text="String(items.simplePrice).split('.')[1]"></span>
+									</div>
+									<div class="product_number">
+										x{{items.commodityNum}}
+									</div>
+								</div>
+								<!--<div class="everyBtn">{{items.processMsg}}</div>-->
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="totalprice_buttom">
+						<div class="totalprice_box">
+							<div class="nothing0">
+							</div>
+							<div class="totalnumber">
+								共{{items.commodityNum}}件商品
+							</div>
+							<div class="totalprice colorTb">
+								<span>合计：</span>¥<span v-text="String(parseFloat(items.returnMoney).toFixed(2)).split('.')[0]"></span>.<span v-text="String(parseFloat(items.returnMoney).toFixed(2)).split('.')[1]"></span>
+							</div>
+						</div>
+						<div class="line_01"></div>
+						<!-- typy=8表示活动订单，否则不是活动订单-->
+						<div class="buttoms_box">
+							<div class="nothing0">
+							</div>
+							<!-- comment=1表示订单已超过30天，不可以评价-->
+							<!-- 通过评价次数判断是否有再次评价按钮，如果评价两次则消失评价按钮-->
+							<div class="div_buttom" v-if="items.type!=8&&items.comment==0&&items.commentTimes==1" v-on:click="goEvaluate(items.orderNo,items.commodityList.length,items.commodityList[0].commodityId)">
+									追加评价
+							</div>
+							<div class="div_buttom" v-if="items.type!=8&&items.comment==0&&items.commentTimes==0" v-on:click="goEvaluate(items.orderNo,items.commodityList.length,items.commodityList[0].commodityId)">
+									评价
+							</div>
+							<div class="div_buttom" v-if="items.type==1&&items.expressage==1" v-on:click="checkLogistics(items.orderNo)">
+								查看物流
+							</div>
+							<div class="div_buttom" v-if="items.type!=8&&items.status==4" v-on:click="shoppingAgain(items)">
+								再次购买
+							</div>				
+							<div class="div_buttom" v-if="items.status==99" v-on:click="deleOrder(items.orderNo)">
+								删除订单
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div v-cloak v-if="presentTotal==0" id="no_order">
+					<div id="displaynone" style="width:100%;height: 103.4px;">
+					</div>
+					<div class="nothing_img_box" style="text-align: center;width:100%;"><img id="nothing_img" src='images/no_order.png' style="width:90px;" /></div>
+					<div class="displaynone10" style="width:100%;height: 10px;">
+					</div>
+					<div class="nothing_text" style="text-align: center;width: 100%;font-size: 16px;height: 70px;line-height: 70px;color:#999;">暂无订单</div>
+					<!-- 				<div class="nothing_text" style="text-align: center;width: 100%;color: #999;font-size: 14px;">赶快去逛逛吧！</div>
+                     -->
+				</div>
+			</div>
+
+		</div>
+
+		<script type="text/javascript">
+			var windowwidth = document.documentElement.clientWidth;
+			var windowheight = document.documentElement.clientHeight;
+			document.getElementById("no_order").style.height = windowheight + "px";
+			document.getElementById("no_order").style.backgroundColor = "#f3f4f5";
+			document.getElementById("nothing_img").style.width = 180 * windowwidth / 414 + "px";
+			document.getElementById("displaynone").style.height = (windowheight - 180 * windowwidth / 414 - 70) * 0.3 + "px";
+		</script>
+
+	</body>
+
+	<script src="js/myorder.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../common/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../common/tip/layer.js" type="text/javascript" charset="utf-8"></script>
+
+</html>

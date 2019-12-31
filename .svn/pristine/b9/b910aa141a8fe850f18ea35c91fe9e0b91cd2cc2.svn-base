@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="format-detection" content="telephone=no">
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<title></title>
+		<script src="../../common/interface.js"></script>
+	    <script src="../../common/interfaceParameters.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK.js" type="text/javascript" charset="utf-8"></script>
+
+	</head>
+	<style type="text/css">
+	
+	</style>
+
+	<body>
+		<div id="app" v-cloak>
+									
+		</div>
+	</body>
+	<script src="js/login.js" type="text/javascript" charset="utf-8"></script>
+
+</html>

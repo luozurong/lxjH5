@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>编辑购物车</title>
+        <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+        <link rel="stylesheet" href="../common/reset.css" />
+        <link rel="stylesheet" href="../common/common.css">
+        <link rel="stylesheet" href="css/editShoppingcart.css">
+        <link rel="stylesheet" href="../common/progress.css">
+        <!--<script type="text/javascript"	src="../common/interface.js"></script>-->
+        <script type="text/javascript"	src="../common/jquery-2.1.4.js"></script>
+        <script type="text/javascript"	src="../common/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="../common/jquery.SuperSlide.2.1.1.js"></script>
+        <script type="text/javascript">
+            //判断在手机设备上使用一下代码
+            var $windowWidth = $(window).width();
+            setTimeout(function() {
+                $windowWidth = $(window).width();
+                if ($windowWidth > 640) {
+                    $windowWidth = 640; //限定最大宽度为640
+                }
+                $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+            }, 100);
+            $(window).resize(function() {
+                $windowWidth = $(window).width();
+                if ($windowWidth > 640) {
+                    $windowWidth = 640;
+                }
+                $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+            });
+        </script>
+        <script type="text/javascript">
+            function goBack()
+            {
+                var url=window.location;
+                contact.goBack("'"+url+"'");
+            }
+        </script>
+        <script src="js/editShoppingcart.js"></script>
+    </head>
+    <body class="bgcolor">
+        <div class="shoppingcart">
+            <div type="checked" checked="checked" class="checkedproduct select"></div>
+            <div class="productimg">合立正通</div>
+            <div class="productdetail">
+                <p>合立正通合立正通合立正通合立正通合立正通合立正通合立正通合立正通合立正通</p>
+                <span class="productprice">￥112</span>
+                <div class="shoppingnum">
+                    <button class="btn_reduce disabled"></button>
+                    <input type="number" value="1" class="productvalue"/>
+                    <button class="btn_add"></button>
+                </div>
+            </div>
+        </div>
+        <div class="shoppingcart" style="margin-top:0.08rem;">
+            <div type="checked" checked="checked" class="checkedproduct"></div>
+            <div class="productimg">合立正通</div>
+            <div class="productdetail">
+                <p>合立正通合立正通合立正通合立正通合立正通合立正通合立正通合立正通合立正通</p>
+                <span class="productprice">￥112</span>
+                <div class="shoppingnum">
+                    <button class="btn_reduce disabled"></button>
+                    <input type="number" value="1" class="productvalue"/>
+                    <button class="btn_add"></button>
+                </div>
+            </div>
+        </div>
+        <div class="shoppingcart" style="margin-top:0.08rem;">
+            <div type="checked" checked="checked" class="checkedproduct"></div>
+            <div class="productimg">合立正通</div>
+            <div class="productdetail">
+                <p>合立正通合立正通合立正通合立正通合立正通合立正通合立正通合立正通合立正通</p>
+                <span class="productprice">￥112</span>
+                <div class="shoppingnum">
+                    <button class="btn_reduce disabled"></button>
+                    <input type="number" value="1" class="productvalue"/>
+                    <button class="btn_add"></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部金额栏-->
+        <div class="statement">
+            <div  class="checked">
+                <div type="checked" class="checkall"></div>
+                <span>全选</span>
+            </div>
+            <div class="deleted">删除</div>
+        </div>
+
+        <!-- 遮罩层-->
+        <div class="cancel_order_cover"></div>
+        <div class="confir">
+            <p>您确定删除这件商品吗？</p>
+            <div class="choose clearfix">
+                <span class="canc">取消</span><span class="sure">确定</span>
+            </div>
+        </div>
+        <script type="text/javascript">jQuery(".bigBox").slide();</script>
+    </body>
+</html>

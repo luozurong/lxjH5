@@ -1,0 +1,158 @@
+
+var scrollTop = "";
+
+var isWxBrowser = true;
+var ua = navigator.userAgent.toLowerCase();
+if(ua.match(/MicroMessenger/i) == "micromessenger") {
+	isWxBrowser=true;
+} else {
+	isWxBrowser=false;
+}
+
+
+
+mmsHost = "https://tt.hori-gz.com:8443";
+host = mmsHost;
+commodityId = "1540187623912ff3ae4f815742bcbb5a";
+organizationSeq = "4400100183";
+token = "_15444060121896d708361a0d43a68164";
+
+
+var vue = new Vue({
+	el: '#app',
+	data: {
+		isWxBrowser:isWxBrowser,
+		mmsHost:mmsHost,
+		stateTixian:1,
+		token:token,
+		personalImg:null,
+		personalData:null,
+		registerPhone:"13580328843",
+	},
+	filters: {
+		//状态过滤
+
+	},
+	mounted: function() {
+		this.$nextTick(function() {
+			this.getbasicData();
+		});
+
+	},
+	methods: {
+		getpersonalData: function() {
+			var that = this;
+			var params = {
+				body: {
+				//	registerPhone: this.registerPhone,
+				},
+				header: {
+					token:this.getCookie("token"),
+					time_stamp: new Date().getTime()
+				}
+			}
+			axios.post(this.mmsHost + "/mms/group/personalCenter", params).then(function(res) {
+				console.log(res);
+				that.stateTixian=res.data.hasWithCash ? "2" : "1";
+				that.personalData=res.data;				
+			}, function(res) {})
+		},
+		getWithdrawCash: function(num) {
+			var that = this;
+			var params = {
+				body: {
+					groupLeaderId: this.groupLeaderId,
+				},
+				header: {
+					token: this.getCookie("token"),
+					time_stamp: new Date().getTime()
+				}
+			}
+			axios.post(this.mmsHost + "/mms/group/withdrawCash", params).then(function(res) {
+				console.log(res);
+				if (res.data.code=="0"||res.data.code=="2") {
+					that.stateTixian=2;
+				}
+				if (res.data.code=="1") {
+					lxjTip.msg("提现金额至少一元以上")
+				}				
+				if(Number(res.data.withdrawMoney)!=Number(num)){
+					that.getpersonalData();
+				}
+			}, function(res) {})
+		},
+	
+
+		
+		GetURLParameter: function(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+			var r = window.location.search.substr(1).match(reg);
+			if(r != null) return decodeURI(r[2]);
+			return null;
+
+		},
+		//前往提现明细
+		goWithdrawalRecord: function() {		
+			window.event.cancelBubble = true;
+			if (isWxBrowser) {
+				window.location.href="withdrawalRecord.htm";
+			}		
+		},//前往利润明细
+		goProfitRecord: function() {		
+			window.event.cancelBubble = true;
+			if (isWxBrowser) {
+				window.location.href="profitRecord.htm";
+			}		
+		},						
+		//前往活动
+		goGrouponActivity: function() {		
+			window.event.cancelBubble = true;
+			if (isWxBrowser) {
+				window.location.href="grouponActivity.htm";
+			}		
+		},//前往订单
+		goCommanderOrder: function() {		
+			window.event.cancelBubble = true;
+			if (isWxBrowser) {
+				window.location.href="commanderOrder.htm";
+			}		
+		},//前往我的
+		goCommanderPersonal: function() {	
+			window.event.cancelBubble = true;
+			if (isWxBrowser) {
+				window.location.href="commanderPersonal.htm";
+			}		
+		},
+		
+		aminateFun: function() {
+			var eleG = document.getElementById("chairmanMoreInfo");
+			eleG.style.maxHeight = "0";		
+		},
+		getbasicData: function() {
+			this.personalImg=this.getCookie("headimgurl");
+			this.getpersonalData();
+			var that = this;
+			if (isWxBrowser) {
+				this.wxJsdkConfig();
+			}		
+		},
+	},
+	watch: {
+		
+	}
+});
+
+//获取URL参数
+function GetURLParameter(name) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	var r = window.location.search.substr(1).match(reg);
+	if(r != null) return decodeURI(r[2]);
+	return null;
+}
+
+function refreshData() {
+	setTimeout(function() {
+
+	}, 0);
+	return 1;
+}

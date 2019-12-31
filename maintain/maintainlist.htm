@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" />
+		<title>维修项目</title>
+		<link rel="stylesheet" href="../common/reset.css">
+		<link rel="stylesheet" href="css/maintainlist.css">
+		<script src="../common/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script src="../common/common.js"></script>
+		<script type="text/javascript" src="js/iscroll.js"></script>
+		<script src="../common/underscore.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/maintainlist.js"></script>
+	    <script type="text/javascript">
+	    //判断在手机设备上使用一下代码
+	    var $windowWidth = $(window).width();
+	    setTimeout(function () {
+	    	$windowWidth = $(window).width();
+	        if ($windowWidth > 640) {
+	          $windowWidth = 640; //限定最大宽度为640
+	        }
+	        $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+	    }, 100);
+        $(window).resize(function () {
+		    $windowWidth = $(window).width();
+		    if ($windowWidth > 640) {
+		    	$windowWidth = 640;
+		    }
+		    $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+    	});
+    	</script>
+    <script type="text/javascript">
+      function goBack() {
+        var url = window.location;
+        contact.goBack("'" + url + "'");      }
+    </script>
+	</head>
+
+	<body>
+		<div id="maintainlist" style="display: none;">
+			<div id="wrapper" class="wrapper-second">
+				<div id="scroller">
+					<div id="pullDown">
+						<span class="pullDownIcon"></span><span class="pullDownLabel"></span>
+					</div>
+					<ul id="thelist">
+
+					</ul>
+					<script id="maintainlistTemplate" type="text/html">	
+					<li class="add-maintainlist" id="<%=id%>" onclick="OnserverDetails(this)">
+						<div class="picture"><img src="<%=thumLogo%>" alt="" /></div>
+						<div class="info" id="<%=id%>">
+							<div class="title"><%=name%></div>
+							<div class="introduce"><%=introduction%></div>
+							<div class="price"><%=doubleValue(currentPrice)%>元/台</div>
+							
+						</div>
+					</li>
+					</script>
+						<!--<li class='add-maintainlist' id=" + item.id + ">
+							<div class='picture'><img src="../common/images/c_s_error.png" /></div>
+							<div class='info' id=" + item.id + ">
+								<div class='title'>" + item.name + "</div>
+								<div class='introduce'>" + item.introduction + "</div>
+								<div class='price'>" + item.currentPrice + "<span class="font_size2">元/台</span></div>
+							</div>
+						</li>-->
+
+					<!--<span class='font_size2'>¥&nbsp;</span>-->
+					<div id="pullUp" style="display: none;">
+						
+						<span class="pullUpIcon"></span><span class="pullUpLabel">向上拉更多惊喜</span>
+					</div>
+					<div id="nomoretip" style="width: 100%;height: 0.8rem;line-height: 0.8rem;display: none;z-index: 999999;background-color:#F0F0F0 ;font-size:14px;text-align: center;">
+							没有更多数据了			
+					</div>
+				</div>
+				
+			</div>
+
+		</div>
+		<div id="nomore" style="display: none" style="font-size: 14px;">
+							没有更多数据了
+						</div>
+		<div id="nomoreshop" style="width: 100%;height: 100%;background-color: #FFF;position: fixed;top: 0;left: 0;z-index: 99999;text-align: center;padding-top: 85px;display: none;">
+			<img src="../common/images/picture_no-order.png" style="width:2rem;height: auto;" />
+			<span style="display:block;margin-top: 30px;font-size: 18px;">
+				该小区暂无服务
+			</span>
+		</div>
+
+	</body>
+
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<title>温暖冬日</title>
+		<link rel="stylesheet" href="../common/reset.css" />
+		<link rel="stylesheet" href="css/couponCommodities.css">
+		<link rel="stylesheet" href="../common/tip/lxjTip.css">
+		<script src="../common/interface.js"></script>
+		<script src="../common/interfaceParameters.js"></script>
+		<script src="../common/tip/lxjTip.js"></script>
+		<script src="../common/vue/vue.min.js"></script>
+		<script src="../common/vue/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/vue/vue-resource.min.js"></script>
+		<script type="text/javascript">
+			var u = navigator.userAgent;
+			var clientType = GetURLParameter('clientType');
+			if(!clientType) {
+				if(!!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
+					clientType = "ios";
+				} else {
+					clientType = "android";
+				}
+			}
+			var comefromType = GetURLParameter("from") ? GetURLParameter("from") : '';
+			var baiduButtonId=1040;
+			var baiduId = 1040;
+			if(comefromType == "kaimen") {
+				baiduId = baiduId+1;
+			} else if(comefromType == "shengh") {
+				baiduId = baiduId+2;
+			} else if(comefromType == "zixun") {
+				baiduId = baiduId+3;
+			} else if(comefromType == "tanc") {
+				baiduId = baiduId+4;
+			} else if(comefromType == "fuc") {
+				baiduId = baiduId+5;
+			} else if(comefromType == "sc") {
+				baiduId = baiduId+6;
+			} else if(comefromType == "push") {
+				baiduId = baiduId+7;
+			}  else if(comefromType == "feed") {
+				baiduId = baiduId+8;
+			} else if(comefromType == "shenghz") {
+				baiduId = baiduId+9;
+			}else if(comefromType == "huod") {
+				baiduId = baiduId+10;
+			} else {
+				baiduId = baiduId;
+			}
+			var _hmt = _hmt || [];
+			_hmt.push(['_setAutoPageview', false]);
+			_hmt.push(['_trackPageview', '/client=' + clientType + '-温暖冬日-活动ID=' + baiduId]);
+			(function() {
+				var hm = document.createElement("script");
+				hm.src = "https://hm.baidu.com/hm.js?245cd6becb25900dbb7f9f62761431d7";
+				var s = document.getElementsByTagName("script")[0];
+				s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+		<script type="text/javascript">
+			(function(doc, win) {
+				var docEl = doc.documentElement,
+					isIOS = navigator.userAgent.match(/iphone|ipod|ipad/gi),
+					dpr = isIOS ? Math.min(win.devicePixelRatio, 3) : 1,
+					dpr = window.top === window.self ? dpr : 1, //被iframe引用时，禁止缩放
+					scale = 1 / dpr,
+					resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+				docEl.dataset.dpr = dpr;
+				var recalc = function() {
+					var width = docEl.clientWidth;
+					if(width / dpr > 768) {
+						width = 768 * dpr;
+					}
+					docEl.style.fontSize = 100 * (width / 414) + 'px';
+				};
+				recalc();
+				if(!doc.addEventListener) return;
+				win.addEventListener(resizeEvt, recalc, false);
+			})(document, window);
+		</script>
+		<style type="text/css">
+			.bannerNone {
+				height: 1px;
+			}
+			
+			input[disabled],
+			input:disabled,
+			input.disabled {
+				color: #333;
+				-webkit-text-fill-color: #333;
+				-webkit-opacity: 1;
+				opacity: 1;
+				background-color: #fff;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="marketing" id="marketing" v-cloak>			
+			<div class="bgBox" style="width: 100%;display: block;position: relative;">
+				<img src="images/warmWinter/dongri_01.jpg" />
+				<img src="images/warmWinter/dongri_02.jpg" />
+				<img src="images/warmWinter/dongri_03.jpg" />
+				
+				<!--<div style="width: 28%;height: 1.2%;top: 12%;left: 66%;" v-on:click="getCoupon('154468541130ee691d2c0e074f13996e')">
+				</div>
+				<div style="width: 50%;height: 1%;top: 13.4%;left: 25%;" onclick="goCouponModel()">
+				</div>-->
+				
+				<div style="width: 46%;height: 5%;top: 19.9%;left: 4%;" v-on:click="goDetail('154598935777dd5f935c1783467c8dad','马克杯','3')">
+					<div style="width: 19%;height: 15.5%;top: 84.5%;left: 66%;" v-on:click="selectSku('154598935777dd5f935c1783467c8dad','马克杯','4')">
+					</div>
+				</div>
+				<div style="width: 46%;height: 5%;top: 19.9%;left: 50%;" v-on:click="goDetail('154598977549ba6fc553b1a94f76aedb','保温杯','5')">
+					<div style="width: 19%;height: 15.5%;top: 84.5%;left: 75%;" v-on:click="selectSku('154598977549ba6fc553b1a94f76aedb','保温杯','6')">
+					</div>
+				</div>
+				
+				<div style="width: 46%;height: 5%;top: 25.6%;left: 4%;" v-on:click="goDetail('154598986228b560ec6fec034917a5a1','保温壶','7')">
+					<div style="width: 19%;height: 15.5%;top: 84.5%;left: 68%;" v-on:click="selectSku('154598986228b560ec6fec034917a5a1','保温壶','8')">
+					</div>
+				</div>
+				<div style="width: 46%;height: 5%;top: 25.6%;left: 50%;" v-on:click="goDetail('154599006826a3c885d588084e049b05','电水壶','9')">
+					<div style="width: 19%;height: 15.5%;top: 84.5%;left: 69%;" v-on:click="selectSku('154599006826a3c885d588084e049b05','电水壶','10')">
+					</div>
+				</div>
+				
+				<div style="width: 94%;height: 3.9%;top: 37.5%;left: 3%;" v-on:click="goDetail('1545640280250cf6345bb917490683d6','暖风机','11')">
+					<div style="width: 12%;height: 23.5%;top: 62.5%;left: 82%;" v-on:click="selectSku('1545640280250cf6345bb917490683d6','暖风机','12')">
+					</div>
+				</div>
+				
+				<div style="width: 46%;height: 5%;top: 42.2%;left: 4%;" v-on:click="goDetail('154599149102ed789cf8260246458584','养生壶','13')">
+					<div style="width: 19%;height: 15.5%;top: 84.5%;left: 68%;" v-on:click="selectSku('154599149102ed789cf8260246458584','养生壶','14')">
+					</div>
+				</div>
+				<div style="width: 46%;height: 5%;top: 42.2%;left: 50%;" v-on:click="goDetail('1545990184782beb8707bb734d13a8f8','电烤箱','15')">
+					<div style="width: 19%;height: 15.5%;top: 84.5%;left: 75%;" v-on:click="selectSku('1545990184782beb8707bb734d13a8f8','电烤箱','16')">
+					</div>
+				</div>
+				
+				<div style="width: 46%;height: 5%;top: 47.9%;left: 4%;" v-on:click="goDetail('15459913798451ae4d72d4274eba8c83','花洒','17')">
+					<div style="width: 19%;height: 15.5%;top: 84.5%;left: 63%;" v-on:click="selectSku('15459913798451ae4d72d4274eba8c83','花洒','18')">
+					</div>
+				</div>
+				<div style="width: 46%;height: 5%;top: 47.9%;left: 50%;" v-on:click="goDetail('154598950961c10b9f576d2743ba9291','地垫','19')">
+					<div style="width: 19%;height: 15.5%;top: 84.5%;left: 71%;" v-on:click="selectSku('154598950961c10b9f576d2743ba9291','地垫','20')">
+					</div>
+				</div>
+				
+				<div style="width: 46%;height: 5%;top: 54%;left: 4%;" v-on:click="goDetail('154599157683765cb61b61d34931bf02','干衣器','21')">
+					<div style="width: 19%;height: 15.5%;top: 84.5%;left: 69%;" v-on:click="selectSku('154599157683765cb61b61d34931bf02','干衣器','22')">
+					</div>
+				</div>
+				<div style="width: 46%;height: 5%;top: 54%;left: 50%;" v-on:click="goDetail('154535971417884cf04d4c2d4f7bb368','干衣机','23')">
+					<div style="width: 19%;height: 15.5%;top: 84.5%;left: 74%;" v-on:click="selectSku('154535971417884cf04d4c2d4f7bb368','干衣机','24')">
+					</div>
+				</div>
+				
+				
+				<div style="width: 94%;height: 3.9%;top: 66.5%;left: 3%;" v-on:click="goDetail('1545991030252192ad1f911341ecb089','拖把','25')">
+					<div style="width: 12%;height: 23.5%;top: 48.5%;left: 80%;" v-on:click="selectSku('1545991030252192ad1f911341ecb089','拖把','26')">
+					</div>
+				</div>
+				
+				<div style="width: 46%;height: 5%;top: 71.2%;left: 4%;" v-on:click="goDetail('1545991222247ea2fe2e3fb64de8bb7e','除油污','27')">
+					<div style="width: 19%;height: 15.5%;top: 84.5%;left: 64%;" v-on:click="selectSku('1545991222247ea2fe2e3fb64de8bb7e','除油污','28')">
+					</div>
+				</div>
+				<div style="width: 46%;height: 5%;top: 71.2%;left: 50%;" v-on:click="goDetail('1545991160453296b666d850484fbfd8','除菌喷雾','29')">
+					<div style="width: 19%;height: 15.5%;top: 84.5%;left: 70%;" v-on:click="selectSku('1545991160453296b666d850484fbfd8','除菌喷雾','30')">
+					</div>
+				</div>
+				
+				<div style="width: 46%;height: 5%;top: 76.7%;left: 4%;" v-on:click="goDetail('154599132100ea71442e535446b4a75d','擦手球','31')">
+					<div style="width: 19%;height: 15.5%;top: 84.5%;left: 71%;" v-on:click="selectSku('154599132100ea71442e535446b4a75d','擦手球','32')">
+					</div>
+				</div>
+				<div style="width: 46%;height: 5%;top: 76.7%;left: 50%;" v-on:click="goDetail('15459899177038aebc84d7cf4d3aab86','颈敷贴','33')">
+					<div style="width: 19%;height: 15.5%;top: 84.5%;left: 73%;" v-on:click="selectSku('15459899177038aebc84d7cf4d3aab86','颈敷贴','34')">
+					</div>
+				</div>
+				
+				<div style="width: 94%;height: 3.9%;top: 88.5%;left: 3%;" v-on:click="goDetail('1545990961877d48eee254544aa2adc1','洗碗刷','35')">
+					<div style="width: 12%;height: 23.5%;top: 72.5%;left: 80%;" v-on:click="selectSku('1545990961877d48eee254544aa2adc1','洗碗刷','36')">
+					</div>
+				</div>
+				
+				<div style="width: 46%;height: 5%;top: 93.8%;left: 4%;" v-on:click="goDetail('1545990283649e0cdc210d664d2b9c27','洗衣液','37')">
+					<div style="width: 19%;height: 15.5%;top: 83.5%;left: 67%;" v-on:click="selectSku('1545990283649e0cdc210d664d2b9c27','洗衣液','38')">
+					</div>
+				</div>
+				<div style="width: 46%;height: 5%;top: 93.8%;left: 50%;" v-on:click="goDetail('154599164990eb5589d138f34443b530','垃圾桶','39')">
+					<div style="width: 19%;height: 15.5%;top: 83.5%;left: 74%;" v-on:click="selectSku('154599164990eb5589d138f34443b530','垃圾桶','40')">
+					</div>
+				</div>
+				
+				
+				
+				
+
+				
+			</div>
+
+			<!--<div id="" style="width: 100%;height: 50px;background-color: #000000;" v-on:click="selectSku('1524210032128516841dd939466188b2')">
+
+			</div>-->
+			<div class="shoppingcartLogo" v-on:click="goShoppingcart()">
+				<img src="images/btn_ic_shopping@3x.png" alt="购物车" />
+				<span class="shoppingnum" id="shoppingnum" v-show="shoppingcartCount>0">{{shoppingcartCount}}</span>
+			</div>
+
+			<div class="bgTangcan" v-show="skuShowstate>0">
+				<div class="bugInfo_box" v-show="bugInfoAminateS">
+					<div class="bugInfo" id="bugInfoAminate" v-if="productInfoData!=null">
+						<div class="closeLogo" v-on:click="closeSelecSku()">
+							<img src="images/btn_ic_close@3x.png" />
+						</div>
+						<div class="bugprizeInfo" v-show="!inputFocusState">
+							¥<span v-if="selectPrice!=null&&giftbagId==''"><span v-text="String(parseFloat(selectPrice).toFixed(2)).split('.')[0]">0</span>.<span class="minproductPrice" v-text="String(parseFloat(selectPrice).toFixed(2)).split('.')[1]">00</span></span><span v-if="selectPrice==null&&giftbagId==''"><span v-text="String(parseFloat(productInfoData.product[0].minPrice).toFixed(2)).split('.')[0]">0</span>.<span class="minproductPrice" v-text="String(parseFloat(productInfoData.product[0].minPrice).toFixed(2)).split('.')[1]">00</span></span><span v-if="Number(productInfoData.product[0].minPrice)<Number(productInfoData.product[0].maxPrice)&&selectPrice==null"> ~ ¥<span><span v-text="String(parseFloat(productInfoData.product[0].maxPrice).toFixed(2)).split('.')[0]"></span>.<span class="minproductPrice" v-text="String(parseFloat(productInfoData.product[0].maxPrice).toFixed(2)).split('.')[1]">00</span></span>
+							</span>
+							<span v-if="giftbagId!=''"><span v-text="String(parseFloat(productInfoData.giftBagPrice).toFixed(2)).split('.')[0]">0</span>.<span class="minproductPrice" v-text="String(parseFloat(productInfoData.giftBagPrice).toFixed(2)).split('.')[1]">00</span>
+							</span>
+						</div>
+						<div class="hadChaooseSkuInfo" v-show="inputFocusState" v-text="skuSelectTip">
+						</div>
+						<div class="line_01box" v-show="!inputFocusState">
+							<div class="line_01">
+							</div>
+						</div>
+						<div class="commoditySku_box" v-show="!inputFocusState">
+							<div class="commoditySkuItems" v-if="commoditySku.length>0" v-for="(items,index3) in commoditySku">
+								<div class="skuName" v-text="items.skuName">
+								</div>
+								<div class="skuParamName">
+									<span class="paramNameN" v-bind:class="{paramNameY:skuSelectList[index3]==item.paramId,paramNameF:skuisSelect[index3][index4]}" v-on:click="selectTagFun(index3,index4,item,items,skuisSelect[index3][index4])" v-for="(item,index4) in items.skuValues" v-text="item.paramName">
+								</span>
+									<!--<span class="paramNameF">
+									立即购买立
+								</span>
+								<span class="paramNameN">
+									立即购买立
+								</span>-->
+								</div>
+							</div>
+						</div>
+						<div class="line_01box">
+							<div class="line_01">
+							</div>
+						</div>
+						<div class="bugNumber_box">
+							<div class="bugNumberText">
+								数量
+							</div>
+							<div class="reducebt" v-bind:class="{reducefall:bugNumber<=1}" v-on:click="reducebugNumber()">
+							</div>
+							<input type="tel" disabled="disabled" v-model="bugNumber" v-on:blur="blurInput()" v-on:focus="focusInput()" name="bugNumber" id="bugNumber" value="1" />
+							<div class="addbt" v-bind:class="{addbfall:bugNumber>=maxstockQuantity}" v-on:click="addbugNumber()">
+							</div>
+						</div>
+						<div class="bugAffirm" v-on:click="goConfirmOrder()">
+							<span>
+							确定
+						</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/bazaar.js"></script>
+		<script type="text/javascript">
+			var HeightC = document.body.scrollHeight;
+			window.onload = function() {
+				setTitle("温暖冬日");
+				setTimeout(function() {
+					HeightC = document.body.scrollHeight;
+					
+				}, 300);
+			}
+
+			function goCouponModel() {
+				window.scrollTo(0, HeightC * 0.735)
+			}
+		</script>
+	</body>
+
+</html>

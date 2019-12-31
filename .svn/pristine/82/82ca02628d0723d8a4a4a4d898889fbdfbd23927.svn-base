@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<header>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="css/successInfo.css">
+		<script src="../common/js/fontSize.js"></script>
+		<script src="../../common/interface.js"></script>
+		<title>提交成功</title>
+	</header>
+	<body>
+		<div>
+			<img class="successInfo-pic" src="img/ic_tijiaochenggong@3x.png" alt="">
+			<div class="successInfo-msg" >您的信息已提交成功！</div>
+			<div class="successInfo-msg" >联享家客服将在1-2个工作日跟您联系！</div>
+			<div class="commanderInfo-link">
+				<span>联享家客服热线：</span>
+				<a href="tel:4008822252">400-8822-252</a>
+			</div>
+		</div>
+		<!--<script src="js/successInfo.js"></script>-->	
+		<script type="text/javascript">
+			window.onload = function() {
+				setTitle("提交成功");	
+				nativeMethod("showClosebutton", null);
+			}
+		</script>
+	</body>
+</html>

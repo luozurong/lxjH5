@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>广告</title>
+<link rel="stylesheet" href="../common/reset.css">
+<script src="../common/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../common/interface.js"></script>
+<style type="text/css">
+img {
+	float: left;
+}
+</style>
+<script type="text/javascript">
+	function goUrl(ele) {
+		showActivity($(ele).attr("id"), "");
+	}
+</script>
+</head>
+
+<body>
+	<p>
+		<img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170619/201706191720109731349.jpg"
+			title="" alt="电器专场内页.jpg" /><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=149786058942279bc8a964e04bf5aa70"
+			target="_blank" title="冲奶机"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170619/201706191720164245295.jpg"
+			title="" alt="微信图片_20170619154018_01.jpg" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=149786213141de844be38309435f8238"
+			target="_blank" title="科语扫地机器人602"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170619/201706191720183141122.jpg"
+			title="" alt="微信图片_20170619154018_02.jpg" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=149786276751d51c01bfa90b480c8f1c"
+			target="_blank" title="小熊煮蛋器"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170619/201706191720205444797.jpg"
+			title="" alt="微信图片_20170619154025_01.jpg" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=149786289662d18ab658d6844c1db9cd"
+			target="_blank" title="小熊料理机"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170619/201706191720222869847.jpg"
+			title="" alt="微信图片_20170619154025_02.jpg" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=14978629852618e3299ec275440a963f"
+			target="_blank" title="小熊养生壶"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170619/201706191720251125916.jpg"
+			title="" alt="微信图片_20170619154025_03.jpg" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=1497863173953fe713015b6c459d9801"
+			target="_blank" title="小熊电热饭盒"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170619/201706191720280272291.jpg"
+			title="" alt="微信图片_20170619154027_01.jpg" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=149786342893e657d6ee24564276a330"
+			target="_blank" title="乐心体重称S3"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170619/201706191720327154679.jpg"
+			title="" alt="微信图片_20170619154027_02.jpg" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=149786355088e27f3a9337824ff588be"
+			target="_blank" title="儿童手表"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170619/201706191720346349956.jpg"
+			title="" alt="微信图片_20170619154027_03.jpg" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=1497863673615f6d2edae9d941ca88d0"
+			target="_blank" title="乐心智能手环"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170619/201706191720363723440.jpg"
+			title="" alt="微信图片_20170619154031_01.jpg" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=149786394488c845d1bb760b4ec3b6fa"
+			target="_blank" title="车载空气进化器"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170619/201706191720380141301.jpg"
+			title="" alt="微信图片_20170619154031_02.jpg" /></a>
+	</p>
+	<style type="text/css">
+body {
+	margin: 0px;
+}
+</style>
+</body>
+
+</html>

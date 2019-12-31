@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+	<head lang="en">
+		<meta charset="UTF-8">
+		<title>中奖纪录</title>
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" type="text/css" href="../common/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/lottery.css" />
+		<link rel="stylesheet" type="text/css" href="css/loading.css" />
+		<link rel="stylesheet" type="text/css" href="../common/tip/layer.css" />
+		<script type="text/javascript" src="../common/jquery-1.7.2.min.js"></script>
+		<script src="../common/interface.js" type="text/javascript"></script>
+	    <script src="../common/tip/layer.js" type="text/javascript" charset="utf-8"></script>
+
+		<script src="js/public.js" type="text/javascript"></script>		
+	
+		<style type="text/css">
+			html{
+				background-color: #faf0cf;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		
+
+				<header class="header_body">
+					<div class="content_header">
+
+						<div class="header_bottom">
+							<div class="header_fufen header_fufen2" onclick="goMygortune(this)" style="-webkit-backface-visibility: hidden; backface-visibility: hidden;-webkit-perspective: 1000;perspective: 1000;">
+								<img src="images/luckgo3x_1.png">
+							</div>
+							<div class="header_choujiang" onclick="goChoujiang(this)" style="-webkit-backface-visibility: hidden; backface-visibility: hidden;-webkit-perspective: 1000;perspective: 1000;">
+								<img src="images/luckgo3x_4.png">
+							</div>
+							<div id="bt_rule" onclick="ruleOpen()" style="position: absolute;right: 2%;width: 18%;">
+								<img src="images/activity_imfor_02.png" style="height:auto;width: 100%;" />
+							</div>
+						</div>
+						<div class="header_content">
+							<div class="header_bottom-fufen">
+								我的福分：<span> </span>
+							</div>
+							<div class="header_bottom-again">
+
+							</div>
+						</div>
+					</div>
+				</header>
+				<div id="content_text_box">
+					<div class="xian">
+						<span class="left-line">&nbsp;</span>
+						<span id="content_text">我的中奖记录</span>
+						<span class="right-line">&nbsp;</span>
+					</div>
+
+				</div>
+				<div id="prize_have_none">
+					你暂无中奖记录哦
+				</div>
+				<section>
+					<div class="section_bg">
+
+					</div>
+					<!--轮播-->
+					<div class="banner-right">
+						<div class="bcon">
+							<p class="pp">中奖幸运名单</p>
+							<div id="dis_no_order">
+								暂无幸运名单
+							</div>
+							<!-- 代码开始 -->
+							<div class="list_lh">
+								<ul>
+
+								</ul>
+							</div>
+						</div>
+					</div>
+
+
+				</section>
+				<!--活动规则开始-->
+				<div id="bgwindow" class="bgwindow_color"></div>
+				<div id="rule_big_box" class="bgwindow_color rule_big_box_show" style="z-index:999;">
+					<div id="rule_box">
+						<div id="bt_close" onclick="ruleClose()">
+							<img src="images/close.png" style="width: 100%;padding-right: 17px;padding-bottom: 17px;" />
+						</div>
+						<div id="rule_li" style="-webkit-overflow-scrolling: touch;overflow-y: scroll;">
+							<iframe src="" scrolling="auto" width="100%" height="100%" style="border: none;"></iframe>
+						</div>
+					</div>
+				</div>
+				<!--活动规则结束-->
+
+				<img src="images/footimg.png" style="width: 100%;height: auto;" />
+	
+         
+	</body>
+ <script src="js/lottery_min.js"></script>
+
+</html>

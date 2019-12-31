@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" />
+		<title>预约配送</title>
+		<link rel="stylesheet" href="../common/reset.css">
+		<link rel="stylesheet" href="css/mui.mimn.css">
+		<link rel="stylesheet" type="text/css" href="css/Index.css" />
+		<link rel="stylesheet" type="text/css" href="css/mui.picker.min.css" />
+		<link rel="stylesheet" type="text/css" href="../common/tip/layer.css" />
+		<script src="../common/jquery-1.7.2.min.js"></script>
+		<script src="../common/tip/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script src="../common/common.js "></script>
+		<script type="text/javascript " src="../common/coupons/coupons_common.js "></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.picker.min.js"></script>
+		<style>
+			body,
+			html {
+				/*font-family: "微软雅黑";*/
+				position: relative;
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+		<script type="text/javascript">
+		</script>
+	</head>
+
+	<body>
+	    <div id="water_commodity_info" style="display: none;">
+		<div id="overlay"></div>
+		<img class="other" id="other" src="img/pointing@3x.png" alt="" />
+        <img class="other2" id="other2" src="img/other@3x_03.png" />
+		<ul class="main-conten">
+			<li class="select" id="Water">
+				<div class="img"><img src="../common/images/c_error.png" alt="图片无法加载"></div>
+				<input type="hidden" name="commodityName" id="commodityName">
+				<input type="hidden" name="areaId" id="areaId">
+				<input type="hidden" name="areaName" id="areaName">
+				<div class="info">
+					<!-- 商品名称 -->
+					<div class="introduce" id="introduce">
+					</div>
+					<div class="price_d">
+						<span class="font_size3">¥&nbsp;</span><span id="price_item_1"></span>
+					</div>
+				</div>
+				<div id="otherwater">
+					<img src="img/other@3x_03.png" alt="其他品牌" />
+				</div>
+			</li>
+			<li class="main-none"></li>
+			<li class="select" id="Address">
+				<div class="address-left">
+					<div class="a-number">
+						<img src="img/ic_name@3x.png" style="padding-top: 0.08rem;" />
+						<span class="name" id="userName">名字</span>
+						<span class="phone" id="telephone" style="color: #222222;text-decoration: none;">电话</span>
+					</div>
+					<div class="b-address">
+						<img src="img/ic_-Location-@3x.png" style="margin-top: 0.1rem;" />
+						<span class="address" id="userAddress">地址</span>
+					</div>
+				</div>
+				<div id="address_none" style="display: none;">
+					请选择服务地址		
+				</div>
+			</li>
+			<li class="select Time-choose" data-options='{"type":"minutes","customData":{"i":[{"text":"00","value":"00"},{"text":"30","value":"30"}]},"labels":["年", "月", "日", "小时", "分"]}'>
+				<span>
+							配送时间:
+						</span>
+				<span id="result" class="ui-alert">						
+						</span>
+			</li>
+			<li class="right-R">
+				<div id="add-left-water" class="add-left">
+					需要送几桶水？
+				</div>
+				<div class="add_chose">
+					<button class="reduce reduceNor" id="reduce_btn"></button>
+					<input type="number" value="1" id="qty_item_1" class="input-number text" onfocus="newviewopen(this.id)" />
+					<button class="add addNor" id="add"></button>
+				</div>
+			</li>
+			<li class="right-R" id="Pay">
+				<div class="pay-left pat-type ">
+					<p> 支付方式</p>
+				</div>
+				<div class="pay-right ">
+					<span class="pay-span ">在线支付</span>
+					<span id="pay-warn" class="pay-span">此服务仅支持在线支付</span>
+				</div>
+			</li>
+			<li class="right-R"  style="border:none;">
+				<span  id ="liuyan" >备注留言:</span><input type="text" id="remark" onfocus="newviewopen(this.id)"    maxlength="20" onkeyup="value=value.replace(/[\&\%\#]/g,'')" onpaste="value=value.replace(/[\&\%\#]/g,'')" oncontextmenu = "value=value.replace(/[\&\%\#]/g,'')"/>
+			</li>
+			<li class="main-none2"></li>
+			<li class="right-R select" id="Coupons"  style="border:none;">
+				<div id="coupon-num" class="pay-left ">
+					<span>优惠券</span><span class="coupon-use-num no-coupon-use" id="useCoupon"></span>
+				</div>
+				<div id="reduce" class="pay-right no-reduce-money">
+					<span id="coupon" style="color: #EC584E;border: none;font-size: 0.35rem;font-weight: 800;"></span>
+					<!--<img id="hcho"  src="img/ic_more-@3x.png" alt="右边箭头" />
+-->				</div>
+			</li>
+
+		</ul>
+		<div id="div-none"></div>
+		<footer>
+			<div class="f_l buy">
+				<div class="buy-left">
+					<span class="text-total">合计:</span>
+					<span class="total-font-red buy-number"><span class="font_size3">¥&nbsp;</span><span id="total_item_1"></span></span>
+					<span class="preferential-prices">
+							<!-- 有内容时价格是红色，没内容是空白 -->
+					</span>
+				</div>
+				<div id="open1" onclick="doSubmit()" class="buy-right ">
+					<span>确定预约</span>
+				</div>
+			</div>
+		</footer>
+		</div>
+		<script type="text/javascript " src="js/index.js "></script>
+	</body>
+
+</html>

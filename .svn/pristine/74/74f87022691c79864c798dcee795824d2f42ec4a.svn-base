@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>菜篮子</title>
+    <link rel="stylesheet" href="../common/reset.css" />
+    <link rel="stylesheet" href="css/common.css?r=45">
+    <link rel="stylesheet" type="text/css" href="css/supermarket.css?fff=558"/>
+    <script type="text/javascript"	src="../common/jquery-2.1.4.js"></script>
+    <script src="../mall/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/idangerous.swiper.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../common/iscroll/iscroll.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../common/interface.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/supermarket.js?sdhhd=556" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		window.addEventListener('load', function () {  
+            FastClick.attach(document.body);  
+        }, false);  
+	</script>
+</head>
+<body>
+    <!-- 没有任何商品显示时  -->
+    <div class="noProduct-display">
+        <div class="noProduct-logo">
+            <img src="images/no_Product.png" alt="暂时没有商品"/>
+        </div>
+        <div class="noProduct-info">
+            <p>暂无商品</p>
+        </div>
+    </div>
+    <!-- 左边栏 -->
+	<div class="swiper-container">
+		<div class="swiper-wrapper"></div>
+	</div>
+    <!-- 右边内容 -->
+	<div id="wrapper">
+			<div id="scroller">
+				<div id="pullDown" style="display: none;">
+					<span class="pullDownIcon"></span><span class="pullDownLabel"></span>
+				</div>
+				<ul class="content" id="thelist">
+				</ul>
+				<div id="pullUp" class="pullUp" style="display: none;">
+					<!--<div id="nomore" style="display: none;">
+						亲，已经没有更多商品了
+					</div>-->
+					<span class="pullUpIcon"></span><span class="pullUpLabel">向上拉更多惊喜</span>
+				</div>
+				<div id="nomore">
+					亲，已经没有更多商品了
+				</div>
+			</div>
+	</div>
+    <!-- 页脚栏目 -->
+	<div class="footer">
+		<div class="shopCar">
+			<div class="img_box1">
+				<img src="images/ic_cailanzi@3x.png"/>
+				<span>0</span>
+			</div>
+			<!--<p>菜篮子</p>-->
+		</div>
+		<div class="totalPrice">
+			合计：<span class="fuhao">￥</span><span class="integer">0.</span><span class="fuhao" id="decimal">00</span>
+		</div>
+		<div class="payFor">
+			去买单
+		</div>
+	</div>
+</body>
+</html>

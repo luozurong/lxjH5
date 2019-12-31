@@ -1,0 +1,452 @@
+body {
+	margin: 0px;
+	padding: 0px;
+/*	font-family: "Microsoft YaHei", "微软雅黑";
+*/	font-size: 16px;
+	word-break:break-all;
+}
+
+.main {
+	background-color: #FFFFFF;
+}
+
+ul.main li.picture-food #product li {
+	padding-top: 0;
+}
+/*ul.main li.picture p{
+	min-width: 100%!important;
+	max-width: 100%!important;
+}
+ul.main li.picture img {
+	max-width: 100%!important;
+}*/
+
+.main li {
+	overflow: hidden;
+	background: #ffffff;
+	line-height: 150%;
+	color: #222222;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+.main .padding-left {
+	padding: 13px 19px 13px 11.6px;
+}
+
+.main .select {
+	background-image: url(../img/ic_more-@3x.png);
+	background-repeat: no-repeat;
+	background-position: 98% center;
+	background-size: 5%;
+}
+
+.main li.none_fofofo {
+	padding: 0;
+	margin: 0;
+	height: 9.7px;
+	width: 100%;
+	background-color: #F0F0F0;
+}
+
+.main li.border_bottom_s {
+	border-bottom: 1px solid #e8e8e8;
+	font-size: 14px;
+}
+
+.main li.border_top_s {
+	border-top: 1px solid #e8e8e8;
+}
+
+.picture-food {
+	width: 100%;
+	height: 194px;
+}
+.img-responsive {
+	width: 100%;
+	text-align: center;
+}
+.picture-food img {
+    width: 100%;
+	height: 100%;
+}
+
+.food-title {
+	font-size: 14px;
+	width: 100%;
+	text-align: Justify;
+	text-justify: inter-ideograp;
+}
+
+.left-P {
+	float: left;
+	font-size: 13px;
+	color: #777;
+	height:25px;
+}
+.left-P p{
+	display:block;
+	float: left;
+	height: 15px;
+	line-height: 15px;
+	margin-top: 5px;
+}
+.left-P img {
+	float: left;
+	margin-top: 5px;
+	width: 15px;
+}
+.left-P span {
+	float: left;
+	display: block;
+}
+.right-N {
+	width: 40%;
+	float: right;
+	font-size: 13px;
+	height:25px;
+	position: relative;
+}
+
+.people-number {
+	display: block;
+	color: #4ebff9;
+	overflow: hidden;
+	position: absolute;
+	right: 0;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	padding: 0 8px 0 8px;
+	margin-top: 2.75px;
+	height: 17.5px;
+	line-height: 17.5px;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	border:1px solid #4ebff9;
+	/*border-radius: 8%;*/
+	border-radius:40px;
+}
+
+.float-left {
+	float: left;
+}
+
+.float-right {
+	float: right;
+}
+
+.shop-img {
+	width: 20%;
+	height: 76.59px;
+}
+
+.shop-img img {
+	border: none;
+	width: 100%;
+	height: 100%;
+	border-radius: 100%;
+}
+
+.shop-name-type{
+	width: 60%;
+	height: 76.59px;
+	position: relative;
+	padding-left: 0;
+}
+
+.shop-Name {
+	font-size: 18px;
+	padding-left: 19px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+}
+
+.shop-Type {
+	font-size: 14px;
+	position: absolute;
+	bottom: 0;
+	left: 19px;
+	color: #888888;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+}
+
+.shop-phone {
+	width: 20%;
+	height: 76.59px;
+	position: relative;
+}
+
+.shop-phone img {
+	width: 40%;
+	height: 40%;
+	border: none;
+	position: absolute;
+	top: 30%;
+	right: 30%;
+}
+
+.address {
+	font-size: 14px;
+}
+
+.left-F {
+	width: 7%;
+	float: left;
+	vertical-align: middle;
+}
+
+.left-S {
+	width: 88%;
+	float: left;
+}
+
+.main li#sellerAddress {
+	padding-left: 0;
+	margin-left: 11.6px;
+	border-top: 1px solid #e8e8e8;
+	-webkit-tap-highlight-color: rgba(255,255,255,0);
+}
+
+.address img {
+	width: 76%;
+	vertical-align: middle;
+	margin-right: 9.7px;
+}
+
+.main li ul li {
+	border-bottom: none;
+	padding-top: 6.4px;
+	padding-bottom: 6.4px;
+	font-size: 14px;
+}
+
+.taocan {
+	color: #888;
+	font-size: 14px;
+}
+
+.dish-name {
+	float: left;
+	text-align: left;
+	width: 60%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.dish-right {
+	display: block;
+	float: right;
+	text-align: right;
+	width: 40%;
+}
+
+.dish-list {
+	font-size: 13px;
+	color: #22222;
+}
+
+.dish-number {
+	width: 40%;
+	float: left;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	text-align: right;
+}
+
+.dish-price {
+	width: 60%;
+	float: left;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	text-align: right;
+}
+
+.main .SpecialtyDetailPicture {
+	color: #4ebff9;
+	font-size: 14px;
+	-webkit-tap-highlight-color: rgba(255,255,255,0);
+}
+
+.main .use-rule {
+	list-style: decimal;
+	color: #888;
+	font-size: 14px;
+}
+
+.main .use-rule #rule-info {
+}
+
+.main .use-rule ul li {
+	list-style: disc;
+	color: #4ebff9;
+	margin-left: 19px;
+	padding-top: 6.4px;
+	padding-bottom: 6.4px;
+	overflow: visible;
+}
+
+.main .use-rule ul li ul li {
+	list-style: none;
+	color: #888888;
+	margin-left: 0;
+	overflow: visible;
+}
+
+.nyuseTime {
+	color: #888888;
+	padding-top: 6.4px;
+}
+
+.qiang-gou {
+	height: 50px;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background-color: #FFFFFF;
+	border-top: 1px solid #e8e8e8;
+}
+
+.buy-left {
+	width: 50%;
+	float: left;
+	height: 50px;
+	color: #222222;
+	line-height: 50px;
+}
+
+.new-prices {
+	padding-left: 19px;
+	color: #FF661B;
+	font-size: 18px;
+}
+
+.old-prices {
+	padding-left: 19px;
+	color: #888888;
+	font-size: 18px;
+	text-decoration: line-through;
+}
+
+.buy-right {
+	width: 28%;
+	float: right;
+	height: 100%;
+	color: white;
+	line-height: 50px;
+	text-align: center;
+	font-size: 18px;
+	background-color: #FF661B;
+	-webkit-tap-highlight-color: rgba(255,255,255,0);
+}
+
+.first {
+	-webkit-transform: translateY(100%);
+	transform: translateY(100%);
+	-webkit-transition: -webkit-transform .2s;
+	transition: transform .2s;
+}
+
+.donghua {
+	-webkit-transform: translateY(0%);
+	transform: translateY(0%);
+	opacity: 1;
+}
+
+#mask {
+	display: none;
+	height: 100%;
+	width: 100%;
+	background: #CCCCCC;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 1000;
+	opacity: 0.5;
+}
+
+#phone {
+	display: none;
+	color: aquamarine;
+	position: fixed;
+	bottom: 0;
+	z-index: 10000;
+	color: #007aff;
+	width: 100%;
+}
+
+#phone li {
+	width: 80%;
+	margin: 0 19px 19px 19px;
+	padding: 9.7px 19px 9.7px 19px;
+	background-color: white;
+	text-align: center;
+	font-size: 18px;
+	border: 1px solid white;
+	border-radius:38.8px;
+}
+
+#phone a {
+	text-decoration: none;
+	color: #007aff;
+}
+.font_size2{
+	font-size: 18px;
+}
+
+	#qiang-gou{
+		height: 50px;
+	}
+	.food-title{
+		font-size: 16px;
+	}
+	.buy-right,.buy-left{
+		line-height: 50px;
+		height: 50px;
+	}
+	.left-P{
+		font-size: 12px;
+	}
+	.people-number{
+		font-size: 12px;
+	}
+	.shop-Name,.main li.border_bottom_s{
+		font-size: 15px;
+	}
+	.shop-Type{
+		font-size: 14px;
+	}
+	.address{
+		font-size: 14px;
+	}
+	.taocan{
+		font-size: 15px;
+	}
+	.main li ul li{
+		font-size: 14px;
+	}
+	.main .SpecialtyDetailPicture{
+		font-size: 14px;
+	}
+	.nyuseTime{
+		font-size: 14px;
+	}
+	.new-prices,.old-prices{
+		font-size: 16px;
+	}
+	.font_size2{
+		font-size: 14px;
+	}
+	.buy-right{
+		font-size: 18px;
+	}
+

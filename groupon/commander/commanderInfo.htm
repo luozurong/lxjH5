@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+	<header>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="../../common/receiverInfo/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../common/receiverInfo/mui.picker.css" />
+		<link rel="stylesheet" type="text/css" href="../../common/receiverInfo/mui.poppicker.css" />
+		<link rel="stylesheet" href="css/commanderInfo.css">
+		<link rel="stylesheet" href="../../common/tip/lxjTip.css">
+		<script src="../../common/interface.js"></script>
+		<script src="../../common/tip/lxjTip.js"></script>
+		<script src="../common/js/fontSize.js"></script>
+		<!--<script src="../../common/receiverInfo/mui.min.js"></script>
+		<script src="../../common/receiverInfo/mui.picker.js"></script>
+		<script src="../../common/receiverInfo/mui.poppicker.js"></script>-->
+		<script src="../common/js/jquery-2.1.4.js"></script>
+		<script src="../../common/vue/vue.min.js"></script>
+		<script src="../../common/vue/vue-resource.min.js"></script>
+		<script src="../../common/vue/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/receiverInfo/lazyload-min.js"></script>
+
+		<title>团长招募</title>
+	</header>
+
+	<body>
+		<div class="commanderInfo">
+			<div class="commanderInfo-tip">请团长注意：为确保商品正常配送，请填写真实信息！</div>
+			<div class="commanderInfo-main">
+				<div>
+					<label>
+						<div>团长姓名</div>
+						<div><input type="text" maxlength="10" v-model="groupName" placeholder="您的姓名"></div>
+					</label>
+				</div>
+				<div>
+					<label>
+						<div>团长手机</div>
+						<div><input type="tel" maxlength="11" v-model="groupMobile" placeholder="您的手机"></div>
+					</label>
+				</div>
+				<div>
+					<label>
+						<div>小区名称</div>
+						<div><input type="text" maxlength="40" v-model="groupHome" placeholder="您的小区名称"></div>
+					</label>
+				</div>
+				<div id="choose_address1" class="commanderInfo-address selsectAddress">
+					<div>所在地区</div>
+					<div><span class="color333" v-text="groupAddress" id="select_ssq" v-if="groupAddress"></span><span v-if="!groupAddress">您的所在地区</span></div>
+					<!--<input type="text" v-model="groupAddress" placeholder="您的所在地区" disabled="disabled">-->
+					<img src="img/ic_more-@3x.png" alt="">
+				</div>
+				<div id="choose_address2" class="selsectAddress">
+					<div>所在街道</div>
+					<div><span class="color333" id="select_jd" v-text="groupStreet" v-if="groupStreet"></span><span v-if="!groupStreet">您的所在街道</span></div>
+					<!--<input type="text" v-model="groupStreet" placeholder="您的所在街道" disabled="disabled">-->
+					<img src="img/ic_more-@3x.png" alt="">
+				</div>
+				<div>
+					<label>
+						<div>提货地址</div>
+						<div><input v-model="groupArea" maxlength="40" type="text" placeholder="您的提货地址"></div>
+					</label>
+				</div>
+			</div>
+			<div class="commanderInfo-link">
+				<span>联享家客服热线：</span>
+				<a href="tel:4008822252">400-8822-252</a>
+			</div>
+			<div class="commanderInfo-submit">
+				<span :class="{active: submitActive}" @click="commanderInfoSubmit()">确认提交</span>
+			</div>
+		</div>
+		<script src="js/commanderInfo.js"></script>
+		<script type="text/javascript">
+			var cityData3 = [];
+			var cityData1 = [];
+
+			sessionStorage.setItem("province", "0000");
+			sessionStorage.setItem("cities", "0000");
+			sessionStorage.setItem("counties", "0000");
+			sessionStorage.setItem("street", "0000");
+			var cityPicker3;
+			var cityPicker1;
+			var closeStatut = 0;
+			LazyLoad.js(['../../common/receiverInfo/mui.min.js',
+				'../../common/receiverInfo/mui.picker.js',
+				'../../common/receiverInfo/mui.poppicker.js'
+			], function() {
+				mui.init();
+				mui.ready(function() {
+					cityPicker1 = new mui.PopPicker({
+						layer: 1
+					});
+					cityPicker1.setData(cityData1);
+					var showCityPickerButton = document.getElementById('choose_address2');
+					var cityResult = document.getElementById('select_jd');
+					showCityPickerButton.addEventListener('tap', function(event) {
+						$("textarea,input").blur();
+						if(!isCondition(sessionStorage.getItem("provinceCode")) || !isCondition(sessionStorage.getItem("cityCode")) || !isCondition(sessionStorage.getItem("areaCode"))) {
+							lxjTip.msg("请先选省市区", {
+								time: 2000
+							});
+							return false;
+						}
+						if(!isCondition(cityData1) && sessionStorage.getItem("streetNone") == 1) {
+							lxjTip.msg("空街道信息", {
+								time: 2000
+							});
+							//cityResult.innerText = "暂不选择";
+							sessionStorage.setItem("townCode", "9999999");
+							sessionStorage.setItem("streetchange", "true");
+							return false;
+						}
+						if(cityPicker3.getSelectedItems()[0].value != sessionStorage.getItem("townCode")) {
+							var indexArray = getIndexfromarray(sessionStorage.getItem("townCode"), "0000", "0000", cityData1);
+							cityPicker1.pickers[0].setSelectedIndex(indexArray[0] || 0, 500);
+						}
+						if(sessionStorage.getItem("selsectStreet") != null && sessionStorage.getItem("selsectStreet") != undefined && cityData1.length > 0) {
+							console.log(sessionStorage.getItem("selsectStreet"));
+							//	console.log(cityPicker1)
+							setTimeout(function() {
+								cityPicker3.hide();
+								cityPicker1.show(function(items) { //返回 false 可以阻止选择框的关闭
+									//cityResult.innerText = items[0].text;
+									vue.groupStreet = items[0].text;
+									vue.town = items[0].value;
+									vue.townName = items[0].text;
+									vue.infoFilters();
+									sessionStorage.setItem("townCode", (items[0].value || ''));
+									sessionStorage.setItem("streetchange", "true");
+								});
+							}, 250);
+
+						}
+
+					}, false);
+
+					cityPicker3 = new mui.PopPicker({
+						layer: 3
+					});
+					cityPicker3.setData(cityData3);
+					cityPicker3.pickers[1].setSelectedIndex(0);
+					cityPicker3.pickers[2].setSelectedIndex(0);
+
+					var showCityPickerButton = document.getElementById('choose_address1');
+					var cityResult3 = document.getElementById('select_ssq');
+					//					
+					showCityPickerButton.addEventListener('tap', function(event) {
+						$("textarea,input").blur();
+						//var cityPicker3close="true";
+
+						if(!isCondition(cityData3)) {
+							return false;
+						}
+
+						if(cityPicker3.getSelectedItems()[0].value != sessionStorage.getItem("provinceCode") || cityPicker3.getSelectedItems()[1].value != sessionStorage.getItem("cityCode") || cityPicker3.getSelectedItems()[2].value != sessionStorage.getItem("areaCode")) {
+							var indexArray = getIndexfromarray(sessionStorage.getItem("provinceCode"), sessionStorage.getItem("cityCode"), sessionStorage.getItem("areaCode"), cityData3);
+							cityPicker3.pickers[0].setSelectedIndex(indexArray[0] || 0, 500);
+							cityPicker3.pickers[1].setSelectedIndex(indexArray[1] || 0, 500);
+							cityPicker3.pickers[2].setSelectedIndex(indexArray[2] || 0, 500);
+						}
+						setTimeout(function() {
+							cityPicker1.hide();
+							cityPicker3.show(function(items) { //返回 false 可以阻止选择框的关闭			
+								if(sessionStorage.getItem("endscrollState") != "true") {
+									return false;
+								}
+								if(!isCondition(items[1].value) || !isCondition(items[2].value) || ajaxState != "true") { //预防数据还没加载完毕就点确定
+									if(closeStatut == 0) {
+										return false;
+									}
+								}
+								//cityResult3.innerText =
+								vue.groupAddress = (items[0].text || '') + " " + (items[1].text || '') + " " + (items[2].text || '');
+								sessionStorage.setItem("selsectStreet", (items[2].value));
+								sessionStorage.setItem("provinceCode", (items[0].value || ''));
+								sessionStorage.setItem("cityCode", (items[1].value || ''));
+								sessionStorage.setItem("areaCode", (items[2].value || ''));
+
+								vue.province = items[0].value;
+								vue.provinceName = items[0].text;
+								vue.city = items[1].value;
+								vue.cityName = items[1].text;
+								vue.country = items[2].value;
+								vue.countryName = items[2].text;
+								vue.groupStreet = '';
+								vue.groupArea = '';
+								vue.infoFilters();
+
+								ajaxState = "true";
+								sessionStorage.setItem("townCode", '');
+								sessionStorage.setItem("cityAreachange", "true");
+								//cityResult.innerText = "街道";
+
+								cityData1 = [];
+								cityPicker1.setData(cityData1);
+								if(isCondition(items[2].value)) {
+									getAddressdate(2, (items[2].value), 'street');
+								}
+							});
+						}, 200);
+
+					}, false);
+				});
+				getAddressdate(1, 1000, "province");
+
+			});
+		</script>
+	</body>
+
+</html>

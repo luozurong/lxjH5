@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" />
+		<title>选择地址</title>
+		<link rel="stylesheet" href="../reset.css">
+		<link rel="stylesheet" href="receiveraddress.css" />
+		<link rel="stylesheet" type="text/css" href="../tip/layer.css" />
+		<script src="../jquery-1.7.2.min.js"></script>
+		<script src="../tip/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../underscore.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../mall/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common.js"></script>
+		<script type="text/javascript" src="../interface.js"></script>
+		<script src="receiverAddress.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			body .demo_two .layui-layer-btn {
+				padding: 0 0.46rem 0.51rem;
+				height: 0.618rem;
+			}
+			
+			body .demo_two .layui-layer-content {
+				font-size: 14px;
+				padding: 0.51rem;
+				line-height: 0.417rem;
+			}
+			
+			body .demo_two .layui-layer-btn a {
+				height: 0.587rem;
+				line-height: 0.587rem;
+				font-size: 14px;
+				width: 42.5%;
+			}
+			body .demo_one .layui-layer-content{
+				text-align: center;
+				padding: 0.51rem;
+				font-size: 16px;
+			}
+			body .demo_one .layui-layer-btn{
+        		border-top: 1px solid #e8e8e8;
+	        }
+	        body .demo_one .layui-layer-btn .layui-layer-btn0{
+			    color: #FF661B;
+			    font-size: 17px;
+			    height: 36px;
+			    line-height: 36px;
+			}
+	
+			#changename::-webkit-input-placeholder {
+			 color: #CCCCCC;
+			}
+		</style>
+		<script type="text/javascript">
+			window.addEventListener('load', function() {
+				FastClick.attach(document.body);
+			}, false);
+		</script>
+	</head>
+
+	<body>
+		<ul id="addresslist">
+		</ul>
+		<script id="address_yes_use" type="text/html">
+			<li id="<%=id%>" name="<%=id%>" value="<%=isDefault%>" class="address_isInarea">
+				<div class="address_first_line" value="<%=full%>">
+					<div>
+						<div class="address_name_number">
+							<div class="picture">
+								<img src="../images/ic_name@3x.png" />
+							</div>
+							<div class="a_number">
+								<span class="name"><%=username%></span>
+								<span class="phone"><%=mobile%></span>
+							</div>
+						</div>
+						<div class="address-detail">
+							<div class="picture">
+								<img src="../images/ic_-Location-@3x.png" />
+							</div>
+							<div class="d_address">
+								<span><%=address%></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
+			<li class="address" name="<%=id%>">
+				<div class="address_second_line">
+					<div class="address_default">
+						<img name="<%=id%>" value="<%=isDefault%>" src="ic_default@3x.png" />
+						<span>设为默认</span>
+					</div>
+					<div class="address_edit_dele">
+						<div class="address_dele" name="<%=id%>" onclick="deleAddress(this)">
+							<img src="ic_delete@3x.png" />
+							<span class="text_dele">删除</span>
+						</div>
+						<div class="address_edit" name="<%=id%>" onclick="editAddress(this)">
+							<img src="ic_edit@3x.png" />
+							<span class="text_edit">编辑</span>
+						</div>
+
+					</div>
+				</div>
+			</li>
+			<li class="margin_bottom" name="<%=id%>"></li>
+		</script>
+
+		<script id="address_no_use" type="text/html">
+			<li class="disable-address" id="<%=id%>" name="<%=id%>">
+				<div class="address_first_line">
+					<div class="address-left">
+						<div class="address_name_number">
+							<div class="picture">
+								<img src="../images/ic_name@3x.png" />
+							</div>
+							<div class="a_number">
+								<span class="name"><%=userName%></span>
+								<span class="phone"><%=mobile%></span>
+							</div>
+						</div>
+						<div class="address-detail">
+							<div class="picture">
+								<img src="../images/ic_-Location-@3x.png" />
+							</div>
+							<div class="d_address">
+								<span><%=address%></span>
+							</div>
+						</div>
+					</div>
+					<div class="address-right">
+						<img src="../images/btn_red@3x.png" />
+					</div>
+				</div>
+			</li>
+			<li class="address" name="<%=id%>">
+				<div class="address_second_line">
+					<div class="address_default">
+						<img name="<%=id%>" value="<%=isDef%>" onclick="changeDefault(this)" src="ic_default@3x.png" />
+						<span>设为默认</span>
+					</div>
+					<div class="address_edit_dele">
+						<div class="address_dele" name="<%=id%>" onclick="deleAddress(this)">
+							<img src="ic_delete@3x.png" />
+							<span class="text_dele">删除</span>
+						</div>
+						<div class="address_edit" name="<%=id%>" onclick="editAddress(this)">
+							<img src="ic_edit@3x.png" />
+							<span class="text_edit">编辑</span>
+						</div>
+
+					</div>
+				</div>
+			</li>
+			<li class="margin_bottom" name="<%=id%>"></li>
+		</script>
+
+		<!-----提示框开始----->
+		<!--<div id="tip_bg"></div>
+		<div id="tip">
+			<div id="tip_text">
+				确定删除地址
+			</div>
+			<div id="tip_buttom">
+				<div id="tip_buttom_no" onclick="deleNAddress()">
+					取消
+				</div>
+				<div id="tip_buttom_yes" onclick="deleYAddress()">
+					确定
+				</div>
+			</div>
+		</div>-->
+		<!-----提示框结束----->
+		<!-----修改收货人名字开始------>
+		<div class="bgblack" onclick="closeChangewindowC()"  style="display: none;width: 100%;height: 100%;background-color:#000;opacity:0.3;position: absolute;top: 0;z-index: 99;">
+			
+		</div>
+		<div id="changeusername" style="display: none;width: 80%;height:3.07rem;position: fixed;top: 0;left: 0;bottom: 0;right: 0;margin: auto;z-index: 999;background-color: #fff;border-radius: 5px;">
+								
+				<div  style="width: 100%;height: 1.1357rem;text-align: center;line-height:1.1357rem;font-size: 0.2474rem;color: #222;">
+					修改收货人姓名
+				</div>
+				<input type="text" name="changename" id="changename" value=""  maxlength="11" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\ ]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\ ]/g,''))" oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\ ]/g,'')" placeholder="请输入真实的收货人姓名" style="outline:none;-webkit-appearance: none;box-sizing: border-box;text-align: left;padding-left:0.3091rem;width: 80%;height: 26%;z-index: 999;margin-left: 10%;border: 1px solid #ff661b;color: #222;border-radius: 5px;font-size: 0.2164rem;" />
+		        <div onclick="closeChangewindow()" style="width: 100%;height: 0.798rem;position: absolute;bottom: 0;border-top:1px solid #e8e8e8 ;text-align: center;color: #FF661B;box-sizing: border-box;line-height: 0.798rem;font-size:0.2679rem ;">	
+		        	确定
+				</div>
+
+		</div>
+		
+		<!-----修改收货人名字结束------>	
+		<!-----没有地址开始----->
+		<div id="no_have_address">
+			<div id="no_have_address_img">
+				<img src="ic_location@3x.png" />
+			</div>
+			<div id="no_have_address_text">
+				暂无收货地址
+			</div>
+		</div>
+		<!-----没有地址结束----->
+		<div id="none_bottom" style="width: 100%;height: 55px;opacity: 0;"></div>
+		<footer>
+			<div id="new_address" onclick="addInfo()">
+				添 加 新 地 址
+			</div>
+		</footer>
+	</body>
+
+</html>

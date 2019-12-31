@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" href="../../common/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/orderDetail.css" />
+		<script src="../../common/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK.js" type="text/javascript" charset="utf-8"></script>
+		<title>订单详情</title>
+	</head>
+	<style type="text/css">
+		body,
+		html {
+			font-family: "PingFang SC", Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+			background-color: #f3f4f5;
+		}
+		
+		body {
+			font-size: 14px;
+		}
+		
+		input {
+			outline: none;
+			/*去ios内阴影、圆角*/
+			-webkit-appearance: none;
+			border-radius: 0;
+			border: none;
+			margin: 0;
+			padding: 0;
+			font-weight: normal;
+		}
+		
+		input,
+		textarea,
+		a {
+			-webkit-tap-highlight-color: transparent;
+		}
+		
+		* {
+			-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+		}
+		
+		[v-cloak] {
+			display: none!important;
+		}
+		
+		#app {
+			width: 100%;
+			/*height: 1000px;
+			position: relative;
+			background-image: url('12.png');
+			background-position: 0 0;
+			background-size: 100% auto;
+			background-repeat: no-repeat;*/
+		}
+		
+		.line_01 {
+			width: 100%;
+			height: 1px;
+			background-color: #eee;
+			/*transform: scaleY(0.5);
+		-webkit-transform: scaleY(0.5)*/
+		}
+	</style>
+
+	<body style="width: 100%;">
+		<div id="app" v-cloak>
+			
+			<div class="chairmanInfo">
+				<div class="chairmanAddressBox">
+					<div class="chairmanName">
+						<span>订单状态：</span><span>黄笑笑</span>
+					</div>
+					<div class="chairmanName">
+						<span>团长信息：</span><span>黄笑笑</span><span>13580328462</span>
+					</div>
+					<div class="chairmanAddress">
+						提货地址：团长信息团长信
+					</div>
+					<div class="chairmanName">
+						<span>提货人：</span><span>黄笑笑</span><span>13580328462</span>
+					</div>
+				</div>
+			</div>
+
+			
+			
+			<div class="grouponName">
+				活动名称杀菌的骄傲加速度
+			</div>
+
+			<div class="orderCommodities">
+				<div class="commoditiesItem">
+					<div class="sellerName">
+						<img src="images/ic_shop@3x.png" />
+						<span>活动名称杀菌的骄傲加速度</span>
+					</div>
+
+					<div class="commoditiesList">
+						<div class="commodity">
+							<div class="commodityImg">
+								<img src="images/7.jpg" />
+							</div>						
+							<div class="commodityInfo">
+								<div class="commodityName">
+									活动名称杀菌的骄傲加速度活动名称杀菌的骄傲加速度
+								</div>
+								<div class="commodityPrice">
+									<span class="commodityPriceBox">
+										<span>¥9.</span><span>99</span>
+									</span>
+									<span class="commodityNum">x1</span>
+								</div>
+							</div>
+						</div>						
+					</div>
+					
+					
+					<div class="commoditiesItemPrice">
+						<div class="commoditiesItemPriceBox">
+							<span>共1件商品  合计：</span><span>¥209.</span><span>97</span>
+						</div>
+						
+					</div>
+					<div class="line" style="width: 100%;height: 1px;box-sizing: border-box;padding: 0 0.14rem;"><div class="line_01"></div></div>
+					<div class="orderInfo">
+						<div class="orderNum">
+							订单编号：1321231221321
+						</div>
+						<div class="orderTime">
+							下单时间：2018-8-20 12:20:65
+						</div>
+						<div class="orderRemarkBox">
+							<span>备注：</span><pre>下单时间下单时间下单时间下单时间下单时间下单时间下单时间下单时间下单时间下单时间下单时间下单时间下单时间下单时间下单时间</pre>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			
+			<div class="footerBox">
+				<div>
+					团购结束后统一发货，请留意微信团购群提货通知
+				</div>
+				<div>
+					如有疑问，请直接联系团长<a href="tel:13580328843">13580328843</a>
+				</div>
+			</div>
+			
+
+		</div>
+
+		<script src="js/orderDetail.js"></script>
+	</body>
+
+</html>

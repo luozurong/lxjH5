@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<meta charset="utf-8">
+	<title>领取优惠券</title>
+	<link rel="stylesheet" type="text/css" href="css/scanCoupon.css">
+	<script src="../common/vue/vue.min.js"></script>
+ 	<script src="../common/vue/vue-resource.min.js"></script>
+ 	<link rel="stylesheet" href="../common/tip/lxjTip.css">
+	<script src="../common/tip/lxjTip.js"></script>
+	<script src="../common/interface.js"></script>
+	<script src="../common/interfaceParameters.js"></script>
+ 	<script type="text/javascript">
+	    (function(doc, win) {
+	      var docEl = doc.documentElement,
+	        isIOS = navigator.userAgent.match(/iphone|ipod|ipad/gi),
+	        dpr = isIOS ? Math.min(win.devicePixelRatio, 3) : 1,
+	        dpr = window.top === window.self ? dpr : 1, //被iframe引用时，禁止缩放
+	        scale = 1 / dpr,
+	        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+	      docEl.dataset.dpr = dpr;
+	      var recalc = function() {
+	        var width = docEl.clientWidth;
+	        if(width / dpr > 768) {
+	          width = 768 * dpr;
+	        }
+	        docEl.style.fontSize = 100 * (width / 414) + 'px';
+	      };
+	      recalc();
+	      if(!doc.addEventListener) return;
+	      win.addEventListener(resizeEvt, recalc, false);
+	    })(document, window);
+  </script>
+</head>
+<body> 
+	<div class="scan" v-cloak>
+		<div class="scan-top">
+			<div class="scan-top-word">恭喜你获得</div>
+			<div class="scan-top-total" v-if="couponInfo != null && couponInfo.type == 1">{{couponInfo.denomination}}元优惠券</div>
+			<div class="scan-top-total" v-if="couponInfo != null && couponInfo.type == 2">{{couponInfo.denomination}}折优惠券</div>
+		</div>
+		<!-- 微信APP -->
+		<div class="scan-container" v-if="!lxjApp && !couponEmpty">
+			<div class="scan-has" v-if="couponFlag && couponInfo != null">
+				<div class="scan-coupon">
+					<div class="scan-coupon-wrap">
+						<div class="scan-wrap-type">
+							<div class="scan-type-item" v-if="couponInfo.type == 1">
+								<div>{{couponInfo.denomination}}</div>
+								<div v-if="couponInfo.couponCondition == 1">无门槛使用</div>
+								<div v-if="couponInfo.couponCondition == 2">满{{couponInfo.conditionMoney}}元使用</div>
+							</div>
+							<div class="scan-type-item1 scan-type-item"  v-if="couponInfo.type == 2">
+								<div>{{couponInfo.denomination}}</div>
+								<div v-if="couponInfo.couponCondition == 1">无门槛使用</div>
+								<div v-if="couponInfo.couponCondition == 2">满{{couponInfo.conditionMoney}}元使用</div>
+							</div>
+						</div>
+						<div class="scan-wrap-disc">
+							<div>
+								<span class="scan-wrap-tip">
+									<span v-if="couponInfo.type == 1 && couponInfo.couponCondition == 2">满减券</span>
+									<span v-if="couponInfo.type == 2">折扣券</span>
+								</span>
+								<span v-if="couponInfo.scope == 1">适用全部商品</span>
+								<span v-if="couponInfo.scope == 2">适用于部分商品</span>
+							</div>
+							<div class="scan-wrap-time">{{couponInfo.effectiveStart | dateTime}}-{{couponInfo.effectiveEnd | dateTime}}</div>
+						</div>
+						<div class="scan-wrap-option">
+							<span v-if="overCouponFlag">已领取</span>
+						</div>
+					</div>
+					<div class="scan-line">
+						<div></div>
+						<div></div>
+					</div>
+					<div class="scan-disc">
+						<div v-bind:class="{'scan-active': showDiscFlag}" v-text="couponInfo.useMsg"></div>
+						<img v-if="couponInfo.useMsg.length > 25" @click="showDisc()" :src="showDiscIcon">
+					</div>
+				</div>
+				<!-- 填写信息获取优惠券 -->
+				<div class="scan-form">
+					<div class="scan-form-word">优惠券需在联享家APP5.2或更高版本的商城使用！</div>
+					<div>
+						<div class="scan-form-tel"><input type="tel" v-model="userMobile" placeholder="请输入手机号码"></div>
+						<div class="scan-form-wrap">
+							<div class="scan-form-code">
+								<input type="tel" v-model="telCode" placeholder="请输入短信验证码">
+							</div>
+							<div class="scan-form-yan">
+								<span v-if="yanFlag" @click="sendCode()">发送验证码</span>
+								<span class="scan-yan-color" v-if="!yanFlag">{{timeNum}}秒后重新发送</span>
+							</div>
+						</div>
+						
+						<div class="scan-form-submit" @click="myCoupon()">立即领取</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		<div class="scan-container" v-if="couponEmpty">
+			<div class="scan-empty">
+				<img src="images/coupon-empty.png">
+				<div v-text="emptyWord">优惠券已被领完</div>
+			</div>
+		</div>
+		<!-- 联享家App -->
+		<div class="scan-container scan-container-auto" v-if="lxjApp && !couponEmpty">
+			<div class="scan-has" v-if="couponInfo != null && couponFlag" >
+				<div class="scan-coupon">
+					<div class="scan-coupon-wrap">
+						<div class="scan-wrap-type">
+							<div class="scan-type-item" v-if="couponInfo.type == 1">
+								<div>{{couponInfo.denomination}}</div>
+								<div v-if="couponInfo.couponCondition == 1">无门槛使用</div>
+								<div v-if="couponInfo.couponCondition == 2">满{{couponInfo.conditionMoney}}元使用</div>
+							</div>
+							<div class="scan-type-item1 scan-type-item"  v-if="couponInfo.type == 2">
+								<div>{{couponInfo.denomination}}</div>
+								<div v-if="couponInfo.couponCondition == 1">无门槛使用</div>
+								<div v-if="couponInfo.couponCondition == 2">满{{couponInfo.conditionMoney}}元使用</div>
+							</div>
+						</div>
+						<div class="scan-wrap-disc">
+							<div>
+								<span class="scan-wrap-tip">
+									<span v-if="couponInfo.type == 1 && couponInfo.couponCondition == 2">满减券</span>
+									<span v-if="couponInfo.type == 2">折扣券</span>
+								</span>
+								<span v-if="couponInfo.scope == 1">适用全部商品</span>
+								<span v-if="couponInfo.scope == 2">适用于部分商品</span>
+							</div>
+							<div class="scan-wrap-time">{{couponInfo.effectiveStart | dateTime}}-{{couponInfo.effectiveEnd | dateTime}}</div>
+						</div>
+						<!-- <div class="scan-wrap-option">
+							<span v-if="overCouponFlag" @click="goBuy(couponInfo.couponId)">去使用</span>
+						</div> -->
+					</div>
+					<div class="scan-line">
+						<div></div>
+						<div></div>
+					</div>
+					<div class="scan-disc">
+						<div v-bind:class="{'scan-active': showDiscFlag}" v-text="couponInfo.useMsg"></div>
+						<img v-if="couponInfo.useMsg.length > 25" @click="showDisc()" :src="showDiscIcon">
+					</div>
+				</div>
+				<!-- 填写信息获取优惠券 -->
+				<div class="scan-form"  v-if="!overCouponFlag"><div class="scan-form-submit lxjAppSubmit" @click="myCoupon()">立即领取</div></div>
+				<div class="scan-form" v-if="overCouponFlag"><div class="scan-form-submit lxjAppSubmit"  @click="goBuy(couponInfo.couponId)">立即使用</div></div>
+			</div>
+			<div class="scan-empty" v-if="!couponFlag">
+				<img src="images/coupon-empty.png">
+				<div>您已经领取过了</div>
+			</div>
+		</div>
+		<!-- 图片验证码 -->
+		<div class="user-pop-codes" v-show="codeShow">
+			<div class="user-code-wrap">
+				<div class="user-code-msg">请填写图片验证码</div>
+				<div class="user-code-input">
+					<input type="text" v-model="picCode">
+					<img :src="picRandomUrl" @click="imgCode()">
+				</div>
+				<div class="user-code-tip">图片验证码可点击刷新</div>
+				<div class="user-code-btn">
+					<span @click="cancelCode()">取消</span>
+					<span @click="sureSend()">确定</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/scanCoupon.js"></script>
+</body>
+</html>

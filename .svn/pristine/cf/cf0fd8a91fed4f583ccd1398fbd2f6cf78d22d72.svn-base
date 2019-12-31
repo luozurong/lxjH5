@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" />
+		<title>抢购成功</title>
+		<link rel="stylesheet" href="../reset.css">
+		<link rel="stylesheet" type="text/css" href="css/Successful-appointment.css" />
+	    <script src="../jquery-1.7.2.min.js"></script>
+	    <script type="text/javascript" src="../interface.js"></script>
+		<script src="../common.js"></script>
+		<script type="text/javascript">
+		var token=GetURLParameter("token");
+		var orderNo=GetURLParameter("orderNo");
+		function seeOrder(){
+			showActivity(host+"/mms/html5/personal/buycoupons.htm?token="+token,"团购券");
+		}
+			 $(document).ready(function(){
+				 setTitle("订单支付结果");
+				 backToHomePage();
+				var time_stamp=Date.parse(new Date());
+				var data="{\"body\":{\"orderNo\":\""+orderNo+"\",\"orderStatus\":'-1'},\"header\":{\"token\":'',\"time_stamp\":\""+time_stamp+"\"}}";
+				$.ajax({
+					type:"post",
+					url:host+"/mms/servlet/getOrderInfoByOrderNo?str="+data,
+					async:true,
+					dataType:"json",
+					success:function(odata){
+						if(odata.result==0){
+							var code=odata.groupCouponCode;
+							$(".Coupon-code").html(code);
+							var commodityName=odata.groupCouponName;
+							$("#price_title").html(commodityName);
+							var qrImg=odata.qrImg;
+							$("#specialty_pic img").attr("src",qrImg);
+							var picwidth=$("#specialty_pic img").width();
+							$("#specialty_pic img").height(picwidth);
+						}
+					}
+				});  
+	          var html_size = $('html').css("font-size");
+	          var windowHeight=$(window).height();
+	          var ins_height= $('body').height();
+              html_size = html_size.replace("px", "");
+	          ins_height1 = Number(ins_height);
+	          //html_size = Number(html_size);
+	          ins_height1=Number(html_size*0.2+5+ins_height);
+	          console.log(html_size+"--"+ins_height1+"--"+windowHeight);
+              if(ins_height1>windowHeight){
+              	$('.lookOrders').css({"position": "static","margin-bottom": "5px"});
+              }
+			}); 
+		</script>
+		<style>
+			.header-titile h2 {
+				font-size: 0.45rem;
+				font-weight: 500;
+				color: #FF661B;
+				font-size: 26px;
+			}
+			ul li.title {
+				overflow: hidden;
+				background: #fff;
+				color: #222;
+				padding: .2rem .3rem .2rem .3rem;
+				border-bottom: 0.02rem solid #F0F0F0;
+			}
+	
+			ul li.specialty_success_title {
+				overflow: hidden;
+				background: #fff2f2;
+				/*padding: .2rem .3rem .2rem 1rem;*/
+				/* text-align: center; */
+				font-size: 0.35rem;
+			}
+			.Coupon-code {
+				font-size: 20px;
+				color: #333;
+			}
+			#specialty_pic img {
+				width: 100%;
+				height: 100%;
+				margin: 0 auto;
+			}
+			ul li.title {
+				overflow: hidden;
+				background: #fff;
+				color: #222;
+				font-size: 18px;
+				padding: .2rem .3rem .2rem .3rem;
+				border-bottom: 0.02rem solid #F0F0F0;
+			}
+			@media only screen and (min-width: 320px) and (max-width: 359px) {
+				.header-titile h2 {
+					/*font-size: 0.45rem;*/
+					font-weight: 500;
+					color: #FF661B;
+					font-size: 20px;
+				}
+				ul li.title{
+					font-size:15px;
+				}
+				ul li.specialty_success_title{
+					font-size:14px;
+				}
+				.Coupon-code{
+					font-size:15px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div  class="header-titile" style="width:100%;border: none;padding-top: 0.38rem;padding-bottom: 0.17rem;">
+				<h2>抢购成功</h2>
+			</div>
+		</header>
+		
+		<ul  style="position: relative;">
+			<li class="title" style="padding-top: 0.185rem;">
+				<span id="price_title">
+				</span>
+			</li>
+			<li class="img-min" style="padding-left: 0;padding-right: 0;padding-top: 1rem;padding-bottom: 1rem;">
+				<div id="specialty_pic">
+					<img src="../images/c_s_error.png" />
+				</div>
+			</li>
+			<li class="specialty_success_title">
+				团购码：<span class="Coupon-code"></span>
+			</li>
+			<li class="lookOrders" ><a onclick="seeOrder()">查看订单</a>
+		</li>
+		</ul>
+
+	</body>
+
+</html>

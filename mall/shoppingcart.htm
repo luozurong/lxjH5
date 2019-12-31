@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>购物车</title>
+        <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<meta name="format-detection" content="telephone=no" />
+        <link rel="stylesheet" href="../common/reset.css" />
+        <link rel="stylesheet" href="../common/common.css">
+        <link rel="stylesheet" href="css/shoppingcart.css">
+        <link rel="stylesheet" href="../common/progress.css">
+        <script type="text/javascript"	src="../common/jquery-2.1.4.js?111"></script>
+        <script type="text/javascript"	src="../common/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="../common/jquery.SuperSlide.2.1.1.js"></script>
+        <script type="text/javascript" src="../common/jquery-jtemplates.js"></script>
+        <script type="text/javascript" src="../common/json2.js"></script>
+		<script src="../common/interface.js"></script>
+		<script src="js/fastclick.js"></script>
+		<script src="js/layer.js"></script>
+		<link href="js/skin/layer.css">
+		<script src="js/common.js"></script>
+        <script type="text/javascript">
+            //判断在手机设备上使用一下代码
+            var $windowWidth = $(window).width();
+            setTimeout(function() {
+                $windowWidth = $(window).width();
+                if ($windowWidth > 640) {
+                    $windowWidth = 640; //限定最大宽度为640
+                }
+                $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+            }, 100);
+            $(window).resize(function() {
+                $windowWidth = $(window).width();
+                if ($windowWidth > 640) {
+                    $windowWidth = 640;
+                }
+                $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+            });
+        </script>
+        <script type="text/javascript">
+            function goBack()
+            {
+                var url=window.location;
+                contact.goBack("'"+url+"'");
+            }
+        </script>
+        <script src="js/shoppingcart.js"></script>
+    </head>
+    <body style="overflow-x:hidden;">
+		 <div class="Noshopping" style="width: 100%;display: none;">
+        	<div id="displaynone" style="width:100%;height: 103.4px;">       		
+        	</div>
+        	<div class="nothing_img_box" style="text-align: center;width:100%;" ><img id="nothing_img" src="images/noshopping.png"  style="width:90px;" alt=""/></div>
+        	<div class="displaynone10" style="width:100%;height: 10px;">       		
+        	</div>
+        	<div class="nothing_text" style="text-align: center;width: 100%;font-size: 18px;height: 70px;line-height: 70px;" >购物车怎么能为空呢？</div>
+        	<div class="nothing_text" style="text-align: center;width: 100%;font-size: 14px;" >逛一逛</div>
+        </div>
+        <script type="text/javascript">
+        	var windowwidth=document.documentElement.clientWidth;
+        	var windowheight=document.documentElement.clientHeight;
+        	document.getElementById("nothing_img").style.width=116.43*windowwidth/414+"px";
+        	document.getElementById("displaynone").style.height=(windowheight-116.43*windowwidth/414-70)*0.3+"px";
+        </script>
+	<!-- 有效商品列表容器-->
+	    <div id="shoppingcart" style="margin-bottom:0.2rem;">
+	    </div>
+	    <!-- 失效商品列表容器-->
+	    <div id="shoppinglose" style="display:none;background:#f0f0f0;">
+	    </div>
+        <div style="height:0.4rem;width:100%;">&nbsp;</div>
+	    <!-- 底部金额栏-->
+		<div id="statement" class="statement">
+		</div>
+	    	<div id="confirmDelete">
+	    		<div class="cancel_order_cover"></div>
+		        <div class="confir">
+		            <p>您确定删除选中的商品吗？</p>
+		            <div class="choose clearfix">
+		                <span class="canc" onclick="closeDialog();">取消</span><span class="sure" onclick="deleteShoppingcartCommodity();">确定</span>
+		            </div>
+		        </div>
+	    	</div>
+    	<!-- 购物车列表模板 -->
+    	<div style="display:none">
+	    	<textarea id="template">
+				{#foreach $T as record}
+					<div class="seller" id="{$T.record.sellerId}">
+						<!-- 店铺名-->
+								<div class="sellerName">
+										<div  class="checkedseller" name="{$T.record.sellerId}"></div>
+										<div class="shopName">{$T.record.sellerName}</div>
+								</div>
+						<!-- 促销活动 暂时隐藏-->
+						{#if $T.record.activityName != ''}
+						<div class="sellerName1">
+							<div class="shopSale">
+								<span class="promotion">促销</span>
+								<span class="exemption">{$T.record.activityName}</span>
+							</div>
+						</div>
+						{#/if}
+						<!-- 店铺下所有商品-->
+						<div style="margin-bottom:0.08rem;" class="sellerid">
+							{#param name=activityCommodityCount value=0}
+							{#foreach $T.record.shoppingCartList as commodity}
+								<div class="shoppingcart" id="{$T.commodity.id}" commodityId="{$T.commodity.commodityId}">
+									<div style="position: absolute;width:100%;">
+										<div  class="checkedproduct"></div>
+										<div class="productimg">
+											<img src="{$T.commodity.photo}"  style="height:100%;"/>
+										</div>
+										<div class="productdetail">
+											<p class="commodityName">{$T.commodity.commodityName}</p>
+											<p class="productSize">
+												<span>{$T.commodity.commodityDetails}</span>
+											</p>
+						                <span class="productprice" price="{$T.commodity.price}" subtotal="{$T.commodity.price*$T.commodity.count}">
+						                	¥{$T.commodity.price}
+						                </span>
+						                	{#param name=activityCommodityCount value=$P.activityCommodityCount+$T.commodity.count }
+											<div class="shoppingnum" commodityId="{$T.commodity.commodityId}"  shoppingCartId="{$T.commodity.id}" stockQuantity="{$T.commodity.stockQuantity}">
+												{#if $T.commodity.count == 1}
+												<button class="btn_reduce disabled"></button>
+												{#else}
+												<button class="btn_reduce"></button>
+												{#/if}
+												<input type="number" value="{$T.commodity.count}" class="productvalue" onblur="editShoppingCartCommodityNumAndValidateNum(this,'{$T.commodity.id}',this.value)"/>
+												
+												{#if $T.commodity.count >= $T.commodity.stockQuantity }
+													<button class="btn_add disabled"></button>
+												{#else}
+													<button class="btn_add"></button>
+												{#/if}
+											
+											</div>
+										</div>
+									</div>
+						        </div>
+					        {#/for}
+					        
+					        {#if $P.activityCommodityCount == 0 }
+								<div>
+							{#else}
+								<div  style="margin-top:0.04rem;">
+							{#/if}
+					        {#foreach $T.record.noActivityCommoditys as noActivityCommodity}
+								<div class="shoppingcart" id="{$T.noActivityCommodity.id}" commodityId="{$T.noActivityCommodity.commodityId}">
+									<div style="position: absolute;width:100%;">
+										<div  class="checkedproduct"></div>
+										<div class="productimg">
+											<img src="{$T.noActivityCommodity.photo}"  style="height:100%;width:100%;"/>
+										</div>
+										<div class="productdetail">
+											<p class="commodityName">{$T.noActivityCommodity.commodityName}</p>
+											<p class="productSize">
+												<span>{$T.noActivityCommodity.commodityDetails}</span>
+											</p>
+						                <span class="productprice" price="{$T.noActivityCommodity.price}" subtotal="{$T.noActivityCommodity.price*$T.noActivityCommodity.count}">
+						                	¥{$T.noActivityCommodity.price}
+						                </span>
+											<div class="shoppingnum" commodityId="{$T.noActivityCommodity.commodityId}"  shoppingCartId="{$T.noActivityCommodity.id}" stockQuantity="{$T.noActivityCommodity.stockQuantity}">
+												{#if $T.noActivityCommodity.count == 1}
+												<button class="btn_reduce disabled"></button>
+												{#else}
+												<button class="btn_reduce"></button>
+												{#/if}
+												<input type="number" value="{$T.noActivityCommodity.count}" class="productvalue" onblur="editShoppingCartCommodityNumAndValidateNum(this,'{$T.noActivityCommodity.id}',this.value)"/>
+												
+												{#if $T.noActivityCommodity.count >= $T.noActivityCommodity.stockQuantity } 
+													<button class="btn_add disabled"></button>
+												{#else}
+													<button class="btn_add"></button>
+												{#/if}
+											</div>
+										</div>
+									</div>
+								</div>
+								{#/for}
+							</div>
+
+			    		</div>
+						</div>
+					</div>
+				{#/for}
+			</textarea>
+
+			<textarea id="template2">
+				{#param name=disabledCount value=0}
+				{#foreach $T as record}
+						{#param name=disabledCount value=$P.disabledCount+1 }
+						<div class="shoppingcart shoppinglose" id="{$T.record.id}">
+			                <div class="lose"> 失效</div>
+			                <div class="productimg">
+			                    <img src="{$T.record.photo}"style="height:100%;width:100%;" />
+			                </div>
+			                <div class="productdetail">
+			                    <p class="commodityName">{$T.record.commodityName}</p>
+								<p class="productSize">
+									<span>{$T.record.commodityDetails}</span>
+								</p>
+						        <span class="productprice" price="{$T.record.price}">¥{$T.record.price}</span>
+			                    <div class="shoppingnum">
+			                        <button class="btn_reduce disabled"></button>
+			                        <input type="number" value="{$T.record.count}" disabled="disabled" class="productvalue"/>
+			                        <button class="btn_add disabled"></button>
+			                    </div>
+			                </div>
+        				</div>
+				{#/for}
+				
+				{#if $P.disabledCount > 0} 
+					<!--清除失效商品按钮 -->
+					<button class="losebtn" onclick="clearDisabledCommodity()">清除失效商品</button>
+				{#/if}
+			</textarea>
+			
+			<textarea id="template3">
+				      <div  class="checked">
+				                <div  class="checkall"></div>
+				                <span>全选</span>
+				      </div>
+				      <div id="showMoney">
+							  <div class="account">
+							  <div id="acount-1" class="acount-1">
+								  合计：<span style="color:#ff651b" class="realTotalPrice">0元</span>
+								  <span style="font-size:0.08rem;color:#ccc;">不含运费</span>
+							  </div>
+								<div class="acount-2">
+								  <!--<span class="totalMeg" style="font-size: 0.1rem;">总额：</span><span  class="totalPrice">0元</span>-->
+									<span  class="totalReducePrice">已优惠：0元</span>
+							  </div>
+						  </div>
+				     		 <button class="gopay" id="gopay">去买单<span></span></button>
+				      </div>
+				      <div id="deleted" style="display: none;">		
+				      		<div class="deleted" onclick="confirmDelete();">删除</div>
+				      </div>
+			</textarea>
+			
+ 		 </div>
+			 <script>
+			 window.onload=function(){
+			 	var clientType=sessionStorage.getItem("clientType");
+			 	FastClick.attach(document.body);
+ 		 		$(".productvalue").focus(function(){
+ 		 			$("#statement").hide();
+ 		 		}).blur(function(){
+ 		 			if(clientType!="android"){
+			 			$("#statement").show();
+			 		}else{
+			 			//setTimeout('$("#statement").show();',200);
+			 		}
+ 		 		})
+ 		 		var wHeight=$(window).height();
+   		 		window.onresize=function(){
+   		 			var newHeight=$(window).height();
+   		 			if(newHeight>=wHeight){
+   		 				setTimeout('$("#statement").show();',200);
+   		 			}else{
+   		 				$("#statement").hide();
+   		 			}
+   		 		}
+ 		 	}
+		 </script>
+    </body>
+</html>

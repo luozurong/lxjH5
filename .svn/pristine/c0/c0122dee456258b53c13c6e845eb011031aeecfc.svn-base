@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>广告</title>
+<link rel="stylesheet" href="../common/reset.css">
+<script src="../common/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../common/interface.js"></script>
+<style type="text/css">
+img {
+	float: left;
+}
+</style>
+<script type="text/javascript">
+	function goUrl(ele) {
+		showActivity($(ele).attr("id"), "");
+	}
+</script>
+</head>
+
+<body>
+	<p style="margin: 0px;">
+		<img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170308/201703081459392724900.jpg"
+			title="" alt="内页_01 b.jpg" />
+	</p>
+	<p style="margin: 0px;">
+		<a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/mall/serviceList.htm?activityId=1487756014285ce436d9908c4f5c9042"
+			target="_self"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170309/201703090950375107871.jpg"
+			title="" alt="内页_02.jpg" /></a>
+	</p>
+	<p style="margin: 0px;">
+		<a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=148669320795a048cb763a9841ac82f4"
+			target="_self"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170309/201703090950476096636.jpg"
+			title="" alt="内页_03.jpg" /></a>
+	</p>
+	<p style="margin: 0px;">
+		<a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/mall/serviceList.htm?activityId=148885427475e16a218dc5a5480e8cdd"
+			target="_self"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170309/201703090950589333390.jpg"
+			title="" alt="内页_04.jpg" /></a>
+	</p>
+	<style type="text/css">
+body {
+	margin: 0px;
+}
+</style>
+</body>
+
+</html>

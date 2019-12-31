@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<title>选择服务</title>
+		<link rel="stylesheet" href="../common/reset.css">
+		<link rel="stylesheet" type="text/css" href="../common/iscroll/iscroll.css" />	
+		<link rel="stylesheet" type="text/css" href="css/housekeeping.css" />
+		<link rel="stylesheet" type="text/css" href="../common/reset.css" />
+		<script src="../common/jquery-1.7.2.min.js"></script>
+		<script src="../common/iscroll/iscroll.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/interface.js"></script>
+		<script src="../common/common.js"></script>
+		<script src="js/housekeeping.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+		</script>
+	</head>
+
+	<body>
+		<div id="maintainlist" style="display: none">
+			<div id="wrapper" class="wrapper-second">
+				<div id="scroller">
+					<div id="pullDown">
+						<span class="pullDownIcon"></span><span class="pullDownLabel"></span>
+					</div>
+					<ul id="main" class="main-conten">
+					</ul>
+					<div id="pullUp" style="display: none;">
+						<div id="nomore" style="display: none">
+							没有更多数据了
+						</div>
+						<span class="pullUpIcon"></span><span class="pullUpLabel">向上拉更多惊喜</span>
+					</div>
+					<div id="nomoretip" style="width: 100%;height: 0.4rem;line-height: 0.4rem;display: none;z-index: 999999;background-color:#F0F0F0 ;font-size:14px;text-align: center;">
+							没有更多数据了			
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div id="nomoreshop" style="width: 100%;height: 100%;background-color: #FFF;position: fixed;top: 0;left: 0;z-index: 99999;text-align: center;padding-top:85px;display: none;">
+			<img src="../common/images/picture_no-order.png" style="width: 1rem;height: auto;" />
+			<span style="display:block;margin-top: 30px;font-size: 18px;">
+				该小区暂无服务
+			</span>
+		</div>
+	</body>
+
+</html>

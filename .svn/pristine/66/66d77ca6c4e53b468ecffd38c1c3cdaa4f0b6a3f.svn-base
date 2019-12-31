@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="format-detection" content="telephone=no">
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<title>登录</title>
+		<script src="../common/js/share.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../../common/tip/lxjTip.css">
+		<script src="../../common/tip/lxjTip.js" type="text/javascript" charset="utf-8"></script>
+	    <script src="../../common/interfaceParameters.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK2.js" type="text/javascript" charset="utf-8"></script>
+
+
+	</head>
+	<style type="text/css">
+	
+	</style>
+
+	<body>
+		<div id="app" v-cloak>
+									
+		</div>
+	</body>
+	<script src="js/login.js?y=001" type="text/javascript" charset="utf-8"></script>
+
+</html>

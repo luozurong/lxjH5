@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+	<header>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="../../common/reset.css" />
+		<link rel="stylesheet" href="css/commanderOrder.css">
+		<script src="../../common/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/interface.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../../common/tip/lxjTip.css" />
+		<script src="../../common/tip/lxjTip.js" type="text/javascript" charset="utf-8"></script>
+		<title>订单</title>
+		<style type="text/css">
+			body,
+			html {
+				font-family: "PingFang SC", Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+				background-color: #f3f4f5;
+			}
+			
+			body {
+				font-size: 14px;
+			}
+			
+			input {
+				outline: none;
+				/*去ios内阴影、圆角*/
+				-webkit-appearance: none;
+				border-radius: 0;
+				border: none;
+				margin: 0;
+				padding: 0;
+				font-weight: normal;
+			}
+			
+			[v-cloak] {
+				display: none!important;
+			}
+		</style>
+	</header>
+
+	<body>
+		<div id="app" v-cloak>
+
+			<div class="searchByPhone" style="opacity: 0;z-index: -1;">
+				<input type="search" placeholder="请输入手机号码" maxlength="11">
+				<span>搜索</span>
+			</div>
+			<div class="menusBox" style="opacity: 0;z-index: -1;">
+				<div class="menu">
+					<img src="../member/images/ic_all@3x.png" />
+					<span>全部订单</span>
+					<span></span>
+				</div>
+				<div class="menu">
+					<img src="../member/images/btn_ic_pay@3x.png" />
+					<span>待付款</span>
+					<span></span>
+				</div>
+				<div class="menu">
+					<img src="../member/images/btn_ic_receive@3x.png" />
+					<span>待发货</span>
+					<span></span>
+				</div>
+				<div class="menu">
+					<img src="../member/images/btn_ic_car@3x.png" />
+					<span>待收货</span>
+					<span></span>
+				</div>
+				<div class="menu">
+					<img src="../member/images/btn_ic_refund@3x.png" />
+					<span>售后/退货</span>
+					<span></span>
+				</div>
+			</div>
+			<!--顶部忽略-->
+			<div id="headerTop">
+				<div class="searchByPhone">
+					<form action="javascript:return true;"><!--v-bind:class="{searchByPhoneEmpty:mobile.length>0,searchByPhoneNoEmpty:mobile.length<=0}"-->
+						<input type="search"  v-on:search="searchByphone()" v-model="mobile" id="mobile" v-on:blur="inputOnblur()" onkeyup="value=value.replace(/[^\d\-]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d\-]/g,''))" placeholder="请输入手机号码" maxlength="11">
+					</form>
+					<span v-on:click="searchByphone()">搜索</span>
+				</div>
+				<div class="menusBox">
+					<div class="menu" v-on:click="orderStatus=-1">
+						<img src="../member/images/ic_all@3x.png" />
+						<span>全部订单</span>
+						<span v-show="orderStatus==-1"></span>
+					</div>
+					<div class="menu" v-on:click="orderStatus=0">
+						<img src="../member/images/btn_ic_pay@3x.png" />
+						<span>待付款</span>
+						<span v-show="orderStatus==0"></span>
+					</div>
+					<div class="menu" v-on:click="orderStatus=1">
+						<img src="../member/images/btn_ic_receive@3x.png" />
+						<span>待发货</span>
+						<span v-show="orderStatus==1"></span>
+					</div>
+					<div class="menu" v-on:click="orderStatus=2">
+						<img src="../member/images/btn_ic_car@3x.png" />
+						<span>待收货</span>
+						<span v-show="orderStatus==2"></span>
+					</div>
+					<div class="menu" v-on:click="orderStatus=4">
+						<img src="../member/images/btn_ic_refund@3x.png" />
+						<span>售后/退货</span>
+						<span v-show="orderStatus==4"></span>
+					</div>
+				</div>
+			</div>
+			<div class="emptyRecord" v-if="jsondate!=null&&orderList.length==0">
+				<img src="img/empty.png" />
+				<span>暂无订单记录</span>
+			</div>
+
+			<div class="orderCommodities" v-if="orderStatus!=4">
+				<div class="commoditiesItem" v-if="orderList.length>0" v-for="(items,index) in orderList">
+					<div class="sellerName">
+						<img src="../member/images/ic_shop@3x.png" />
+						<span>{{items.sellerName}}</span>
+						<span class="colorTaob" v-if="items.status==0">待付款</span>
+						<span class="colorTaob" v-if="items.status==1">待发货</span>
+						<span class="colorTaob" v-if="items.status==2">待收货</span>
+						<span class="colorTaob" v-if="items.status==3">退款中</span>
+						<span class="colorTaob" v-if="items.status==4">售后处理中</span>
+						<span class="" v-if="items.status==5">已完成</span>
+						<span class="" v-if="items.status==6">交易关闭</span>
+						<span class="" v-if="items.status==7">已拒收</span>
+					</div>
+					<div class="commoditiesItemOrderNum">
+						订单编号：{{items.orderNo}}
+					</div>
+					<div class="commoditiesList" v-on:click="goOrderDetail(items.totalOrderNo)">
+						<div class="commodityBox" v-for="(item,indexi) in items.commodityList">
+							<div class="commodity">
+								<div class="commodityImg">
+									<img v-bind:src="item.thumbLogo" />
+								</div>
+								<div class="commodityInfo">
+									<div class="commodityName">
+										<div class="commodityName">
+											{{item.commodityName}}
+										</div>
+										<div class="commodityProfit" v-if="items.groupLeaderKey==0">
+											预计利润 ¥ {{item.profit}}/份
+										</div>
+									</div>
+
+									<div class="commodityPrice">
+										<span class="commodityPriceBox">
+										<span>¥{{String(item.commodityPrice).split('.')[0]}}.</span><span>{{String(item.commodityPrice).split('.')[1]}}</span>
+										</span>
+										<span class="commodityNum">x{{item.counts}}</span>
+									</div>
+								</div>
+							</div>
+							<!--<div class="serviceButtonBox">
+								<span class="serviceButtonDis">申请售后</span>								
+							</div>-->
+						</div>
+
+					</div>
+					<div class="commoditiesItemPrice">
+						<div class="commoditiesItemPriceBox">
+							<span>共{{items.commodityCounts}}件商品  合计：</span><span>¥{{String(items.totalPrice).split('.')[0]}}.</span><span>{{String(items.totalPrice).split('.')[1]}}</span><span v-if="items.groupLeaderKey==0">&nbsp;&nbsp;&nbsp;预计利润合计 ¥ {{items.orderProfit}}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="orderCommodities" v-if="orderStatus==4">
+				<div class="commoditiesItem" v-if="orderList.length>0" v-for="(items,index) in orderList">
+					<div class="sellerName">
+						<img src="../member/images/ic_shop@3x.png" />
+						<span>{{items.sellerName}}</span>
+						<span class="colorTaob">{{items.processMsg}}</span>
+
+					</div>
+					<div class="commoditiesItemOrderNum">
+						售后编号：{{items.safeguardNo}}
+					</div>
+					<div class="commoditiesList" v-on:click="goOrderDetail(items.totalOrderNo)">
+						<div class="commodityBox">
+							<div class="commodity">
+								<div class="commodityImg">
+									<img v-bind:src="items.imgUrl" />
+								</div>
+								<div class="commodityInfo">
+									<div class="commodityName">
+										<div class="commodityName">
+											{{items.commodityName}}
+										</div>
+										<div class="commodityProfit">
+											<!--预计利润 ¥ 9.30/份-->
+										</div>
+									</div>
+
+									<div class="commodityPrice">
+										<span class="commodityPriceBox">
+										<span>¥{{String(items.simplePrice).split('.')[0]}}.</span><span>{{String(items.simplePrice).split('.')[1]}}</span>
+										</span>
+										<span class="commodityNum">x{{items.commodityNum}}</span>
+									</div>
+								</div>
+							</div>
+							<!--<div class="serviceButtonBox">
+								<span class="serviceButtonDis">申请售后</span>								
+							</div>-->
+						</div>
+
+					</div>
+					<div class="commoditiesItemPrice">
+						<div class="commoditiesItemPriceBox">
+							<span>共{{items.commodityNum}}件商品  合计：</span><span>¥{{String(items.returnMoney).split('.')[0]}}.</span><span>{{String(items.returnMoney).split('.')[1]}}</span>
+							<!--&nbsp;&nbsp;&nbsp;<span>预计利润合计 ¥ 209.33</span>-->
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="kongbai" style="width: 100%;height: 0.56rem;opacity: 0;">
+			</div>
+
+			<div class="grouponActivity-nav">
+				<div class="grouponActivity-nav-item">
+					<img src="img/nav_btn_ic_pintuan_nor@3x.png" alt="" v-on:click="goGrouponActivity()">
+					<div v-on:click="goGrouponActivity()">拼团</div>
+				</div>
+				<div class="grouponActivity-nav-item">
+					<img src="img/nav_btn_ic_order_pre@3x.png" alt="">
+					<div class="grouponActivity-nav-active">订单</div>
+				</div>
+				<div class="grouponActivity-nav-item">
+					<img src="img/nav_btn_ic_mine_nor@3x.png" alt="" v-on:click="goCommanderPersonal()">
+					<div v-on:click="goCommanderPersonal()">我的</div>
+				</div>
+
+			</div>
+		</div>
+
+		<script src="js/commanderOrder.js"></script>
+	</body>
+
+</html>

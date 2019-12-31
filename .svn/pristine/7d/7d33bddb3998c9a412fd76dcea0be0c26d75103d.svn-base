@@ -1,0 +1,560 @@
+var time_stamp = getTimeStamp();
+//localStorage.removeItem("receiverInfoId");
+setRefreshOnResume();//刷新页面(防止返回之后，没有重新请求)
+initializeSession();
+//获取小区信息
+var areaCode = sessionStorage.getItem("areaCode");
+var sellerReducedFeeList;//店铺满减
+var sellerFreight;
+//购物车id
+var shoppingCartId = GetURLParameter("shoppingCartId");
+var receiverId;
+//获取地址id
+var receiverInfoId = localStorage.getItem("receiverInfoId");
+//立即购买的商品规格
+var commoditySkuAttrIds = GetURLParameter("commoditySkuAttrIds");
+    if(commoditySkuAttrIds != null && commoditySkuAttrIds != "" && !(typeof(commoditySkuAttrIds) === undefined)){
+        commoditySkuAttrIds=commoditySkuAttrIds.replace(/"/g, "");
+    }
+//立即购买商品id
+var commodityId = GetURLParameter("commodityId");
+//立即购买规格数量
+var commodityCount;
+//小区机构编号
+var householdSerial;
+var shoppingCartCount;
+//截取后面的元并且去掉
+var flag =false;
+//var token="149437838465f3558ed0a5444853a8fb";
+//var host="http://118.190.8.134:8090";
+//var areaCode = "4400100001";
+//var shoppingCartId = "14943179592108b15f4d20d8444cab98,14943800760861fe7f71058b40cab3ec,149431794840ba97ba1df692422fbce8";
+//var commodityId = "14683154671939e74d3538814859b2ff";//立即购买的商品规格
+//var commoditySkuAttrIds = "";
+//var commodityCount = "1";
+
+var remarkCount;
+
+commodityCount1 = sessionStorage.getItem("commodityCount");
+if(commodityCount1 != null && commodityCount1 != "" && !(typeof(commodityCount1) === undefined)){
+    commodityCount = sessionStorage.getItem("commodityCount");
+}else{
+    commodityCount = GetURLParameter("commodityCount");
+}
+
+var remarkCount1 = sessionStorage.getItem("remarkCount");
+if(remarkCount1 != null && remarkCount1 != "" && !(typeof(remarkCount1) === undefined)){
+    remarkCount = sessionStorage.getItem("remarkCount");
+}else{
+    remarkCount = " ";
+}
+//商品数量减少
+function subNum(sub){
+    var inputNum = $(sub).next().val();
+    var dataValue = $(sub).next().attr("data-value");
+    var commodityId = $(sub).parent().attr("data-id");
+    inputNum--;
+    if(inputNum>0){
+        $(sub).next().val(inputNum);
+    }
+    if(inputNum <= 1){
+        $(sub).removeClass("confirm-goods-pre-active");
+    }
+    if(inputNum<dataValue){
+        $(sub).next().next().removeClass("confirm-goods-next-active");
+    }
+    count();
+    sessionStorage.setItem("commodityCount",inputNum);
+
+}
+
+//商品数量增加
+function addNum(add){
+    var dataValue = $(add).prev().attr("data-value");
+    var inputNum = $(add).prev().val();
+    var commodityId = $(add).parent().attr("data-id");
+    inputNum++;
+    if(dataValue>=inputNum){
+        $(add).prev().val(inputNum);
+    }
+    if(dataValue == inputNum){
+        $(add).addClass("confirm-goods-next-active");
+    }
+    if(inputNum>1){
+        $(add).prev().prev().addClass("confirm-goods-pre-active");
+    }
+    count();
+
+    sessionStorage.setItem("commodityCount",inputNum);
+}
+
+function confirmConfig(){
+    //价格小数点后字体较小
+    $(".confirm-goods-price").each(function(){
+        var dataValue = $(this).attr("data-value");
+        var dataValueArray = dataValue.split(".");
+        $(this).find("span").eq(0).text("￥"+dataValueArray[0]);
+        $(this).find("span").eq(1).text("."+dataValueArray[1]);
+    });
+
+    //减号的颜色
+    $(".confirm-goods-input").each(function(){
+        var inputNum = $(this).val();
+        if(inputNum>1){
+            $(this).prev().addClass("confirm-goods-pre-active");
+        }else{
+            $(this).prev().removeClass("confirm-goods-pre-active");
+        }
+    });
+
+    //只有失效商品是的结算状态为禁用状态
+    if($(".confirm-all>div").length ==0){
+        $(".confirm-fixed .gopay").addClass("gopayover");
+    }
+
+
+    //小计小数点后字体较小
+    $(".pay").each(function(){
+        var dataValue = $(this).attr("data-value");
+        var dataValueArray = dataValue.split(".");
+        $(this).find("span").eq(0).text("￥"+dataValueArray[0]);
+        $(this).find("span").eq(1).text("."+dataValueArray[1]);
+    });
+
+
+    //小计小数点后字体较小
+    $(".confirm-total-price").each(function(){
+        var dataValue = $(this).attr("data-value");
+        var dataValueArray = dataValue.split(".");
+        $(this).find("span").eq(0).text("￥"+dataValueArray[0]);
+        $(this).find("span").eq(1).text("."+dataValueArray[1]);
+    });
+
+
+    //获取商品总数
+    var numberInput = 0;
+    $(".confirm-all .confirm-goods-input").each(function () {
+        numberInput += parseInt($(this).val());
+    });
+    $(".number-input").text(numberInput);
+
+}
+
+//编辑留言时底部提交订单栏隐藏
+$(".comfirm-say").focus(function(){
+    $(".confirm-fixed").hide();
+});
+$(".comfirm-say").blur(function(){
+    $(".confirm-fixed").show();
+});
+
+//进入地址详情页
+$(".confirm-addr").click(function(){
+    remarkCount = $(".comfirm-say").val();
+    sessionStorage.setItem("remarkCount",remarkCount);
+    appAlert("222",remarkCount);
+    var clientType = sessionStorage.getItem("clientType");
+    var orga = sessionStorage.getItem("areaCode");
+    localStorage.setItem("receiverInfoId",receiverId);
+    showActivity(host + "/mms/html5/common/receiverInfo/receiveraddress.htm?clientType=" + clientType + "&orga=" + orga + "&type=ios", "添加地址");
+});
+
+//进入优惠券页面
+$(".confirm-remark-counpon").click(function(){
+    remarkCount = $(".comfirm-say").val();
+    sessionStorage.setItem("remarkCount",remarkCount);
+    var clientType = sessionStorage.getItem("clientType");
+    showActivity(host + "/mms/html5/common/coupons/multiOrderCoupons.htm?clientType=" + clientType, "优惠券");
+});
+//获取收货地址
+var areaParam = {};
+var defaultReceiverId;
+if($.trim(receiverInfoId) != ""){
+    localStorage.removeItem("receiverInfoId");
+    areaParam.body = {
+        type: 3,
+        id:receiverInfoId
+    };
+}else{
+    areaParam.body = {
+        type: 1
+    };
+}
+
+areaParam.header={
+    token:token,
+    time_stamp:time_stamp
+};
+var areaParamString = JSON.stringify(areaParam);
+$.ajax({
+    type: "get",
+    url:host+"/mms/servlet/getUserReceiverInfo?str="+areaParamString,
+    async: false,
+    dataType: "jsonp",
+    jsonp: "jsoncallback",
+    jsonpCallback: "success_jsonpCallback",
+    success: function(data) {
+        $(".confirm-left").html();
+        confirmRefresh("");
+        //判断是否有地址
+        if(data.receiverFlag == 1 ) {
+            //判断修改地址后的显示情况
+            if(areaParam.body.type == 3){
+                var defaultReceiver = data.receiver;
+                var receiverAddr = _.template($("#receiverAddr").html());
+                $(".confirm-left").append(receiverAddr(defaultReceiver));
+                receiverId = data.receiver.id;
+                //获取配送
+                totalFreight(data.receiver.id);
+            }else{
+                var defaultReceiver = data.defaultReceiver;
+                var confirmAddr = _.template($("#confirmAddr").html());
+                $(".confirm-left").append(confirmAddr(defaultReceiver));
+                receiverId = data.defaultReceiver.id;
+                //获取配送
+                totalFreight(data.defaultReceiver.id);
+            }
+        }else{
+            $(".confirm-remark-shipping").append('<span>免邮</span>');
+            $(".confirm-left").append('<div class="confirm-choose-addr">请选择地址</div>');
+        }
+
+
+    }
+});
+
+
+//确认订单所有数据获取
+function confirmRefresh(receiverId){
+    var confirmParam = {};
+    if(shoppingCartId != null && shoppingCartId != "" && !(typeof(shoppingCartId) === undefined)) {
+        //购物车购买
+        confirmParam.body = {
+            shoppingCartIds:shoppingCartId,
+            receiverId:receiverId
+        };
+    }else{
+        //立即购买
+        if(commoditySkuAttrIds != null && commoditySkuAttrIds != "" && !(typeof(commoditySkuAttrIds) === undefined)){
+            confirmParam.body = {
+                //修改
+                commodityId:commodityId,
+                receiverId:receiverId,
+                commodityCount:commodityCount,
+                commoditySkuAttrIds:commoditySkuAttrIds
+            };
+        }else{
+            confirmParam.body = {
+                //修改
+                commodityId:commodityId,
+                receiverId:receiverId,
+                commodityCount:commodityCount
+            };
+        }
+
+    }
+    confirmParam.header = {
+        token:token,
+        time_stamp:time_stamp
+    };
+    var confirmParamString = JSON.stringify(confirmParam);
+    $.ajax({
+        type: "get",
+        url:host+"/mms/servlet/confirmOrder?str="+confirmParamString,
+        async: false,
+        dataType: "jsonp",
+        jsonp: "jsoncallback",
+        //jsonpCallback: "success_jsonpCallback",
+        success: function(data) {
+            console.log(data);
+            $(".confirm-all").html("");
+            var sellerList = data.sellerList;
+            sellerReducedFeeList = data.sellerReducedFeeList;
+
+            //商品列表
+            var dataTemplate = _.template($('#confirm-seller').html());
+            $('.confirm-all').append(dataTemplate({"data":data.sellerList}));
+
+            //商品价格
+            var confirmPay = _.template($('#confirmPay').html());
+            $('.confirm-fixed>div').eq(0).html("");
+            $('.confirm-fixed>div').eq(0).append(confirmPay({"data":data}));
+
+            var realTotalPrice = data.realTotalPrice;
+            $(".pay").attr("data-value",realTotalPrice);
+
+            //总额
+            var totalPrice = data.totalPrice;
+            $(".paytotal").text(totalPrice);
+            $(".confirm-total-price").attr("data-value",totalPrice);
+
+            //满减
+            var totalReducePrice = data.totalReducePrice;
+            $(".totalReducePrice").text(totalReducePrice);
+            confirmConfig();
+            if(commoditySkuAttrIds != null) {
+                commoditySkuAttrIds = sellerList[0].commodityList[0].commoditySkuAttrIds;
+            }
+
+            /**************失效商品*****************/
+            if(data.invalidList.length>0){
+                var confirmOver = _.template($('#confirmOver').html());
+                $('.confirm-shop-over').append(confirmOver({"dataover":data.invalidList}));
+                confirmConfig();
+            }
+            //留言缓存
+            remarkCount=$(".comfirm-say").val(remarkCount);
+            if(shoppingCartId != null && shoppingCartId != "" && !(typeof(shoppingCartId) === undefined)){
+
+                }else{
+                //立即购买数量缓存
+                $(".confirm-goods-input").val(Number(commodityCount));
+
+                }
+
+        }
+    });
+}
+
+
+//确认订单的邮费
+function totalFreight(receiverId){
+    var totalFreight = {};
+    if(shoppingCartId != null && shoppingCartId != "" && !(typeof(shoppingCartId) === undefined)) {
+        totalFreight.body = {
+            shoppingCartIds: shoppingCartId,
+            areaId: areaCode,
+            receiverId: receiverId,
+            areaSeq: "12"
+        };
+    }else{
+        totalFreight.body = {
+            areaId: areaCode,
+            receiverId: receiverId,
+            commodityId: commodityId,
+            commodityCount:commodityCount,
+            areaSeq: "12"
+        };
+    }
+    totalFreight.header = {
+        token:token,
+        time_stamp:time_stamp
+    };
+    var totalFreightString = JSON.stringify(totalFreight);
+    $.ajax({
+        type: "get",
+        url:host+"/mms/servlet/calculateOrderFreight?str="+totalFreightString,
+        async: false,
+        dataType: "jsonp",
+        jsonp: "jsoncallback",
+        //jsonpCallback: "success_jsonpCallback",
+        success: function(data) {
+            console.log(data);
+            var freeFreight = parseInt(data.freeFreight);
+            //var totalReducedFreight = data.totalReducedFreight;
+            sellerFreight = data.sellerFreight[0].freight;
+            if(freeFreight == 1){
+                $(".confirm-remark-shipping").append('<span>免邮</span><s class="total-freight">￥'+sellerFreight+'</s>');
+            }else{
+                $(".confirm-remark-shipping").append('<span>￥'+sellerFreight+'</span>');
+            }
+        }
+    });
+}
+//购物车产品数量添加（购物卡id）
+function shoppingCartCounts(){
+    var shoppingCartCountString = "";
+    $(".confirm-goods-num").each(function(){
+        var shoppingCartId = $(this).attr("data-cartid");
+        var count = $(this).find(".confirm-goods-input").val();
+        shoppingCartCountString += '"'+shoppingCartId+'"'+":"+'"'+count+'",'
+    });
+    shoppingCartCount = "{"+ shoppingCartCountString.substr(0,shoppingCartCountString.length-1)+"}";
+
+}
+
+
+//编辑购物车或菜篮子商品数量接口
+function count(){
+    var countParam = {};
+    if(shoppingCartId != null && shoppingCartId != "" && !(typeof(shoppingCartId) === undefined)) {
+        shoppingCartCounts();
+        console.log(shoppingCartCount);
+        countParam.body = {
+            shoppingCartCount:shoppingCartCount
+        };
+    }else{
+        //立即购买产品数量添加(商品id)
+
+
+        if(commoditySkuAttrIds != null && commoditySkuAttrIds != "" && !(typeof(commoditySkuAttrIds) === undefined)){
+            countParam.body = {
+                commodityId: commodityId,
+                commodityCount: commodityCount
+            };
+        }else{
+            countParam.body = {
+                commodityId: commodityId,
+                commoditySkuAttrIds: commoditySkuAttrIds,
+                commodityCount: commodityCount
+            };
+        }
+
+    }
+    countParam.header = {
+        token:token,
+        time_stamp:time_stamp
+    };
+    var countParamString = JSON.stringify(countParam);
+    $.ajax({
+        type: "get",
+        url:host+"/mms/servlet/editConfirmOrderCommodityCount?str="+countParamString,
+        async: false,
+        dataType: "jsonp",
+        jsonp: "jsoncallback",
+        //jsonpCallback: "success_jsonpCallback",
+        success: function(data) {
+            console.log(data);
+            //满减
+            var totalReducePrice = data.totalReducePrice;
+            $(".totalReducePrice").text(totalReducePrice);
+
+            //应付款
+            var realTotalPrice = data.realTotalPrice;
+            $(".pay").attr("data-value",realTotalPrice);
+
+            //总额
+            var totalPrice = data.totalPrice;
+            $(".paytotal").text(totalPrice);
+            $(".confirm-total-price").attr("data-value",totalPrice);
+
+            confirmConfig();
+
+        }
+    });
+}
+    $('.comfirm-say').bind('focus', function() {
+        $('.buy').hide();
+    }).bind('blur', function() {
+        $('.buy').show();
+    });
+//提交订单
+$(".gopay").click(function(){
+    if($.trim(receiverId) == ""){
+        return false;
+    }
+    var remark = $(".comfirm-say").val();
+    var commitPrice = $(".pay").attr("data-value");
+    var totalPrice = $(".paytotal").text();
+    var sureParam = {};
+    if(shoppingCartId != null && shoppingCartId != "" && !(typeof(shoppingCartId) === undefined)) {
+        shoppingCartCounts();
+        //购物车购买
+        sureParam.body = {
+            householdSerial:householdSerial,
+            categoryType:1,
+            shoppingCartCount:shoppingCartCount,
+            areaOrgaSeq:areaCode,
+            receiverId:receiverId,
+            remark:remark,
+            totalPrice:totalPrice,
+            commitPrice:commitPrice,
+            freightList:sellerFreight,
+            sellerReducedFeeList:sellerReducedFeeList
+        };
+    }else{
+        //立即购买
+        sureParam.body = {
+            householdSerial:householdSerial,
+            categoryType:1,
+            areaOrgaSeq:areaCode,
+            commodityId:commodityId,
+            commodityCount:commodityCount,
+            commoditySkuAttrIds:commoditySkuAttrIds,
+            receiverId:receiverId,
+            remark:remark,
+            totalPrice:totalPrice,
+            commitPrice:commitPrice,
+            freightList:sellerFreight,
+            sellerReducedFeeList:sellerReducedFeeList
+        };
+    }
+
+    sureParam.header = {
+        token:token,
+        time_stamp:time_stamp
+    };
+    var sureParamString = JSON.stringify(sureParam);
+    $.ajax({
+        type: "get",
+        url:host+"/mms/servlet/saveMultiCommodityOrder?str="+sureParamString,
+        async: false,
+        dataType: "jsonp",
+        jsonp: "jsoncallback",
+        //jsonpCallback: "success_jsonpCallback",
+        success: function(data) {
+            if(data.result == 0) {
+                clearHistory();
+                var orderNo = data.orderNo;
+                var jsonData2={
+                    eventId:"click35",
+                    eventName:"订单支付页面浏览次数"
+                };
+                jsonData2=JSON.stringify(jsonData2);
+                nativeMethod("baiduStatistics",jsonData2);
+                var commitPrice = $(".pay").attr("data-value");
+                var consumePrice = $(".paytotal").text();
+                location.href = "../common/pay/finalstatement.htm" + "?orderNo=" + orderNo + "&consumePrice=" + consumePrice +  "&commitPrice=" + commitPrice + "&clientType=" + clientType;
+            } else {
+                /* Opentip(data.reason);*/
+                console.log(data.reason);
+            }
+        }
+    });
+});
+
+//ios10.0系统以上表情输入解决方案
+function IOSTen() {
+    var IOSTen = sessionStorage.getItem("clientType");
+    if(IOSTen != "android") {
+        $("#liuyanten").css("padding-bottom", "0");
+        $(".comfirm-say").css({
+            'padding-top': '1px',
+            'padding-bottom': '0.2rem',
+            'overflow': 'visible'
+        });
+    }
+}
+
+function keyUp() {
+    var rm = $(".comfirm-say").val();
+    var arr = new Array();
+    String.prototype.trim = function() {
+        return this.replace(/^\s+|\s+$/g, "m83p3*2bx4pv")
+    }
+    var strss1 = rm.trim();
+    var strss = strss1.replace(/[\r\n\"\ ]/g, "m83p3*2bx4pv"); //自定义秘钥
+    arr = strss.split("m83p3*2bx4pv");
+    if(arr.length != 1 || strss.indexOf("m83p3*2bx4pv") >= 0 || strss.indexOf("　") >= 0) { //可能是粘贴动作	 空格注意（不知道什么卵）
+        //	var rm1 = rm.replace(/\s+/g, ""); //去掉空格
+        var rm2 = rm.replace(/[\r\n\"]/g, ""); //去掉回车换行
+        var rm3 = rm2.substring(0, 75);
+        $(".comfirm-say").val(rm3);
+        localStorage.setItem("remark", rm3);
+    } else { //不是粘贴动作
+        var rm1 = rm.replace(/\s+/g, ""); //去掉空格
+        var rm2 = rm1.replace(/[\r\n\"]/g, ""); //去掉回车换行
+        var rm3 = rm2.substring(0, 75);
+        localStorage.setItem("remark", rm3);
+    }
+
+}
+//调用APP接口，添加百度统计
+var jsonData={
+    eventId:"click32",
+    eventName:"订单填写页面浏览次数"
+};
+jsonData=JSON.stringify(jsonData);
+nativeMethod("baiduStatistics",jsonData);
+
+

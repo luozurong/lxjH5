@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>商品详情</title>
+  <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport"/>
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="stylesheet" href="../common/reset.css"/>
+  <link rel="stylesheet" href="../common/common.css">
+  <link rel="stylesheet" href="../common/progress.css">
+  <script type="text/javascript" src="../common/jquery-2.1.4.js"></script>
+  <script src="js/common.js"></script>
+
+  <script src="js/layer.js"></script>
+  <link href="js/skin/layer.css">
+  <link rel="stylesheet" href="css/productDetail.css?444">
+  <!--标准mui.css-->
+  <link rel="stylesheet" href="js/skin/mui.min.css">
+  <!--App自定义的css-->
+  <link rel="stylesheet" type="text/css" href="js/skin/app.css"/>
+  <script type="text/javascript" src="../common/common.js"></script>
+  <script type="text/javascript" src="../common/interface.js"></script>
+  <script type="text/javascript" src="../common/jquery-1.11.2.min.js"></script>
+  <script type="text/javascript" src="../common/json2.js"></script>
+  <script type="text/javascript">
+    // 统计代码
+    var clientType = GetURLParameter('clientType');//客户端类型
+    var ID = GetURLParameter('commodityId');//商品ID
+    var from = GetURLParameter('from');//渠道id
+    if(!clientType){
+      var u = navigator.userAgent;
+      if(!!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
+        clientType = "ios";
+      } else {
+        clientType = "android";
+      }
+      if(clientType!='android'){clientType='ios'};
+    }
+    var _hmt = _hmt || [];
+    _hmt.push(['_setAutoPageview',false]);
+    if(ID){
+      if(from){
+        _hmt.push(['_trackPageview', '/client='+clientType+'-商品-商品详情-商品ID='+ID+'-渠道ID='+from]);
+      }else{
+        _hmt.push(['_trackPageview', '/client='+clientType+'-商品-商品详情-商品ID='+ID]);
+      }
+    }
+    (function() {
+      var hm = document.createElement("script");
+//hm.src = "https://hm.baidu.com/hm.js?5abffc86ad56dcb448e458cac84b67dc";//tt
+      hm.src = "https://hm.baidu.com/hm.js?f4647d4a859d520f3c190ca6e72c68a4";//lxj
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    //end
+
+    //判断在手机设备上使用一下代码
+    var $windowWidth = $(window).width();
+    setTimeout(function () {
+      $windowWidth = $(window).width();
+      if ($windowWidth > 640) {
+        $windowWidth = 640; //限定最大宽度为640
+      }
+      $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+    }, 100);
+    $(window).resize(function () {
+      $windowWidth = $(window).width();
+      if ($windowWidth > 640) {
+        $windowWidth = 640;
+      }
+      $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+    });
+  </script>
+  <script type="text/javascript">
+    function goBack() {
+      var url = window.location;
+      contact.goBack("'" + url + "'");      }
+  </script>
+  <script src="js/underscore.js"></script>
+  <style type="text/css">
+    .mui-preview-image.mui-fullscreen {
+      position: fixed;
+      z-index: 20;
+      background-color: #000;
+    }
+    .mui-preview-header,
+    .mui-preview-footer {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      z-index: 10;
+    }
+    .mui-preview-header {
+      height: 44px;
+      top: 0;
+    }
+    .mui-preview-footer {
+      height: 50px;
+      bottom: 0px;
+    }
+    .mui-preview-header .mui-preview-indicator {
+      display: block;
+      line-height: 25px;
+      color: #fff;
+      text-align: center;
+      margin: 15px auto;
+      width: 70px;
+      background-color: rgba(0, 0, 0, 0.4);
+      border-radius: 12px;
+      font-size: 16px;
+    }
+    .mui-preview-image {
+
+      display: none;
+      -webkit-animation-duration: 0.5s;
+      animation-duration: 0.5s;
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both;
+    }
+    .mui-preview-image.mui-preview-in {
+      -webkit-animation-name: fadeIn;
+      animation-name: fadeIn;
+    }
+    .mui-preview-image.mui-preview-out {
+      background: none;
+      -webkit-animation-name: fadeOut;
+      animation-name: fadeOut;
+    }
+    .mui-preview-image.mui-preview-out .mui-preview-header,
+    .mui-preview-image.mui-preview-out .mui-preview-footer {
+      display: none;
+    }
+    .mui-zoom-scroller {
+      position: absolute;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      -webkit-backface-visibility: hidden;
+    }
+    .mui-zoom {
+      -webkit-transform-style: preserve-3d;
+      transform-style: preserve-3d;
+    }
+    .mui-slider{
+      height:100%;
+    }
+    .mui-slider .mui-slider-group .mui-slider-item img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height:100%;
+    }
+    .morentu img{
+      vertical-align: top;
+    }
+    .mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+      width: 100%;
+    }
+    .mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+      display: inline-table;
+    }
+    .mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+      display: table-cell;
+      vertical-align: middle;
+    }
+    .mui-preview-loading {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      display: none;
+    }
+    .mui-preview-loading.mui-active {
+      display: block;
+    }
+    .mui-preview-loading .mui-spinner-white {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -25px;
+      margin-top: -25px;
+      height: 50px;
+      width: 50px;
+    }
+    .mui-preview-image img.mui-transitioning {
+      -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+      transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+    @-webkit-keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    @-webkit-keyframes fadeOut {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+    p img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    button:enabled:active{
+      background-color: rgba(0,0,0,0);
+    }
+    #slider{
+    	height: 3.2rem;
+    }
+    #slider .mui-slider-item img{
+      display: block;
+      width:100%;
+      height: 3.2rem;
+      height:100vw;
+      border:none;
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    .colorClassify>li.fallChoose{
+      background-color: #ccc;
+    }
+    #productDetail *{
+      width: auto;
+      max-width: 100%!important;
+      height: auto;
+    }
+    body,
+			html {	
+				font-family: "PingFang SC", Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+			}
+  </style>
+</head>
+<body style="background-color: #f3f4f5;">
+<div class="dives">
+  <div class="bgCocWhite">
+    <!--图片路径-->
+    <div id="slider" class="mui-slider">
+      <div class="mui-slider-group mui-slider-loop lunbotu1">
+        <!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+        <div class="mui-slider-item mui-slider-item-duplicate" id="first-photo" style="height:3.2rem;">
+          <!--<a>-->
+            <img src="../personal/images/touming.png" >
+         <!-- </a>-->
+        </div>
+        <!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+        <div class="mui-slider-item mui-slider-item-duplicate" id="last-photo" style="height:3.2rem;">
+          <!--<a>-->
+            <img src="../personal/images/touming.png" >
+          <!--</a>-->
+        </div>
+      </div>
+      <!-- 获取图片路径-->
+      <script id="productTemplate" type="text/html">
+        <div class="mui-slider-item" >
+          <img src="../personal/images/touming.png" ssrc="<%=photoUrl%>" class="photoUrl" style="background-image: url(<%=photoUrl%>);" data-preview-src="<%=photoUrl%>" data-preview-group="2" />
+        </div>
+      </script>
+      <!-- 图片底部对应的几个圈圈-->
+      <div class="mui-slider-indicator lunbotu2" id="mui-slider-circle"></div>
+
+    </div>
+    <!-- 促销语-->
+    <div id="promotionInfo"></div>
+    <script id="promotionInfoTemplate" type="text/html">
+      <span class="productSale">促销</span>
+      <span style="color:#555;font-size:0.1082rem;padding-left:0.0773rem;"><%=promotionInfo%></span>
+    </script>
+    <!-- 获取商品信息容器-->
+    <div id="productInformation"></div>
+    <script id="productInformationTemplate" type="text/html">
+      <div class="mm20">
+        <div>
+          <span class="caption"><%=commodityName%></span>
+        </div>
+        <div style="color:#Fc9153;font-weight:500;font-size:0.14rem;margin-top:0.1391rem;">
+          <span class="minPrice">¥<span style="font-size:0.1545rem;"><%=minintegerT%></span>.<span style="font-size:0.1185rem"><%=minscaleT%></span></span>
+          <span  id="line_Box">～</span>
+          <span class="originalPrice"><span style="font-size:0.1545rem;"><%=maxintegerT%></span>.<span style="font-size: 0.1185rem;"><%=maxscaleT%></span></span>
+          <!--赠送福分标签-->
+          <span class="fufen">赠<%=commodityFufen%>福分</span>
+
+        </div>
+      </div>
+    </script>
+    <script id="BigcarriageTemplate" type="text/html">
+      <div class="freight">
+        <span style="font-size:0.1082rem;color:#aaaaaa;" id="carriage">运费:<%=freight%>元</span>
+        <span class="price_4  buypeople"><%=buyPeople%></span>
+      </div>
+
+    </script>
+    <div id="Bigcarriage" style="font-size: 0.14rem;margin-top: -0.14rem;margin-left: 0.1rem;padding-bottom: 0.1rem;"></div>
+    <!--下线-->
+    <!--<div class="border-t1"></div>-->
+  </div>
+  <!--品牌授权和店铺名称-->
+  <div>
+    <div id="sellerName"></div>
+    <!--<div class="string">&nbsp;</div>-->
+    <ul class="authorizing clearfix" id="safeguard"></ul>
+  </div>
+  <script id="safeguardTemplate" type="text/html">
+    <li class="ppsq" style="text-align:left;">
+      <div style="display:inline;">
+        <img style="width:23%;vertical-align:middle;" src="images/quality@3x.png" alt=""/>
+      </div>
+      <div class="trademark" style="display:inline"><%=ppsq%></div>
+    </li>
+    <li  class="zpbz" style="text-align:center;">
+      <div  style="display:inline;">
+        <img style="width:23%;vertical-align:middle;" src="images/quality@3x.png" alt=""/>
+      </div>
+      <div  class="trademark" style="display:inline"><%=zpbz%></div>
+    </li>
+    <li  class="sevenDay" style="text-align:right;">
+      <div style="display:inline;">
+        <img style="width:23%;vertical-align:middle;" src="images/quality@3x.png" alt=""/>
+      </div>
+      <div  class="trademark" style="display:inline"><%=sevenDay%></div>
+    </li>
+  </script>
+  <!--店铺名称-->
+  <script id="sellerNameTemplate" type="text/html">
+    <div class="sellerName clear">
+      <div class="sellerIcon floatL">
+        <img src="images/sellerName_logo.png" alt="店铺logo"/>
+        <span></span>
+      </div>
+      <div class="sellerName-info floatL">
+        <p><%=sellerName%></p>
+      </div>
+    </div>
+  </script>
+  <!--商品详情,商品参数和商品评价-->
+  <div>
+    <!--商品三个点击按钮-->
+    <!--<div class="mt10 padding-t10 center">-->
+    <!--&lt;!&ndash;商品详情和商品参数还有商品评价标题&ndash;&gt;-->
+    <!--<div class="inlineBlock cutInformation" style="margin-top:0.1rem;">-->
+    <!--<a class="commodity  commodityleft floatL current"  id="detailBox">商品详情</a>-->
+    <!--<a class="commodity commoditycenter floatL"   id="paramslBox">商品参数</a>-->
+    <!--<a class="commodity commodityright floatL"   id="evaluateBox">商品评价</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!-- 商品详情内容-->
+    <script id="productDetailTemplate"type="text/html">
+      <%=productDetail%>
+    </script>
+    <!--商品信息 包括商品参数和商品详情-->
+    <div>
+      <div style="padding-bottom: 0.1rem;" class="bgCocWhite productevaluateBox">
+        <div class="topic appraise" >
+          <span>商品评价</span>
+          <span id="commentCount"></span>
+        </div>
+        <div id="productevaluate">
+          <div>
+            <ul  id="commentList"></ul>
+            <ul id="evaluatePhotoes"></ul>
+            <div class="reply">
+              <img src="images/sanjiao_03.png" alt="小三角" class="sanjiao"/>
+              <div id="replycomment"></div>
+              <ul id="replyPhotoes"></ul>
+            </div>
+          </div>
+          <div class="commentCounts">
+            <span class="evalucateButton">查看全部评价</span>
+          </div>
+
+        </div>
+      </div>
+      <div class="bgCocWhite productCommodityBox">
+        <div class="topic appraise">商品信息</div>
+        <div class="bgCocWhite paddingzy grid-container" id="productCommodityA"></div>
+        <div class="bgCocWhite paddingzy grid-container" id="productCommodityB"></div>
+      </div>
+      <div id="productDetail">
+      </div>
+      <!-- 推荐商品-->
+      <div class=" recommandphotoBox" style="margin-top:0.06rem;">
+        <div class="topic" style="border:none;text-align:center;padding-left:0;height: 0.36rem;color: #333;">推荐商品</div>
+        <div style="width:100%;" id="recommandphoto">
+
+        </div>
+      </div>
+    </div>
+    <script id="productCommodityTemplate" type="text/html">
+      <div class="ParamsBox" id="productNote">
+        <span class="brand_gray ParamsA">备注</span>
+        <span class="ParamsB"><%=productNote%></span>
+      </div>
+      <div class="ParamsBox" id="productPlace">
+        <span class="brand_gray ParamsA">产地</span>
+        <span class="ParamsB"><%=productPlace%></span>
+      </div>
+      <div class="ParamsBox" id="specification" >
+        <span class="brand_gray ParamsA">规格</span>
+        <span class="ParamsB"><%=specification%></span>
+      </div>
+      <div class="ParamsBox" id="productSize">
+        <span class="brand_gray ParamsA">尺寸</span>
+        <span class="ParamsB"><%=productSize%></span>
+      </div>
+      <div class="ParamsBox" id="productColor">
+        <span class="brand_gray ParamsA" >颜色</span>
+        <span class="ParamsB"><%=productColor%></span>
+      </div>
+      <div class="ParamsBox" id="productWeight">
+        <span class="brand_gray ParamsA">净重</span>
+        <span class="ParamsB"><%=productWeight%></span>
+      </div>
+    </script>
+    <script id="commentListTemplate" type="text/template">
+      <li id="productevaluatebox" class="productevaluatebox" style="list-style: none;">
+        <div class="evaluateBox">
+          <img src="<%=userImage%>" class="headPortrait" alt="头像"/>
+          <span class="evaluateName"><%=userAddress%></span>
+          <div class="evaluate-star">
+            <%if(starLevel == 0){%>
+            <% for (var i = 0; i < starLevel; i++) { %>
+            <img src="images/ic_big-star_nor@3x.png" alt="">
+            <% }%>
+            <% for (var i = 0; i < 5-starLevel; i++) { %>
+            <img src="images/ic_big-start_pre@3x.png" alt="">
+            <%}%>
+            <% }else{%>
+            <% for (var i = 0; i < starLevel; i++) { %>
+            <img src="images/ic_big-start_pre@3x.png" alt="">
+            <% }%>
+            <% for (var i = 0; i < 5-starLevel; i++) { %>
+            <img src="images/ic_big-star_nor@3x.png" alt="">
+            <%}%>
+            <%}%>
+          </div>
+        </div>
+        <div class="evaluateTime"><%=commentTime%>&nbsp;<%=commoditySku%></div>
+        <pre class="evaluateContents"><%=commentContent%></pre>
+      </li>
+    </script>
+    <script id="commentImagesTemplate" type="text/template">
+      <li class="evaluatePhotoes">
+        <div class="product_img" style="background-image: url(<%=commentImages%>);">
+          <img src="<%=commentImages%>" data-preview-src="" data-preview-group="6"/>
+        </div>
+      </li>
+    </script>
+    <script id="replycommentTemplate" type="text/template">
+      <span>卖家回复：</span>
+      <span><%=replyContent%></span>
+    </script>
+    <script id="replyImagesTemplate" type="text/template">
+      <li class="evaluatePhotoes">
+        <div class="product_img" style="background-image: url(<%=replyImages%>);">
+          <img src="<%=replyImages%>"  data-preview-src="" data-preview-group="6"/>
+        </div>
+      </li>
+    </script>
+    <script id="commentCountTemplate" type="text/html">
+      <span><%=commentCount%></span>
+    </script>
+    <!-- 自定义参数的容器 -->
+    <script id="customParamsTemplate" type="text/template">
+      <div id="customParamsName" class="ParamsBox">
+        <span class="brand_gray ParamsA"><%=customParamsName%></span>
+        <span class="ParamsB"><%=customParamsValue%></span>
+      </div>
+    </script>
+    <div id="none_bottom" style="height:50px;clear: both;background-color: #f3f4f5;">&nbsp;</div>
+    <!--<div></div>-->
+
+  </div>
+  <ul class="bgCocWhite shoppingfixed border-t1" style="font-size:0.12rem;">
+    <!--收藏爱心-->
+    <li class="inlineBlock floatL" id="favorite" style="height:100%;line-height:100%;width:16%;padding-left:16px;padding-top: 0.04rem;">
+      <a>
+        <!--width:34px;-->
+        <img id="favoriteImg" style="width:45px;" class="inlineBlock" src="images/btn_ic_collection_nor@3x.png" alt=""/>
+      </a>
+    </li>
+    <!--购物车-->
+    <li class="inlineBlock floatL  shoppingcart" style="">
+      <a>
+        <!--width:35px;-->
+        <img style="width:45px;" class="inlineBlock" src="images/btn_ic-_shopping-cart@3x.png " alt=""/>
+        <span id="shoppingCart" class="inlineBlock center nihao"></span>
+        <script id="shoppingCartTemplate" type="text/html">
+          <%=shoppingCart%>
+        </script>
+        <!--<p >购物车</p>-->
+      </a>
+    </li>
+    <!--加入购物车抢购-->
+    <li class="floatR  nowBuy">
+      <a class="inlineBlock center disabled">
+        立即购买
+      </a>
+    </li>
+    <li class="floatR  addShoppingCart">
+      <a class="inlineBlock center disabled">
+        加入购物车
+      </a>
+    </li>
+  </ul>
+  <div class="activityLose" id="detail_activityLose">
+    <p>该商品已下架</p>
+    <div>确定</div>
+  </div>
+
+  <!--读取商品规则信息弹窗--><!--productCommoditySku里面width:100%;-->
+  <div id="overlay">&nbsp;</div>
+  <div class="productParam">
+    <div style="height:100%;">
+      <div class="eachprice" id="eachprice"></div>
+      <div id="productCommoditySku" style="height:58%;overflow-x:hidden;margin:0 0.1082rem;" class="productCommoditySku">
+      </div>
+      <div id="iddd">
+      </div>
+      <div class="shoppingNum">
+        <div class="borderWith01">
+          <div class="productNum">数量</div>
+          <div class="shoppingnum">
+            <button class="btn_reduce disabled"></button>
+            <input type="tel" value="1" class="productvalue" id="productvalue" onclick="focus()"/>
+            <button class="btn_add"></button>
+          </div>
+        </div>
+      </div>
+      <div class="selected disabled" id="selected" style="display:block;">加入购物车</div>
+      <div class="confirm disabled" id="confirm" style="display:block;">确定</div>
+      <img src="images/btn_ic_close@3x.png" alt="关闭按钮" class="closeSku"/>
+    </div>
+  </div>
+  <!-- 商品价格单独显示-->
+  <script id="eachpriceTemplate" type="text/html">
+    <span class="minPrice">¥<span style="font-size:0.1545rem;"><%=minintegerT%></span>.<span style="font-size:0.14rem;"><%=minscaleT%></span></span>
+    <span  class="line_Box">～</span>
+    <span class="originalPrice"><span style="font-size:0.1545rem;"><%=maxintegerT%></span>.<span style="font-size:0.14rem;"><%=maxscaleT%></span></span>
+  </script>
+  <!-- 商品规格型号的选择-->
+  <script id="productCommoditySkuTemplate"type="text/html">
+    <div class="productColor"><%=skuName%></div>
+    <ul class="colorClassify" skuName="<%=skuName%>" id="<%=skuId%>" name="skuBox">
+    </ul>
+  </script>
+</div>
+<script src="js/mui.min.js"></script>
+<script src="js/mui.previewimage.js"></script>
+<script src="js/mui.zoom.js"></script>
+<script>
+  mui.previewImage();
+  window.onload = function(){
+    mui('.mui-zoom-scroller').scroll({
+      deceleration: 0.0005
+    });
+  }
+
+
+</script>
+<script src="js/productDetail.js?mall=004"></script>
+</body>
+
+</html>

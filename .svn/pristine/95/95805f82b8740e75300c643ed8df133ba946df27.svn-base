@@ -1,0 +1,76 @@
+<template>
+	<div class="citySelect">
+
+		<div class="myAddressBox">
+			<div class="myAddress">
+				<div class="myAddressTitle">所在城市</div>
+				<div class="myAddressValBox">
+					<div class="myAddressVal" @click='selectLocation' :code='city.code' >{{city.name}}</div>
+				</div>
+			</div>
+			<div class="myAddress">
+				<div class="myAddressTitle">合作城市</div>
+				<div class="myAddressValBox">
+					<div class="myAddressVal" v-for='partnerCity in partnerCitys' @click='selectCity' :code='partnerCity.code' >{{partnerCity.name}}</div>
+					<!--<div class="myAddressVal null" v-show='myCommunitys.length === 0'>暂无小区</div>-->
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+<script type="text/javascript">
+	export default{
+		name:'citySelect',
+		data(){
+			return{
+				city:{name:'广州市',code:'440100'},
+				partnerCitys:[
+					{name:'深圳市',code:'440300'},
+					{name:'佛山市',code:'440600'}
+				]
+			}
+		},
+		methods:{
+			selectCity(e){
+				console.log(e.target.getAttribute('code'))
+				this.$store.commit('changeCity',{
+					name:e.target.innerText,
+					isLocation:false,
+					code:e.target.getAttribute('code')
+				})//修改城市
+//				console.log(this.$store.state.city)
+				this.$router.go(-1)//返回上一页
+			},
+			selectLocation(e){
+				this.$store.commit('changeCity',{
+					name:e.target.innerText,
+					isLocation:true,
+					code:e.target.getAttribute('code')
+				})//修改城市
+//				console.log(this.$store.state.city)
+				this.$router.go(-1)//返回上一页
+			}
+		}
+	}
+</script>
+<style scoped="scoped">
+	.myAddressTitle,.myAddressVal{
+		padding: 0 0.14rem;
+		height: .4rem;
+		line-height: .4rem;
+		color: #FC9153;
+		font-size: .16rem;
+	}
+	.myAddressValBox{
+		background-color: #FFFFFF;
+	}
+	.myAddressVal{
+		padding: 0;
+		margin: 0 0.14rem;
+		color: #333333;
+		border-top: 1px solid #F1F2F3;
+	}
+	.myAddressVal:first-child{
+		border: none;
+	}
+</style>

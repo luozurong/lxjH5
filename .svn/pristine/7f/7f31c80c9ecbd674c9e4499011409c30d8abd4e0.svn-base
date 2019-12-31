@@ -1,0 +1,41 @@
+var vue = new Vue({
+	el:".coupon",
+	data: {
+		clickFlag: 0,
+	},
+	methods:{
+		clickNav: function(index){
+			this.clickFlag = index;
+		}
+	},
+	mounted: function(){
+		console.log(11);
+	}
+})
+
+function ruleShowAnimate(e) {
+	var clickState = e.getAttribute("dataState") == 1 ? true : false;
+	var clickState2 = e.getAttribute("dataStateC");
+	if(clickState2 == "2") {
+		return false;
+	}
+	var eleG = e;
+	var eleT = eleG.previousSibling;
+	eleG.setAttribute("dataStateC", "2");
+	setTimeout(function(){
+		eleG.setAttribute("dataStateC", "1");
+	},600)
+	if(clickState) {
+		eleT.previousElementSibling.classList.add("couponInfoRuleAnimat")
+		eleT.previousElementSibling.style.whiteSpace = 'normal';
+		eleG.setAttribute("dataState", "2");
+		eleG.src="../supermarket/images/btn_ic_put-up.png";
+	} else {
+		eleT.previousElementSibling.classList.remove("couponInfoRuleAnimat");
+		eleG.src="../supermarket/images/ic_put-up@3x.png";
+		setTimeout(function() {
+			eleT.previousElementSibling.style.whiteSpace = 'nowrap';
+			eleG.setAttribute("dataState", "1");
+		}, 600)
+	}
+}

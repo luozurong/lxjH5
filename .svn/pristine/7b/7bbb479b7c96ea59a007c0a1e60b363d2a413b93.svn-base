@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" href="../reset.css">
+		<link rel="stylesheet" type="text/css" href="css/final-statement.css" />
+		<link rel="stylesheet" type="text/css" href="../tip/lxjTip.css"/>
+		<script src="../jquery-1.7.2.min.js"></script>
+		<script src="../tip/lxjTip.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../interface.js"></script>
+		<script src="../common.js"></script>
+		<script src="js/final-statement.js?v=123" type="text/javascript" charset="utf-8"></script>
+		<title>支付方式</title>
+		<style type="text/css">
+			.del_center,
+			.confir {
+				border: 1px solid #ebebeb;
+				width: 66%;
+				height: 2.2rem;
+				background: #FFFFFF;
+				position: fixed;
+				top: 47%;
+				margin-top: -40px;
+				left: 34%;
+				margin-left: -1rem;
+				border-radius:5px;
+				display: none;
+				/*display: block;*/
+				z-index: 999999;
+			}
+			
+			.del_center .clearfix {
+				width: 80%;
+				margin: 0.08rem auto;
+			}
+			
+			.confir .clearfix {
+				width: 80%;
+				margin: 0.08rem auto;
+			}
+			
+			.del_center p,
+			.confir p {
+				line-height: 0.5rem;
+				text-align: center;
+				color: #333;
+				/*font-size: .2rem;*/
+				font-size: .28rem;
+				padding: 0.08rem;
+			}
+			
+			.del_center .choose span,
+			.confir .choose span {
+				width: 46%;
+				line-height: 40px;
+				height: 40px;
+				text-align: center;
+				/*font-size: .12rem;*/
+				font-size: .24rem;
+				border: 1px solid #ccc;
+				box-sizing: border-box;
+				border-radius: 0.04rem;
+				color:#333;
+			}
+			
+			.del_center .choose span,
+			.confir .choose> .sure {
+				float: right;
+			}
+			
+			.del_center .choose span,
+			.confir .choose> .canc {
+				float: left;
+			}
+			.remind .choose span {
+				display: block;
+				width: 100%;
+				height: 100%;
+				text-align: center;
+				line-height: 60px;
+				font-size: .14rem;
+			}
+			.bk{
+				background-color: #CCC;
+			}
+			.demo3 {
+				min-width: 70%;
+				max-width: 70%;
+			}
+			
+			.demo3 .lxj_tipButtom {
+				display: flex;
+				justify-content: space-between;
+			}
+			
+			.demo3 .lxj_tipButtomA0 {
+				order: 1;
+				font-size:17px;
+			}
+			
+			.demo3 .lxj_tipButtomA1 {
+				order: 0;
+				font-size: 17px;
+			}
+			
+			.demo3 .lxj_content {
+				padding: 40px 20px;
+				font-size: 16px;
+			}
+			
+			.demo2 {
+	
+			}
+			
+			.demo2 .lxj_content {
+				padding: 40px;
+				font-size: 16px;
+			}
+			
+			.demo2 .lxj_tipButtom {
+				
+			}
+			
+			.demo2 .lxj_tipButtomA0 {				
+				font-size: 17px;
+				width: 90%;
+			}
+		</style>
+	</head>
+
+	<body style="font-size:0.16rem;">
+
+		<div>
+			<ul class="main-dingdan">
+				<!-- <li class="number-time number-line-none">
+					订单编号：<span id="orderNo"></span>
+				</li> -->
+				<!--<li id="time" class="li-border number-time" style="border: none;">-->
+				<!--</li>-->
+				<li class="li-border">
+					<div class="left" style="">
+						需支付：
+					</div>
+					<div class="right" style="">
+						<span class="font-red" id="payPrice"></span>
+					</div>
+				</li>
+				<!--<li class="li-border">-->
+					<!--<div class="left">-->
+						<!--优惠金额：-->
+					<!--</div>-->
+					<!--<div class="right">-->
+						<!--<span>-</span><span id="couponPrice"></span>-->
+					<!--</div>-->
+				<!--</li>-->
+				<!--<li class="li-border">-->
+					<!--<div class="left">-->
+						<!--应付金额：-->
+					<!--</div>-->
+					<!--<div class="right font-red">-->
+						<!--<span id="commitPrice"></span>-->
+					<!--</div>-->
+				<!--</li>-->
+				<li class="choose-type">
+					选择支付方式
+				</li>
+				<li class="type background-img li-border background1" id="1">
+					<img src="../images/ic_weixin@3x.png" />微信支付
+				</li>
+				<li class="border-h1"></li>
+				<li class="type li-border background1" id="2">
+					<img src="../images/ic_zhifubao@3x.png" />支付宝支付
+				</li>
+
+			</ul>
+		</div>
+		<div id="div-none"></div>
+		<footer>
+			<div id="pay">
+				<!--<div class="buy-left">-->
+					<!--<span class="text-total">需支付:</span>-->
+					<!--<span class="font-red" id="payPrice"></span>-->
+				<!--</div>-->
+				<div id="getPay" class="buy-right" onclick="getPay()">
+					<span>确定</span>
+				</div>
+			</div>
+		</footer>
+	</body>
+
+</html>

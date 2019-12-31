@@ -1,0 +1,86 @@
+(function(doc, win) {
+	var docEl = doc.documentElement,
+		isIOS = navigator.userAgent.match(/iphone|ipod|ipad/gi),
+		dpr = isIOS ? Math.min(win.devicePixelRatio, 3) : 1,
+		dpr = window.top === window.self ? dpr : 1, //被iframe引用时，禁止缩放
+		scale = 1 / dpr,
+		resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+	docEl.dataset.dpr = dpr;
+	var recalc = function() {
+		var width = docEl.clientWidth;
+		if(width / dpr > 768) {
+			width = 768 * dpr;
+		}
+		docEl.style.fontSize = 100 * (width / 414) + 'px';
+	};
+	recalc();
+	if(!doc.addEventListener) return;
+	win.addEventListener(resizeEvt, recalc, false);
+})(document, window)
+
+var url = window.location.host;
+var reg = RegExp(/tt/);
+var regLocal = RegExp(/localhost/);
+
+if(url.match(reg) || url.match(regLocal)) var wxGzhAuth = 'https://tt.hori-gz.com:8443';
+else var wxGzhAuth = 'https://sso.lxjapp.com:8443';
+
+Vue.prototype.wxJsdkConfig = function(list, callback, btlist) {
+	var that = this;
+	var jsApiListo = [];
+	btlist ? jsApiListo = ["hideAllNonBaseMenuItem", 'showMenuItems'] : jsApiListo = ["hideAllNonBaseMenuItem"];
+	jsApiListo = jsApiListo.concat(list);
+	var btOlist = btlist ? btlist : [];
+	//btOlist=btOlist.concat(btlist?btlist:[])
+	var params = {
+		body: {
+			surl: window.location.href.split('#')[0],
+			signatureUrl: window.location.href.split('#')[0],
+		}
+	};
+	var paramsStr = encodeURIComponent(JSON.stringify(params));
+	var httpURL = wxGzhAuth + "/uums/wxGzh/wxGzhAuth?str=" + paramsStr;
+	that.$http.jsonp(httpURL, {
+		emulateJSON: true,
+		method: "get",
+		dataType: "jsonp",
+		jsonp: "jsoncallback",
+		contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+	}).then(function(res) {
+		if(res.data.result == 0) {
+			//	that.appId = res.data.appid;	
+			wx.config({
+				debug: false,
+				appId: res.data.appid,
+				timestamp: res.data.timestamp,
+				nonceStr: res.data.noncestr,
+				signature: res.data.signature,
+				jsApiList: jsApiListo
+			});
+			wx.ready(function() {
+				callback ? callback(res.data.appid) : '';
+				wx.hideAllNonBaseMenuItem();
+				if(btlist) {
+					wx.showMenuItems({
+						menuList: btOlist ? btOlist : []
+					});
+				}
+
+			});
+		}
+	}, function(res) {});
+}
+Vue.prototype.inputOnblur = function() {
+	var scrollTop = 0;
+	if(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+		setTimeout(function() {
+			try {
+				scrollTop = document.scrollingElement.scrollTop;
+			} catch(e) {
+				scrollTop = document.documentElement.scrollTop;
+			}
+			scrollTop = Number(scrollTop) + 1;
+			window.scrollTo(0, scrollTop)
+		}, 300)
+	}
+}

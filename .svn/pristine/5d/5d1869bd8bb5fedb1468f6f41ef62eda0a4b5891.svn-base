@@ -1,0 +1,168 @@
+* {
+	padding: 0;
+	margin: 0;
+	font-size: 0.14rem;
+	-webkit-tap-highlight-color: transparent
+}
+
+body {
+	background: #f3f4f5;
+}
+
+input::placeholder {
+	color: #ccc;
+	font-size: 0.15rem;
+}
+
+.commanderInfo-tip {
+	background: #ffe6ab;
+	line-height: 0.43rem;
+	color: #333;
+	font-size: 0.14rem;
+	padding: 0 0.14rem;
+}
+
+.commanderInfo-main {
+	color: #333;
+	font-size: 0.15rem;
+	padding: 0 0.14rem;
+	background: #fff;
+}
+
+.commanderInfo-main>div {
+	border-bottom: 1px solid #eee;
+	padding-top: 0.08rem;
+	position: relative;
+}
+
+.commanderInfo-main>div:last-child {
+	border-bottom: none;
+	padding-bottom: 0.08rem;
+}
+
+.commanderInfo-main>div div {
+	line-height: 0.26rem;
+	font-size: 0.15rem;
+}
+
+.commanderInfo-main input {
+	display: block;
+	padding: 0.03rem 0;
+	width: 3.5rem;
+	margin-bottom: 0.08rem;
+	font-size: 0.15rem;
+	color: #333;
+	height: 0.27rem;
+	border: none !important;
+	outline: none;
+	background: #fff;
+}
+.selsectAddress span{
+	display: block;
+	padding: 0.03rem 0;
+	width: 3.5rem;
+	margin-bottom: 0.08rem;
+	font-size: 0.15rem;
+	color: #ccc;
+	height: 0.27rem;
+	border: none !important;
+	outline: none;
+	background: #fff;
+}
+.selsectAddress .color333{
+	color: #333;
+}
+
+
+
+.selsectAddress input::placeholder {
+	color: #ccc;
+}
+
+input[disabled],
+input:disabled,
+input.disabled {
+	color: #222!important;
+	/*-webkit-text-fill-color: #333;*/
+
+}
+
+.commanderInfo-main div img {
+	position: absolute;
+	top: 0.25rem;
+	right: 0;
+	z-index: 1;
+	width: 0.15rem;
+	height: 0.15rem;
+}
+
+.commanderInfo-link {
+	text-align: center;
+	margin-top: 0.27rem;
+}
+
+.commanderInfo-link span {
+	color: #999;
+	font-size: 0.15rem;
+}
+
+.commanderInfo-link a {
+	color: #fc9153;
+	font-size: 0.15rem;
+	text-decoration: underline;
+}
+
+.commanderInfo-submit {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	z-index: 2;
+	padding: 0 0.14rem;
+	box-sizing: border-box;
+}
+
+.commanderInfo-submit span {
+	display: block;
+	width: 100%;
+	line-height: 0.44rem;
+	text-align: center;
+	background: #aaa;
+	color: #333;
+	font-size: 0.15rem;
+}
+
+.commanderInfo-submit span.active {
+	background: #fc9153;
+	color: #fff;
+}
+
+.mui-poppicker-header {
+	background: #fff;
+}
+
+.mui-poppicker-btn-cancel {
+	border: none;
+	font-size: 0.16rem;
+}
+
+.mui-btn-blue,
+.mui-btn-primary,
+input[type=submit] {
+	background-color: #fff;
+	border: none;
+	color: #fc9153;
+	font-size: 0.16rem;
+}
+
+.mui-picker {
+	background: #efefef;
+}
+
+.mui-pciker-list li.highlight {
+	color: #fc9153;
+}
+
+.mui-pciker-list li {
+	font-size: 0.16rem;
+}

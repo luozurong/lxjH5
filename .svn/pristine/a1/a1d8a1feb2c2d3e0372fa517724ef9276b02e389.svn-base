@@ -1,0 +1,342 @@
+var isWxBrowser = true;
+var ua = navigator.userAgent.toLowerCase();
+if(ua.match(/MicroMessenger/i) == "micromessenger") {
+	isWxBrowser=true;
+} else {
+	isWxBrowser=false;
+}
+/*window.onpageshow = function(event) {
+	if(event.persisted) {
+		//window.location.reload();
+		if (isWxBrowser) {			
+			window.location.reload();
+		   //Vue.wxJsdkConfig();				
+		}	
+	}
+}*/
+var vue = new Vue({
+	el: '#app',
+	data: {
+		isWxBrowser:isWxBrowser,
+		popupState:false,
+		isAgree:true,
+		phoneNum:'',
+		randomCodeNum:'',
+		picRandomNum:'',
+		picRandomUrl:"",
+		randomCodeNumState:false,
+		randomContent:"获取验证码",
+		mobileplaceholder:"请输入手机号",
+		messageplaceholder:"请输入短信验证码",
+		
+		apiurl3: uumsHost + "/uums/servlet/getPicRandomServlet", //获取图片验证码接口
+		apiurl4: uumsHost + "/uums/servlet/getRandomCodeForSmsLogin", //获取短信验证码
+		apiurls: uumsHost + "/uums/wxGzh/wxGzhAuth", //获取fx
+
+	},
+	filters: {
+		//状态过滤
+	},
+	mounted: function() {
+		this.$nextTick(function() {
+			//this.prizelistTrim(this.prizeList);
+			
+			if (isWxBrowser) {				
+				this.wxJsdkConfig();				
+			}					
+		});
+	},
+	methods: {
+		getPicRandom: function() {
+			
+			var params = {};
+			var timestamp = new Date().getTime();
+			var mobile1 = vue.phoneNum;
+			if(vue.randomCodeNumState) {
+				return false;
+			}
+			if(!(/^[1][1,2,3,4,5,6,7,8,9,0][0-9]{9}$/.test(mobile1))) {
+				
+				vue.mobileF=true;
+				vue.phoneNum='';
+				vue.mobileplaceholder="*请您输入正确的11位手机号码";
+				setTimeout(function() {
+					document.getElementById("phone").focus();
+				}, 1000);
+				return false;
+			}
+			
+			params.header = {
+				token: "test",
+				time_stamp: timestamp
+			};
+			params.body = {
+				phone: vue.phoneNum
+			};
+			vue.picRandomUrl = "";
+			vue.picRandomNum = "";
+			var paramData = JSON.stringify(params);
+			this.$http.jsonp(this.apiurl3 + "?str=" + encodeURI(paramData), {
+				emulateJSON: true,
+				method: "get",
+				dataType: "jsonp",
+				jsonp: "jsoncallback",
+				jsonpCallback: "success_jsonpCallback"
+			}).then(function(response) {
+				// 响应成功回调
+				if(response.body.result == 0) {
+					vue.picRandomUrl = response.body.picRandomUrl;
+					vue.popupState = true; //弹窗开启
+					vue.picRandomState = true;
+				}
+
+			}, function(response2) {
+				// 响应错误回调
+				console.log(JSON.stringify(response2.body))
+			});
+		},
+		getRandomCodeForSmsLogin: function() {
+			var params = {};
+			var phoneNum1 = String(vue.phoneNum);
+			var picRandomNum1 = String(vue.picRandomNum);
+			var timestamp = new Date().getTime();
+			params.header = {
+				token: "test",
+				time_stamp: timestamp
+			};
+			params.body = {
+				phone: phoneNum1,
+				sourceClientCode: "lxj_u",
+				picRandom: picRandomNum1
+			};
+			var paramData = JSON.stringify(params);
+			this.$http.jsonp(this.apiurl4 + "?str=" + encodeURI(paramData), {
+				emulateJSON: true,
+				method: "get",
+				dataType: "jsonp",
+				jsonp: "jsoncallback",
+				jsonpCallback: "success_jsonpCallback"
+			}).then(function(response) {
+				// this.$http.post(this.apiurl4,params,{emulateJSON: true}).then(function(response) {
+				//this.$http.post(this.apiurl4, params).then(function(response) {
+				// 响应成功回调
+				if(response.body.result == 0) {
+					if(response.body.code == 1) {
+						vue.popupState = false;
+						vue.picRandomState = false;
+						lxjTip.msg('正在发送短信验证码', {
+							time: 2000
+						});
+						vue.picRandomUrl = "";
+						vue.picRandomNum = "";
+						var TIME_COUNT = 60;
+						if(!vue.timer) {
+							vue.count = TIME_COUNT;
+							vue.randomCodeNumState = true;
+							vue.timer = setInterval(function() {
+								if(vue.count > 0 && vue.count <= TIME_COUNT) {
+									vue.count--;
+									vue.randomContent =vue.count+"s后重新发送";
+								} else {
+									clearInterval(vue.timer);
+									vue.timer = null;
+									vue.randomContent = "获取验证码";
+									vue.randomCodeNumState = false;
+								}
+							}, 1000);
+						}
+					} else if(response.body.code == 2) {
+						lxjTip.msg('验证码不正确', {
+							time: 2000
+						});
+						setTimeout(function() {
+							vue.getPicRandom();
+						}, 300);
+						setTimeout(function() {
+							document.getElementById("picRandomNum").focus();
+						}, 1000);
+					} else {
+						lxjTip.msg('抱歉！该手机号今天不能再接收短信验证码', {
+							time: 2000
+						});
+					}
+				}
+
+			}, function(response2) {
+				// 响应错误回调
+				console.log(JSON.stringify(response2.body))
+			});
+		},
+		inviteNewUser: function() {
+			if (vue.gameState) {
+				lxjTip.msg('本期活动已结束', {
+							time: 2000
+						});
+				return false;
+			}
+			_hmt.push(['_trackEvent', baiduId, "1", '立即注册']);
+
+			var params = {};
+			var mobile1 = vue.phoneNum;
+			var smsVerifyCode1 = vue.randomCodeNum;
+			if(!(/^[1][1,2,3,4,5,6,7,8,9,0][0-9]{9}$/.test(mobile1))) {
+				/*lxjTip.msg('请输入正确的手机号码', {
+					time: 2000
+				});*/
+				vue.mobileF=true;
+				vue.phoneNum='';
+				vue.mobileplaceholder="*请您输入正确的11位手机号码";
+				setTimeout(function() {
+					document.getElementById("userMobile").focus();
+				}, 1000);
+				return false;
+			}
+			if(smsVerifyCode1.length <= 0) {
+				vue.randomCodeF=true;
+				vue.randomCodeNum='';
+				vue.randomCodeplaceholder='*验证码错误';
+				setTimeout(function() {
+					document.getElementById("verificationCode").focus();
+				}, 1000);
+				return false;
+			}
+			var mobile1 = String(mobile1);
+			var smsVerifyCode1 = String(smsVerifyCode1);
+			var timestamp = new Date().getTime();
+			params.header = {
+				token: "test",
+				time_stamp: timestamp
+			};
+			params.body = {
+				mobile: mobile1,
+				inviterAccountStr: inviterAccountStr,
+				smsVerifyCode: smsVerifyCode1
+			};
+			var paramData = JSON.stringify(params);
+			this.$http.jsonp(this.apiurl2 + "?str=" + encodeURI(paramData), {
+				emulateJSON: true,
+				method: "get",
+				dataType: "jsonp",
+				jsonp: "jsoncallback",
+				jsonpCallback: "success_jsonpCallback"
+			}).then(function(response) {
+				// this.$http.post(this.apiurl2,params,{emulateJSON: true}).then(function(response) {				// 响应成功回调
+				if(response.body.result == 0) {
+					if(response.body.code == 1) {
+						vue.randomCodeF=true;
+						vue.randomCodeNum='';
+						vue.randomCodeplaceholder='*验证码错误';
+
+					} else if(response.body.code == 0) {
+						lxjTip.msg('注册成功', {
+							time: 2000
+						});
+						vue.successed = true;						
+						
+					} else if(response.body.code == 2) {
+						lxjTip.msg('此号码已被注册', {
+							time: 2000
+						});
+						//vue.newUserResultState = 2;
+					}
+				} else {
+					if(response.body.code == 2) {
+						lxjTip.msg('此号码已被注册', {
+							time: 2000
+						});
+						/*vue.newUserState = false;
+						vue.newUserResultState = 2;
+						vue.popupState = true; //弹窗开启
+						new Mlink({
+							mlink: "https://aejlur.mlinks.cc/A0VO",
+							button: document.querySelector('a#godownload')
+						});
+						new Mlink({
+							mlink: "https://aejlur.mlinks.cc/A0VO",
+							button: document.querySelector('a#godownload2')
+						});*/
+					} else if(response.body.code == 1) {
+						vue.randomCodeplaceholder='*验证码错误';
+					} else {
+						lxjTip.alert(response.body.reason, {
+							time: 2000
+						});
+					}
+
+				}
+
+			}, function(response2) {
+				// 响应错误回调
+				console.log(JSON.stringify(response2.body))
+			});
+		},
+		cancelRandom: function() {
+			vue.picRandomUrl = "";
+			vue.picRandomNum = "";
+			vue.popupState = false; //弹窗开启
+			vue.picRandomState = false;
+
+		},
+		confirmRandom: function() {
+			var picRandomNum2 = vue.picRandomNum;
+			if(!(/^[0-9]\d{1,4}$/.test(picRandomNum2))) {
+				lxjTip.msg('请输入正确的图形验证码', {
+					time: 2000
+				});
+				setTimeout(function() {
+					document.getElementById("picRandomNum").focus();
+				}, 1000);
+				return false;
+			}
+			vue.getRandomCodeForSmsLogin();
+
+		},
+		baidutjiFun: function(baiduID) {			
+			
+		},
+		stopClose: function() {
+			window.event.cancelBubble = true;
+		},
+		closePopup: function() {
+			this.popupState = false; //弹窗背景关闭
+		},
+		mobileFocus: function() {
+			document.getElementById("phone").focus();
+		},
+		mobileFocus2: function() {
+			document.getElementById("picRandomNum").focus();
+		},		
+		mobileFocus3: function() {
+			document.getElementById("message").focus();
+		},
+
+	}
+});
+
+/*document.getElementById('fourth_box').ontouchstart = function(e){ e.preventDefault(); }*/
+/*vue.$watch('classifyList', function(newValue, oldValue) {
+});*/
+
+
+
+function refreshData() {
+	setTimeout(function() {
+		//vue.getDatejson(true);
+		//vue.getlistLatestrecords();
+	}, 0);
+	return 1;
+}
+
+function isCondition(param) { // (!typeof(a) === undefined)
+	if(param != null && param != "" && param != undefined) {
+		return true;
+	}
+	return false;
+}
+//获取URL参数
+function GetURLParameter(name) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	var r = window.location.search.substr(1).match(reg);
+	if(r != null) return unescape(r[2]);
+	return null;
+}

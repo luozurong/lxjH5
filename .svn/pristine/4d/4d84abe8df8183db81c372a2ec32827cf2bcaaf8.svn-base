@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$USER_HOME$/Desktop/老虎机/js/pace.min.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/expiry/js/cancel.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/expiry/js/index.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/expiry/js/verify.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall/css/shoppingcart.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall/js/common.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall/js/confirmOrder.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall/js/index.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall/js/productDetail.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall/js/productList.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall/js/productOrders.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall/js/shoppingcart.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall/js/underscore.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/personal/js/fileinput.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springactivity/js/lottery.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/water/js/layer.js" charset="UTF-8" />
+  </component>
+</project>

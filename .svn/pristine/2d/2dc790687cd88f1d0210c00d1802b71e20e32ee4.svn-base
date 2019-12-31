@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" />
+		<title>编辑地址</title>
+		<link rel="stylesheet" href="../reset.css">
+		<link rel="stylesheet" type="text/css" href="edit_receiveraddress.css" />
+		<link rel="stylesheet" type="text/css" href="../tip/layer.css" />
+		<script src="../jquery-1.7.2.min.js"></script>
+		<script src="../tip/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../idangerous.swiper.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common.js"></script>
+		<script src="../interface.js"></script>
+		<script src="edit_receiveraddress.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			body .demo_two .layui-layer-btn {
+				padding: 0 0.46rem 0.51rem;
+				height: 0.618rem;
+			}
+			
+			body .demo_two .layui-layer-content {
+				font-size: 14px;
+				padding: 0.51rem;
+				line-height: 0.417rem;
+			}
+			
+			body .demo_two .layui-layer-btn a {
+				height: 0.587rem;
+				line-height: 0.587rem;
+				font-size: 14px;
+				width: 42.5%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="bg_color">
+
+			<div id="choose_name" class="wid_max border_bottom">
+				<span class="left_span" >
+				收货人
+			</span>
+				<input type="text" name="receive_name" id="receive_name" class="right_buttom" placeholder="请输入真实姓名" maxlength="11" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\ ]/g,'')" onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\ ]/g,'')" oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\ ]/g,'')" />
+			</div>
+
+			<div id="choose_number" class="wid_max border_bottom">
+				<span class="left_span">
+				联系电话
+			</span>
+				<input type="tel" name="receive_phone" id="receive_phone" class="right_buttom"  onkeyup="value=value.replace(/[^\d\-]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d\-]/g,''))" maxlength="18" />
+			</div>
+
+			<div id="choose_address" class="wid_max">
+				<span id="choose_address_text" class="left_span">选择地址</span>
+				<div class="select_height" id="select_address">
+					<div class="address_choose_on" value="" onclick="chooseAddress()">请选择地址</div>
+				</div>
+			</div>
+			<div class="address_default wid_max">
+				<img onclick="changeDefault()" id="isDef" value="0" src="ic_default@3x.png" />
+				<span>设为默认</span>
+			</div>
+		</div>
+		<div class="choose_address_on">
+			<div class="bt_text">
+				<div id="bt_no" onclick="choose_No()">
+					取消
+				</div>
+				<div id="bt_yes" onclick="choose_Yes()">
+					完成
+				</div>
+			</div>
+			<div class="swiper-container">
+				<div class="swiper-wrapper">			
+				</div>
+			</div>
+		</div>
+		<!-----提示框开始----->
+		<div id="tip_bg"></div>
+		<!--<div id="tip">
+			<div id="tip_text">
+				你确定删除该地址吗？
+			</div>
+			<div id="tip_buttom">
+				<div id="tip_buttom_no" onclick="deleNAddress()">
+					取消
+				</div>
+				<div id="tip_buttom_yes" onclick="deleYAddress()">
+					确定
+				</div>
+			</div>
+		</div>-->
+		<!-----提示框结束----->
+		<!-----底部按钮开始----->
+		<footer>
+			<div id="bt_buttom">
+				<div id="baoz_bt" onclick="saveAddress()">
+					保存
+				</div>
+				<div id="dele_bt" onclick="deleAddress()">
+					删除
+				</div>
+
+			</div>
+		</footer>
+		<!-----底部按钮结束----->
+
+	</body>
+
+</html>

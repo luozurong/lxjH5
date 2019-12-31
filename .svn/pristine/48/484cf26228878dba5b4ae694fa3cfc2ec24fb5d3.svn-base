@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<header>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="../common/css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../common/css/mui.picker.css" />
+		<link rel="stylesheet" type="text/css" href="../common/css/mui.poppicker.css" />
+		<link rel="stylesheet" href="css/commanderInfo.css">
+		<link rel="stylesheet" href="../../common/tip/lxjTip.css">
+		<script src="../../common/interface.js"></script>
+		<script src="../../common/tip/lxjTip.js"></script>
+		<script src="../common/js/fontSize.js"></script>
+		<script src="../common/js/mui.min.js"></script>
+		<script src="../common/js/mui.picker.js"></script>
+		<script src="../common/js/mui.poppicker.js"></script>
+		<script src="../common/js/jquery-2.1.4.js"></script>
+		<script src="../../common/vue/vue.min.js"></script>
+		<script src="../../common/vue/vue-resource.min.js"></script>
+		<title>团长招募</title>
+	</header>
+	<body>
+		<div class="commanderInfo">
+			<div class="commanderInfo-tip">请团长注意：为确保配送管理等，要填写真实信息！</div>
+			<div class="commanderInfo-main">
+				<div>
+					<label>
+						<div>团长姓名</div>
+						<div><input type="text" maxlength="10" v-model="groupName" placeholder="您的姓名"></div>
+					</label>
+				</div>
+				<div>
+					<label>
+						<div>团长手机</div>
+						<div><input type="tel" maxlength="11" v-model="groupMobile" placeholder="您的手机"></div>
+					</label>
+				</div>
+				<div>
+					<label>
+						<div>小区名称</div>
+						<div><input type="text" maxlength="40" v-model="groupHome" placeholder="您的小区名称"></div>
+					</label>
+				</div>
+				<div class="commanderInfo-address" onclick="commanderInfoAddress()">
+					<div>所在地区</div>
+					<div><input type="text" v-model="groupAddress" placeholder="您的所在地区" disabled></div>
+					<img src="img/ic_more-@3x.png" alt="">
+				</div>
+				<div onclick="commanderInfoArea()">
+					<div>所在街道</div>
+					<div><input type="text" v-model="groupStreet" placeholder="您的所在街道" disabled></div>
+					<img src="img/ic_more-@3x.png" alt="">
+				</div>
+				<div>
+					<label>
+						<div>提货地址</div>
+						<div><input v-model="groupArea" maxlength="40" type="text" placeholder="您的提货地址"></div>
+					</label>
+				</div>
+			</div>
+			<div class="commanderInfo-link">
+				<span>联享家客服热线：</span>
+				<a href="tel:4008822252">400-8822-252</a>
+			</div>
+			<div class="commanderInfo-submit">
+				<span :class="{active: submitActive}" @click="commanderInfoSubmit()">确认提交</span>
+			</div>
+		</div>
+		<script src="js/commanderInfo.js"></script>	
+	</body>
+</html>

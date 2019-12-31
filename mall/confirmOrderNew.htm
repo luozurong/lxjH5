@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>确认订单</title>
+		<meta content="width=device-width, initial-scale=1, minimum-scale=0.333, maximum-scale=0.333, user-scalable=no" name="viewport">
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" href="css/confirmOrderNew.css">
+		<script src="../common/jquery-2.1.4.js"></script>
+		<script src="../common/tip/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../mall/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/underscore.js"></script>
+		<style type="text/css">
+			.layui-layer-hui .layui-layer-content {
+				padding: 36px;
+				color: #fff;
+				line-height: 72px;
+			}
+			
+			.layui-layer-msg {
+				border-radius: 15px;
+			}
+		</style>
+		<script>
+			function resize() {
+				var deviceWidth = document.documentElement.clientWidth;
+				if(deviceWidth > 1242) deviceWidth = 1242;
+				document.documentElement.style.fontSize = deviceWidth / 1.242 + 'px';
+			}
+			window.onresize = resize;
+			resize();
+			window.addEventListener('load', function() {
+				FastClick.attach(document.body);
+			}, false);
+		</script>
+	</head>
+
+	<body>
+		<div class="confirm-addr">
+			<div class="confirm-left"></div>
+			<!-- 默认地址的显示-->
+			<script type="text/html" id="confirmAddr">
+				<img src="images/ic_-Location-@3x.png"/>
+				<div>
+					<div class="confirm-top">					
+					<span class="confirm-top-name"><%=username%></span>
+					<span class="confirm-top-tel"><%=mobile%></span>
+				</div>
+				<div class="confirm-left-addr">					
+					<span><%=address%></span>
+				</div>
+				</div>
+			</script>
+			<!-- 修改地址后的显示-->
+			<script type="text/html" id="receiverAddr">
+				<img src="images/ic_-Location-@3x.png" />
+				<div>
+					<div class="confirm-top">
+						<span class="confirm-top-name"><%=username%></span>
+						<span class="confirm-top-tel"><%=mobile%></span>
+					</div>
+					<div class="confirm-left-addr">
+						<span><%=provinceName%><%=cityName%><%=areaName%><%=townName%><%=detailAddress%></span>
+					</div>
+				</div>
+			</script>
+			<!--<div class="confirm-right">-->
+				<img style="position: absolute;right:0.035rem;top: 50%;margin-top: -0.021rem;" src="images/ic_more-@3x.png" alt="">
+			<!--</div>-->
+		</div>
+		<div class="confirm-all"></div>
+		<script type="text/html" id="confirm-seller">
+			<% _.each(data, function(n,e){ %>
+			<div class="confirm-shop" data-sellerId="<%=n.sellerId%>">
+				<div class="confirm-shop-name">
+					<img src="images/sellerName_logo.png" alt="">
+					<span><%=n.sellerName%></span>
+				</div>
+				<% _.each(n.commodityList, function(list){ %>
+				<div class="confirm-shop-item">
+					<div class="confirm-goods">
+						<img class="confirm-goods-pic" src="<%=list.commodityLogo%>" alt="">
+						<div class="confirm-goods-main">
+							<div class="confirm-goods-name">
+								<%=list.commodityName%>
+							</div>
+							<div class="confirm-goods-store">
+								<%=list.commodityDetail%>
+							</div>
+							<div class="confirm-goods-number">
+								<div class="confirm-goods-price" data-value="<%=list.commodityPrice%>">
+									<span></span>
+									<span></span>
+								</div>
+								<div class="confirm-goods-num" data-cartid="<%=list.id%>" data-id="<%=list.commodityId%>">
+									<i onclick="subNum(this)" class="confirm-goods-pre "></i>
+									<input class="confirm-goods-input" type="text" data-value="100" value="<%=list.commodityCount%>" readonly>
+									<i onclick="addNum(this)" class="confirm-goods-next "></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<% }); %>
+				<div class="confirm-remark">
+					<div class="confirm-remark-shipping">
+						<span>配送费</span>
+					</div>
+					<div class="confirm-remark-counpon" style="display: none;">
+						<span>店铺优惠</span>
+						<span class="confirm-counpon-num">暂无优惠</span>
+						<!--<img src="images/ic_more-@3x.png" alt="">-->
+					</div>					
+					<div class="confirm-remark-word">
+						<span>留言</span>
+						<input class="comfirm-say" id="<%=e%>comfirm-say" oninput="saveRemark()"   onfocus="newviewopen(this.id)" type="text" placeholder="选填给商家留言(45字内)" maxlength="45">
+					</div>
+					<div class="confirm-remark-total">
+						<span class="confirm-total-price" data-value="0.00">
+                <span></span>
+						<span></span>
+						</span>
+						<span>共<span class="number-input"></span>件商品 小计：</span>
+
+					</div>
+				</div>
+			</div>
+			<% }); %>
+		</script>
+		
+
+		<div class="confirm-shop-over">
+		</div>
+		<script type="text/html" id="confirmOver">
+			<div class="confirm-shop">
+				<div class="confirm-shop-name confirm-shop-name-over">
+					<span>失效商品 (不在配送范围)</span>
+				</div>
+				<% _.each(dataover, function(n){ %>
+				<div class="confirm-shop-item">
+					<div class="confirm-goods">
+						<img class="confirm-goods-pic" src="<%=n.commodityLogo%>" alt="">
+						<div class="confirm-goods-main">
+							<div class="confirm-goods-name  confirm-goods-name-over">
+								<%=n.commodityName%>
+							</div>
+							<div class="confirm-goods-store">
+								<%=n.commodityDetail%>
+							</div>
+							<div>
+								<div class="confirm-goods-price confirm-goods-price-over" data-value="<%=n.commodityPrice%>">
+									<span></span>
+									<span></span>
+								</div>
+								<div class="confirm-goods-num confirm-goods-num-over" data-cartid=<%=n.id%>><input size="1" style=" font-size: 0.048rem;color: #CCCCCC;border: none;text-align: right;width:200px;" type="text" data-value="100" value="x<%=n.commodityCount%>" readonly></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<% }); %>
+			</div>
+		</script>
+
+		<div class="display_none" style="width: 100%;height: 190px;opacity: 0;">
+
+		</div>
+
+		<div class="confirm-fixed">
+			<div>
+				<div class="pay" data-value="0.00">应付款：
+					<span>0.</span><span>00</span>
+				</div>
+				<!--<div class="pay-sub">
+					<span>
+						<span class="pay-sub-word" style="display: none">总额：</span>
+                        <span class="paytotal">0.00</span>
+					</span>
+					<span style="display: none;">
+                满减：￥<span class="totalReducePrice">0.00</span>
+					</span>
+				</div>-->
+			</div>
+			<div class="gopay">提交订单</div>
+
+		</div>
+
+		<!-----修改收货人名字开始------>
+		<div class="bgblack" onclick="closeChangewindowC()" style="display: none;width: 100%;height: 100%;background-color:#000;opacity:0.3;position: absolute;top: 0;z-index: 99;">
+
+		</div>
+		<div id="changeusername" style="display: none;width: 80%;height:0.595rem;position: fixed;top: 0;left: 0;bottom: 0;right: 0;margin: auto;z-index: 999;background-color: #fff;border-radius: 5px;">
+			<div style="width: 100%;height: 0.22rem;text-align: center;line-height:0.22rem;font-size: 0.048rem;color: #222;">
+				修改收货人姓名
+			</div>
+			<input type="text" name="changename" id="changename" value="" maxlength="11" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\ ]/g,'')" onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\ ]/g,'')" oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\ ]/g,'')" placeholder="请输入真实的收货人姓名" style="outline:none;-webkit-appearance: none;box-sizing: border-box;text-align: left;padding-left:0.06rem;width: 80%;height: 26%;z-index: 999;margin-left: 10%;border: 1px solid #ff661b;color: #222;border-radius: 5px;font-size: 0.042rem;" />
+			<div onclick="closeChangewindow()" style="width: 100%;height: 0.154rem;position: absolute;bottom: 0;border-top:1px solid #e8e8e8 ;text-align: center;color: #FF661B;box-sizing: border-box;line-height: 0.154rem;font-size:0.048rem ;">
+				确定
+			</div>
+		</div>
+		<!-----修改收货人名字结束------>
+		<script src="js/confirmOrderNew.js"></script>
+	</body>
+
+</html>

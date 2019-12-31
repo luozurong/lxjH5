@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<title>确认订单</title>
+		<link rel="stylesheet" href="../common/reset.css" />
+		<link rel="stylesheet" href="../common/common.css">
+		<link rel="stylesheet" href="css/confirmOrder.css?ididid=450">
+		<link rel="stylesheet" type="text/css" href="../common/tip/layer.css" />
+		<link rel="stylesheet" href="../common/progress.css">
+		<script type="text/javascript" src="../common/jquery-2.1.4.js"></script>
+		<script src="../common/tip/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../common/common.js"></script>
+		<script type="text/javascript " src="../common/coupons/coupons_common.js "></script>
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/underscore.js"></script>
+		<script src="js/confirmOrder.js?yijd=241234"></script>
+		<style type="text/css">
+			#changename::-webkit-input-placeholder {
+				color: #CCCCCC;
+			}
+		</style>
+	</head>
+
+	<body style="font-size:0.18rem;">
+		<ul class="main-conten">
+			<li class="select" id="product" style="border: 0;">
+				<div class="img" id="productImg">
+				</div>
+				<script id="productImgTemplate" type="text/html">
+					<img src="<%=logo%>" />
+				</script>
+				<span id="otherwater" class="productNum"></span>
+				<script id="productNumTemplate" type="text/html">
+					<span>共<%=commodityNum%>件</span>
+				</script>
+			</li>
+			<li class="select" id="Address">
+				<div class="address-left">
+					<div class="a-number">
+						<img src="../common/images/ic_name@3x.png" />
+						<span class="name" id="userName">名字</span>
+						<span class="phone" id="telephone" style="color: #222;text-decoration: none;">电话</span>
+					</div>
+					<div class="b-address">
+						<img src="../common/images/ic_-Location-@3x.png" />
+						<span class="address" id="userAddress">地址</span>
+					</div>
+				</div>
+				<div id="address_none" style="display: none;">
+					请选择收货地址
+				</div>
+			</li>
+			<li class="right-R ">
+				<div class="pay-left pat-type ">
+					<p>配送费:</p>
+				</div>
+				<div class="pay-right" id="freight" style="color:#FF661B;line-height: 300%;">
+					<!--<span class="pay-span " id="deliverWay"></span>
+					<span class="pay-span " id="freight" ></span>-->
+				</div>
+			</li>
+			<li class="right-R " id="Pay " style="border: 0;">
+				<div class="pay-left pat-type ">
+					<p> 支付方式</p>
+				</div>
+				<div class="pay-right ">
+					<span class="pay-span ">在线支付</span>
+					<span id="pay-warn" class="pay-span ">仅支持在线支付</span>
+				</div>
+			</li>
+
+			<li class="right-R select" id="Coupons" style="border:none;">
+				<div id="coupon-num" class="pay-left ">
+					<span>优惠券</span><span class="coupon-use-num no-coupon-use" id="useCoupon"></span>
+				</div>
+				<div id="reduce" class="pay-right no-reduce-money">
+					<span id="coupon"></span>
+					<!--<img id="hcho" src="../common/images/ic_more-@3x.png" alt="右边箭头" />-->
+				</div>
+			</li>
+			<li class="right-R" style="border:none;margin-top:0.08rem;padding-right: 0.18rem;" id="liuyanten">
+				<!--			 	<span  id ="liuyan" >备注留言:</span><input type="text" id="remark"  placeholder="订单备注（20字以内)" onclick="newviewopen(this.id)"    maxlength="20" onkeyup="value=value.replace(/[\&\%\#]/g,'')" onpaste="value=value.replace(/[\&\%\#]/g,'')" oncontextmenu = "value=value.replace(/[\&\%\#]/g,'')"/>
+-->
+				<textarea name="" rows="4"  cols="" id="remark" oninput="keyUp()" placeholder="订单备注（75字以内)" onkeydown="checkEnter(event)" onclick="newviewopen(this.id)" maxlength="75" onkeyup="value=value.replace(/[\&\%\#\r\n]/g,'')" onpaste="value=value.replace(/[\&\%\#\r\n]/g,'')" oncontextmenu="value=value.replace(/[\&\%\#\r\n]/g,'')" >
+                      </textarea>
+			</li>
+			<script type="text/javascript">
+				function checkEnter(e) {
+					var et = e || window.event;
+					var keycode = et.charCode || et.keyCode;
+					if(keycode == 13) {
+						if(window.event)
+							window.event.returnValue = false;
+						else
+							e.preventDefault(); //for firefox
+					}
+				}
+			</script>
+		</ul>
+		<div id="div-none"></div>
+				
+		<!-----修改收货人名字开始------>
+		<div class="bgblack" onclick="closeChangewindowC()"  style="display: none;width: 100%;height: 100%;background-color:#000;opacity:0.3;position: absolute;top: 0;z-index: 99;">
+			
+		</div>
+		<div id="changeusername" style="display: none;width: 80%;height:3.07rem;position: fixed;top: 0;left: 0;bottom: 0;right: 0;margin: auto;z-index: 999;background-color: #fff;border-radius: 5px;">
+				<div  style="width: 100%;height: 1.1357rem;text-align: center;line-height:1.1357rem;font-size: 0.2474rem;color: #222;">
+					修改收货人姓名
+				</div>
+				<input type="text" name="changename" id="changename" value=""  maxlength="11" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\ ]/g,'')" onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\ ]/g,'')" oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\ ]/g,'')" placeholder="请输入真实的收货人姓名" style="outline:none;-webkit-appearance: none;box-sizing: border-box;text-align: left;padding-left:0.3091rem;width: 80%;height: 26%;z-index: 999;margin-left: 10%;border: 1px solid #ff661b;color: #222;border-radius: 5px;font-size: 0.2164rem;" />
+		        <div onclick="closeChangewindow()" style="width: 100%;height: 0.798rem;position: absolute;bottom: 0;border-top:1px solid #e8e8e8 ;text-align: center;color: #FF661B;box-sizing: border-box;line-height: 0.798rem;font-size:0.2679rem ;">	
+		        	确定
+				</div>
+		</div>
+		<!-----修改收货人名字结束------>	
+		
+		<footer>
+			<div class="f_l buy">
+				<!--<div class="buy-left" style="display: none">-->
+					<!--<span class="text-total">应付款:</span>-->
+					<!--<span id="totalprice"></span>-->
+
+					<!--<span class="total-font-red buy-number" id="total_item_1"><span class="fuhaos" style="padding-right: 4px;">¥</span><span class="integer">0.</span><span class="decimal">00</span></span>-->
+					<!--&lt;!&ndash;<script id="totalTemplate" type="text/html">-->
+                        <!--<span class="fuhao">￥<span class="totalP"><%=totalprice%></span></span>-->
+                    <!--</script>&ndash;&gt;-->
+					<!--<span class="preferential-prices">-->
+                                    <!--&lt;!&ndash; 有内容时价格是红色，没内容是空白 &ndash;&gt;-->
+                            <!--</span>-->
+				<!--</div>-->
+
+				<div class="buy-left">
+					<div class="text-payment">应付款:
+						<span class="total-font-red buy-number" id="total_item_1"><span class="fuhaos" style="padding-right: 4px;">¥</span><span class="integer">0.</span><span class="decimal">00</span></span>
+
+					<span class="preferential-prices">
+                                    <!-- 有内容时价格是红色，没内容是空白 -->
+                            </span>
+					</div>
+					<span class="text-totalizer">总额：¥</span>
+					<span class="text-reduction">满减：¥</span>
+				</div>
+
+				<div id="open1" onclick="doSubmit()" class="buy-right ">
+					<span>提交订单</span>
+				</div>
+			</div>
+		</footer>
+
+	</body>
+
+</html>

@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no,viewport-fit=cover" name="viewport">
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" href="../common/reset.css" />
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script src="../common/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/vue/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../mall/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../common/tip/lxjTip.css" />
+		<title>购物车</title>
+		<style type="text/css">
+			html,
+			body {
+				width: 100%;
+				min-height: 100%;
+				background-color: #F3F4F5;
+				color: #333;
+				font-size: 14px;
+			}
+			
+			* {
+				-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+			}
+		</style>
+		<script type="text/javascript">
+			window.addEventListener('load', function() {
+				FastClick.attach(document.body);
+			}, false);
+		</script>
+		<script type="text/javascript">
+			(function(doc, win) {
+				var docEl = doc.documentElement,
+					isIOS = navigator.userAgent.match(/iphone|ipod|ipad/gi),
+					dpr = isIOS ? Math.min(win.devicePixelRatio, 3) : 1,
+					dpr = window.top === window.self ? dpr : 1, //被iframe引用时，禁止缩放
+					scale = 1 / dpr,
+					resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+				docEl.dataset.dpr = dpr;
+				var recalc = function() {
+					var width = docEl.clientWidth;
+					if(width / dpr > 768) {
+						width = 768 * dpr;
+					}
+					docEl.style.fontSize = 100 * (width / 414) + 'px';
+				};
+				recalc();
+				if(!doc.addEventListener) return;
+				win.addEventListener(resizeEvt, recalc, false);
+			})(document, window);
+		</script>
+		<style type="text/css">
+			#app {
+				width: 100%;
+				min-height: 100%;
+				overflow: hidden;
+			}
+			
+			.nothing0 {
+				-webkit-order: 0;
+				-webkit-flex-grow: 5;
+			}
+			
+			.nothing1 {
+				-webkit-order: 1;
+				-webkit-flex-grow: 5;
+			}
+			
+			.nothing2 {
+				-webkit-order: 2;
+				-webkit-flex-grow: 5;
+			}
+			
+			.nothing3 {
+				-webkit-order: 3;
+				-webkit-flex-grow: 5;
+			}
+			
+			.line_01 {
+				width: 100%;
+				height: 1px;
+				background-color: #F0F0F0;
+				transform: scaleY(0.5);
+				-webkit-transform: scaleY(0.5)
+			}
+			
+			.line_border_box {
+				width: 100%;
+				padding-left: 0.13rem;
+			}
+			
+			.line_border_01 {
+				width: 100%;
+				border-bottom: 1px solid rgba(204, 204, 204, 0.51);
+			}
+			
+			.bghui {
+				background-color: #bbb !important;
+			}
+			
+			.bgtbse {
+				background-color: #ff661b !important;
+			}
+			
+			.quang {
+				width: 0.26rem;
+				-webkit-flex-shrink: 0;
+				height: 0.26rem;
+				background-image: url(images/ic_gray_circle@3x.png);
+				background-size:0.23rem 0.23rem;
+				background-position: center;
+				background-position-x: 0;
+				background-repeat: no-repeat;
+			}
+			
+			.yes_quang {
+				background-image: url(images/ic_choise_yes.png);
+			}
+			
+			.no_quang {
+				background-image: url('images/ic_gray_circle@3x.png');
+			}
+			
+			[v-cloak] {
+				display: none!important;
+			}
+			
+			#shoppingList {
+				width: 100%;
+				margin-bottom: 0.12rem;
+			}
+			
+			#shoppingList .shop_product:nth-child(1) {
+				margin-top: 0;
+			}
+			
+			.shop_product {
+				width: 100%;
+				margin-top: 0.1rem;
+				background-color: #fff;
+				box-sizing: border-box;
+			}
+			
+			.shop_product .shop {
+				width: 100%;
+				display: -webkit-flex;
+				-webkit-flex-direction: row;
+				-webkit-align-items: center;
+				padding-bottom: 0.1rem;
+				padding: 0.1rem 0.14rem;
+				box-sizing: border-box;
+			}
+			
+			.shop_product .shop img {
+				-webkit-order: 0;
+				-webkit-flex-grow: 0;
+				width: 0.18rem;
+				height: 0.18rem;
+				padding-left: 0.13rem;
+				-webkit-flex-shrink: 0;
+				/*border-radius: 0.125rem;*/
+				/*background-image: url(images/sellerName_logo.png);
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: 100%;*/
+			}
+			
+			.shop_product .shop .shopName {
+				-webkit-order: 2;
+				-webkit-flex-grow: 1;
+				font-size: 0.153rem;
+				padding-left: 0.13rem;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				-webkit-line-clamp: 1;
+				color: #333333;
+			}
+			
+			.shop_product .shop_reduced_box {
+				width: 100%;
+				padding: 0 0 0.1rem 0.13rem;
+				box-sizing: border-box;
+			}
+			
+			.shop_product .shop_reduced {
+				width: 100%;
+				box-sizing: border-box;
+				padding: 0.1rem 0.13rem 0 0.36rem;
+				border-top: 1px solid rgba(204, 204, 204, 0.51);
+			}
+			
+			.shop_product .shop_reduced_box .reduced_title {
+				color: #fff;
+				background: #fc9153;
+				border-radius: 0.1rem;
+				/*height: 0.2rem;
+				line-height: 0.2rem;*/
+				font-size: 0.12rem;
+				display: inline-block;
+				text-align: center;
+				text-indent: 0;
+				padding: 0.04rem 0.06rem;
+			}
+			
+			.shop_product .shop_reduced_box .reduced_content {
+				margin-left: 0.05rem;
+				color: #fc9153;
+				line-height: 0.175rem;
+				text-indent: 0;
+				font-size: 0.12rem;
+			}
+			
+			.shop_product .product_box {
+				width: 100%;
+				padding: 0 0 0 0.14rem;
+				box-sizing: border-box;
+			}
+			
+			.shop_product .product {
+				width: 100%;
+				display: -webkit-flex;
+				-webkit-flex-direction: row;
+				-webkit-align-items: center;
+				box-sizing: border-box;
+				padding: 0.14rem 0.14rem 0.14rem 0;
+				border-top: 1px solid rgba(204, 204, 204, 0.51);
+
+			}
+			
+			.shop_product .product .quang {
+				-webkit-order: 0;
+				-webkit-flex-grow: 0;
+				-webkit-flex-shrink: 0;
+				width: 0.26rem;
+				height: 0.26rem;
+			}
+			
+			.shop_product .product .product_img {
+				-webkit-order: 1;
+				-webkit-flex-grow: 0;
+				-webkit-flex-shrink: 0;
+				width: 0.77rem;
+				height: 0.77rem;
+				padding-left: 0.15rem;
+			}
+			
+			.shop_product .product .product_img img {
+				width: 0.77rem;
+				height: 0.77rem;
+				display: block;
+			}
+			
+			.shop_product .product .product_arguments {
+				-webkit-order: 2;
+				-webkit-flex-grow: 1;
+				min-height: 0.77rem;
+				padding-left: 0.15rem;
+				display: -webkit-flex;
+				-webkit-flex-direction: column;
+			}
+			
+			.shop_product .product .product_arguments .commodityName {
+				-webkit-order: 0;
+				-webkit-flex-grow: 0;
+				font-size: 0.14rem;
+				line-height: 0.2rem;
+				color: #222;
+				-webkit-line-clamp: 2;
+				display: -webkit-box;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				word-break: break-all;
+				-webkit-box-orient: vertical;
+			}
+			
+			.shop_product .product .product_arguments .productSize {
+				-webkit-order: 2;
+				-webkit-flex-grow: 0;
+				font-size: 0.13rem;
+				line-height: 0.2rem;
+				-webkit-line-clamp: 2;
+				display: -webkit-box;
+				color: #aaaaaa;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				-webkit-box-orient: vertical;
+			}
+			
+			.shop_product .product .product_arguments .productprice_box {
+				-webkit-order: 4;
+				-webkit-flex-grow: 0;
+				display: -webkit-flex;
+				-webkit-flex-direction: row;
+				-webkit-align-items: flex-end;
+			}
+			
+			.shop_product .product .product_arguments .productprice_box .product_price {
+				-webkit-order: 0;
+				-webkit-flex-grow: 2;
+			}
+			
+			.product .product_arguments .productprice_box .product_price {
+				-webkit-order: 0;
+				-webkit-flex-grow: 1;
+				/*font-size: 0.15rem;*/
+				font-size: 0.173rem;
+				color: #fc9153;
+			}
+			
+			.product .product_arguments .productprice_box .product_price span:nth-child(2) {
+				font-size: 0.126rem;
+			}
+			
+			.shop_product .product .product_arguments .productprice_box .product_number {
+				-webkit-order: 1;
+				-webkit-flex-grow: 0;
+			}
+			
+			.product_number input {
+				width: 0.4rem;
+				height: 0.28rem;
+				line-height: 0.28rem;
+				text-align: center;
+				display: inline-block;
+				float: left;
+				border: none;
+				outline: none;
+				color: #333;
+			}
+			
+			.reduce,
+			.number,
+			.add {
+				width: 0.28rem;
+				height: 0.28rem;
+				line-height: 0.28rem;
+				text-align: center;
+				display: inline-block;
+				float: left;
+			}
+			
+			.number {
+				width: 0.4rem;
+			}
+			
+			.reduce {
+				background-image: url('images/list_btn_ic_subtract@3x.png');
+				background-size: 0.26rem 0.26rem;
+				background-position: center;
+				background-repeat: no-repeat;
+			}
+			
+			.add {
+				background-image: url('images/ic_add_active-_pre@3x.png');
+				background-size: 0.26rem 0.26rem;
+				background-position: center;
+				background-repeat: no-repeat;
+			}
+			
+			.reduceFalse {
+				background-image: url("images/ic_cut_-no-active-.png");
+			}
+			
+			.addFalse {
+				background-image: url("images/ic_add_-active_no.png");
+			}
+			
+			#shoppingcloseList {
+				background-color: #fff;
+				padding-bottom: 0.5px;
+			}
+			
+			#shoppingcloseList .product {
+				width: 100%;
+				display: -webkit-flex;
+				-webkit-flex-direction: row;
+				-webkit-align-items: center;
+				padding-bottom: 0.1rem;
+				padding: 0.14rem 0.14rem 0.14rem 0.06rem;
+				box-sizing: border-box;
+			}
+			
+			#shoppingcloseList .product .closeLogo {
+				-webkit-order: 0;
+				-webkit-flex-grow: 0;
+				height: 0.16rem;
+				width: 0.383rem;
+				overflow: hidden;
+				line-height: 0.16rem;
+				border-radius: 0.08rem;
+				background-color: #aaa;
+				color: #fff;
+				font-size: 0.09rem;
+				text-align: center;
+				-webkit-flex-shrink: 0;
+				/*padding: 0rem 0.06rem;*/
+			}
+			
+			#shoppingcloseList .product .product_img {
+				-webkit-order: 1;
+				-webkit-flex-grow: 0;
+				width: 0.77rem;
+				height: 0.77rem;
+				padding-left: 0.065rem;
+			}
+			
+			#shoppingcloseList .product .product_img img {
+				width: 0.77rem;
+				height: 0.77rem;
+				display: block;
+			}
+			
+			#shoppingcloseList .product .product_arguments {
+				-webkit-order: 2;
+				-webkit-flex-grow: 1;
+				min-height: 0.77rem;
+				padding-left: 0.15rem;
+				display: -webkit-flex;
+				-webkit-flex-direction: column;
+			}
+			
+			#shoppingcloseList .product .product_arguments .commodityName {
+				-webkit-order: 0;
+				-webkit--grow: 0;
+				font-size: 0.146rem;
+				line-height: 0.2rem;
+				color: #aaaaaa;
+				-webkit-line-clamp: 2;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				-webkit-box-orient: vertical;
+				display: -webkit-box;
+				word-break: break-all;
+			}
+			
+			#shoppingcloseList .product .product_arguments .productSize {
+				-webkit-order: 2;
+				-webkit-flex-grow: 0;
+				font-size: 0.126rem;
+				line-height: 0.2rem;
+				-webkit-line-clamp: 2;
+				color: #aaaaaa;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				-webkit-box-orient: vertical;
+				display: -webkit-box;
+			}
+			
+			#shoppingcloseList .product .product_arguments .productprice_box {
+				-webkit-order: 4;
+				-webkit-flex-grow: 0;
+				display: -webkit-flex;
+				-webkit-flex-direction: row;
+				-webkit-align-items: flex-end;
+				font-size: 0.14rem;
+				color: #333333;
+			}
+			
+			#shoppingcloseList .product .product_arguments .productprice_box .product_price {
+				-webkit-order: 0;
+				-webkit-flex-grow: 2;
+			}
+			
+			.product .product_arguments .productprice_box .product_price {
+				-webkit-order: 0;
+				-webkit-flex-grow: 1;
+				font-size: 0.173rem;
+				color: #fc9153;
+			}
+			
+			.product .product_arguments .productprice_box .product_price span:nth-child(2) {
+				font-size: 0.12rem;
+			}
+			
+			#shoppingcloseList .product .product_arguments .productprice_box .product_number {
+				-webkit-order: 1;
+				-webkit-flex-grow: 0;
+			}
+			
+			#shoppingcloseList .reduce {
+				background-image: url('images/ic_cut_-no-active-.png');
+			}
+			
+			#shoppingcloseList .add {
+				background-image: url('images/ic_add_-active_no.png');
+			}
+			
+			#shoppingcloseList .product_box:nth-last-child(2) .line_border_box {
+				display: none;
+			}
+			
+			#footer {
+				width: 100%;
+				height: 50px;
+				background-color: #fff;
+				position: fixed;
+				bottom: 0;
+				border-top: 1px solid rgba(204, 204, 204, 0.5);
+				display: -webkit-flex;
+				-webkit-align-items: center;
+			}
+			
+			#footer #shoppingCart_box {
+				position: relative;
+				padding-left: 0.13rem;
+				display: -webkit-flex;
+				-webkit-align-items: center;
+			}
+			
+			#footer #shoppingCart_box img {
+				width: 0.23rem;
+				height: 0.23rem;
+				display: inline-block;
+			}
+			
+			#footer #shoppingCart_box #shoppingcartNum {
+				font-size: 0.17rem;
+				padding-left: 0.13rem;
+				white-space: nowrap;
+			}
+			
+			#footer #shoppingcartPrice {
+				-webkit-flex-grow: 2;
+				padding-left: .13rem;
+			}
+			
+			#footer #shoppingcartPrice #totlePrice {
+				color: #fc9153;
+				font-size: 0.173rem;
+				white-space: nowrap;
+			}
+			
+			#footer #shoppingcartPrice #totlePrice span:nth-child(1) {
+				color: #222;
+				font-size: 0.15rem;
+			}
+			
+			#footer #shoppingcartPrice #totlePrice span:nth-child(2) {
+				color: #fc9153;
+				font-size: 0.17rem;
+			}
+			
+			#footer #shoppingcartPrice #totlePrice span:nth-child(3) {
+				color: #fc9153;
+				font-size: 0.126rem;
+			}
+			
+			#footer #shoppingcartPrice #totalReducePrice {
+				padding-top: 5px;
+				font-size: 0.12rem;
+				color: #999;
+			}
+			
+			#shoppingcartButtom {
+				width: 28%;
+				height: 100%;
+				line-height: 50px;
+				color: #fff;
+				background-color: #fc9153;
+				text-align: center;
+				font-size: 0.17rem;
+			}
+			
+			#deletedButtom {
+				width: 28%;
+				height: 100%;
+				line-height: 50px;
+				color: #fff;
+				background-color: #fc9153;
+				text-align: center;
+				font-size: 0.17rem;
+			}
+			
+			#deleshoppingcloseListButtom {
+				color: #fc9153;
+				font-size: 0.153rem;
+				border-radius: 0.19rem;
+				width: 28%;
+				height: 0.38rem;
+				margin: 0.2rem 36%;
+				text-align: center;
+				line-height: 0.38rem;
+				border: 1px solid #FC9153;
+			}
+			
+			.colorfff {
+				width: 28%;
+				height: 100%;
+				background-color: #fff;
+				margin: 0 auto;
+			}
+			
+			.tilte {
+				width: 100%;
+				height: 0.47rem;
+				color: #AAAAAA;
+			}
+			
+			#headerButtom {
+				width: 100%;
+				height: 0.5rem;
+				margin-bottom: 0.1rem;
+				background-color: #fff;
+				line-height: 0.5rem;
+				text-align: center;
+				font-size: 0.16rem;
+			}
+			
+			#supermark {
+				height: 0.5rem;
+				width: 28%;
+				float: left;
+				padding-left: 22%;
+			}
+			
+			#mall {
+				height: 0.5rem;
+				width: 28%;
+				float: left;
+				padding-right: 22%;
+			}
+			
+			.color_box {
+				width: 100%;
+				height: 0.02rem;
+				text-align: center;
+			}
+			
+			.red {
+				background-color: #FC9153;
+			}
+			
+			.choosecolor {
+				color: #333;
+			}
+		</style>
+	</head>
+
+	<body style="min-height: 100%;background-color: #f3f4f5;">
+		<div id="app" v-cloak>
+			<!--<div id="headerButtom" v-if="titleType==0">
+				<div id="supermark" v-on:click="changeShopcarttype(2)">
+					<div class="tilte" v-bind:class="{choosecolor:shoppingCarttype==2}">
+						商品超市
+					</div>
+					<div class="color_box">
+						<div class="colorfff" v-bind:class="{red:shoppingCarttype==2}">
+						</div>
+					</div>
+				</div>
+				<div id="mall" v-on:click="changeShopcarttype(1)">
+					<div class="tilte" v-bind:class="{choosecolor:shoppingCarttype==1}">
+						服务到家
+					</div>
+					<div class="color_box">
+						<div class="colorfff" v-bind:class="{red:shoppingCarttype==1}">
+						</div>
+					</div>
+				</div>
+			</div>-->
+			<div v-if="sellerList.length>0||jsondate.invalidList.length>0">
+				<div id="shoppingList" v-if="sellerList.length>0">
+					<div class="shop_product" v-for="(items,index2) in sellerList">
+						<div class="shop">
+							<div class="quang" v-bind:class="{yes_quang:quang}" v-bind:id='items.sellerId' v-on:click="checkedSeller(items.sellerId)">
+							</div>
+							<img src="images/sellerName_logo.png" />
+							<div class="shopName" v-text='items.sellerName'>
+							</div>
+						</div>
+						<!--data_orderNo='' v-bind:data_orderNo='jsondate.orderNo'-->
+
+						<div class="product_box">
+							<div class="product" v-for="(item,index) in items.shoppingCartList">
+								<div class="quang" v-bind:class="{yes_quang:quang}" v-bind:id='item.id' v-on:click="checkedproduct(item.id)">
+								</div>
+								<div class="product_img">
+									<img v-bind:src="item.photo" onerror="javascript:this.src='../common/images/c_s_error.png'" />
+								</div>
+								<div class="product_arguments">
+									<div class="commodityName">
+										{{item.commodityName}}
+									</div>
+									<div class="nothing1">
+									</div>
+									<div class="productSize">
+										{{item.commodityDetails}}
+									</div>
+									<div class="nothing3">
+									</div>
+									<div class="productprice_box">
+										<div class="product_price">
+											¥<span v-text="String(item.price).split('.')[0]">0</span>.<span v-text="String(parseFloat(item.price).toFixed(2)).split('.')[1]">00</span>
+										</div>
+										<div class="product_number" v-if="setFinish">
+											<div class="reduce" v-bind:class="{reduceFalse:item.count==1}" v-on:click="reduceData(index,item)" v-if="item.count>0">
+											</div>
+											<input type="tel" v-on:focus="inputFoucs()" v-on:blur="inputBlur()" class="number" name="" id="" v-bind:value="item.count" onkeypress="return event.keyCode>=48&&event.keyCode<=57" ng-pattern="/[^a-zA-Z]/" v-on:input="inputChange(index,item,item.stockQuantity)" />
+											<div class="add" v-bind:class="{addFalse:item.count>=100||item.count>=item.stockQuantity}" v-on:click="addData(index,item,item.stockQuantity)">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="shop_reduced_box" v-if="items.activityName&&items.activityName.length>0">
+							<div class="shop_reduced">
+
+								<span class="reduced_title">
+							促销
+						</span>
+								<span class="reduced_content" v-text='items.activityName'>							  
+						</span>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div id="shoppingcloseList" v-if="jsondate.invalidList&&jsondate.invalidList.length>0">
+					<div class="product_box" v-for="item in jsondate.invalidList">
+						<div class="product">
+
+							<div class="closeLogo" v-bind:id='item.id'>
+								失效
+							</div>
+							<div class="product_img">
+								<img v-bind:src="item.photo" onerror="javascript:this.src='../common/images/c_s_error.png'" />
+							</div>
+							<div class="product_arguments">
+								<div class="commodityName">
+									{{item.commodityName}}
+								</div>
+								<div class="nothing1">
+								</div>
+								<div class="productSize">
+									{{item.commodityDetails}}
+								</div>
+								<div class="nothing3">
+								</div>
+								<div class="productprice_box">
+									商品已经下架
+									<!--<div class="product_price">
+								¥ <span v-text="String(item.price).split('.')[0]">0</span>.<span v-text="String(parseFloat(item.price).toFixed(2)).split('.')[1]">00</span>
+							</div>
+							<div class="product_number" v-if="setFinish">
+								<div class="reduce" v-if="item.count>0">
+								</div>
+								<div class="number" v-if="item.count">
+									{{item.count}}
+								</div>
+								<div class="add" v-bind:class="{addFalse:item.count>=100||item.count>=item.stockQuantity}">
+								</div>
+							</div>-->
+								</div>
+							</div>
+						</div>
+						<div class="line_border_box">
+							<div class="line_border_01">
+							</div>
+						</div>
+					</div>
+					<div id="deleshoppingcloseListButtom" v-if="jsondate.invalidList&&jsondate.invalidList.length>0" v-on:click="deleteShoppingcartCommodity(2)">
+						清除失效商品
+					</div>
+				</div>
+
+				<div style="width: 100%;height: 55px;opacity: 0;">
+
+				</div>
+
+				<!-- 底部栏 -->
+				<div id="footer" v-if="!writeState&&sellerList.length>0">
+					<div id="shoppingCart_box">
+						<div class="quang" v-bind:class="{yes_quang:quang}" v-on:click="checkedAll()">
+						</div>
+						<div id="shoppingcartNum">
+							全选
+						</div>
+					</div>
+					<div id="shoppingcartPrice">
+						<div id="totlePrice" v-if="shopcarPricedata.result==0&&setFinish">
+							<span>合计：</span>¥<span v-text="String(shopcarPricedata.realTotalPrice).split('.')[0]">0</span>.<span v-text="String(shopcarPricedata.realTotalPrice).split('.')[1]">00</span><span style="color:#ccc;font-size:0.1rem;padding-left: 0.14rem;"> 不含运费</span>
+						</div>
+						<div id="totalReducePrice" v-if="shopcarPricedata.totalReducePrice>0&&setFinish">
+							<span>已优惠：</span>¥ <span>{{shopcarPricedata.totalReducePrice}}</span>
+						</div>
+					</div>
+					<div id="shoppingcartButtom" v-if="setFinish" v-on:click="gopay()">
+						去买单<span v-if="shoppingCartIds.length>0">{{"("+shoppingCartIds.length+")"}}</span>
+					</div>
+					<div id="deletedButtom" v-else="" v-on:click="confirmDelete()">
+						删除
+					</div>
+				</div>
+			</div>
+			<div class="Noshopping" style="width: 100%;background-color: #f3f4f5;display: -webkit-flex;-webkit-flex-direction: column;-webkit-align-items: center;" v-if="jsondate.invalidList&&sellerList&&sellerList.length==0&&jsondate.invalidList.length==0">
+				<div id="displaynone" style="width:100%;height: 103.4px;">
+				</div>
+				<div class="nothing_img_box" style="text-align: center;width:100%;"><img id="nothing_img" src="images/noshopping.png" style="width:90px;" alt="" /></div>
+				<div class="displaynone10" style="width:100%;height: 10px;">
+				</div>
+				<div class="nothing_text" style="text-align: center;width: 100%;font-size: 16px;height: 70px;line-height: 70px;color:#999;">购物车怎么能为空呢？</div>
+				<div v-show="shoppingCarttype!=1" v-on:click="goShoppingpage()" class="nothing_text" style="text-align:center;width:0.8rem;color:#fc9103;font-size: 14px;border:1px solid #fc9103;border-radius: 0.2rem;line-height:1;padding: 5px 0;">逛一逛</div>
+			</div>
+			<script type="text/javascript">
+				var windowwidth = document.documentElement.clientWidth;
+				var windowheight = document.documentElement.clientHeight;
+				document.getElementById("nothing_img").style.width = 180 * windowwidth / 414 + "px";
+				document.getElementById("displaynone").style.height = (windowheight - 180 * windowwidth / 414 - 70) * 0.3 + "px";
+			</script>
+		</div>
+	</body>
+	<script src="js/shoppingcart.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../common/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../common/tip/lxjTip.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var $windowHeight = $(window).height();
+		$(window).resize(function() {
+			if($windowHeight <= $(window).height()) {
+				$("input").blur();
+				vue.writeState = false;
+			} else {
+				vue.writeState = true;
+			}
+		});
+	</script>
+
+</html>

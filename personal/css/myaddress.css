@@ -1,0 +1,307 @@
+@charset "utf-8";
+/* myaddress CSS Document */
+
+html{
+	background: #ebebeb;
+}
+
+.bg_white{
+	background: white;
+}
+.navbar .nav_wrap_right{
+	display: none;
+}
+.navbar .nav_add_right{
+	float: right;
+	/* line-height: 58px; */
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding-right: 0.13rem;
+}
+.navbar .nav_add_right .addr_management{
+	float: left;
+	color: #fff;
+	line-height: normal;
+	margin-top:18px;
+}
+.navbar .nav_add_right .add{
+	float: left;
+	width: 0.22rem; 
+	height: 0.21rem;
+	display: inline-block;
+	background: url(../images/ic_add.png) no-repeat center;
+	background-size: contain;
+	/* float: right; */
+	 margin-top: 18px;
+	margin-left: 0.2rem;
+}
+.myadd_con{
+	color: #000;
+}
+.myadd_con ul li{
+	padding: 0.2rem;
+	background: #fff;
+	border-bottom: 1px solid #e8e8e8;
+	position: relative;
+	margin-bottom: 0.05rem;
+
+}
+.myadd_con ul .li_bgcolor{
+	background: #fff2f2;
+}
+.myadd_con ul .defult_box .default_s{
+	display: block;;
+	width: 0.25rem;
+	height: 0.15rem;
+	background: url(../images/default_bg.png) no-repeat center;
+	background-size: contain;
+	position: absolute;
+	top: 0.05rem;
+	left: 0.05rem;
+}
+.myadd_con ul li p{
+	color: #000;
+	font-size: 0.12rem; 
+	line-height: 0.25rem;
+}
+.myadd_con ul li p .span02{
+	float: right;
+}
+.myadd_con ul li .li_p{ 
+	color: #484848;
+}
+
+.province{
+	width: 100%;
+
+}
+
+.province ul{
+	width:100%;
+}
+
+.province ul li{
+	height: 56px;
+	line-height: 56px;
+	border-bottom: 1px solid #ccc;
+	width:100%;
+}
+
+.province ul.info li{
+	height: 56px;
+	line-height: 28px;
+	border-bottom: 1px solid #ccc;
+	width:100%;
+}
+
+.province ul.info li a span.tip,.province ul.info li a span.tip_f{
+	display: block;
+	font-size: .1rem;
+	color:#a7a7a7;
+	position: absolute;
+	bottom:2px;
+	left: 30px;
+	
+
+}
+.province ul.info li a span.tip{
+	display: none;
+}
+.province ul li a{
+	display:block;
+	width: 100%;
+	height: 100%;
+	font-size: .16rem;
+	padding-left:30px;
+	box-sizing:border-box;
+	position: relative;
+}
+.province ul li a input{
+	width:100%;
+	height: 100%;
+	border:none;
+	outline:none;
+	color:#a7a7a7;
+}
+
+.province ul li a input.black{
+	font-weight: normal;
+	color:#000;
+}
+.province ul.info li .road{
+	position: absolute;
+	top:50px;
+	left:20px;
+	width:80%;
+	height: auto;
+	z-index: 555;
+	background: #fff;
+	display: none;
+}
+
+.province ul.info li .road h3{
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	text-indent: 1em;
+	background: #000;
+	color:#fff;
+	font-size: .14rem;
+}
+
+.province ul.info li .road .cho{
+	width: 100%;
+	height: 50px;
+}
+
+.province ul.info li .road .cho span{
+	float:left;
+	width: 50%;
+	height: 100%;
+	text-align: center;
+	line-height: 50px;
+	box-sizing:border-box;
+}
+.province ul.info li .road .cho span.canc{
+	border-right: 1px solid #ccc;
+
+}
+.province ul.info li .road ul{
+	width: 100%;
+	padding:0 10px;
+	box-sizing:border-box;
+	background: #fff;
+}
+
+.province ul.info li .road ul li{
+	height: 40px;
+	line-height: 40px;
+}
+.provin_sel{
+	background: #e8e8e8;
+}
+
+.munici_sel{
+	background: #f4f4f4;
+}
+
+.cover_ro{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top:0;
+	left: 0;
+	background: rgba(0,0,0,0.6);
+	z-index: 300;
+	display: none;
+}
+
+/*address_manage CSS Document ***************************************/
+
+
+.navbar .aman{
+ 	visibility: hidden;
+}
+.myadd_con ul .li_box_mana .li_right{
+	position: absolute;
+	right: 0rem;
+	top: 0rem;
+	float: right;
+	width: 0.5rem;
+	height: 100%; 
+	/* background: #ff2020; */
+}
+.myadd_con ul .li_box_mana{ 
+	position: relative; 
+	padding-right: 0.7rem;
+}
+.myadd_con ul .li_box_mana .manaDelete{
+	display: block;
+	height: 50%;
+	background: url(../images/ic_delete.png) no-repeat center;
+}
+.myadd_con ul .li_box_mana .set_up{
+	display: block;
+	height:50%;
+/* 	padding: 19% 0rem; */
+	background: #ff6b69;
+	box-sizing: border-box;
+	text-align: center;
+	color: #fff;
+	/* line-height: 0.2rem; */
+	font-size: 0.12rem;
+	padding: 0.08rem 0.1rem;
+}
+.myadd_con ul .li_box_mana .set_up_cancel{
+	color: #484848;
+	background: #e2e2e2;
+}
+
+.addr_management,.manage_choo{
+
+	width:100%;
+	height:.36rem;
+	margin:0 auto;
+	/*text-align:center;
+	position:fixed;
+	bottom:0;
+	left:0;
+	*/
+}
+.addr_management1{
+
+	width:100%;
+	height:.36rem;
+
+	position:fixed;
+	bottom:0;
+	left:0;
+
+}
+.addr_management a,.addr_management1 a{
+	width:100%;
+	height:100%;
+	display:block;
+	line-height: .36rem;
+	text-align: center;
+	background:#FF661B;
+	color:#fff;
+	font-size: .14rem;
+}
+
+.manage_choo{
+	bottom:5px;
+}
+.manage_choo .save{
+	float:right;
+	height:36px;
+	line-height: 36px;
+	padding:0 20px;
+	color:#fff;
+	font-size: .14rem;
+	background:#FF661B;
+	margin-right: 4px;
+	border-radius:3px;
+}
+
+.manage_choo .del{
+	float:left;
+	margin-left:10px;
+	padding-top:18px;
+	font-size: .1rem;
+}
+
+
+.manage_choo .del::before {
+  content: '';
+  display: inline-block;
+  width: 34px;
+  height: 32px;
+  position: absolute;
+  left: 12px;
+  top: 0;
+  background: url(../images/ic_delete_red.png) no-repeat;
+  background-size: 17px 16px;
+  background-position: 0 0;
+}

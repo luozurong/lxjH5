@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" />
+		<title>服务商品列表</title>
+		<link rel="stylesheet" href="../common/reset.css">
+		<link rel="stylesheet" href="css/serviceList.css?lishu=1234">
+		<script src="../common/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script src="js/common.js"></script>
+		<script type="text/javascript" src="js/iscroll.js"></script>
+		<script src="../common/underscore.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/serviceList.js?lishu=1234"></script>
+		<script type="text/javascript">
+			$windowWidth = $(window).width();
+	if($windowWidth > 640) {
+		$windowWidth = 640; //限定最大宽度为640
+	}
+	$("html").css("font-size", (100 / 320) * $windowWidth + "px");
+		</script>
+	</head>
+
+	<body>
+		<div id="activityLose">
+			<img src="images/ic_close@2x.png" style="width:1rem;" alt="" />
+			<div style="margin-top:30px;width:100%;text-align:center;font-size:18px;">活动已下线</div>
+		</div>
+		<div id="maintainlist">
+			<div id="wrapper" class="wrapper-second">
+				<div id="scroller">
+					<div id="pullDown">
+						<span class="pullDownIcon"></span><span class="pullDownLabel"></span>
+					</div>
+					<ul id="thelist">
+
+					</ul>
+					<script id="maintainlistTemplate" type="text/html">
+						<li class="add-maintainlist clear" data-fufenType="<%=fufenType%>" id="<%=id%>" onclick="turnTo(this);">
+							<div class="picture"><img src="<%=logo%>" alt="" /><span></span></div>
+							<div class="info">
+								<div class="title">
+									<%=name%>
+								</div>
+								<div class="introduce">
+									<%=commodityDetails%>
+								</div>
+								<div class="price">¥<%=splitNum(currentPrice)[0]%>.<span style="font-size: .1rem;"><%=splitNum(currentPrice)[1]%></span><span id="fufen">赠<span class="fufenNum"><%=fufen%></span>福分</span>
+								</div>
+
+							</div>
+						</li>
+					</script>
+
+					<div id="pullUp" style="display: none;">
+
+						<span class="pullUpIcon"></span><span class="pullUpLabel">向上拉更多惊喜</span>
+					</div>
+					<div id="nomoretip" style="color: #ccc;width: 100%;height: 0.4rem;line-height: 0.4rem;display: none;z-index: 999999;background-color:#f3f4f5;font-size:14px;text-align: center;">
+						没有更多数据了
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+		<!--<div id="nomore" style="display: none" style="font-size: 14px;">
+							没有更多数据了
+		</div>-->
+		<!--购物车-->
+		<!--<span class="shoppingcart" onclick="turnToshoppingcart()">
+        	<img src="images/btn_ic_shopping@3x.png" alt="带圈圈购物车"/>
+        	<span class="shoppingnum" id="shoppingnum"></span>
+        </span>
+        <img src="images/btn_ic_top@3x.png" alt="置顶图标" class="top" onclick=""/>	
+        -->
+		<div class="footer">
+			<div class="shopCar">
+				<div class="img_box1" onclick="turnToshoppingcart()">
+					<img src="../supermarket/images/btn_ic-_shopping-cartf@3x.png" />
+						<span>0</span>
+				</div>
+				<!--<p>菜篮子</p>-->
+			</div>
+			<div class="totalPrice">
+				<div id="totalPrice" class="totalPriceT">
+					合计：<span class="fuhao">¥</span><span class="integer">0.</span><span class="fuhao" id="decimal">00</span><span style="color:#ccc;font-size:0.09rem;">&nbsp;&nbsp;不含运费</span>
+				</div>
+				<div id="totalReducePrice" style="font-size: 0.1rem;color: #999;display: none;">
+					已优惠：<span class="totalReducePriceN">¥ 0.00</span>
+				</div>
+			</div>
+			<div class="payFor" onclick="turnToshoppingcart()">
+				去买单
+			</div>
+		</div>
+
+		<div id="nomoreshop" style="width: 100%;height: 100%;background-color: #FFF;font-size:0;position: fixed;top: 0;left: 0;z-index: 99999;text-align: center;padding-top: 85px;display: none;">
+			<img src="images/ic_sale@3x.png" style="width:1rem;height: auto;" />
+			<span style="display:block;margin-top: 39px;font-size: 18px;">
+				暂无商品
+			</span>
+		</div>
+		<!--<div id="nomoreshop" style="width: 100%;display: none;">
+        	<div id="displaynone" style="width:100%;height: 103.4px;">       		
+        	</div>
+        	<div class="nothing_img_box" style="text-align: center;width:100%;" ><img id="nothing_img" src="images/ic_sale@3x.png"  style="width:90px;" alt=""/></div>
+        	<div class="displaynone10" style="width:100%;height: 10px;">       		
+        	</div>
+        	<div class="nothing_text" style="text-align: center;width: 100%;font-size: 18px;height: 70px;line-height: 70px;" >暂无商品</div>        	
+        </div>-->
+		<script type="text/javascript">
+			var windowwidth = document.documentElement.clientWidth;
+			var windowheight = document.documentElement.clientHeight;
+			document.getElementById("nomoreshop").getElementsByTagName("img")[0].style.width = 116.43 * windowwidth / 414 + "px";
+			document.getElementById("nomoreshop").style.paddingTop = (windowheight - 116.43 * windowwidth / 414 - 70) * 0.3 + "px";
+		</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+	<head lang="en">
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta content="email=no" name="format-detection">
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="full-screen" content="yes">
+		<meta name="x5-fullscreen" content="true">
+		<title>招牌菜</title>
+		<link rel="stylesheet" type="text/css" href="../common/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../common/iscroll/iscroll.css" />
+		<link rel="stylesheet" type="text/css" href="css/index.css" />
+		<script src="../common/jquery-1.7.2.min.js"></script>
+		<script src="js/idangerous.swiper.min.js"></script>
+		<script src="../common/iscroll/iscroll.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script src="../common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<!--五个菜单页面切换-->
+		<!-- <div id="navigation" class="navigation">
+			<ul class="foodtype" id="foodtype">
+				<li class="border-color-li a_red" id="all">全部</li>
+			</ul>
+		</div> -->
+		<div class="swiper-container">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide">
+						<div class="title border-color-li" id="all" style="margin-left: 5px;">全部</div>
+					</div>
+				</div>
+			</div>
+
+		<div id="wrapper" class="wrapper" style="top:0.6rem;background-color:#F0F0F0 ;display: none">
+			<div id="scroller">
+				<div id="pullDown">
+					<span class="pullDownIcon"></span><span class="pullDownLabel"></span>
+				</div>
+				<div id="container">
+				</div>
+				<div id="pullUp">
+					<div id="nomore">
+						没有更多数据了
+					</div>
+					<span class="pullUpIcon"></span><span class="pullUpLabel">向上拉更多惊喜</span>
+				</div>
+				<div id="nomoretip" style="width: 100%;height: 0.8rem;line-height: 0.8rem;display: none;z-index: 999999;background-color:#F0F0F0 ;font-size:14px;text-align: center;">
+							没有更多数据了			
+				</div>
+			</div>
+		</div>
+		<div id="nomoreshop" style="width: 100%;height: 100%;background-color: #FFF;position: fixed;top: 0;left: 0;z-index: 99999;text-align: center;padding-top: 85px;margin-top:0.6rem;display: none;">
+			<img src="../common/images/picture_no-order.png" style="width:2rem;height: auto;" />
+			<span style="display:block;margin-top: 30px;font-size: 18px;">
+				该小区暂无上架商品
+			</span>
+		</div>
+	</body>
+
+</html>

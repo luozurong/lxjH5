@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" href="../../common/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/profitRecord.css" />
+		<script src="../../common/interface.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK.js" type="text/javascript" charset="utf-8"></script>
+		<title>利润明细</title>
+	</head>
+	<style type="text/css">
+		body,
+		html {
+			font-family: "PingFang SC", Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+			background-color: #f3f4f5;
+		}
+		
+		body {
+			font-size: 14px;
+		}
+		
+		input {
+			outline: none;
+			/*去ios内阴影、圆角*/
+			-webkit-appearance: none;
+			border-radius: 0;
+			border: none;
+			margin: 0;
+			padding: 0;
+			font-weight: normal;
+		}
+		
+		input,
+		textarea,
+		a {
+			-webkit-tap-highlight-color: transparent;
+		}
+		
+		* {
+			-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+		}
+		
+		[v-cloak] {
+			display: none!important;
+		}
+		
+		#app {
+			width: 100%;
+			/*height: 1000px;
+			position: relative;
+			background-image: url('12.png');
+			background-position: 0 0;
+			background-size: 100% auto;
+			background-repeat: no-repeat;*/
+		}
+		
+		.line_01 {
+			width: 100%;
+			height: 1px;
+			background-color: #eee;
+			/*transform: scaleY(0.5);
+		-webkit-transform: scaleY(0.5)*/
+		}
+		.width_01{
+			width: 1px;
+			height: 0.2rem;
+			background-color: #eee;
+			flex-shrink: 0;
+		}
+	</style>
+
+	<body style="width: 100%;">
+		<div id="app" v-cloak>
+			<div class="emptyRecord" v-if="recordData!=null&&recordList.length==0">
+				<img src="img/empty.png" />
+				<span>暂无利润记录</span>
+			</div>
+			<div class="main" v-if="recordData!=null&&recordList.length>0"><!---->
+				<div class="recordItemBox" v-for="(item,index) in recordList">
+					<div class="recordItemBox1">
+						<div class="recordInfo" v-bind:class="{disjiesuan:item.profitStatus==0&&item.isMayGet==0}">
+							<div class="recordText">
+								{{item.name}}
+							</div>
+							<div class="recordTime">
+								{{item.payTime}}
+							</div>
+						</div>
+						<div class="line_01"></div>
+					</div>
+					<div class="recordItemBox2">
+						<div class="totailPrice">
+							<span>{{item.orderNum}}</span>
+							<span>订单金额(元)</span>
+						</div>
+						<div class="width_01"></div>
+						<div class="totailprofit">
+							<span>{{item.profitNum}}</span>
+							<span>订单利润(元)</span>
+						</div>
+					</div>					
+				</div>												
+			</div>
+
+		</div>
+
+		<script src="js/profitRecord.js"></script>
+	</body>
+
+</html>

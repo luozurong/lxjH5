@@ -1,0 +1,33 @@
+*{
+	padding: 0;
+	margin: 0;
+	font-size: 0.14rem;
+	-webkit-tap-highlight-color: transparent
+}
+body{
+	background: #f3f4f5;
+}
+.successInfo-pic{
+	display: block;
+	width: 0.67rem;
+	height: 0.67rem;
+	margin: 1.2rem auto 0.65rem;
+}
+.successInfo-msg{
+	text-align: center;
+	font-size: 0.17rem;
+	color: #333;
+}
+.commanderInfo-link{
+	text-align: center;
+	margin-top: 0.95rem;
+}
+.commanderInfo-link span{
+	color: #999;
+	font-size: 0.15rem;
+}
+.commanderInfo-link a{
+	color: #fc9153;
+	font-size: 0.15rem;
+	text-decoration: underline;
+}

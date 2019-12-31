@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="format-detection" content="telephone=no" />
+		<title>优惠券</title>
+		<link rel="stylesheet" href="../common/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/coupons.css?dd=945tt77" />
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script src="../common/jquery-2.1.4.js"></script>
+		<script src="../common/underscore.js" type="text/javascript" charset="utf-8"></script>
+
+	</head>
+
+	<body>
+		<div style="height:0.1px"></div>
+		<ul class="listBox" id="listBox">
+			<li class="list" style="background: url(images/bg_youhui_y@3x.png); display: none;"></li>
+			<li class="list" style="background: url(images/bg_tuan_gr@3x.png); display: none;"></li>
+			<li class="list" style="background: url(images/weiduanjiang.png); display: none;"></li>
+			<!--<li class="list" style="background: url(images/yiduijiang.png); display: none;"></li>
+			<li class="list" style="background: url(images/yiguoqi.png); display: none;"></li>
+			<li class="list" style="background: url(images/bg_youhui_g@3x.png); display: none;"></li>
+			<li class="list" style="background: url(images/bg_tuan_g@3x.png); display: none;"></li>-->
+			<!--优惠券模板-->
+			<script id="favouredTemplate" type="text/html">
+				<li class='list' style="background-image: url(images/bg_youhui_y@3x.png);">
+					<div class='imgBox_2'>
+						<p class='price_card'><span style="font-size: 0.18rem;">¥</span>
+							<%=denomination%>
+						</p>
+						<p class='name'>满<%=useConditionAmount%>可用</p>
+					</div>
+					<div class='coupons_detail'>
+						<p class='category'>
+							<%=name%>
+						</p>
+						<p class='condition'>
+							<%=commodityUse%>
+						</p>
+						<p class='time_limit'>有效期：<span><%=effectiveStartDate%> - <%=effectiveEndDate%></span></p>
+					</div>
+				</li>
+			</script>
+			<!--过期优惠券模板-->
+			<script id="favouredTemplate_expired" type="text/html">
+				<li class='list' style="background-image: url(images/bg_youhui_g@3x.png);">
+					<div class='imgBox_2'>
+						<p class='price_card'><span style="font-size: 0.18rem;">¥</span>
+							<%=denomination%>
+						</p>
+						<p class='name'>满<%=useConditionAmount%>可用</p>
+					</div>
+					<div class='coupons_detail'>
+						<p class='category' style="color: #6A6A6A;">
+							<%=name%>
+						</p>
+						<p class='condition'>
+							<%=commodityUse%>
+						</p>
+						<p class='time_limit'>有效期：<span><%=effectiveStartDate%> - <%=effectiveEndDate%></span></p>
+					</div>
+				</li>
+			</script>
+			<!--团购券模板-->
+			<script id="groupTemplate" type="text/html">
+				<li class='list' id="<%=orderNo%>" onclick="detail(this)" style="background-image: url(images/bg_tuan_gr@3x.png);">
+					<div class='imgBox_2'>
+						<p class='price_card'><span style="font-size: 0.18rem;">¥</span>50</p>
+						<p class='deadline'>有效期至：<%=validityEndDate%></p>
+					</div>
+					<div class='coupons_detail'>
+						<div class="tuan_name">
+							<%=commodityName%>
+						</div>
+						<div class="tuan_num">二维码号：<%=code%></div>
+						<div class="tuan_img">
+							<img src="<%=qrImg%>" />
+						</div>
+					</div>
+				</li>
+			</script>
+			<!--过期团购券模板-->
+			<script id="groupTemplate_expired" type="text/html">
+				<li class='list' id="<%=orderNo%>" onclick="detail(this)" style="background-image: url(images/bg_tuan_g@3x.png);">
+					<div class='imgBox_2'>
+						<p class='price_card'><span style="font-size: 0.18rem;">¥</span>50</p>
+						<p class='deadline'>有效期至：<%=validityEndDate%></p>
+					</div>
+					<div class='coupons_detail'>
+						<div class="tuan_name" style="color: #6A6A6A;">
+							<%=commodityName%>
+						</div>
+						<div class="tuan_num">二维码号：<%=code%></div>
+						<div class="tuan_img">
+							<img src="<%=qrImg%>" />
+						</div>
+					</div>
+				</li>
+			</script>
+			<!--兑换券模板-->
+			<script id="exchangeTemplate" type="text/html">
+				<li class='list duijianglist' date="<%=attribute%>" id="<%=status%>" style="background-image: url(images/weiduanjiang.png);">
+					<p class='title'>
+						<%=awardName%>
+					</p>
+					<p class='duijiangma'>兑奖码：<%=awardCode%></p>
+					<p class='way'>请在物业工作时间内，到管理处兑换奖品</p>
+					<p class='term'>兑奖时间：<%=effectiveStart%> 至 <%=effectiveEnd%></p>
+				</li>
+			</script>
+			<!--过期兑换券模板-->
+			<script type="text/html" id="exchangedTemplate_expired">
+				<li class='list duijianglist' date="<%=attribute%>" id="<%=status%>" style="background-image: url(images/yiduijiang.gif);">
+					<p class='title'>
+						<%=awardName%>
+					</p>
+					<p class='duijiangma'>兑奖码：<%=awardCode%></p>
+					<p class='way'>请在物业工作时间内，到管理处兑换奖品</p>
+					<p class='term'>兑奖时间：<%=effectiveStart%> 至 <%=effectiveEnd%></p>
+				</li>
+			</script>
+		</ul>
+		<!--无优惠券时的模板-->
+		<div class="no_orderBox">
+			<div class="no_order" style="text-align: center;margin:0;margin-bottom: 14px;width: 100%;">
+				<img src="images/youhuiquan.png" alt="" class="show" />
+				<!--<div>
+				<p>暂无可用优惠券</p>
+			</div>-->
+			</div>
+			<div class="nomore_favoured">
+					<span>没有更多优惠券了</span><span class="check" onclick="favoured()">《查看过期/已使用券》</span>
+				</div>
+				<div class="nomore_group">
+					<span>没有更多团购券了</span><span class="check" onclick="group()">《查看过期/已使用券》</span>
+				</div>
+				<div class="nomore_exchange">
+					<span>没有更多兑奖券了</span><span class="check" onclick="exchange()">《查看过期/已兑奖券》</span>
+				</div>
+		</div>
+		<script type="text/javascript">
+        	var windowwidth=document.documentElement.clientWidth;
+        	var windowheight=document.documentElement.clientHeight;
+        	document.getElementsByClassName("no_order")[0].getElementsByTagName("img")[0].style.width=116.43*windowwidth/414+"px";
+        	document.getElementsByClassName("no_order")[0].style.marginTop=(windowheight-116.43*windowwidth/414-70)*0.3+"px";
+        </script>
+		<!--查看过期券模板-->
+
+		<div style="height: 0.1px"></div>
+		<script src="js/coupons.js?YY=3331" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

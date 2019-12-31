@@ -1,0 +1,90 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>我的收藏</title>
+        <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" name="viewport" id="viewport" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="stylesheet" href="../common/reset.css" />
+        <link rel="stylesheet" href="../common/common.css">
+        <link rel="stylesheet" href="css/favorites.css">
+        <link rel="stylesheet" href="../common/progress.css">
+        <script type="text/javascript"	src="../common/jquery-2.1.4.js"></script>
+        <script type="text/javascript"	src="../common/jquery-1.11.2.min.js"></script>
+        <script src="js/common.js"></script>
+        <link rel="stylesheet" href="css/mui.min.css"/>
+        <script src="js/layer.js"></script>
+        <link href="js/skin/layer.css">
+        <script src="../common/common.js"></script>
+        <script src="../common/interface.js"></script>
+        <script type="text/javascript">
+            function goBack()
+            {
+                var url=window.location;
+                contact.goBack("'"+url+"'");
+            }
+        </script>
+        <script src="js/underscore.js"></script>
+
+    </head>
+    <body class="bgcolor" style="background:#f3f4f5;">
+        <div class="mui-content" style="background:#f3f4f5;">
+            <div class="notice">当前小区已收藏的商品</div>
+            <ul class="mui-table-view" id="addUserComOrSellerLove" style="margin-bottom:0.1rem;"></ul>
+            <script id="addUserComOrSellerLoveTemplate" type="text/html">
+            <li class="mui-table-view-cell commodityIds" style="height:1.8rem;line-height:1.8rem;" id="<%=commodityId%>" commodityType="<%=commodityType%>">
+                <div class="mui-slider-handle">
+                    <img class="productimg" src="<%=commodityImg%>" style="height:1.4rem"/>
+                    <div class="productdetail">
+                        <p><%=commodityName%></p>
+                        <span class="productprice">￥<span style="font-size:0.3rem;"><%=commodityintegerT%></span>.<span><%=commodityscaleT%></span></span>
+                    	<span class="icRight"></span>
+                    </div>
+                </div>
+                <div class="mui-slider-right mui-disabled">
+                    <a class="mui-btn mui-btn-red">删除</a>
+                </div>
+            </li>
+            <div style="height:1px;background:#f0f0f0;margin: 0 10px;">&nbsp;</div>
+            </script>
+            <ul class="mui-table-view" id="addUserComOrSellerLose" ></ul>
+            <script id="addUserComOrSellerLoseTemplate" type="text/html">
+                <li class="mui-table-view-cell commodityId" style="height:1.8rem;line-height:1.8rem;border-bottom:1px solid rgba(204, 204, 204, 0.51);" id="<%=commodityId%>">
+                    <div class="mui-slider-handle">
+                        <img class="productimg" src="<%=commodityImg%>" style="height:1.4rem"/>
+                        <div class="productdetail">
+                            <p><%=commodityName%></p>
+                            <span class="productLose">失效</span>
+                            <span class="productprice">￥<span style="font-size:0.3rem;"><%=loseintegerT%></span>.<span><%=losescaleT%></span></span>
+                    		<span class="icRight"></span>
+                        </div>
+                    </div>
+                    <div class="mui-slider-right mui-disabled">
+                        <a class="mui-btn mui-btn-red">删除</a>
+                    </div>
+                </li>
+            </script>
+        </div>
+        <!--<div class="no-favorites">
+            <div><img src="images/ic_sale@3x.png"  style="width:100%;" alt=""/></div>
+            <p>暂无收藏商品</p>
+        </div>-->
+        <div class="no-favorites" style="width: 100%;display: none;">
+        	<div id="displaynone" style="width:100%;height: 103.4px;">       		
+        	</div>
+        	<div class="nothing_img_box" style="text-align: center;width:100%;" ><img id="nothing_img" src="images/nofavorite.png"  style="width:90px;" alt=""/></div>
+        	<div class="displaynone10" style="width:100%;height: 10px;">       		
+        	</div>
+        	<div class="nothing_text" style="text-align: center;width: 100%;font-size: 18px;height: 70px;line-height: 70px;color:#999;" >暂无收藏</div>        	
+        </div>
+        <script type="text/javascript">
+        	var windowwidth=document.documentElement.clientWidth;
+        	var windowheight=document.documentElement.clientHeight;
+        	document.getElementById("nothing_img").style.width=116.43*windowwidth/414+"px";
+        	document.getElementById("displaynone").style.height=(windowheight-116.43*windowwidth/414-70)*0.3+"px";
+        </script>
+        <script src="js/mui.min.js"></script>
+        <script src="js/favorites.js"></script>
+    </body>
+</html>

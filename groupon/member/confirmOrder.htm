@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" href="../../common/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/confirmOrder.css" />
+		<script src="../../common/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../../common/tip/lxjTip.css"/>
+		<script src="../../common/tip/lxjTip.js" type="text/javascript" charset="utf-8"></script>
+		<title>订单确认</title>
+	</head>
+	<style type="text/css">
+		body,
+		html {
+			font-family: "PingFang SC", Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+			background-color: #f3f4f5;
+		}
+		
+		body {
+			font-size: 14px;
+		}
+		
+		input {
+			outline: none;
+			/*去ios内阴影、圆角*/
+			-webkit-appearance: none;
+			border-radius: 0;
+			border: none;
+			margin: 0;
+			padding: 0;
+			font-weight: normal;
+		}
+		
+		input,
+		textarea,
+		a {
+			-webkit-tap-highlight-color: transparent;
+		}
+		
+		* {
+			-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+		}
+		
+		[v-cloak] {
+			display: none!important;
+		}
+		
+		#app {
+			width: 100%;
+			/*height: 1000px;
+			position: relative;
+			background-image: url('12.png');
+			background-position: 0 0;
+			background-size: 100% auto;
+			background-repeat: no-repeat;*/
+		}
+		
+		.line_01 {
+			width: 100%;
+			height: 1px;
+			background-color: #eee;
+			/*transform: scaleY(0.5);
+		-webkit-transform: scaleY(0.5)*/
+		}
+	</style>
+
+	<body style="width: 100%;">
+		<div id="app" v-cloak>
+			
+			<div class="chairmanInfo">
+				<img src="images/ic_Location@3x.png" />
+				<div class="chairmanAddressBox" v-if="jsonDataleader!=null">
+					<div class="chairmanName">
+						<span>团长信息：</span><span>{{jsonDataleader.groupLeaderName}}</span><span>{{jsonDataleader.groupLeaderphone}}</span>
+					</div>
+					<div class="chairmanAddress">
+						提货地址：{{jsonDataleader.groupLeaderaddress}}
+					</div>
+				</div>
+			</div>
+			<div id="cssdh" style="display: none;">
+				sajhdgjhasg
+			</div>
+			<div class="memberInfo">
+				<div class="memberName">    
+					<img src="images/ic_tihuoren@3x.png" /><span>提货人：</span><div v-bind:class="{widthFous:inputWxFocus}"><span>{{pName}}</span><input v-model="pName" v-on:focus="inputWxFocus=!inputWxFocus" v-on:blur="inputOnblur(),inputWxFocusFun(1)" type="text" name="memberName" id="memberName" value="" maxlength="10" /></div><img v-on:click="memberNameFocusFun()" v-if="!inputWxFocus" style="padding: 0;padding-left:0.14rem;" src="images/ic_edit@3x.png" />
+				</div>
+				<div class="memberPhone">
+					<img src="images/ic_phone2.png" /><span>手机号码：</span><div v-bind:class="{widthFous:inputWxFocus}"><span>{{pPhone}}</span><input v-model="pPhone" v-on:focus="inputWxFocus=!inputWxFocus" v-on:blur="inputOnblur(),inputWxFocusFun()" type="tel" name="memberPhone" id="memberPhone" value="" maxlength="11" /></div><img v-on:click="memberPhoneFocusFun()" v-if="!inputWxFocus" style="padding: 0;padding-left:0.14rem;" src="images/ic_edit@3x.png" />
+				</div>
+			</div>
+			<div class="grouponName" v-if="saveOrderData!=null">
+				{{jsonDataleader.activityName}}
+			</div>
+
+			<div class="orderCommodities" v-if="saveOrderData!=null">
+				<div class="commoditiesItem" v-for="(items,indexs) in saveOrderData">
+					<div class="sellerName">
+						<img src="images/ic_shop@3x.png" />
+						<span>{{items.sellerName}}</span>
+					</div>
+
+					<div class="commoditiesList">
+						<div class="commodity" v-for="(item,index) in items.list">
+							<div class="commodityImg">
+								<img v-bind:src="item.imgUrl"  />
+							</div>						
+							<div class="commodityInfo">
+								<div class="commodityName">
+									{{item.commodityName}}
+								</div>
+								<div class="commodityPrice">
+									<span class="commodityPriceBox">
+										<span>¥{{String(parseFloat(item.price).toFixed(2)).split('.')[0]}}.</span><span>{{String(parseFloat(item.price).toFixed(2)).split('.')[1]}}</span>
+									</span>
+									<span class="commodityNum">x{{item.num}}</span>
+								</div>
+							</div>
+						</div>						
+					</div>
+					
+					<div class="remarkBox">
+						<span>留言：</span>
+						<textarea class="" v-model="sellerMsgList[indexs].msg" v-on:blur="inputOnblur()" id=""   name="" rows="" placeholder="选填给商家留言(45字内)" maxlength="45" cols=""></textarea>
+					</div>
+					<div class="line" style="width: 100%;height: 1px;box-sizing: border-box;padding: 0 0.14rem;"><div class="line_01"></div></div>
+					<div class="commoditiesItemPrice">
+						<div class="commoditiesItemPriceBox">
+							<span>共{{gettotailNum(items.list)}}件商品  小计：</span><span>¥{{gettotailPrice(items.list,0)}}.</span><span>{{gettotailPrice(items.list,1)}}</span>
+						</div>						
+					</div>
+					
+				</div>
+			</div>
+			<div class="kongbai" style="width: 100%;height: 0.53rem;opacity: 0;" >			
+			</div>
+
+			<div class="footerBox">
+				<div class="line_01"></div>
+				<div class="bugInfoBox">
+					<div class="submitButton" v-on:click="submitData()">
+						提交订单
+					</div>
+					<div class="bugTotailNum">
+						<div class="bugTotailNumBox" v-if="jsonDataleader!=null">
+							<span>应付款：</span><span>¥{{String(parseFloat(jsonDataleader.totailPrice).toFixed(2)).split('.')[0]}}.</span><span>{{String(parseFloat(jsonDataleader.totailPrice).toFixed(2)).split('.')[1]}}</span>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+		<script src="js/confirmOrder.js"></script>
+	</body>
+
+</html>

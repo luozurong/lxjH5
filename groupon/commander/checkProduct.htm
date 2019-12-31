@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<header>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="css/checkProduct.css">
+		<script src="../common/js/fontSize.js"></script>
+		<link rel="stylesheet" href="../../common/tip/lxjTip.css">
+		<script src="../../common/tip/lxjTip.js"></script>
+		<script src="../common/js/fontSize.js"></script>
+		<script src="../../common/vue/vue.min.js"></script>
+		<script src="../../common/vue/vue-resource.min.js"></script>
+		<script src="../common/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK.js"></script>
+		<script src="../../common/interface.js"></script>
+		<script src="../../common/interfaceParameters.js"></script>
+		<title>查看货单</title>
+	</header>
+
+	<body>
+		<div class="checkProduct" v-cloak>
+			<div class="checkProduct-tab">
+				<span @click="checkProductTab(0)" :class="{active: activeFlag}">派货单</span>
+				<span @click="checkProductTab(1)" :class="{active: !activeFlag}">验货单</span>
+			</div>
+			<!-- 派货单 -->
+			<div class="checkProduct-send" v-if="activeFlag">
+				<div class="checkProduct-search">
+					<form action="javascript:return true;">
+						<input type="search" id="checkProductSearch" v-on:search="searchProduct()" v-model="searchProductInput" placeholder="请输入手机号码" v-on:blur="inputOnblur()" onkeyup="value=value.replace(/[^\d\-]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d\-]/g,''))">
+					</form>
+					<span @click="searchProduct()">搜索</span>
+				</div>
+				<div class="checkProduct-item" @click="chooseSendClick(index)" v-for="(item,index) in sendProductAttr" :key="index">
+					<span :class="{'checkProduct-item-icon': true,'checkProduct-icon-active': item.clickStatus,'checkProduct-icon-hui':item.status == 1}"></span>
+					<div class="checkProduct-item-info">
+						<div class="checkProduct-item-name" v-text="item.userName"></div>
+						<div class="checkProduct-item-mobile">
+							<span v-text="item.phone"></span>
+							<span>数量：{{item.num}} 件</span>
+						</div>
+						<div class="checkProduct-item-msg" v-text="item.commodityName"></div>
+					</div>
+				</div>
+				<div v-if="sendProductAttr.length == 0" class="empty-product">
+					<img src="img/empty-product.png" alt="">
+					<span>暂无派货单</span>
+				</div>
+				<div class="product-margin"></div>
+				<div class="checkProduct-fixed" v-if="sendProductAttr.length != 0&&sendProductAttrState">
+					<div class="checkProduct-choose-all" @click="allChooseSendClick()">
+						<span :class="{'checkProduct-choose-icon':true,'checkProduct-icon-active':allChooseSend}"></span>
+						<span class="checkProduct-choose-word">全选</span>
+					</div>
+					<div class="checkProduct-submit" @click="conformSendProductAjax()">确认收货</div>
+				</div>
+			</div>
+			<!-- 验货单 -->
+			<div class="checkProduct-send" v-if="!activeFlag">
+				<div class="checkProduct-item" @click="chooseCheckClick(index)" v-for="(item,index) in checkProductAttr" :key="index">
+					<span :class="{'checkProduct-item-icon':true,'checkProduct-icon-active':item.clickStatus,'checkProduct-icon-hui':item.status == 1}"></span>
+					<div class="checkProduct-item-info">
+						<div class="checkProduct-item-name" v-text="item.indexNum"></div>
+						<div class="checkProduct-item-mobile">
+							<span>数量：{{item.num}}件</span>
+						</div>
+						<div class="checkProduct-item-msg" v-text="item.commodityName"></div>
+					</div>
+				</div>
+				<div v-if="checkProductAttr.length == 0" class="empty-product">
+					<img src="img/empty-product.png" alt="">
+					<span>暂无验货单</span>
+				</div>
+				<div class="product-margin"></div>
+				<div class="checkProduct-fixed" v-if="checkProductAttr.length != 0&&checkProductAttrState">
+					<div class="checkProduct-choose-all" @click="allChooseCheckClick()">
+						<span :class="{'checkProduct-choose-icon':true,'checkProduct-icon-active':allChooseCheck}"></span>
+						<span class="checkProduct-choose-word">全选</span>
+					</div>
+					<div class="checkProduct-submit" @click="conformCheckProductAjax()">确认收货</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/checkProduct.js"></script>
+	</body>
+
+</html>

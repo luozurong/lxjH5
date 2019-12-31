@@ -1,0 +1,31 @@
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
+	state:{
+		token:'',
+		appId:'',
+		openId:'',
+		userAccount:'',
+		organizationSeq:'',//小区机构
+		commuintyName:'合立正通体验小区',
+		city:{
+			name:'广州市',
+			isLocation:true,//是否所在城市
+			code:'440100'
+		},//所在城市
+	},
+	
+	mutations:{
+		changeCity(state,val){
+			return Object.assign(state.city,val)//合并修改对象
+		},
+		changeCommuinty(state,val){
+			return state.commuintyName = val
+		}
+	}
+})
+
+export default store

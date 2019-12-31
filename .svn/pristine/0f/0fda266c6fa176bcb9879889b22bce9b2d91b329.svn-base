@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>商品详情预览</title>
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport"/>
+    <link rel="stylesheet" href="css/productDetail.css?444">
+    <link rel="stylesheet" href="../common/reset.css"/>
+    <link rel="stylesheet" href="../common/common.css">
+    <link rel="stylesheet" href="../common/progress.css">
+    <link rel="stylesheet" href="css/swiper.min.css"/>
+    <script type="text/javascript" src="../common/jquery-2.1.4.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/layer.js"></script>
+    <script src="js/skin/layer.css"></script>
+    <script type="text/javascript" src="../common/common.js"></script>
+    <script type="text/javascript" src="../common/interface.js"></script>
+    <script type="text/javascript" src="../common/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="../common/interface.js"></script>
+    <script type="text/javascript" src="../common/json2.js"></script>
+    <script type="text/javascript">
+      //判断在手机设备上使用一下代码
+/*       var $windowWidth = $(window).width();
+      setTimeout(function () {
+        $windowWidth = $(window).width();
+        if ($windowWidth > 640) {
+          $windowWidth = 640; //限定最大宽度为640
+        }
+        $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+      }, 100);
+      $(window).resize(function () {
+        $windowWidth = $(window).width();
+        if ($windowWidth > 640) {
+          $windowWidth = 640;
+        }
+        $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+      }); */
+      
+      var $windowWidth = 640;
+      $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+    </script>
+    <script type="text/javascript">
+      function goBack() {
+        var url = window.location;
+        contact.goBack("'" + url + "'");
+      }
+    </script>
+    <script src="js/productPreview.js"></script>
+    <script src="js/underscore.js"></script>
+    <script src="js/swiper.min.js"></script>
+
+  </head>
+  <body>
+  <div style="width:40%;margin:0 auto;">
+  <ui-view class="container" style="display: block; height: 100%;width:40%; overflow: auto"></ui-view>
+        <div class="bgCocWhite">
+          <!--图片路径-->
+          <div class="productBanner swiper-container">
+            <!-- 图片容器-->
+            <ul class="swiper-wrapper" id="product"></ul>
+            <!-- 获取图片路径-->
+            <script id="productTemplate" type="text/html">
+              <li class="img-responsive swiper-slide" >
+                <img src="<%=photoUrl%>" alt="" style="width:100%;height:100%;"/>
+              </li>
+            </script>
+            <div class="swiper-pagination"></div>
+          </div>
+          <!--下线-->
+          <div class="border-t1"></div>
+          <!--促销界面 -->
+          <!-- 获取商品信息容器-->
+          <div id="productInformation"></div>
+          <div id="Bigcarriage"></div>
+          <!--填充商品数据-->
+          <script id="productInformationTemplate" type="text/html">
+            <div class="mm20">
+              <div>
+                <span><%=commodityName%></span>
+              </div>
+              <div class="padding-t10" style="color:#ec584e;font-weight:500;">
+                <span class="price_1 f1 currentPrice">￥<%=currentPrice%></span>
+                <span class="price_1 f1 minPrice">￥<%=minPrice%></span>&nbsp;<span id="line_Box">-</span>&nbsp;<span class="price_1 f1 originalPrice"><%=maxPrice%></span>
+              </div>
+                <span class="price_4 f1 floatR paddingzy" style="margin-right: 0.08rem;margin-top: -0.2rem;"><%=buyPeople%></span>
+            </div>
+          </script>
+          <script id="BigcarriageTemplate" type="text/html">
+            <div class="freight">
+              <span style="font-size:0.1rem;color:#ccc;" id="carriage">运费:<%=carriage%>元</span>
+            </div>
+            <div style="margin-top:0.08rem;font-size:0.1rem;margin-left: 0.08rem;margin-bottom: 0.08rem;" id="promotionInfo">
+              <span class="productSale">促销</span>
+              <span style="color:#dd434d"><%=promotionInfo%></span>
+            </div>
+          </script>
+          <!--下线-->
+          <div class="border-t1"></div>
+        </div>
+        <!--三个品牌授权-->
+        <ul class="authorizing" id="safeguard"></ul>
+        <script id="safeguardTemplate" type="text/html">
+          <li class="ppsq">
+            <img class="paddingsx padding-l10 inlineBlock" style="width:18%;margin-top:0.03rem;" src="images/ic_pp.png" alt=""/>
+            <p class="vertical-alignt inlineBlock lh55 padding-l5"><%=ppsq%></p>
+          </li>
+          <li  class="zpbz">
+            <img class="paddingsx padding-l10 inlineBlock" style="width:18%;margin-top:0.03rem;" src="images/ic_product.png" alt=""/>
+            <p class="vertical-alignt inlineBlock lh55 padding-l5"><%=zpbz%></p>
+          </li>
+          <li  class="sevenDay">
+            <img class="paddingsx padding-l10 inlineBlock" style="width:18%;margin-top:0.03rem;" src="images/ic_seven.png" alt=""/>
+            <p class="vertical-alignt inlineBlock lh55 padding-l5"><%=sevenDay%></p>
+          </li>
+        </script>
+        <!--商品详情和商品参数-->
+        <div class="bgCocWhite">
+          <!--商品两个点击按钮-->
+          <div class="mt10 padding-t10 center">
+            <!--商品详情和商品参数标题-->
+            <div class="inlineBlock cutInformation" style="margin-top:0.1rem;">
+              <a class="f1 commodity  commodityleft floatL current"  id="detailBox">商品详情</a>
+              <a class="f1 commodity commodityright floatL"   id="paramslBox">商品参数</a>
+            </div>
+          </div>
+          <!-- 商品详情内容-->
+          <div id="productDetail">
+          </div>
+          <div class="NoproductDetail" id="NoproductDetail">
+            <img src="images/ic_sale@3x.png" alt=""/>
+            <p>暂无商品详情</p>
+          </div>
+          <script id="productDetailTemplate"type="text/html">
+            <%=productDetail%>
+          </script>
+
+          <!--商品参数内容-->
+          <div style="padding-left:0.42rem;" class="bgCocWhite paddingzy grid-container" id="productCommodity">
+
+          </div>
+          <div class="NoproductDetail" id="NoproductCommodity">
+            <img src="images/ic_sale@3x.png" alt=""/>
+            <p>暂无商品参数</p>
+          </div>
+          <script id="productCommodityTemplate" type="text/html">
+            <div class="ParamsBox" id="productNote">
+              <span class="f1 brand_gray ParamsA">备注</span>
+              <span class="f1 ParamsB"><%=productNote%></span>
+            </div>
+            <div class="ParamsBox" id="productPlace">
+              <span class="f1 brand_gray ParamsA">产地</span>
+              <span class="f1 ParamsB"><%=productPlace%></span>
+            </div>
+            <div class="ParamsBox" id="specification" >
+              <span class="f1 brand_gray ParamsA">规格</span>
+              <span class="f1 ParamsB"><%=specification%></span>
+            </div>
+            <div class="ParamsBox" id="productSize">
+              <span class="f1 brand_gray ParamsA">尺寸</span>
+              <span class="f1 ParamsB"><%=productSize%></span>
+            </div>
+            <div class="ParamsBox" id="productColor">
+              <span class="f1 brand_gray ParamsA" >颜色</span>
+              <span class="f1 ParamsB"><%=productColor%></span>
+            </div>
+            <div class="ParamsBox" id="productWeight">
+              <span class="f1 brand_gray ParamsA">净重</span>
+                  <span class="f1 ParamsB"><%=productWeight%></span>
+            </div>
+          </script>
+          <!-- 自定义参数的容器 -->
+          <script id="customParamsTemplate" type="text/html">
+            <div id="customParamsName" class="ParamsBox">
+              <span class="f1 brand_gray ParamsA"><%=customParamsName%></span>
+              <span class="f1 ParamsB"><%=customParamsValue%></span>
+            </div>
+          </script>
+          <div style="height:0.4rem;"></div>
+        </div>
+        <ul class="bgCocWhite shoppingfixed border-t1" style="width:40%;">
+          <!--收藏爱心-->
+          <li class="inlineBlock floatL padding-t5 padding-l10 f1" id="favorite" style="height:100%;line-height:100%;padding-top: 0.12rem;">
+            <a><img id="favoriteImg" style="width:25%;" class="inlineBlock" src="images/ic_-collection-@3x.png" alt=""/>
+            </a>
+          </li>
+          <!--购物车-->
+          <li class="inlineBlock floatL padding-t5 f1 shoppingcart" style="height:100%;line-height:100%;">
+            <a>
+              <img style="width:20%;" class="padding-t10 inlineBlock" src="images/ic_shopping@3x.png" alt=""/>
+                <span id="shoppingCart" class="inlineBlock center nihao">
+                </span>
+              <script id="shoppingCartTemplate" type="text/html">
+                <%=shoppingCart%>
+              </script>
+            </a>
+          </li>
+          <!--加入购物车抢购-->
+          <li class="floatR f1_5 pt addShoppingCart">
+            <a class="inlineBlock floatR center lh60 disabled" style="color:#fff;text-align:center;padding-right:0.1rem;font-size:0.12rem;">
+              加入购物车
+            </a>
+          </li>
+        </ul>
+        <div class="activityLose">
+          <p>该商品已下架</p>
+          <div>确定</div>
+        </div>
+
+      <!--读取商品规则信息弹窗-->
+      <div id="overlay" style="width:40%;">&nbsp;</div>
+      <div class="productParam" style="width:40%;">
+        <div style="height:100%;">
+          <div id="productCommoditySku" style="position:absolute;height:68%;width:100%;overflow-x:hidden;" class="productCommoditySku">
+          </div>
+          <div class="shoppingNum">
+            <div class="productNum">数量</div>
+            <div class="shoppingnum">
+              <button class="btn_reduce disabled"></button>
+              <input type="number" value="1" class="productvalue" onfocus="newviewopen(this.id)"/>
+              <button class="btn_add"></button>
+            </div>
+          </div>
+          <div class="selected disabled" id="selected" style="background: #ccc;">加入购物车</div>
+          <img src="images/btn_ic_close@3x.png" alt="关闭按钮" class="closeSku"/>
+        </div>
+      </div>
+      <script id="productCommoditySkuTemplate"type="text/html">
+        <div class="productColor"><%=skuName%></div>
+        <ul class="colorClassify" id="<%=skuName%>" name="skuBox">
+        </ul>
+      </script>
+     </div>
+  </body>
+</html>

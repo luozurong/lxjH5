@@ -1,0 +1,193 @@
+body {
+	padding: 0;
+	margin: 0;
+	background-color: #f0f0f0;
+	font-size: 16px;
+	/*font-family: "Microsoft YaHei", "微软雅黑";*/
+}
+
+.header-titile {
+	color: #ededf3;
+	text-align: center;
+	font-size: .35rem;
+	background-color: #FF661B;
+}
+
+.header-titile h2 {
+	font-size: 0.45rem;
+	font-weight: 500;
+}
+
+ul li {
+	overflow: hidden;
+	background: #fff;
+	padding: .1rem .3rem .1rem .3rem;
+	/* border-bottom:1px solid #ccc;*/
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+img {
+	clear: both;
+	display: block;
+	margin: auto;
+	margin-top: 1.5rem;
+	width: 35%;
+}
+
+
+/*------招牌菜样式-------*/
+
+ul li.title {
+	overflow: hidden;
+	background: #fff;
+	padding: .2rem .3rem .2rem .3rem;
+	border-bottom: 0.02rem solid #F0F0F0;
+}
+
+ul li.img-min {
+	padding: .3rem .3rem 0.3rem .3rem;
+}
+
+ul li.specialty_success_title {
+	overflow: hidden;
+	background: #FFFFFF;
+	padding: .2rem .3rem .1rem .3rem;
+	text-align: center;
+	font-size: 0.35rem;
+}
+
+ul li.specialty_time {
+	font-size: 0.24rem;
+	padding: .1rem .3rem .2rem .3rem;
+	color: #CCCCCC;
+}
+
+#specialty_pic {
+	width: 60%;
+	height: 60%;
+	margin-left: 20%;
+	padding: 0;
+	padding-bottom: 1rem;
+	padding-top: 1rem;
+}
+
+#specialty_pic img {
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+}
+
+.success-title {
+	text-align: center;
+	margin-top: .2rem;
+	font-size: 0.4rem;
+	/*font-weight: 900;*/
+	color: #222222;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+#bt_buttom {
+	width: 100%;
+	height: 0.9rem;
+	background: #FFFFFF;
+	padding-top: 0.5rem;
+}
+
+.bt_details {
+	width: 40%;
+	height: .7rem;
+	line-height: .7rem;
+	float: left;
+	margin-left: 5%;
+	text-align: center;
+	border: 1px solid #666666;
+	border-radius:5px;
+}
+
+.bt_refund {
+	width: 40%;
+	height: .7rem;
+	line-height: .7rem;
+	float: right;
+	margin-right: 5%;
+	text-align: center;
+	border: 1px solid #FF661B;
+	/*border-radius: 0.175rem;*/
+	border-radius:5px;
+	color: #FF661B;
+}
+
+
+/*------招牌菜样式结束-------*/
+
+
+/*---------提示框---------*/
+
+#tip_bg {
+	width: 100%;
+	height: 100%;
+	background: #CCCCCC;
+	position: fixed;
+	top: 0;
+	display: none;
+	opacity: 0.5;
+}
+
+#tip {
+	display: none;
+	width: 70%;
+	background-color: #FFFFFF;
+	opacity: 1;
+	z-index: 999;
+	position: fixed;
+	top: 25%;
+	left: 15%;
+	border-radius: 5%;
+	font-size: .24rem;
+}
+
+#tip_text {
+	text-align: justify;
+	padding-left: 0.3rem;
+	padding-right: 0.3rem;
+	padding-top: 0.3rem;
+	line-height: 0.4rem;
+}
+
+#tip_buttom {
+	margin-top: 0.3rem;
+	width: 100%;
+	height: 0.9rem
+}
+
+#tip_buttom_no {
+	margin-left: 15%;
+	width: 30%;
+	height: 0.6rem;
+	border: 1px solid #222222;
+	color: #222222;
+	float: left;
+	text-align: center;
+	line-height: 0.6rem;
+	border-radius: 8%;
+}
+
+#tip_buttom_yes {
+	margin-right: 15%;
+	width: 30%;
+	height: 0.6rem;
+	border: 1px solid #FF661B;
+	color: #FF661B;
+	float: right;
+	text-align: center;
+	line-height: 0.6rem;
+	border-radius: 8%;
+}
+
+
+/*---------提示框结束---------*/

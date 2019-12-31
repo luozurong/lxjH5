@@ -1,0 +1,82 @@
+html,body{
+    height:100%;
+    width:100%;
+    background: #f0f0f0;
+}
+.logo-info,.phone-info,.password-info,.register-info{
+    width:100%;
+    text-align:center;
+    border:none;
+    position:absolute;
+    left: 0;
+}
+.logo-info{
+    top: 0.8rem;
+}
+.phone-info{
+    top: 2.60rem;
+}
+.password-info{
+    top: 3.20rem;
+}
+.register-info{
+    top: 3.80rem;
+}
+.logo{
+    width:1rem;
+    height:1rem;
+    line-height:1rem;
+    border-radius:50%;
+    margin: 0.30rem auto;
+    text-align:center;
+
+}
+.logo-info p{
+    position: absolute;
+    width: 100%;
+    top: 1.4rem;
+    font-size: 0.16rem;
+    color:#222;
+}
+.phone,.password{
+    display: block;
+    width: 80%;
+    height: 0.40rem;
+    line-height: 0.40rem;
+    margin: 0 auto 0.20rem;
+    border: 1px solid #e8e8e8;
+    outline: none;
+    border-radius: 0.04rem;
+    -webkit-tap-highlight-color: rgba(255,255,255,0);
+    padding-left: 0.1rem;
+}
+.phone-delete,.password-delete{
+    position:absolute;
+    top:0.10rem;
+    right:12%;
+    width: 0.20rem;
+    height:0.20rem;
+    line-height: 0.20rem;
+    font-size:0.20rem;
+}
+.phone-delete,.password-delete{
+    display: none;
+}
+.register{
+    width:40%;
+    height:0.40rem;
+    line-height:0.40rem;
+    background:#ff661b;
+    color:#fff;
+    font-size:0.16rem;
+    margin: 0 auto;
+    border-radius:0.04rem;
+    -webkit-tap-highlight-color: rgba(255,255,255,0);
+}
+.vertions{
+    position: fixed;
+    bottom: 0.6rem;
+    width: 100%;
+    text-align: center;
+    font-size: 0.16rem;
+}

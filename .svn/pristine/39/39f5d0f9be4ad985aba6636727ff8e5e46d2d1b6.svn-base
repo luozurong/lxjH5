@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>核销验证</title>
+        <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+        <meta name="format-detection" content="telephone=no" />
+        <link rel="stylesheet" href="../common/reset.css" />
+        <link rel="stylesheet" href="../common/common.css">
+        <link rel="stylesheet" href="../mall/js/skin/layer.css">
+        <link rel="stylesheet" href="css/cancel.css">
+        <link rel="stylesheet" href="../common/progress.css">
+        <script type="text/javascript"	src="../common/jquery-1.11.2.min.js"></script>
+        <script src="../common/interface.js"></script>
+        <script src="../mall/js/layer.js"></script>
+        <script src="js/underscore.js"></script>
+        <script src="js/cancel.js"></script>
+    </head>
+    <body>
+    <div class="expiryInfo">
+        <!--<p class="expiry">兑奖码</p>
+        <div class="expiryNum">244566770</div>
+        <p class="priceInform">奖品信息</p>
+        <div class="priceBox">
+            <div style="width:30%;margin-left:0;">
+                <img src="images/aaa.jpg" alt="" style="width:1rem;"/>
+            </div>
+            <div style="width:60%;margin-right:0;position:absolute;top:0.3rem;">
+                <div>
+                    <span>名称：</span><span>奖品A</span>
+                </div>
+                <div>
+                    <span>属性：</span><span>实物</span>
+                </div>
+                <div>
+                    <span>数量：</span><span>1</span>
+                </div>
+            </div>
+        </div>
+        <p class="residentInform">住户信息</p>
+        <div class="residentBox">
+            <div class="name-a">
+                <img src="images/ic_name@3x.png" alt="姓名"/>
+                <span class="name-b">张三</span>
+                <span class="phone">13888889999</span>
+            </div>
+            <div class="address-a">
+                <img src="images/ic_-Location-@3x.png" alt="地址"/>
+                <span>02A区1栋1单元0111房</span>
+            </div>
+        </div>
+        <button class="sureExpiry">确认兑换</button>-->
+    </div>
+    <div class="expiryBox" id="expiryBox"></div>
+    <script id="expiryTemplate" type="text/html">
+        <p class="expiry">兑奖码</p>
+        <div class="expiryNum"><%=awardCode%></div>
+        <p class="priceInform">奖品信息</p>
+
+        <div class="priceBox">
+            <div style="width:30%;margin-left:0;">
+                <img src="<%=awardPicUrl%>" alt="" style="width:1rem;"/>
+            </div>
+            <div style="width:60%;margin-right:0;position:absolute;top:0.26rem;">
+                <div>
+                    <span>名称：</span><span><%=awardName%></span>
+                </div>
+                <div>
+                    <span>属性：</span><span><%=awardAttribute%></span>
+                </div>
+                <div>
+                    <span>数量：</span><span><%=awardCount%></span>
+                </div>
+            </div>
+        </div>
+
+        <p class="residentInform">住户信息</p>
+        <div class="residentBox">
+            <div class="name-a">
+                <img src="images/ic_name@3x.png" alt="姓名"/>
+                <span class="name-b"><%=householdName%></span>
+                <span class="phone"><%=phone%></span>
+            </div>
+            <div class="address-a">
+                <img src="images/ic_-Location-@3x.png" alt="地址"/>
+                <span><%=householdAddr%></span>
+            </div>
+        </div>
+        <button class="sureExpiry" >确认兑换</button>
+        <button class="hasExpiry" >已兑换</button>
+    </script>
+    </body>
+</html>

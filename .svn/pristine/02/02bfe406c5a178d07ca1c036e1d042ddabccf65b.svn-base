@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>广告</title>
+<link rel="stylesheet" href="../common/reset.css">
+<script src="../common/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../common/interface.js"></script>
+<style type="text/css">
+img {
+	float: left;
+}
+</style>
+<script type="text/javascript">
+	function goUrl(ele) {
+		showActivity($(ele).attr("id"), "");
+	}
+</script>
+</head>
+
+<body>
+	<p>
+		<img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170518/201705181345319196679.gif"
+			title="" alt="520_01.gif" /><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=1494560764013f3c349f877646fd8e4d"
+			target="_blank" title="玫瑰套餐"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170518/201705181345340655709.gif"
+			title="" alt="520_02.gif" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=147825079371edaf43b85eb54614a0c1"
+			target="_blank" title="玫瑰黑糖"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170518/201705181345361501960.gif"
+			title="" alt="520_03.gif" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=148973312716b53752442c4e40b1ba7f"
+			target="_blank" title="美容按摩枕"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170518/201705181345379308773.gif"
+			title="" alt="520_04.gif" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=149067143887307a0d07d68845f8a2df"
+			target="_blank" title="空调清洗"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170518/201705181345400286211.gif"
+			title="" alt="520_05.gif" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=1487147292641c43200d5daa434d9e74"
+			target="_blank" title="10斤米"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170518/201705181345420678681.gif"
+			title="" alt="520_06.gif" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=148852526711c81827f36d154745ba84"
+			target="_blank" title="20斤米"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170518/201705181345576423740.gif"
+			title="" alt="520_07.gif" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=1495002062775408271e3b664eff8fde"
+			target="_blank" title="旅游"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170518/201705181346007173485.gif"
+			title="" alt="520_08.gif" /></a>
+	</p>
+	<style type="text/css">
+body {
+	margin: 0px;
+}
+</style>
+</body>
+
+</html>

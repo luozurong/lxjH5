@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<title>我的福分</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" type="text/css" href="../common/reset.css" />
+		<link rel="stylesheet" href="css/myfortune.css?11" />
+		<script src="../common/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/interface.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mylazyload.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/public.js"></script>
+
+	</head>
+
+	<body>
+		<div class="bgup">
+			<img src="images/redtop.png" style="width:100%;" alt="" />
+			<div class="title">
+				<span>我的福分:</span>
+				<span id="totalFufen"> </span>
+			</div>
+			<p class="notice"></p>
+			<!--<div id="goback" style="width: 7%;position: absolute;top: 35%;left: 0%;padding-left: 3%;" onclick="backOrclose()">
+						<img src="images/goback_03.png" />
+			</div>-->
+		</div>
+		<div class="bgcenter"></div>
+
+		<div class="redbag">
+			<img src="images/redbag_02.png" style="width:100%;" alt="" />
+		</div>
+		<div class="excel">
+			<img src="images/excel_03_03.png" style="width:90%;" alt="" />
+		</div>
+		<div class="headline">
+			<span class="headlineA">操作</span>
+			<span class="headlineB">福分变动</span>
+		</div>
+		<div class="mybox" style="height: 2.3961rem;overflow: auto;">
+			<div id="myboxx" style="width: 100%;height: auto;">
+				<div id="disnonefufen">
+					暂无福分纪录
+				</div>
+			</div>
+
+		</div>
+		<div class="bgdown" style="position: absolute;top: 95%;">
+			<img src="images/footimg.png" style="width:100%;height: auto;" />
+		</div>
+
+		<script src="js/myfortune.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

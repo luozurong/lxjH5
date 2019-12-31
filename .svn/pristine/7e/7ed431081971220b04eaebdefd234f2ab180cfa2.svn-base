@@ -1,0 +1,52 @@
+var vue = new Vue({
+	el: '#app',
+	data: {
+		appid:''
+	},
+	filters: {
+		//状态过滤
+
+	},
+	mounted: function() {
+		this.$nextTick(function() {
+			//this.wxJsdkConfig();
+			var that=this;
+			this.wxJsdkConfig(['onMenuShareAppMessage', "onMenuShareTimeline"], function(id) {
+				console.log(id)
+				that.appid=id;
+				var imgLogo = id+ "/mms/html5/wechatH5/lxjlogo.png";
+				var shareLink = id+ "/mms/html5/wechatH5/dist/index.htm?pageFrom=wx#/serviceList/" + that.activityId;
+				var obj = {
+					title: "联享家商城", //标题
+					desc: '联享家商城，享优质新生活', //描述
+					link: shareLink,
+					imgUrl: imgLogo
+				};
+				//分享到朋友圈"
+				wx.onMenuShareTimeline({
+					title: obj.title,
+					link: obj.link, // 分享链接
+					imgUrl: obj.imgUrl, // 分享图标
+					success: function() {},
+					cancel: function() {}
+				});
+				//分享给朋友
+				wx.onMenuShareAppMessage({
+					title: obj.title, // 分享标题
+					desc: obj.desc, // 分享描述
+					link: encodeURI(obj.link), // 分享链接
+					imgUrl: obj.imgUrl, // 分享图标
+					success: function() {},
+					cancel: function() {
+						// console.log('分享到朋友失败')
+					}
+				});
+			}, ["menuItem:share:appMessage", "menuItem:share:timeline"]);
+
+		});
+
+	},
+	methods: {
+
+	}
+});

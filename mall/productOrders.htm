@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>商品列表页</title>
+        <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+        <meta name="format-detection" content="telephone=no" />
+        <link rel="stylesheet" href="../common/reset.css" />
+        <link rel="stylesheet" href="../common/common.css">
+        <link rel="stylesheet" href="css/productOrders.css">
+        <link rel="stylesheet" href="../common/progress.css?cd=dddyf">
+        <script src="../common/common.js"></script>
+        <script type="text/javascript"	src="../common/jquery-2.1.4.js"></script>
+        <script type="text/javascript"	src="../common/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="../common/interface.js"></script>
+        <script src="js/common.js"></script>
+        <script type="text/javascript">
+            //判断在手机设备上使用一下代码
+            var $windowWidth = $(window).width();
+            setTimeout(function() {
+                $windowWidth = $(window).width();
+                if ($windowWidth > 640) {
+                    $windowWidth = 640; //限定最大宽度为640
+                }
+                $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+            }, 100);
+            $(window).resize(function() {
+                $windowWidth = $(window).width();
+                if ($windowWidth > 640) {
+                    $windowWidth = 640;
+                }
+                $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+            });
+        </script>
+        <script src="js/iscroll.js"></script>
+        <script src="js/common.js"></script>
+        <script type="text/javascript">
+            function goBack()
+            {
+                var url=window.location;
+                contact.goBack("'"+url+"'");
+            }
+        </script>
+        <script src="js/underscore.js"></script>
+        <script src="js/productOrders.js?222"></script>
+    </head>
+    <body>
+        <div class="noproduct">
+            <img src="images/ic_sale@3x.png" style="width:1rem;" alt="暂无商品"/>
+            <div style="margin-top:30px;width:100%;text-align:center;font-size:18px;">暂无商品</div>
+        </div>
+        <div id="activityLose">
+            <img src="images/ic_close@2x.png" style="width:1rem;" alt=""/>
+            <div style="margin-top:30px;width:100%;text-align:center;font-size:18px;">活动已下线</div>
+        </div>
+        <!--<div class="overlay"></div>-->
+        <!--<div class="activityLose">-->
+            <!--<p>活动已下线</p>-->
+            <!--<div>确定</div>-->
+        <!--</div>-->
+        <div id="wrapper" class="wrapper-second">
+            <div id="scroller">
+                <div id="pullDown">
+                    <span class="pullDownIcon"></span><span class="pullDownLabel"></span>
+                </div>
+                <!--空容器让商品数据加载进来-->
+                <ul id="productOrder"></ul>     
+                         <!--<s class="originalPrice">￥<%=originalPrice%></s>-->
+                            <!--<span class="productSales"><%=rebate%></span>-->
+                <script id="productOrderTemplate" type="text/html">
+                    <li class="productDiscript" name="<%=id%>" onclick="getProductDetail(this)" >
+                        <img src="<%=logo%>" class="productImg" onerror="images/picture_2@3x.png' width='100%' height='100%'" alt=""/>
+                        <div class="skech"><%=name%></div>
+                        <div class="productPrice">
+                            <span class="nowProduct" style="font-size:0.1rem;">￥
+                                <span style="font-size:0.14rem;"><%=integerT%></span>.<span><%=scaleT%></span>
+                            </span>
+                        </div>
+                    </li>
+                </script>
+                <div id="pullUp" style="bottom:-0.8rem;display:none;">
+                    <div id="nomore">
+                        没有更多数据了
+                    </div>
+                    <span class="pullUpIcon"></span><span class="pullUpLabel">向上拉更多惊喜</span>
+                </div>
+            </div>
+        </div>
+
+    <!--购物车-->
+            <span class="shoppingnum" id="shoppingnum"></span>
+            <img src="images/btn_ic_shopping@3x.png" alt="带圈圈购物车" class="shoppingcart"/>
+            <script id="shoppingnumTemplate" type="text/html">
+                <%=shoppingCart%>
+            </script>
+        <img src="images/btn_ic_top@3x.png" alt="置顶图标" class="top"/>
+    </body>
+</html>

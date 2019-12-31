@@ -1,0 +1,280 @@
+body {
+	margin: 0px;
+	padding: 0px;
+/*	font-family: "Microsoft YaHei", "微软雅黑";
+*/	font-size: 16px;
+	background-color: #f0f0f0;
+	word-break:break-all;
+}
+
+#foodtype {
+	padding: 0;
+	margin-left: 0.2rem!important;
+	height: 0.6rem;
+	text-align: center;
+}
+
+#foodtype li {
+	padding-left: 0.275rem;
+	padding-right: 0.275rem;
+	height: 0.6rem;
+	line-height: 0.6rem;
+	display: block;
+	float: left;
+	font-size: 0.24rem;
+	overflow: hidden;
+}
+
+#navigation {
+	height: .7rem;
+	width: 100%;
+	color: #222222;
+	font-size: 0.24rem;
+	position: relative;
+}
+
+.shop_food {
+	margin-bottom: 0.2rem;
+	background-color: #fff;
+	-webkit-tap-highlight-color: rgba(255,255,255,0);
+}
+
+.img-responsive {
+	width: 100%;
+	height: 100%;
+}
+
+.a_red {
+	/*color: #dd434d;*/
+	display: block;
+	float: left;
+	/*padding-left: 0.2rem;*/
+	/*padding-right: 0.5rem;*/
+	height: .5rem;
+	font-size: 0.24rem;
+	line-height: 0.5rem;
+}
+
+.picture_p {
+	width: 100%;
+	text-align: center;
+	height: 3.0rem;
+}
+
+.title_cai {
+	width: 100%;
+	/*height: .5rem;*/
+	font-size: 0.24rem;
+	line-height: 0.5rem;
+}
+
+.title_cai span {
+	padding-left: 0.2rem;
+	padding-right: 0.2rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.pric {
+	width: 100%;
+	height: .5rem;
+	font-size: 0.24rem;
+	line-height: 0.5rem;
+	margin-top: 0.2rem;
+}
+
+.red_font {
+	float: left;
+	height: .5rem;
+	display: block;
+	color: #FF661B;
+	font-size: 0.3rem;
+	line-height: 0.5rem;
+	margin-left: 0.2rem;
+	font-weight: 500;
+}
+
+.line_font {
+	color: #CCCCCC;
+	display: block;
+	float: left;
+	height: .5rem;
+	font-size: 0.3rem;
+	line-height: 0.5rem;
+	margin-left: 0.3rem;
+	text-decoration: line-through;
+}
+
+.people_num {
+	color: #4ebff9;
+	display: block;
+	float: right;
+	/*padding-top: 0.1rem;
+	padding-bottom: 0.1rem;*/
+	padding-right: 0.2rem;
+	padding-left: 0.2rem;
+	margin-top: 0.055rem;
+	margin-right: 0.2rem;
+	border: 0.02rem solid #4EBFF9;
+	border-radius:40px;
+	height: .35rem;
+	line-height: 0.35rem;
+	font-size: 0.24rem;
+}
+
+html {
+	background-color: #f0f0f0;
+}
+
+
+/*--------导航栏----------*/
+
+.swiper-container {
+	margin: 0 auto;
+	position: relative;
+	overflow: hidden;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-ms-backface-visibility: hidden;
+	-o-backface-visibility: hidden;
+	backface-visibility: hidden;
+	/* Fix of Webkit flickering */
+	z-index: 1;
+}
+
+.swiper-wrapper {
+	position: relative;
+	width: 100%;
+	-webkit-transition-property: -webkit-transform, left, top;
+	-webkit-transition-duration: 0s;
+	-webkit-transform: translate3d(0px, 0, 0);
+	-webkit-transition-timing-function: ease;
+	-moz-transition-property: -moz-transform, left, top;
+	-moz-transition-duration: 0s;
+	-moz-transform: translate3d(0px, 0, 0);
+	-moz-transition-timing-function: ease;
+	-o-transition-property: -o-transform, left, top;
+	-o-transition-duration: 0s;
+	-o-transform: translate3d(0px, 0, 0);
+	-o-transition-timing-function: ease;
+	-o-transform: translate(0px, 0px);
+	-ms-transition-property: -ms-transform, left, top;
+	-ms-transition-duration: 0s;
+	-ms-transform: translate3d(0px, 0, 0);
+	-ms-transition-timing-function: ease;
+	transition-property: transform, left, top;
+	transition-duration: 0s;
+	transform: translate3d(0px, 0, 0);
+	transition-timing-function: ease;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+.swiper-free-mode> .swiper-wrapper {
+	-webkit-transition-timing-function: ease-out;
+	-moz-transition-timing-function: ease-out;
+	-ms-transition-timing-function: ease-out;
+	-o-transition-timing-function: ease-out;
+	transition-timing-function: ease-out;
+	margin: 0 auto;
+}
+
+.swiper-slide {
+	float: left;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+
+/* IE10 Windows Phone 8 Fixes */
+
+.swiper-wp8-horizontal {
+	-ms-touch-action: pan-y;
+}
+
+.swiper-wp8-vertical {
+	-ms-touch-action: pan-x;
+}
+
+
+/* ===============================================================
+Your custom styles, here you need to specify container's and slide's
+sizes, pagination, etc.
+================================================================*/
+
+.swiper-container {
+	/* Specify Swiper's Size: */
+	/*width:200px;
+	height: 100px;*/
+}
+
+.swiper-slide {
+	/* Specify Slides's Size: */
+	/*width: 100%;
+	height: 100%;*/
+}
+
+.swiper-slide-active {
+	/* Specific active slide styling: */
+}
+
+.swiper-slide-visible {
+	/* Specific visible slide styling: */
+}
+
+
+/* ===============================================================
+Pagination Styles
+================================================================*/
+
+.swiper-pagination-switch {
+	/* Stylize pagination button: */
+}
+
+.swiper-active-switch {
+	/* Specific active button style: */
+}
+
+.swiper-visible-switch {
+	/* Specific visible button style: */
+}
+
+.swiper-container {
+	width: 100%;
+	height: 0.6rem;
+	color: #fff;
+	text-align: center;
+}
+
+.swiper-slide {
+	height: 0.54rem;
+	height: 0.54rem;
+	color: #222222;
+}
+
+.swiper-slide .title {
+	font-size: 0.24rem;
+	padding-left: 0.275rem;
+	padding-right: 0.275rem;
+	line-height: 0.54rem;
+	-webkit-tap-highlight-color: rgba(255,255,255,0);
+}
+
+.border-color-li {
+	border-style: solid;
+	border-width: 0 0 .06rem 0;
+	border-color: #FF661B;
+}
+.font_size2{
+	font-size: 0.24rem;
+}
+@media (max-width: 359px) {
+	.swiper-slide .title {
+		font-size: 0.26rem;
+	}
+}

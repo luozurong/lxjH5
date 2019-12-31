@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/swiper.min.css?yy=4" />
+		<link rel="stylesheet" type="text/css" href="css/style.css?yy=444" />
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script src="js/swiper.jquery.min.js?yu=345" type="text/javascript" charset="utf-8"></script>
+		<script src="js/javascript.js?io=289" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide" style="background:url(img/p1.jpg) center center no-repeat; background-size: cover;">
+					<div class="first firstAction">
+						<img src="img/index.png" />
+					</div>
+				</div>
+				<div class="swiper-slide" style="background: url(img/p2.jpg) center center no-repeat; background-size: cover;">
+					<ul class="choose-1">
+						<li><img src="img/a_01.png" onclick="next()"/></li>
+						<li><img src="img/b_01.png" onclick="next()"/></li>
+						<li><img src="img/c_01.png" onclick="next()"/></li>
+						<li><img src="img/d_01.png" onclick="next()"/></li>
+					</ul>
+				</div>
+				<div class="swiper-slide" style="background:url(img/p3.jpg) center center no-repeat; background-size: cover;">
+					<ul class="choose-2">
+						<li><img src="img/a_02.png" onclick="get(1)"/></li>
+						<li><img src="img/b_02.png" onclick="get(2)"/></li>
+						<li><img src="img/c_02.png" onclick="get(3)"/></li>
+						<li><img src="img/d_02.png" onclick="get(4)"/></li>
+					</ul>
+				</div>
+				<div class="swiper-slide final-slide" style="background: url(img/p7.jpg) center center no-repeat; background-size: cover;">
+					<div class="final finalAction">
+						<img src="img/finally.png" onclick="finallyStep()"/>
+					</div>
+				</div>
+				<!--<div class="swiper-slide" style="background:url(img/p5.jpg) center center no-repeat; background-size: cover;">
+					<div class="final finalAction">
+						<img src="img/finally.png" />
+					</div>
+				</div>
+				<div class="swiper-slide" style="background: url(img/p6.jpg) center center no-repeat; background-size: cover;">
+					<div class="final finalAction">
+						<img src="img/finally.png" />
+					</div>
+				</div>
+				<div class="swiper-slide" style="background: url(img/p7.jpg) center center no-repeat; background-size: cover;">
+					<div class="final finalAction">
+						<img src="img/finally.png" />
+					</div>
+				</div>-->
+				<div style="background: url(img/p4.jpg);height: 0;width: 0;"></div>
+				<div style="background: url(img/p5.jpg);height: 0;width: 0;"></div>
+				<div style="background: url(img/p6.jpg);height: 0;width: 0;"></div>
+			</div>
+			<div class="swiper-button-next"></div>
+		</div>
+		<script>
+			var mySwiper = new Swiper('.swiper-container', {
+				direction: 'vertical',
+				speed:500,
+				observer: true,
+				nextButton: '.swiper-button-next',
+				onSlideChangeStart: function(swiper) {
+					switch(swiper.activeIndex) {
+						case 0:
+							$(".first").addClass("firstAction");
+							$(".choose-1 img").removeClass("action");
+							break;
+						case 1:
+							$(".first").removeClass("firstAction");
+							$(".choose-1 img").addClass("action");
+							$(".choose-2 img").removeClass("action");
+							break;
+						case 2:
+							$(".choose-1 img").removeClass("action");
+							$(".choose-2 img").addClass("action");
+							break;
+						case 3:
+							$(".choose-2 img").removeClass("action");
+							break;
+						default:
+							break;
+					}
+				}
+
+			})
+			function get(type){
+				var num=type+3
+				$(".final-slide").css("background-image","url(img/p"+num+".jpg)");
+			    mySwiper.slideNext();
+			}
+			function next(){
+				mySwiper.slideNext();
+			}
+			function appAlert(title,message){
+				try {
+					if (clientType=="android") {
+						contact.alert(title,message);
+					}else{//ios
+						contact_alert(title,message);
+					}
+				} catch (e) {
+				}
+			}
+			function GetURLParameter(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if(r != null) return unescape(r[2]);
+				return null;
+			}
+			var clientType=GetURLParameter("clientType");
+			var res = window.location.search.substr(1);
+			function finallyStep(){
+				window.location.href="https://mms.hori-gz.com:8443/mms/html5/mall/productDetail.htm?commodityId=149259539363d563bdbdc37e49d89770&"+res;
+			}
+		</script>
+	</body>
+
+</html>

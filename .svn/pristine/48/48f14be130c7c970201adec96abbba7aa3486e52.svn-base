@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" />
+		<title>广告</title>
+		<link rel="stylesheet" href="../common/reset.css">
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<link rel="stylesheet" type="text/css" href="../common/tip/lxjTip.css" />
+		<script src="../common/tip/lxjTip.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			img {
+				float: left;
+				display: block;
+			}
+			
+			* {
+				-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+			}
+		</style>
+		<style type="text/css">
+			body {
+				margin: 0px;
+			}
+			
+			.manin11 {
+				width: 100%;
+				height: 50px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding-top: 60px;
+			}
+			
+			.manin11 input {
+				width: 39%;
+				height: 40px;
+				font-size: 16px;
+				line-height: 40px;
+				margin-left: 10%;
+				padding-left: 10px;
+			}
+			
+			.buttons {
+				border: 1px solid #ccc;
+				width: 30%;
+				font-size: 16px;
+				line-height: 30px;
+				height: 30px;
+				border-radius: 40px;
+				text-align: center;
+				color: #fff;
+				background-color: red;
+				margin-left: 15%;
+			}
+		</style>
+		<script type="text/javascript">
+		</script>
+	</head>
+
+	<body>
+		<div id="app" v-cloak>
+			<div class="manin11">
+				保存的key：<input type="text" v-model="shurzhi" name="" id="" value="" />
+			</div>
+			<div class="manin11" style="padding-top: 10px;">
+				保存的内容：<input type="text" v-model="shurzhi2" name="" id="" value="" />
+			</div>
+			<div class="manin11" style="padding-top: 10px;">
+				<div class="buttons" v-on:click="setLxjStorage(shurzhi,shurzhi2)">
+					测试跳转开门页
+				</div>
+			</div>
+			<div class="manin11" style="padding-top: 10px;">
+				<span>
+					{{baoczz}} 保存内容&nbsp;&nbsp;&nbsp;
+				</span>
+				<span>
+					{{shurzhi}}：{{shurzhi2}}
+				</span>
+			</div>
+			<div class="manin11" style="padding-top: 10px;">
+				<input type="text" v-model="shurzhi3" name="" id="" value="" />
+				<!--<div class="buttons" v-on:click="getLxjStorage(shurzhi3)">
+					获取
+				</div>-->
+			</div>
+			<div class="manin11" style="padding-top: 10px;">
+				<span>
+					{{qiquuw}}  内容&nbsp;&nbsp;&nbsp;
+				</span>
+				<span>
+					{{shurzhi3}}：{{shurzhi4}}
+				</span>
+			</div>
+		</div>
+
+	</body>
+	<script type="text/javascript">
+		var vue = new Vue({
+			el: '#app',
+			data: {
+				shurzhi: "testlxj",
+				shurzhi2: "testyangzhen测试数据",
+				shurzhi3: "testlxj",
+				shurzhi4: "",
+				shurzhi5: "",
+				shurzhi6: "",
+				phoneNum: "",
+				baoczz:"准备保存",
+				qiquuw:"提取",
+
+			},
+			filters: {
+				//状态过滤
+			},
+			mounted: function() {
+				this.$nextTick(function() {
+
+				});
+			},
+			methods: {
+
+				setLxjStorage: function(keyN, contN) {
+					popToOpenDoorPage()
+					/*if(!isCondition(keyN)){
+						vue.baoczz="保存key为空";
+						return false;
+					}
+					//vue.baoczz="准备保存";
+					setLxjStorage(keyN, contN)*/
+				},
+				getLxjStorage: function(keyN) {
+					if(!isCondition(keyN)){
+						vue.qiquuw="提取内容为空";
+						return false;
+					}
+					vue.qiquuw="提取";
+					
+					getLxjStorage(keyN, function(conntent) {
+						if(conntent == "isNothing") {
+						} else {
+							
+							//vue.shurzhi4=conntent;
+						}
+					})
+				},
+
+			}
+		});
+
+		function setLxjStorage(keyN, contN) {
+			localStorage.setItem(keyN, contN);
+			try {
+				if(clientType == "android") {
+
+				} else { //ios
+					if(sessionStorage.getItem("lxjversionsName") >= 5200) {
+						vue.baoczz="开始保存";
+						callNativeMethod('setLxjStorage', {
+							storageKey: keyN,
+							storageContent: contN ? contN : ""
+						}, 1)
+					}
+				}
+			} catch(e) {}
+		}
+
+		function getLxjStorage(keyN, callback) {
+			var returnText = "";
+			try {
+				if(clientType == "android") {
+					callback("isNothing")
+				} else { //ios
+					if(sessionStorage.getItem("lxjversionsName") >= 5200) {
+						callback(callNativeMethod('getLxjStorage', {
+							storageKey: keyN
+						}, 1))
+					}
+				}
+			} catch(e) {
+				callback("isNothing")
+			}
+			return returnText;
+		}
+
+		/*document.getElementById('fourth_box').ontouchstart = function(e){ e.preventDefault(); }*/
+		/*vue.$watch('classifyList', function(newValue, oldValue) {
+		});*/
+
+		function refreshData() {
+			setTimeout(function() {
+				//vue.getDatejson(true);
+				//vue.getlistLatestrecords();
+			}, 0);
+			return 1;
+		}
+		function sendWebMessage(items) {
+			lxjTip.msg(items,{time:10000})
+			vue.qiquuw="提取成功";
+			var itemsObject=JSON.parse(items);
+			var storageKey=itemsObject.storageKey;
+			var storageContent=itemsObject.storageContent;		
+			
+			vue.shurzhi4=storageContent;
+			return 1;
+		}
+
+		function isCondition(param) { // (!typeof(a) === undefined)
+			if(param != null && param != "" && param != undefined) {
+				return true;
+			}
+			return false;
+		}
+		//获取URL参数
+		function GetURLParameter(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+			var r = window.location.search.substr(1).match(reg);
+			if(r != null) return unescape(r[2]);
+			return null;
+		}
+		
+		/**
+ * [popToHomePage description] 返回开门页
+ * @return {[type]} [description]
+ */
+function popToOpenDoorPage() {
+	try {
+		if(clientType == "android") {
+			contact.popToOpenDoorPage();
+		} else { //ios
+			if(isCondition(interlxjversionsName) && interlxjversionsName >= 4008) {
+				callNativeMethod('popToOpenDoorPage');
+			}
+		}
+	} catch(e) {}
+}
+		
+		
+	</script>
+
+</html>

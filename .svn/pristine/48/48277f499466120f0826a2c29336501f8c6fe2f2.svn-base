@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>商品评价</title>
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<link rel="stylesheet" href="../common/reset.css" />
+		<link rel="stylesheet" href="css/productEvaluate.css">
+		<link rel="stylesheet" type="text/css" href="../common/tip/layer.css" />
+		<script src="../common/interface.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/lazyload-min.js?v=017a26177f" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			setRefreshOnResume();
+			//设置对应的机型显示
+			(function(doc, win) {
+				var docEl = doc.documentElement,
+					isIOS = navigator.userAgent.match(/iphone|ipod|ipad/gi),
+					dpr = isIOS ? Math.min(win.devicePixelRatio, 3) : 1,
+					dpr = window.top === window.self ? dpr : 1, //被iframe引用时，禁止缩放
+					scale = 1 / dpr,
+					resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+				docEl.dataset.dpr = dpr;
+				var recalc = function() {
+					var width = docEl.clientWidth;
+					if(width / dpr > 768) {
+						width = 768 * dpr;
+					}
+					docEl.style.fontSize = 100 * (width / 414) + 'px';
+				};
+				recalc();
+				if(!doc.addEventListener) return;
+				win.addEventListener(resizeEvt, recalc, false);
+			})(document, window);
+	
+		</script>
+	</head>
+
+	<body style="width: 4.14rem;margin: 0 auto;font-size: 0.14rem;">
+		<script id="shopproduct_li" type="text/html">
+			<div class="shoplist_box">
+				<div class="product_box">
+					<div class="img_box">
+						<div class="product_img" style="background-image: url(<%=commodityImg%>);">
+						</div>
+					</div>
+					<div class="product_info">
+						<div class="product_title"><%=commodityName%></div>
+						
+					</div>
+				</div>
+				<div class="pinglun_box">
+					<div class="pl_bt" onclick="goEvaluate(this.id)" id="<%=commodityId%>">评价</div>
+				</div>
+			</div>
+		</script>
+		<script id="shopproduct_li2" type="text/html">
+			<div class="shoplist_box">
+				<div class="product_box">
+					<div class="img_box">
+						<div class="product_img" style="background-image: url(<%=commodityImg%>);">
+						</div>
+					</div>
+					<div class="product_info">
+						<div class="product_title"><%=commodityName%></div>						
+					</div>
+				</div>
+				<div class="pinglun_box">
+					<div class="pl_bt2" name="<%=commodityId%>">已评价</div>
+				</div>
+			</div>
+		</script>
+
+	</body>
+
+
+</html>
+	<script type="text/javascript">
+		LazyLoad.js(['../mall/js/fastclick.js'], function() {
+			window.addEventListener('load', function() {
+				FastClick.attach(document.body);
+			}, false);
+		});
+
+		LazyLoad.js(['../common/jquery-2.1.4.js',
+			'../common/tip/layer.js',
+			'../common/underscore.js',
+			'js/productEvaluate.js'
+		], function() {
+          getData();
+		});
+	</script>

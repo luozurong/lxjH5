@@ -1,0 +1,159 @@
+    setTitle("全部评价");
+    switchFullScreen(false);//关闭全屏
+    clearHistory(); // 清除缓存
+    initializeSession();//初始化
+    //解析商品id
+    var commodityId=GetURLParameter("commodityId");
+    //var pageNum=1;
+    //小区id
+    areaCode = sessionStorage.getItem("areaCode");
+    /*commodityId="1504773709729bed01fd2bd74173879e";
+    areaCode="4400100001";
+    token="152203631043bf32b2e3d8794d279478";
+    host="http://192.168.51.4:8090";*/
+
+    //时间戳
+    var time_stamp =getTimeStamp();
+    var pageNum=1;
+    function showView() {
+        getComment();
+    }
+    //验证token次数
+    $(window).load(function() {
+        if( token == null || token == "" ){
+            window.location.href=host+"/mms/html5/common/loading/downloadWarn.htm";
+        }else{
+            var jsonData={
+                eventId:"click25",
+                eventName:"全部评价页浏览次数"
+            };
+            jsonData=JSON.stringify(jsonData);
+            nativeMethod("baiduStatistics",jsonData);
+            showView();
+        }
+    });
+    function isCondition(param) {
+        if(param != null && param != "" && param != undefined){
+            return true;
+        }
+        return false;
+    }
+    function getComment() {
+        var str ="{\"body\":{\"areaOrgSeq\":\""+areaCode+"\",\"type\":2,\"pageSize\":10,\"pageNum\":\""+pageNum+"\",\"commodityId\":\""+commodityId+"\"},\"header\":{\"token\":\""+token+"\",\"time_stamp\":\"" + time_stamp + "\"}}";
+        $.ajax({
+            type: "post",
+            async: false,
+            url:host+"/mms/servlet/getCommodityComments?str="+str,
+            dataType: "jsonp",
+            jsonp: "jsoncallback",
+            jsonpCallback: "success_jsonpCallback",
+            success: function(data) {
+                console.log(JSON.stringify(data));
+                var dataTemplate = _.template($('#commentListTemplate').html());
+                $('#commentList').append(dataTemplate({"data":data.commentList}));
+                if(data.totalCount == $("#commentList .productevaluatebox").length) {
+						$("#nomoretip").show();
+					    $("#commentList .productevaluatebox:last").css("margin-bottom","0");
+				}
+                if(data.totalCount > $("#commentList .productevaluatebox").length) {
+						$("#pullUp").show();
+						$("#wrapper").css("background", "#f3f4f5");
+					} else {
+						$("#pullUp").css("background", "#f3f4f5");
+						$("#pullUp").hide();
+				}
+                //myScroll.refresh();
+                setTimeout("myScroll.refresh()",800);
+            }
+        });
+    }
+    function pullDownAction() {
+        return false;
+    }
+    function pullUpAction() {
+        //这里写ajax数据处理
+        setTimeout(function() {
+            pageNum++;
+            getComment();
+            myScroll.refresh();
+        }, 200);
+    }
+    function loaded() {
+        pullDownEl = document.getElementById('pullDown');
+        pullDownOffset = pullDownEl.offsetHeight;
+        pullUpEl = document.getElementById('pullUp');
+        pullUpOffset = pullUpEl.offsetHeight;
+        myScroll = new iScroll('wrapper', {
+            useTransition: true,
+            topOffset: pullDownOffset,
+            onRefresh: function() {
+                if (pullDownEl.className.match('loading')) {
+                    pullDownEl.className = '';
+                    pullDownEl.querySelector('.pullDownLabel').innerHTML = ' ';
+                } else
+                if (pullUpEl.className.match('loading')) {
+                    pullUpEl.className = '';
+                    pullUpEl.querySelector('.pullUpLabel').innerHTML = '向上拉';
+                }
+            },
+            onScrollMove: function() {
+
+                if((this.y < this.maxScrollY) && (this.pointY < 1)) {
+                    this.scrollTo(0, this.maxScrollY, 300);
+                    return;
+                } else if(this.y > 0 && (this.pointY > window.innerHeight - 1)) {
+                    this.scrollTo(0, 0, 300);
+                    return;
+                }else if (this.y > 5 && !pullDownEl.className.match('flip')) {
+                    pullDownEl.className = '';
+                    pullDownEl.querySelector('.pullDownLabel').innerHTML = '';
+                    this.minScrollY = 0;
+                } else if (this.y < 5 && pullDownEl.className.match('flip')) {
+                    pullDownEl.className = '';
+                    pullDownEl.querySelector('.pullDownLabel').innerHTML = '';
+                    this.minScrollY = -pullDownOffset;
+                } else
+                if (this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
+                    pullUpEl.className = 'flip';
+                    pullUpEl.querySelector('.pullUpLabel').innerHTML = '放开手刷新';
+                    this.maxScrollY = this.maxScrollY;
+                } else if (this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
+                    pullUpEl.className = '';
+                    pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载8条数据';
+                 //   this.maxScrollY = pullUpOffset;
+                }
+            },
+            onScrollEnd: function() {
+                if (pullDownEl.className.match('flip')) {
+                    pullDownEl.className = '';
+                    pullDownEl.querySelector('.pullDownLabel').innerHTML = '';
+                    pullDownAction(); // Execute custom function (ajax call?)
+                } else if (pullUpEl.className.match('flip')) {
+                    pullUpEl.className = 'loading';
+                    pullUpEl.querySelector('.pullUpLabel').innerHTML = '加载中...'
+                    pullUpAction(); // Execute custom function (ajax call?)
+                }
+
+                /*向上滑动显示我的底部导航条/到达顶部时候隐藏*/
+               /* var winHeight = $("#scroller").offset().top;
+                if (winHeight<-100) {
+                    $('.top').show(300);
+                }else{
+                    $('.top').hide(300);
+                }
+                $('.top').on('click',function(){
+                    $("#scroller").css("transform","translate(0px,0px)");
+                    $(this).hide(300);
+                });*/
+            }
+        });
+//        setTimeout(function() {
+        document.getElementById('wrapper').style.left = '0';
+//        }, 1000);
+    }
+    document.addEventListener('touchmove', function(e) {
+        e.preventDefault();
+    }, false);
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(loaded, 200);
+    }, false);

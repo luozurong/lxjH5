@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection"  content="telephone=no">
+        <meta  http-equiv="x-rim-auto-match" content="none">
+		<title>详情</title>
+		<link rel="stylesheet" href="../common/reset.css">
+		<link rel="stylesheet" href="../mall/js/skin/mui.min.css">
+		<link rel="stylesheet" href="css/swiper.min.css">
+		<link rel="stylesheet" type="text/css" href="css/specialtydetails.css?001" />
+		<script src="../common/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script src="js/specialtydetails.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/common.js"></script>
+		<script src="../mall/js/underscore.js"></script>
+		<script src="js/swiper.min.js"></script>
+		 <style type="text/css">
+		      .mui-preview-image.mui-fullscreen {
+		        position: fixed;
+		        z-index: 20;
+		        background-color: #333;
+		      }
+		      .mui-preview-header,
+		      .mui-preview-footer {
+		        position: absolute;
+		        width: 100%;
+		        left: 0;
+		        z-index: 10;
+		      }
+		      .mui-preview-header {
+		        height: 44px;
+		        top: 0;
+		      }
+		      .mui-preview-footer {
+		        height: 50px;
+		        bottom: 0px;
+		      }
+		      .mui-preview-header .mui-preview-indicator {
+		        display: block;
+		        line-height: 25px;
+		        color: #fff;
+		        text-align: center;
+		        margin: 15px auto;
+		        width: 70px;
+		        background-color: rgba(0, 0, 0, 0.4);
+		        border-radius: 12px;
+		        font-size: 16px;
+		      }
+		      .mui-preview-image {
+		        display: none;
+		        -webkit-animation-duration: 0.5s;
+		        animation-duration: 0.5s;
+		        -webkit-animation-fill-mode: both;
+		        animation-fill-mode: both;
+		      }
+		      .mui-preview-image.mui-preview-in {
+		        -webkit-animation-name: fadeIn;
+		        animation-name: fadeIn;
+		      }
+		      .mui-preview-image.mui-preview-out {
+		        background: none;
+		        -webkit-animation-name: fadeOut;
+		        animation-name: fadeOut;
+		      }
+		      .mui-preview-image.mui-preview-out .mui-preview-header,
+		      .mui-preview-image.mui-preview-out .mui-preview-footer {
+		        display: none;
+		      }
+		      .mui-zoom-scroller {
+		        position: absolute;
+		        display: -webkit-box;
+		        display: -webkit-flex;
+		        display: flex;
+		        -webkit-box-align: center;
+		        -webkit-align-items: center;
+		        align-items: center;
+		        -webkit-box-pack: center;
+		        -webkit-justify-content: center;
+		        justify-content: center;
+		        left: 0;
+		        right: 0;
+		        bottom: 0;
+		        top: 0;
+		        width: 100%;
+		        height: 100%;
+		        margin: 0;
+		        -webkit-backface-visibility: hidden;
+		      }
+		      .mui-zoom {
+		        -webkit-transform-style: preserve-3d;
+		        transform-style: preserve-3d;
+		      }
+		
+		      .mui-slider .mui-slider-group .mui-slider-item img {
+		        width: 100%;
+		        /*height: 1.8rem;*/
+		        max-width: 100%;
+		        max-height: 100%;
+		      }
+		      .mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+		        width: 100%;
+		      }
+		      .mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+		        display: inline-table;
+		      }
+		      .mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+		        display: table-cell;
+		        vertical-align: middle;
+		      }
+		      .mui-preview-loading {
+		        position: absolute;
+		        width: 100%;
+		        height: 100%;
+		        top: 0;
+		        left: 0;
+		        display: none;
+		      }
+		      .mui-preview-loading.mui-active {
+		        display: block;
+		      }
+		      .mui-preview-loading .mui-spinner-white {
+		        position: absolute;
+		        top: 50%;
+		        left: 50%;
+		        margin-left: -25px;
+		        margin-top: -25px;
+		        height: 50px;
+		        width: 50px;
+		      }
+		      .mui-preview-image img.mui-transitioning {
+		        -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+		        transition: transform 0.5s ease, opacity 0.5s ease;
+		      }
+		      @-webkit-keyframes fadeIn {
+		        0% {
+		          opacity: 0;
+		        }
+		        100% {
+		          opacity: 1;
+		        }
+		      }
+		      @keyframes fadeIn {
+		        0% {
+		          opacity: 0;
+		        }
+		        100% {
+		          opacity: 1;
+		        }
+		      }
+		      @-webkit-keyframes fadeOut {
+		        0% {
+		          opacity: 1;
+		        }
+		        100% {
+		          opacity: 0;
+		        }
+		      }
+		      @keyframes fadeOut {
+		        0% {
+		          opacity: 1;
+		        }
+		        100% {
+		          opacity: 0;
+		        }
+		      }
+		      p img {
+		        max-width: 100%;
+		        height: auto;
+		      }
+    </style>
+	</head>
+
+	<body>
+
+		<div id="mask">
+		</div>
+		<div>
+			<ul class="main">
+				<li class="picture-food">
+						<div class="productBanner swiper-container"  style="height: 100%;">
+							<!-- 图片容器-->
+							<ul class="swiper-wrapper" id="product"></ul>
+							<div class="swiper-pagination"></div>
+						</div>
+					</li>
+				<script id="productTemplate" type="text/html">
+					<li class="img-responsive swiper-slide">
+						<img src="<%=photo%>" alt="" data-preview-src="" data-preview-group="1" />
+					</li>
+				</script>
+				<script id="foodpicture" type="text/html">
+					<li class="padding-left" id="shoptitle">
+						<div class="food-title">
+							<%=name%>
+						</div>
+						<div>
+							<div class="left-P">
+								<img src="../common/images/ic_choise_green@3x.png" /><p>&nbsp;&nbsp;随时买&nbsp;&nbsp;&nbsp;&nbsp;</p><img src="../common/images/ic_choise_green@3x.png" /><p>&nbsp;&nbsp;过期退</p>
+							</div>
+							<div class="right-N">
+								<span class="people-number"><%=selledCount%>人已购买</span>
+							</div>
+						</div>
+					</li>
+					
+					<li class="none_fofofo"></li>
+					<li class="padding-left">
+						<div class="float-left shop-img">
+							<img src="img/logo_none.png"/>
+						</div>
+						<div class="float-left shop-name-type">
+							<div class="shop-Name">
+								<%=sellerName%>
+							</div>
+							<div class="shop-Type">
+								<%=sellerCategory%>
+							</div>
+						</div>
+						<div class="float-right shop-phone">
+							<a href="#callphone"><img src="img/ipone.png" /></a>
+						</div>
+					</li>
+					<li class="padding-left select address" id="sellerAddress">
+						<div class="left-F">
+							<img src="../common/images/ic_-Location-@3x.png" />
+						</div>
+						<div class="left-S">
+							<span class="shop-address"><%=sellerAddress%></span>
+						</div>
+					</li>
+					<li class="none_fofofo"></li>
+
+					<li class="padding-left border_bottom_s" >
+						<span class="taocan">
+						套餐
+					</span>
+					</li>
+					<li class="padding-left dish-list">
+						<ul id="sellfoodlist">
+
+						</ul>
+					</li>
+				</script>
+				<script id="foodlist" type="text/html">
+					<li>
+						<span class="dish-name">
+								<%=name%>
+							</span>
+						<span class="dish-right">
+								<span  class="dish-number">
+									<%=num%><%=unit%>
+								</span>
+						<span class="dish-price">
+									<%=price%>元
+								</span>
+						</span>
+					</li>
+				</script>
+				<script id="foodrule" type="text/html">
+
+					<li class="padding-left select SpecialtyDetailPicture border_top_s">
+						查看图文详情
+					</li>
+					<li class="none_fofofo"></li>
+					<li class="padding-left border_bottom_s">
+						购买须知：</li>
+					<li class="padding-left use-rule ">
+						
+						<ul id="rule-info">
+							<li>
+								<div>
+									有效期
+								</div>
+								<div class="nyuseTime">
+									<%=validityDate%>
+								</div>
+							</li>
+							<li>
+								<div id="">
+									不可用日期
+								</div>
+								<div class="nyuseTime">
+									<%=disabledDate%>
+								</div>
+							</li>
+							<li>
+								<div id="">
+									使用规则
+								</div>
+								<ul>
+									<li>
+										<%=rule%>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</script>
+
+			</ul>
+
+		</div>
+		<div id="phone" class="first">
+			<script id="sellphone" type="text/html">
+				<ul class="xuanxiang">
+					<li class="xuanxiang2">
+						<a href="tel:<%=sellerTelephone%>">
+							<%=sellerTelephone%>
+						</a>
+					</li>
+				</ul>
+				<ul class="quxiao">
+					<li class="xuanxiang2">
+						<a><b>取消</b></a>
+					</li>
+				</ul>
+			</script>
+		</div>
+
+		<footer>
+			<div class="qiang-gou" id="qiang-gou">
+				<script id="shopprice" type="text/html">
+					<div class="buy-left">
+						<span class="new-prices"><span class="font_size2">¥</span>
+						<span id="new-prices"><%=currentPrice%></span>
+						</span>
+						<span class="old-prices"><span class="font_size2">¥</span>
+						<span id="old-prices"><%=originalPrice%></span>
+						</span>
+					</div>
+					<div id="open" class="buy-right" onclick="doSubmit()">
+						<span>马上抢购</span>
+					</div>
+				</script>
+			</div>
+		</footer>
+
+	</body>
+	    <script src="js/mui.min.js"></script>
+        <script src="js/mui.previewimage.js"></script>
+        <script src="js/mui.zoom.js"></script>
+        <script>
+          mui.previewImage();
+        </script>
+
+</html>

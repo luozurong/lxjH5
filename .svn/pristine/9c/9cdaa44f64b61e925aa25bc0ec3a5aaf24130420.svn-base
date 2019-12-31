@@ -1,0 +1,113 @@
+*{
+    /*font-family: "Microsoft YaHei","΢���ź�";*/
+    border: none;
+}
+html,body{
+    background:#f3f4f5;
+}
+body::-webkit-scrollbar{
+    width:0;
+    height:0;
+}
+html::-webkit-scrollbar{
+    width:0;
+    height:0;
+}
+.productimg{
+    width: 1.4rem;
+    height: 1.4rem;
+    background: #ccc;
+    position: absolute;
+    left: 0.2rem;
+    text-align: center;
+    top: 0.04rem;
+}
+.productdetail{
+    width:62%;
+    position: absolute;
+    right:0.25rem;
+    top:0.08rem;
+    color:#222;
+    font-size:0.21rem;
+    line-height:0.32rem;
+}
+.productdetail>p{
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.productprice{
+    position: absolute;
+    top:1rem;
+    color:#Fc9153;
+    height:0.3rem;
+    left:0;
+}
+.statement{
+    width:100%;
+    height:0.4rem;
+    background: #fff;
+    position: fixed;
+    bottom:0;
+}
+
+.gopay{
+    width:28%;
+    border:none;
+    color:#fff;
+    font-size:0.14rem;
+    /*font-family: "΢���ź�";*/
+    text-align:center;
+    background:#Fc9153;
+    position: absolute;
+    right:0;
+}
+/*.no-favorites{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: none;
+    padding-top: 85px;
+    background: #fff;
+}
+.no-favorites>div{
+    width: 30%;
+    height: 30%;
+    overflow: hidden;
+    position: absolute;
+    left: 34%;
+}
+.no-favorites>p{
+    width:100%;
+    text-align:center;
+    margin-top:145px;
+    font-size:18px;
+}*/
+.productLose{
+    width: 0.6rem;
+    text-align: center;
+    background: #ddd;
+    color: #fff;
+    border-radius: 0.08rem;
+    position: absolute;
+    top: 0.66rem;
+}
+.notice{
+    height: 0.6rem;
+    line-height: 0.6rem;
+    font-size: 14px;
+    margin-left: 0.1rem;
+}
+/*向右箭头*/
+.icRight{
+	display: inline-block;
+	position: absolute;
+	right: -0.3rem;
+	top: 70%;
+	width: .32rem;
+	height: .32rem;
+	background: url(../../common/images/arrow_right.png) right center no-repeat;
+	background-size: auto 100%;
+}

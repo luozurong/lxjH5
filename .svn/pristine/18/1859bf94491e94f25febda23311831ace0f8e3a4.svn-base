@@ -1,0 +1,67 @@
+var mmsHost = 'http://tt.hori-gz.com:8090';
+//var mmsHost = 'http://192.168.51.41:8090';
+var vue = new Vue({
+	el: '.commander',
+	data: {
+		status: 0,
+		content: '',
+		token: '154699705546f236e34b6ae141eab7d9',
+	},
+	methods: {
+		commanderContentAjax: function(){  
+            var params = {
+                body: {},
+                header: {
+                    token: this.token,
+                    time_stamp: new Date().getTime(),
+                }
+            }
+            console.log(params);
+            var paramsStr = encodeURI(JSON.stringify(params));
+            var httpURL = mmsHost + "/mms/group/groupLeaderConscribe?str=" + paramsStr;
+            this.$http.jsonp(httpURL, {
+                emulateJSON: true,
+                method: "get",
+                dataType: "jsonp",
+                jsonp: "jsoncallback",
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            }).then(function(res) {
+                console.log(res);
+                this.content = res.body.content;
+            }, function(res) {});
+        },
+		commanderInfoAjax: function(){  
+            var params = {
+                body: {},
+                header: {
+                    token: this.token,
+                    time_stamp: new Date().getTime(),
+                }
+            }
+            console.log(params);
+            var paramsStr = encodeURI(JSON.stringify(params));
+            var httpURL = mmsHost + "/mms/group/searchLeaderInfoStatus?str=" + paramsStr;
+            this.$http.jsonp(httpURL, {
+                emulateJSON: true,
+                method: "get",
+                dataType: "jsonp",
+                jsonp: "jsoncallback",
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            }).then(function(res) {
+                console.log(res);
+                this.status = res.body.status;
+            }, function(res) {});
+        },
+        jumpPage: function(){
+        	if(this.status == 2 || this.status == 3 || this.status == 4){
+            	window.location.href = "commanderInfo.htm";
+            }else if(this.status == 0){
+            	window.location.href = "successInfo.htm";
+            }
+        }
+	},
+	mounted: function(){
+		this.commanderContentAjax();
+		this.commanderInfoAjax();
+	}
+})

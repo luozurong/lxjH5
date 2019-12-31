@@ -1,0 +1,338 @@
+//刷新页面
+setRefreshOnResume();
+//清楚缓存
+clearHistory();
+//rem布局动态获取根字体大小
+function remDynamicLayout(){
+    var $windowWidth = $(window).width();
+    function htmlFontZize(){
+        $windowWidth = $(window).width();
+        if ($windowWidth > 640) {
+            $windowWidth = 640; //限定最大宽度为640
+        }
+        $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+    }
+    setTimeout(function () {
+        htmlFontZize();
+    }, 100);
+    $(window).resize(function () {
+        htmlFontZize();
+    });
+}
+remDynamicLayout();
+
+var pageNum = 1;
+var pageSize =8;
+//从URL获取token、手机类型
+var token = GetURLParameter("token");
+//手机类型
+var clientType = GetURLParameter("clientType");
+//住户编号
+var householdSerial = GetURLParameter("householdSerial");
+//小区机构编号
+var areaCode = GetURLParameter("organizationSeq");
+//解析url带的id
+var activityId=GetURLParameter("activityId");
+//activityId="1475898041548851c851a56a418abea2";
+//areaCode=4400100001;
+//token="149437838465f3558ed0a5444853a8fb";
+//host='http://118.190.8.134:8090';
+var flag = 2;//商品列表页
+var commodityListLength;//每次上拉返回数据的实际数目
+var time_stamp =getTimeStamp();
+
+//获取URL参数
+function GetURLParameter(name) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	var r = window.location.search.substr(1).match(reg);
+	if(r != null) return unescape(r[2]);
+	return null;
+}
+
+////分割小数点
+function splitNum(numberN) {
+	var Num = numberN;
+	var Nums = new Array();
+	Nums = (Num + "").split(".");
+	return Nums;
+}
+function isCondition(param) {
+	if(param != null && param != "" && param != undefined) {
+		return true;
+	}
+	return false;
+}
+function doubleValue(price) {
+	return(Math.round(price * 10000) / 10000).toFixed(2);
+}
+$(function() {
+	var jsonData={
+        eventId:"click29",
+        eventName:"服务列表页浏览次数"
+    };
+    jsonData=JSON.stringify(jsonData);
+    //调用APP接口，添加百度统计
+    nativeMethod("baiduStatistics",jsonData);
+	var myScroll;
+	var pullDownEl;
+	var pullDownOffset;
+	var pullUpEl;
+	var pullUpOffset;
+	var generatedCount = 0;
+//	点击购物车图标
+    $(".shoppingcart").on("click",function(){
+        showActivitySpecial(host+"/mms/html5/mall/shoppingcart.htm","购物车",1,null);
+    });
+	//发起查询商品列表请求
+	getServiceList();
+    getshoppingNum();
+});
+
+function getServiceList() {
+    var time_stamp = getTimeStamp();
+	var params={};
+    params.header={
+        token: token,
+        time_stamp:time_stamp
+    };
+    params.body={
+        flag:"2",
+        activityId:activityId,
+        areaSeq:areaCode,
+        pageSize:pageSize,
+        pageNum:pageNum
+
+    };
+
+    var paramData = JSON.stringify(params);
+    var reqUrl = host+"/mms/servlet/getActivity?str=" + paramData;
+    $.ajax({
+        url: reqUrl,
+        async: true,
+        type: "get",
+        dataType: "jsonp",
+        jsonp: "jsoncallback",
+        jsonpCallback: "success_jsonpCallback",
+        success: function(data) {
+//      	console.log(data);
+            if (clientType == "ios") {
+                try {
+                    contact_setTitle(data.title);
+                } catch (exception) {
+
+                }
+            } else {
+                setTitle(data.title);
+            }
+
+            if (data.canSee == 'Yes') {
+                //var shoppingCartNum = data.shoppingCart;
+                var commodityList = data.commodityList;
+                commodityListLength = commodityList.length;
+                if (pageNum == 1 && commodityListLength == 0) {
+                    $("#nomoreshop").show();
+                    $("#shoppingnum").show();
+                    //购物车数量信息的填入
+
+                    //if (shoppingCartNum > 99) {
+                    //    $("#shoppingnum").html("99+");
+                    //} else {
+                    //    $("#shoppingnum").html(shoppingCartNum);
+                    //}
+                } else {
+
+                    $("#shoppingnum").show();
+                    //购物车数量信息的填入
+                    //if (shoppingCartNum > 99) {
+                    //    $("#shoppingnum").html("99+");
+                    //} else {
+                    //    $("#shoppingnum").html(shoppingCartNum);
+                    //}
+                    for (var j = 0; j < commodityListLength; j++) {
+                        var item = commodityList[j];
+                        //模板
+                        var maintainBox = _.template($('#maintainlistTemplate').html());
+                        $('#thelist').append(maintainBox(item));
+                    }
+
+                    //	根据商品数量判断显示‘没有更多数据’提示
+
+                    if(commodityListLength >= pageSize) {
+                        pageNum++;
+                        $("#pullUp").show();
+                        $("#wrapper").css("background", "#F0F0F0");
+                    }else{
+                        $("#pullUp").css("background", "#F0F0F0");
+                        $("#pullUp").hide();
+//                        $("#nomoretip").show();
+                    }
+
+                    //福分显示/隐藏、福分样式
+                    fufenType();
+                    myScroll.refresh();
+                }
+
+
+            }else{
+                $("#wrapper").hide();
+                $("#pullUp").hide();
+                $(".top").hide();
+                $(".shoppingnum").hide();
+                $(".shoppingcart").hide();
+                $("#activityLose").show();
+
+            }
+
+
+        }
+    });
+
+}
+//购物车数量
+function getshoppingNum() {
+    var str ="{\"body\":{\"areaOrgSeq\":\""+areaCode+"\",\"type\":\""+1+"\"},\"header\":{\"token\":\""+token+"\",\"time_stamp\":\"" + time_stamp + "\"}}";
+    $.ajax({
+        type: "get",
+        async: false,
+        url:host+"/mms/servlet/getShoppingcartCountServlet?str="+str,
+        dataType: "jsonp",
+        jsonp: "jsoncallback",
+        //  jsonpCallback: "success_jsonpCallback",
+        success: function(data) {
+//          console.log(data);
+            var shoppingCart=data.totalCount;
+            if(shoppingCart>100){
+                $("#shoppingnum").empty().append("99+");
+            }else{
+                $("#shoppingnum").empty().append(shoppingCart);
+            }
+
+        }
+    });
+}
+//福分显示/隐藏、福分样式
+function fufenType(){
+    $(".add-maintainlist").each(function(){
+        var fufenType = $(this).attr("data-fufenType");
+        var fufen = $(this).find("#fufen");
+        var fufenNum = $(this).find(".fufenNum").html();
+        if(!isCondition(fufenNum)||doubleValue(fufenNum)<0.01){
+            fufen.hide();
+        }else{
+            fufen.show();
+        }
+        if(fufenType == 1){
+            fufen.removeClass().addClass("fufen1");
+        }else{
+            fufen.removeClass().addClass("fufen0");
+        }
+    });
+}
+//跳转到详情页
+function turnTo(ele){
+    var commodityId = $(ele).attr("id");
+    showActivity(host + "/mms/html5/mall/productDetail.htm?commodityId=" + commodityId, "");
+}
+
+function pullDownAction() {
+	return false;
+}
+
+function pullUpAction() {
+    if(commodityListLength >= pageSize){
+        setTimeout(function() {
+            getServiceList();
+            myScroll.refresh();
+        }, 100)
+    }
+
+}
+
+function loaded() {
+	pullDownEl = document.getElementById('pullDown');
+	pullDownOffset = pullDownEl.offsetHeight;
+	pullUpEl = document.getElementById('pullUp');
+	pullUpOffset = pullUpEl.offsetHeight;
+	myScroll = new iScroll('wrapper', {
+		useTransition: true,
+		topOffset: pullDownOffset,
+		onRefresh: function() {
+			if(pullDownEl.className.match('loading')) {
+				pullDownEl.className = '';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = ' ';
+			} else
+			if(pullUpEl.className.match('loading')) {
+				pullUpEl.className = '';
+				pullUpEl.querySelector('.pullUpLabel').innerHTML = '向上拉';
+			}
+			
+		},
+		onScrollMove: function() {
+			if($("#scroller").height() < $(window).height()) this.maxScrollY = 0;
+			if((this.y < this.maxScrollY) && (this.pointY < 1)) {
+				this.scrollTo(0, this.maxScrollY, 300);
+				return;
+			} else if(this.y > 0 && (this.pointY > window.innerHeight - 1)) {
+				this.scrollTo(0, 0, 300);
+				return;
+			} else if(this.y > 5 && !pullDownEl.className.match('flip')) {
+				pullDownEl.className = '';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = '';
+				this.minScrollY = 0;
+			} else if(this.y < 5 && pullDownEl.className.match('flip')) {
+				pullDownEl.className = '';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = '';
+				this.minScrollY = -pullDownOffset;
+			} else
+			if(this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
+				pullUpEl.className = 'flip';
+				pullUpEl.querySelector('.pullUpLabel').innerHTML = '放开手刷新';
+				this.maxScrollY = this.maxScrollY;
+			} else if(this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
+				pullUpEl.className = '';
+				pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载8条数据';
+				
+				//this.maxScrollY = pullUpOffset;
+			}
+            if(commodityListLength < pageSize){
+                $("#nomoretip").show();
+            }
+
+		},
+		onScrollEnd: function() {
+			if(pullDownEl.className.match('flip')) {
+				pullDownEl.className = '';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = '';
+				pullDownAction(); // Execute custom function (ajax call?)
+			} else
+			if(pullUpEl.className.match('flip')) {
+				pullUpEl.className = 'loading';
+				pullUpEl.querySelector('.pullUpLabel').innerHTML = '加载中...';
+				pullUpAction(); // Execute custom function (ajax call?)
+			}
+
+            if(commodityListLength < pageSize){
+                $("#nomoretip").hide();
+            }
+            /*向上滑动显示我的底部导航条/到达顶部时候隐藏*/             
+            var winHeight = $("#scroller").offset().top;
+//              console.log(winHeight);
+            if (winHeight<-100) {
+                $('.top').show(300);
+            }else{
+                $('.top').hide(300);
+            }
+            $('.top').on('click',function(){
+                $("#scroller").css("transform","translate(0px,0px)");
+                $(this).hide(300);
+            });			
+		}
+	});
+	document.getElementById('wrapper').style.left = '0';
+}
+document.addEventListener('touchmove', function(e) {
+	e.preventDefault();
+}, false);
+document.addEventListener('DOMContentLoaded', function() {
+	setTimeout(loaded, 200);
+}, false);

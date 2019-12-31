@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<link rel="stylesheet" href="../common/reset.css" />
+		<link rel="stylesheet" href="../mall/js/skin/mui.min.css">
+		<link rel="stylesheet" href="css/mui.picker.css">
+		<link rel="stylesheet" href="css/mui.poppicker.css">
+		<link rel="stylesheet" href="../common/tip/lxjTip.css">
+		<script src="../common/tip/lxjTip.js"></script>
+		<script src="js/mui.min.js" type="text/javascript"></script>
+		<script src="js/mui.picker.js" type="text/javascript"></script>
+		<script src="js/mui.poppicker.js" type="text/javascript"></script>
+		<script src="../common/interface.js" type="text/javascript"></script>
+		<script src="../common/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/vue/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../mall/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/lazyload-min.js" type="text/javascript" charset="utf-8"></script>
+		<title>申请售后</title>
+		<style type="text/css">
+			html,body {
+				width: 100%;
+				min-height: 100%;
+				background-color: #F3F4F5;
+				color: #222;
+				font-size: 14px;
+				line-height: normal;
+				font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+			}
+			
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4px;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			
+			.mui-slider .mui-slider-group .mui-slider-item img {
+			 	width: auto;
+			 	height: auto;
+			 	max-width: 100%;
+			  	max-height: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			* {
+				-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+			}
+		</style>
+		<script type="text/javascript">
+			window.addEventListener('load', function() {
+				FastClick.attach(document.body);
+			}, false);
+		</script>
+		<script type="text/javascript">
+			(function(doc, win) {
+				var docEl = doc.documentElement,
+					isIOS = navigator.userAgent.match(/iphone|ipod|ipad/gi),
+					dpr = isIOS ? Math.min(win.devicePixelRatio, 3) : 1,
+					dpr = window.top === window.self ? dpr : 1, //被iframe引用时，禁止缩放
+					scale = 1 / dpr,
+					resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+				docEl.dataset.dpr = dpr;
+				var recalc = function() {
+					var width = docEl.clientWidth;
+					if(width / dpr > 768) {
+						width = 768 * dpr;
+					}
+					docEl.style.fontSize = 100 * (width / 414) + 'px';
+				};
+				recalc();
+				if(!doc.addEventListener) return;
+				win.addEventListener(resizeEvt, recalc, false);
+			})(document, window);
+
+			var autoTextarea = function(elem, extra, maxHeight) {
+				extra = extra || 0;
+				var isFirefox = !!document.getBoxObjectFor || 'mozInnerScreenX' in window,
+					isOpera = !!window.opera && !!window.opera.toString().indexOf('Opera'),
+					addEvent = function(type, callback) {
+						elem.addEventListener ?
+							elem.addEventListener(type, callback, false) :
+							elem.attachEvent('on' + type, callback);
+					},
+					getStyle = elem.currentStyle ? function(name) {
+						var val = elem.currentStyle[name];
+
+						if(name === 'height' && val.search(/px/i) !== 1) {
+							var rect = elem.getBoundingClientRect();
+							return rect.bottom - rect.top -
+								parseFloat(getStyle('paddingTop')) -
+								parseFloat(getStyle('paddingBottom')) + 'px';
+						};
+
+						return val;
+					} : function(name) {
+						return getComputedStyle(elem, null)[name];
+					},
+					minHeight = parseFloat(getStyle('height'));
+
+				elem.style.resize = 'none';
+
+				var change = function() {
+					var scrollTop, height,
+						padding = 0,
+						style = elem.style;
+
+					if(elem._length === elem.value.length) return;
+					elem._length = elem.value.length;
+
+					if(!isFirefox && !isOpera) {
+						padding = parseInt(getStyle('paddingTop')) + parseInt(getStyle('paddingBottom'));
+					};
+					scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+
+					elem.style.height = minHeight + 'px';
+					if(elem.scrollHeight > minHeight) {
+						if(maxHeight && elem.scrollHeight > maxHeight) {
+							height = maxHeight - padding;
+							style.overflowY = 'auto';
+						} else {
+							height = elem.scrollHeight - padding;
+							style.overflowY = 'hidden';
+						};
+						style.height = height + extra + 'px';
+						scrollTop += parseInt(style.height) - elem.currHeight;
+						document.body.scrollTop = scrollTop;
+						document.documentElement.scrollTop = scrollTop;
+						elem.currHeight = parseInt(style.height);
+					};
+				};
+
+				addEvent('propertychange', change);
+				addEvent('input', change);
+				addEvent('focus', change);
+				change();
+			};
+		</script>
+		<style type="text/css">
+			#app {
+				width: 100%;
+				min-height: 100%;
+				overflow: hidden;
+			}
+			
+			.nothing0 {
+				-webkit-order: 0;
+				-webkit-flex-grow: 5;
+			}
+			
+			.nothing1 {
+				-webkit-order: 1;
+				-webkit-flex-grow: 5;
+			}
+			
+			.nothing3 {
+				-webkit-order: 3;
+				-webkit-flex-grow: 5;
+			}
+			
+			.line_01 {
+				width: 100%;
+				height: 1px;
+				background-color: #F0F0F0;
+				transform: scaleY(0.5);
+				-webkit-transform: scaleY(0.5)
+			}
+			
+			.bghui {
+				background-color: #bbb !important;
+			}
+			
+			.bgtbse {
+				background-color: #ff661b !important;
+			}
+			
+			#orderNo {
+				width: 100%;
+				background-color: #F8F8F8;
+				padding: 0.16rem 0.13rem;
+			}
+			
+			#second_box {
+				width: 100%;
+				background-color: #fff;
+			}
+			
+			.shop_product {
+				width: 100%;
+				box-sizing: border-box;
+			}
+			
+			.shop_product .shop {
+				width: 100%;
+				display: -webkit-flex;
+				-webkit-flex-direction: row;
+				-webkit-align-items: center;
+				padding-bottom: 0.1rem;
+				padding: 0.1rem 0.13rem;
+				box-sizing: border-box;
+			}
+			
+			.shop_product .shop img {
+				-webkit-order: 0;
+				-webkit-flex-grow: 0;
+				width: 0.2rem;
+				height: 0.2rem;
+				/*border-radius: 0.125rem;*/
+				/*background-image: url(images/sellerName_logo.png);
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: 100%;*/
+			}
+			
+			.shop_product .shop div {
+				-webkit-order: 0;
+				-webkit-flex-grow: 1;
+				font-size: 0.14rem;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				-webkit-line-clamp: 1;
+				padding-left: 0.15rem;
+			}
+			
+			.product_list {
+				position: relative;
+			}
+			
+			.shop_product .product_list .product {
+				width: 100%;
+				display: -webkit-flex;
+				-webkit-flex-direction: row;
+				-webkit-align-items: center;
+				padding: 0.22rem 0.13rem 0.22rem 0.13rem;
+				background-color: #fff;
+				box-shadow: 1px 0px #DADADA;
+				box-sizing: border-box;
+			}
+			
+			.shop_product .product_list .product:nth-child(n+2) {
+				margin-top: 0.04rem;
+			}
+			
+			.product_list .product img:nth-child(1) {
+				-webkit-order: 0;
+				-webkit-flex-grow: 0;
+				min-width: 0.7rem;
+				min-height: 0.7rem;
+				max-height: 0.7rem;
+				max-width: 0.7rem;
+				background-image: url(images/c_s_error.png);
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: 100%;
+			}
+			
+				.product_list .product .product_detail {
+				position: relative;
+				max-height: 0.9rem;
+				width: 54%;
+				-webkit-order: 0;
+				align-self: stretch;
+				-webkit-flex-grow: 0;
+				font-size: 0.14rem;
+				padding-left: 0.15rem;
+				overflow: hidden;
+				display: -webkit-flex;
+				-webkit-flex-direction: column;
+			}
+			
+			.product_list .product .product_detail .product_introduce {
+				-webkit-order: 0;
+				-webkit-flex-grow: 0;
+				width: 100%;
+				line-height: 150%;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				-webkit-line-clamp: 2;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				margin-top: -0.03rem;
+				color: #333;
+			}
+			
+			.product_list .product .product_detail .product_type {
+				-webkit-order: 2;
+				-webkit-flex-grow: 0;
+				width: 100%;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				padding-top: 0.1rem;
+				color: #aaa;
+				-webkit-line-clamp: 1;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				font-size: 0.13rem;
+			}
+			
+			.product_list .product  .product_price_number {
+				-webkit-order: 2;
+				-webkit-flex-grow: 1;
+				-webkit-flex-shrink: 0;
+				display: -webkit-flex;
+				-webkit-flex-direction: column;
+				-webkit-align-self: stretch;
+				text-align: right;
+			}
+			
+			.product_list .product  .product_price_number .product_price {
+				-webkit-order: 0;
+				-webkit-flex-grow: 2;
+				color: #333;
+				text-align: right;
+				font-size: 0.16rem;
+			}
+			
+			.product_list .product  .product_price_number .product_price span:nth-child(2) {
+				/*font-size: 0.14rem;*/
+			}
+			
+			.product_list .product  .product_price_number .product_number {
+				-webkit-order: 1;
+				color: #aaa;
+			}
+			
+			.product_list .product .product_detail img {
+				position: absolute;
+				right: 0;
+				top: 0;
+				width: 0.8rem;
+			}
+			
+			.shop_product .product_list .product:nth-child(n+2) .product_detail img {
+				display: none;
+			}
+			
+			
+			#third_box {
+				width: 100%;
+				margin-bottom: 0.1rem;
+			}
+			
+			.submit_title {
+				width: 100%;
+				padding: 0.1rem 0.13rem;
+				box-sizing: border-box;
+				padding-bottom: 0;
+			}
+			.submit_title span{
+				color: #aaa;
+				font-size: 0.12rem;
+				padding-left: 0.08rem;
+			}
+			
+			#submitText {
+				width: 100%;
+				background-color: #fff;
+				padding-bottom: 0.2rem;
+			}
+			
+			#submitText .submit_text_box {
+				
+				box-sizing: border-box;
+				margin: 0.09rem 0.13rem 0.1rem;
+				position: relative;
+				border: 1px solid #F2F2F2;
+			}
+			
+			#submitText .submit_text_box textarea {
+				-webkit-appearance: none;
+				width: 100%;
+				resize: none;
+				word-break: break-all;
+				text-align: justify;
+				font-size: 0.14rem;
+				/*line-height: 200%;*/
+				height: 1.16rem;
+				padding: 0 0.13rem;
+				margin: 0.09rem 0;
+				border:none;
+			}
+			#messageLength{
+				position: absolute;
+				bottom: 0.0rem;
+				right: 0.2rem;
+				color: #ccc;
+				font-size: 0.12rem;
+				
+			}
+			
+			#submitImg {
+				width: 100%;
+				background-color: #fff;
+				margin-top: 0.1rem;
+			}
+			
+			#submitImg .submit_img_box {
+				width: 100%;
+				box-sizing: border-box;
+				padding: 0.28rem 0.13rem 0.28rem;
+			}
+			
+			#submitImg .submit_img_box .submit_img {
+				width: 0.86rem;
+				height: 0.86rem;
+				display: inline-block;
+				margin-right: 0.18rem;
+				margin-bottom: 0.1rem;
+			}
+			
+			#submitImg .submit_img_box .upload_img {
+				position: relative;
+				border: 1px solid #F2F2F2;
+				background-repeat: no-repeat;
+				background-image: url(images/c_s_error.png);
+				background-position: center;
+				background-size: cover;
+				box-sizing: border-box;
+			}
+			
+			#submitImg .submit_img_box .upload_img .dele_box {
+				margin: 0;
+				border: none;
+				width: 0.24rem;
+				height: 0.24rem;
+				position: absolute;
+				top: -0.16rem;
+				left: -0.16rem;
+				padding: 0.1rem;
+				box-sizing: content-box;
+				background-image: none;
+				z-index: 2;
+			}
+			
+			#submitImg .submit_img_box .upload_img .dele_box img {
+				width: 100%;
+				height: 100%;
+			}
+			
+			#submitImg .submit_img_box .upload_img .upload_images {
+				width: 100%;
+				height: 100%;
+				opacity: 0;
+			}
+			
+			#submitImg .submit_img_box #addimgLogo img {
+				width: 100%;
+				height: 100%;
+			}
+			
+			#submitImg .submit_img_warn {
+				width: 100%;
+				clear: both;
+				box-sizing: border-box;
+				padding: 0rem 0.13rem 0.1rem;
+				font-size: 0.14rem;
+				color: #999999;
+			}
+			
+			#footer_buttom {
+				position: fixed;
+				/*height: 50px;
+				line-height: 50px;*/
+				text-align: center;
+				font-size: 0.173rem;
+				color: #fff;
+				width: 100%;
+				/* width: 4.14rem; */
+				bottom: 0px;
+				background-color: #fff;
+				padding: 0.11rem 0.13rem;
+				border: 1px solid rgba(204, 204, 204, 0.51);
+			}
+			#submit_buttom{
+				width: 100%;
+				height: 0.44rem;
+				line-height: 0.44rem;
+				background-color:#fc9153;
+			}
+			
+			[v-cloak] {
+				display: none!important;
+			}
+			.product_number span{
+				line-height: 0.2rem;
+			}
+			.product_number input{
+				width: 0.32rem;
+				height: 0.2rem;
+				text-align: center;
+				min-width: 0.3rem;
+				max-width: 0.9rem;
+				-webkit-appearance: none;
+				outline: none;
+				border: 1px solid #aaa;
+				font-size: 0.14rem;
+			}
+			.service-wrap{
+				height: 0.5rem;
+				width: 100%;
+				box-sizing: border-box;
+				padding: 0 0.14rem;
+				background: #fff;
+				border-top: 1px solid #eee;
+				margin-bottom: 0.1rem;
+				display: flex;
+				display: -webkit-flex;
+			}
+			.service-wrap>span{
+				flex-shrink: 0;
+				-webkit-flex-shrink:0;
+				line-height: 0.5rem;
+			}
+			.service-wrap>div{
+				flex-grow: 2;
+				-webkit-flex-grow: 2;
+				line-height: 0.5rem;
+			}
+			.service-wrap>div span{
+				 float: right; 
+				line-height: 0.5rem;
+				display: block;
+				text-align: right;
+			}
+		 	.service-wrap>div img{
+		 		float: right;
+		 		height: 0.15rem;
+		 		margin-top: 0.18rem;
+		 		margin-left: 0.12rem;
+		 	}
+		 	.mui-picker{
+				background: #fff;
+			}
+			.visible{
+				font-size: 0.16rem;
+			}
+			.mui-pciker-list li.highlight{
+				font-size: 0.22rem;
+			}
+			.mui-poppicker-btn-cancel{
+				border: none;
+				background: transparent;
+				outline: none;
+				font-size: 0.17rem;
+			}
+			.mui-poppicker-btn-ok{
+				background: transparent;
+				color: #333;
+				border: transparent;
+			}
+			.mui-poppicker-header .mui-btn{
+				font-size: 0.17rem;
+			}
+			.mui-poppicker{
+				background: #f3f4f5;
+			}
+			.mui-pciker-rule-ft{
+				border: none;
+			}
+			.product_price:before{
+				content: "￥";
+				color:#333;
+			}
+		</style>
+	</head>
+
+	<body style="min-height: 100%;background-color: #F3F4F5;">
+		<div id="app" v-cloak>
+			<div id="orderNo">
+				订单号：{{orderNo}}
+			</div>
+			<div id="second_box">
+				<div class="shop_product">
+					<div class="product_list">
+						<div class="product">
+							<img v-bind:src='orderDetails.thumbLogo' />
+							<div class="product_detail">
+								<div class="product_introduce" v-text='orderDetails.commodityName'></div>
+								<div class="product_type" v-text='orderDetails.commodityDetails'></div>							
+							</div>
+							<div class="product_price_number">
+								<div class="product_price" v-text="orderDetails.commodityPrice"></div>
+								<div class="product_number">
+									<span>x</span>
+									<input v-on:blur="commodityNumBlur(commodityNum)" maxlength="3" onkeyup="value=value.replace(/[^\d]/g,'') " type="tel" v-model="commodityNum" >
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="service-wrap" @click="pickerService()">
+				<span>售后类型</span>
+				<div class="service-choose">
+					<img src="images/arrow_right.png" alt="">
+					<span class="service-choose" v-text='serviceChoose'></span>
+				</div>
+			</div>
+			<div id="third_box">
+				<div id="submitText">
+					<div class="submit_title">
+						问题描述：
+					</div>
+					<div class="submit_text_box">
+						<textarea v-model="message" v-on:focus="onfocusopen()" v-on:blur="onbluropen()" v-on:click="newviewopen()" id="feedBackContent" name="feedBackContent" rows="5" placeholder="请在此描述详细问题" maxlength="300" onkeyup="value=value.replace(/[\&\%\#]/g,'')" onpaste="value=value.replace(/[\&\%\#]/g,'')" oncontextmenu="value=value.replace(/[\&\%\#]/g,'')" /></textarea>
+						<div id="messageLength" v-on:click="newviewopen()">{{message.length}}/300</div>
+					</div>
+				</div>
+				<div id="submitImg">
+					<div class="submit_title">
+						上传图片<span>(最多只上传3张，每张不超过5M，仅支持JPG/PNG/BMP)</span>
+					</div>
+					<div class="submit_img_box">
+						<div v-for='(item,index) in feedBackImages' :key="index" @click="showPicPreviews(index)" class="submit_img upload_img" v-bind:style="{ backgroundImage: 'url('+item.o_path+')' }">
+							<div class='dele_box' v-on:click="delePicture(item.o_path)">
+								<img class='dele_img' src='images/btn_ic_cancel@3x.png' />
+							</div>
+							<img class="upload_images" v-bind:src='item.o_path' data-preview-src='' data-preview-group='1'/>
+						</div>
+						<div v-if="feedBackImages.length<3" id="addimgLogo" class="submit_img">
+							<img src="images/btn_add@3x.png" v-on:click="imageUpload()" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div style="width: 100%;height: 50px;margin-top: 0.1rem;opacity: 0;">
+			</div>
+			<div id="footer_buttom"  v-if="onfocusState" v-on:click="updateOrderFlag(5,orderNo)">
+				<div id="submit_buttom" v-bind:class="{bghui:applyState}">
+					{{applyText}}
+				</div>	
+			</div>
+		</div>
+	</body>
+	<script src="js/service.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		function isCondition(param) {
+			if(param != null && param != "" && param != undefined) {
+				return true;
+			}
+			return false;
+		}
+		var lxjversionsName5 = Number((GetURLParameter("lxjversionsName") ? GetURLParameter("lxjversionsName") : "0").replace(/[^0-9]/ig, ""));
+		/*var clientType = GetURLParameter("clientType");
+		if(clientType == "android") {
+			LazyLoad.js(['../mall/js/mui.min.js', 'js/mui.previewimage.js', '../mall/js/mui.zoom.js'], function() {
+				mui.previewImage();
+			});
+		} else if(isCondition(lxjversionsName5) && Number(lxjversionsName5) >= 3005) {
+			LazyLoad.js(['../mall/js/mui.min.js', 'js/mui.previewimage.js', '../mall/js/mui.zoom.js'], function() {
+				mui.previewImage();
+			});
+		}*/
+	</script>
+
+</html>

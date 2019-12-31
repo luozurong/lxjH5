@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>促销专场列表</title>
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" href="../common/reset.css" />
+    <link rel="stylesheet" href="../common/common.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="../common/progress.css">
+    <script type="text/javascript"	src="../common/jquery-2.1.4.js"></script>
+    <script type="text/javascript"	src="../common/jquery-1.11.2.min.js"></script>
+    <script src="../common/interface.js"></script>
+    <script src="js/iscroll.js"></script>
+    <script src="js/common.js"></script>
+    <script type="text/javascript">
+        //判断在手机设备上使用一下代码
+        var $windowWidth = $(window).width();
+        setTimeout(function() {
+            $windowWidth = $(window).width();
+            if ($windowWidth > 640) {
+                $windowWidth = 640; //限定最大宽度为640
+            }
+            $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+        }, 100);
+        $(window).resize(function() {
+            $windowWidth = $(window).width();
+            if ($windowWidth > 640) {
+                $windowWidth = 640;
+            }
+            $("html").css("font-size", (100 / 320) * $windowWidth + "px");
+
+        });
+    </script>
+    <script type="text/javascript">
+        function goBack()
+        {
+            var url=window.location;
+            contact.goBack("'"+url+"'");
+        }
+    </script>
+    <script src="js/underscore.js"></script>
+    <script src="js/index.js"></script>
+</head>
+<body>
+
+<div id="activityLose">
+    <img src="images/ic_sale@3x.png" style="width:1rem;" alt=""/>
+    <div style="margin-top:30px;width:100%;text-align:center;font-size:18px;">暂无活动</div>
+</div>
+<div id="wrapper" class="wrapper-second" style="overflow:auto;">
+    <div id="scroller">
+        <div id="pullDown">
+            <span class="pullDownIcon"></span><span class="pullDownLabel"></span>
+        </div>
+        <!-- 用一个容器来装对应的促销商品列表-->
+        <ul class="mall_banner" id="mall_banner">
+        </ul>
+        <!-- 对应的每条促销商品的参数填入-->
+        <script id="mallTemplate" type="text/html">
+            <li class="activityList" name="<%=id%>" onclick="getActivity(this)">
+                <img src="<%=imgUrl%>" class="mall_sales" id="mall_sales" alt="" onerror="images/picture_1@3x.png' width='100%' height='100%'"/>
+                <div class="discript" id="discript"><%=title%></div>
+            </li>
+        </script>
+        <div id="pullUp" style="bottom:-40px;display:none;">
+            <div id="nomore">
+                没有更多数据了
+            </div>
+            <span class="pullUpIcon"></span><span class="pullUpLabel">向上拉更多惊喜</span>
+        </div>
+    </div>
+</div>
+<img src="images/btn_ic_top@3x.png" alt="置顶图标" class="top"/>
+</body>
+</html>

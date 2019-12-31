@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" href="../../common/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/groupPurchase.css" />
+<!--	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.2.6/css/swiper.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.2.6/js/swiper.min.js"></script>-->
+		<script src="../../common/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/interfaceParameters.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../../common/tip/lxjTip.css"/>
+		<script src="../../common/tip/lxjTip.js" type="text/javascript" charset="utf-8"></script>
+		<title>活动购买</title>
+	</head>
+	<style type="text/css">
+		body,
+		html {
+			font-family: "PingFang SC", Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+			background-color: #f3f4f5;
+		}
+		
+		body {
+			font-size: 14px;
+		}
+		
+		input {
+			outline: none;
+			/*去ios内阴影、圆角*/
+			-webkit-appearance: none;
+			border-radius: 0;
+			border: none;
+			margin: 0;
+			padding: 0;
+			font-weight: normal;
+		}
+		
+		input,
+		textarea,
+		a {
+			-webkit-tap-highlight-color: transparent;
+		}
+		
+		* {
+			-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+		}
+		
+		[v-cloak] {
+			display: none!important;
+		}
+		
+		#app {
+			width: 100%;
+			position: relative;
+			/*background-image: url('11.png');
+			background-position: 0 0;
+			background-size: 100% auto;
+			background-repeat: no-repeat;*/
+		}
+		
+		.line_01 {
+			width: 100%;
+			height: 1px;
+			background-color: #eee;
+			/*transform: scaleY(0.5);
+		-webkit-transform: scaleY(0.5)*/
+		}
+		
+		.fade-enter-active {
+			transition: all 1.5s ease;
+			-webkit-transition:: all 1.5s ease;
+		}
+		
+		.fade-leave-active {
+			transition: opacity 1s;
+			-webkit-transition: opacity 1s;
+		}
+		
+		.fade-enter {
+			transform: translateX(-100%);
+			-webkit-transform: translateX(-100%);
+		}
+		
+		.fade-leave-to {
+			opacity: 0;
+		}
+	</style>
+
+	<body style="width: 100%;">
+		<div id="app" v-cloak>
+			<div class="headerBox2" v-if="jsonPdata!=null">
+				<div class="grouponTimeBox">
+					<div class="grouponStaring" v-show="countDownTimeStamp!=null&&countDownTimeStamp>0">
+						<div class="grouponTimeState">
+							距离本次活动结束仅剩
+						</div>
+						<div class="grouponTimeInfo">
+							<span>{{countDown[0]}}</span>
+							<span>天</span>
+							<span>{{countDown[1]}}</span>
+							<span>小时</span>
+							<span>{{countDown[2]}}</span>
+							<span>分</span>
+							<span>{{countDown[3]}}</span>
+							<span>秒</span>
+						</div>
+					</div>
+					<div class="grouponEnd" v-show="countDownTimeStamp!=null&&countDownTimeStamp<=0">
+						本次活动已结束，下次记得早点来哟
+					</div>
+				</div>
+				<div class="chairmanInfoBox">
+					<div class="chairmanMainInfo">
+						<div class="chairmanImgbox">
+							<img src="" />
+							<div class="chairmanLogo">
+								<span>团长</span>
+							</div>
+						</div>
+						<div class="chairmanNamebox">
+							<div class="chairmanName">黄笑笑</div>
+							<div class="chairmanMoreButton"><span v-on:click="chairmanMoreInfoState=!chairmanMoreInfoState">展开团长信息</span><img v-on:click="chairmanMoreInfoState=!chairmanMoreInfoState" v-show="!chairmanMoreInfoState" src="images/btn_ic_pull-down@3x.png" /><img v-on:click="chairmanMoreInfoState=!chairmanMoreInfoState" v-show="chairmanMoreInfoState" src="images/btn_ic_put-up.png" /></div>
+						</div>
+						<div class="grouponRuleButton">
+							<span>活动公告</span>
+						</div>
+					</div>
+					<div class="chairmanMoreInfo" id="chairmanMoreInfo2">
+						<div class="chairmanPhone">
+							<span>团长电话：</span>
+							<span>000000</span>
+						</div>
+						<div class="chairmanAddress">
+							<span>团长地址：</span>
+							<span>广东省</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="headerBox" v-if="jsonPdata!=null">
+				<div class="grouponTimeBox">
+					<div class="grouponStaring" v-show="countDownTimeStamp!=null&&countDownTimeStamp>0">
+						<div class="grouponTimeState">
+							距离本次活动结束仅剩
+						</div>
+						<div class="grouponTimeInfo">
+							<span>{{countDown[0]}}</span>
+							<span>天</span>
+							<span>{{countDown[1]}}</span>
+							<span>小时</span>
+							<span>{{countDown[2]}}</span>
+							<span>分</span>
+							<span>{{countDown[3]}}</span>
+							<span>秒</span>
+						</div>
+					</div>
+					<div class="grouponEnd" v-show="countDownTimeStamp!=null&&countDownTimeStamp<=0">
+						本次活动已结束，下次记得早点来哟
+					</div>
+				</div>
+				<div class="chairmanInfoBox">
+					<div class="chairmanMainInfo">
+						<div class="chairmanImgbox">
+							<img v-show="jsonPdata.groupLeaderImg" v-bind:src="jsonPdata.groupLeaderImg" /><!--v-bind:src="jsonPdata.groupLeaderImg"-->
+							<div class="chairmanLogo">
+								<span>团长</span>
+							</div>
+						</div>
+						<div class="chairmanNamebox">
+							<div class="chairmanName">{{jsonPdata.groupLeaderName}}</div>
+							<div class="chairmanMoreButton"><span v-on:click="chairmanMoreInfoState=!chairmanMoreInfoState">展开团长信息</span><img v-on:click="chairmanMoreInfoState=!chairmanMoreInfoState" v-show="!chairmanMoreInfoState" src="images/btn_ic_pull-down@3x.png" /><img v-on:click="chairmanMoreInfoState=!chairmanMoreInfoState" v-show="chairmanMoreInfoState" src="images/btn_ic_put-up.png" /></div>
+						</div>
+						<div class="grouponRuleButton" v-on:click="activityNoticeState=true">
+							<span>活动公告</span>
+						</div>
+					</div>
+					<div class="chairmanMoreInfo" id="chairmanMoreInfo">
+						<div class="chairmanPhone">
+							<span>团长电话：</span>
+							<span>{{jsonPdata.phone}}</span>
+						</div>
+						<div class="chairmanAddress">
+							<span>团长地址：</span>
+							<span>{{jsonPdata.doorplateAddr}}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="hadBugInfoBox" v-if="countDownTimeStamp!=null&&countDownTimeStamp>0">
+				<transition name="fade">
+						<div class="hadBugInfo" v-if="transitionShow">
+							<img v-bind:src="carouselList[carouselIndex].headImgUrl" />
+							<span>{{carouselList[carouselIndex].userName}}  购买了  {{carouselList[carouselIndex].commodityName}}</span>
+						</div>
+				</transition>
+			</div>
+			<div class="hadBugInfoBox" v-if="countDownTimeStamp!=null&&countDownTimeStamp>0">
+				<transition name="fade">
+						<div class="hadBugInfo" v-if="transitionShow2">
+							<img v-bind:src="carouselList[(carouselIndex+1)>=carouselList.length?0:(carouselIndex+1)].headImgUrl" />
+							<span>{{carouselList[(carouselIndex+1)>=carouselList.length?0:(carouselIndex+1)].userName}}  购买了  {{carouselList[(carouselIndex+1)>=carouselList.length?0:(carouselIndex+1)].commodityName}}</span>
+						</div>
+				</transition>
+			</div>
+
+			<div class="grouponCommodities" v-if="stockQuantityData.length==commodityList.length">
+				<div class="commodityBox" v-for="(item,index) in commodityList">
+					<div class="commodity" >
+						<div class="commodityImg"><img v-bind:src="item.imgUrl"  /></div>
+						<div class="commodityInfo">
+							<div class="commodityName" v-on:click="goDetail(item.commodityId)">
+								{{item.commodityName}}
+							</div>
+							<div class="commodityPrice">
+								<div class="commodityPriceA">
+									<span>¥{{String(parseFloat(item.buyPrice).toFixed(2)).split('.')[0]}}.</span><span>{{String(parseFloat(item.buyPrice).toFixed(2)).split('.')[1]}}</span><span v-if="item.markingPrice&&item.markingPrice>0">¥{{String(parseFloat(item.markingPrice).toFixed(2))}}</span>
+								</div>
+								<div class="commodityBugNum" v-show="countDownTimeStamp>0" >
+									<div class="reducebt" v-on:click="reduceData(stockQuantityData[index].num,index)" v-bind:class="{reducefall:stockQuantityData[index].num<=0}">
+									</div>
+									<input type="tel" v-model="stockQuantityData[index].num" disabled="disabled" name="bugNumber" id="bugNumber" value="0" />
+									<div class="addbt" v-on:click="addData(stockQuantityData[index].num,stockQuantityData[index].stockQuantity,stockQuantityData[index].limit,index)" v-bind:class="{addbfall:stockQuantityData[index].num>=stockQuantityData[index].stockQuantity||stockQuantityData[index].num>=stockQuantityData[index].limit}">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="line_01" v-if="index!=(commodityList.length-1)"></div>
+				</div>
+
+			</div>
+			<div class="kongbai" style="width: 100%;height: 0.63rem;opacity: 0;" >
+			</div>
+			<div class="footerBox" >
+				<div class="line_01"></div>
+				<div class="bugInfoBox">
+					<div class="submitButton" v-on:click="goConfirmOrder()" v-if="countDownTimeStamp>0">
+						立即参团
+					</div>
+					<div class="submitButton" style="background-color:#ff525c;" v-on:click="goOrdersCentre()">
+						订单中心
+					</div>
+					<div style="-webkit-flex-grow: 2;"></div>
+					<div class="bugTotailNum" style="padding-left:0.14rem ;" v-if="countDownTimeStamp>0">
+						<div class="bugTotailNumBox">
+							<span>合计：</span><span>¥{{String(parseFloat(totailPrice).toFixed(2)).split('.')[0]}}.</span><span>{{String(parseFloat(totailPrice).toFixed(2)).split('.')[1]}}</span>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="bgTangcan" v-show="activityNoticeState">
+				<div id="activityNotice">
+					<div class="activityNoticeText">
+						活动公告
+					</div>
+					<div class="activityNoticeMain" v-if="jsonPdata!=null">
+						<pre v-text="jsonPdata.activityNotice"></pre>
+					</div>
+					<div class="line_01"></div>
+					<div class="closeActivityNotice" v-on:click="activityNoticeState=false">
+						我知道了
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/groupPurchase.js?y=001"></script>
+	</body>
+
+</html>

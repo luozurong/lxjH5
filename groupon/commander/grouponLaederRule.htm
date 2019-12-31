@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<link rel="stylesheet" href="../../common/reset.css" />
+		<title>规则说明</title>
+		<script src="../../common/vue/vue.min.js"></script>
+		<script src="../../common/vue/vue-resource.min.js"></script>
+		<script src="../../common/vue/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			html,
+			body {
+				width: 100%;
+				min-height: 100%;
+				background-color: #f3f4f5;
+				color: #333;
+				font-size: 14px;
+				font-family: "PingFang SC", Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+			}
+			
+			* {
+				-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+			}
+		</style>
+		<script type="text/javascript">
+			(function(doc, win) {
+				var docEl = doc.documentElement,
+					isIOS = navigator.userAgent.match(/iphone|ipod|ipad/gi),
+					dpr = isIOS ? Math.min(win.devicePixelRatio, 3) : 1,
+					dpr = window.top === window.self ? dpr : 1, //被iframe引用时，禁止缩放
+					scale = 1 / dpr,
+					resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+				docEl.dataset.dpr = dpr;
+				var recalc = function() {
+					var width = docEl.clientWidth;
+					if(width / dpr > 768) {
+						width = 768 * dpr;
+					}
+					docEl.style.fontSize = 100 * (width / 414) + 'px';
+				};
+				recalc();
+				if(!doc.addEventListener) return;
+				win.addEventListener(resizeEvt, recalc, false);
+			})(document, window);
+		</script>
+		<style type="text/css">
+			#app {
+				width: 100%;
+				min-height: 100%;
+				overflow: hidden;
+			}
+			
+			.nothing0 {
+				-webkit-order: 0;
+				-webkit-flex-grow: 5;
+			}
+			
+			.nothing1 {
+				-webkit-order: 1;
+				-webkit-flex-grow: 5;
+			}
+			
+			.nothing3 {
+				-webkit-order: 3;
+				-webkit-flex-grow: 5;
+			}
+			
+			.colorTb {
+				color: #FC9153!important;
+			}
+			
+			.border_colorTb {
+				border-color: #FC9153!important;
+			}
+			
+			.line_01 {
+				width: 100%;
+				height: 1px;
+				background-color: #F0F0F0;
+				transform: scaleY(0.5);
+				-webkit-transform: scaleY(0.5);
+			}
+			
+			[v-cloak] {
+				display: none!important;
+			}
+			
+			/*#app {
+				background-image: url(images/002.png);
+				background-position: 0 0;
+				background-size: 100% auto;
+				background-repeat: no-repeat;
+			}*/
+		</style>
+		<style type="text/css">
+			.question_item{
+				width: 100%;
+				box-sizing: border-box;
+				padding: 0 0.14rem;
+				background-color: #fff;
+			}
+			.content_box{
+				width: 100%;
+				box-sizing: border-box;
+				padding: 24px 0 22px 0;
+				padding: 0.24rem 0 0.22rem 0;
+				text-align: justify;
+				word-break: break-all;
+			}
+			.question{
+				color: #333;
+				font-size: 16px;
+				font-size: 0.16rem;
+				line-height: 1;
+				padding-bottom:0.14rem;
+				font-weight: 500;
+			}
+			.answer{
+				color: #888888;
+				font-size: 14.6px;
+				font-size: 0.146rem;
+				line-height: 0.19rem;
+			}
+			.warning{
+				color: #FC9153;
+				font-size: 14.6px;
+				font-size: 0.146rem;
+				line-height: 0.19rem;
+			}
+			.item_bottomborder{
+				width:100%;
+				height: 1px;
+				background-color: #ccc;
+				transform: scaleY(0.33);
+	            -webkit-transform: scaleY(0.33);
+			}
+			#app .question_item:nth-last-child(1) .item_bottomborder{
+				background-color: #fff;
+			}
+		</style>
+	</head>
+
+	<body style="min-height: 100%;background-color: #f3f4f5;">
+		<div id="app">
+			<div class="question_item">
+				<div class="content_box">
+					<div class="question">
+						Q：什么是联享家积分？
+					</div>
+					<div class="answer">
+						A：联享家积分是根据用户的使用服务、使用时间、活跃度等情况，通过累计等级积分的方式推出的一项长期回馈计划。
+					</div>
+					<div class="warning">						
+					</div>
+				</div>
+				<div class="item_bottomborder">				
+				</div>
+			</div>
+			<div class="question_item">
+				<div class="content_box">
+					<div class="question">
+						Q：如何获得联享家积分？
+					</div>
+					<div class="answer">
+						A：单个联享家帐号用户为积分计算主体，联享家平台用户可以通过日常登陆、签到等活跃行为获得积分，还可通过参加每日任务获得积分，具体规则参考任务中心。
+					</div>
+					<div class="warning">						
+					</div>
+				</div>
+				<div class="item_bottomborder">				
+				</div>
+			</div>
+			<div class="question_item">
+				<div class="content_box">
+					<div class="question">
+						 Q：如何使用联享家积分？
+					</div>
+					<div class="answer">
+						 A：在积分商城中，可使用积分兑换实物、优惠券等商品，还可以参加积分抽奖换取礼品哦。
+					</div>
+					<div class="warning">
+						注：积分商城后续版本上线，敬请期待。
+					</div>
+				</div>
+				<div class="item_bottomborder">				
+				</div>
+			</div>
+			<div class="question_item">
+				<div class="content_box">
+					<div class="question">
+						Q：积分有效期是多久？
+					</div>
+					<div class="answer">
+						A：联享家积分的有效期为获得当月起至次年该月月底，未在有效期内使用的等级积分将自动作废清零。例：用户在2017年11月1日获得100积分，使用有效期是到2018年11月30日23点59分59秒，在2018年12月1日0点00分00秒失效即清零。
+					</div>
+					<div class="warning">						
+					</div>
+				</div>
+				<div class="item_bottomborder">				
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="js/rule.js"></script>
+</html>

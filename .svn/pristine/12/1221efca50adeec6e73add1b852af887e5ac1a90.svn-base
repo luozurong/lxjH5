@@ -1,0 +1,116 @@
+ html,
+ body {
+ 	position: relative;
+ 	height: 100%;
+ }
+ 
+ body {
+ 	background: #eee;
+ 	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+ 	font-size: 14px;
+ 	color: #000;
+ 	margin: 0;
+ 	padding: 0;
+ }
+ 
+ .swiper-container {
+ 	width: 100%;
+ 	height: 100%;
+ }
+ 
+ .swiper-slide {
+ 	text-align: center;
+ 	font-size: 18px;
+ 	background: #fff;
+ 	/*display: -webkit-box;
+ 	display: -ms-flexbox;
+ 	display: -webkit-flex;
+ 	display: flex;
+ 	-webkit-box-pack: center;
+ 	-ms-flex-pack: center;
+ 	-webkit-justify-content: center;
+ 	justify-content: center;
+ 	-webkit-box-align: center;
+ 	-ms-flex-align: center;
+ 	-webkit-align-items: center;
+ 	align-items: center;*/
+ }
+ 
+ @-webkit-keyframes twinkling {
+ 	/*透明度由0到1*/
+ 	0% {
+ 		opacity: 0.2;
+ 		/*透明度为0*/
+ 	}
+ 	50% {
+ 		opacity: .5;
+ 	}
+ 	100% {
+ 		opacity: 1;
+ 		/*透明度为1*/
+ 	}
+ }
+ 
+ .twinklingPlay {
+ 	animation: twinkling 1s infinite ease-in-out;
+ 	-webkit-animation: twinkling 1s infinite ease-in-out;
+ }
+ 
+ .swiper-button-disabled {
+ 	background: none;
+ }
+ 
+ @-webkit-keyframes circle {
+ 	0% {
+ 		transform: rotate(0deg);
+ 	}
+ 	100% {
+ 		transform: rotate(360deg);
+ 	}
+ }
+ 
+ .imgBox {
+ 	width: 30px;
+ 	height: 30px;
+ 	position: fixed;
+ 	right: 10px;
+ 	top: 10px;
+ 	z-index: 999;
+ }
+ .share{
+ 	width: 30px;
+ 	height: 30px;
+ 	position: fixed;
+ 	right: 10px;
+ 	top: 50px;
+ 	z-index: 999;
+ }
+ .play{
+ 	animation: circle 2.5s linear infinite;
+ }
+ .imgBox img, .share img {
+ 	width: 100%;
+ 	height: 100%;
+ }
+ .contentBox{
+ 	margin: 90% auto;
+ }
+ .contentBox span{
+ 	display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    padding-right: 20px;
+    color: #fff;
+ }
+.contentBox input{
+	height: 28px;
+    line-height: 28px;
+    text-indent: 10px;
+    border: none;
+    vertical-align: top;
+    outline: none;
+    border-radius: 9px;
+}
+button,div{
+	-webkit-tap-highlight-color: rgba(255,255,255,0);
+}

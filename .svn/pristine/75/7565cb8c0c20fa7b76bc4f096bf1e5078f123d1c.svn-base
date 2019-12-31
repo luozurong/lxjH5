@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>申请售后</title>
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<link rel="stylesheet" href="../common/reset.css" />
+		<link rel="stylesheet" href="../common/common.css">
+		<link rel="stylesheet" href="css/service.css?yu=001">
+		<link rel="stylesheet" href="css/orderconfirmation.css">
+		<link rel="stylesheet" href="../common/progress.css">
+		<link rel="stylesheet" type="text/css" href="../common/tip/layer.css" />
+		<script type="text/javascript" src="../common/jquery-2.1.4.js"></script>
+		<script type="text/javascript" src="../common/jquery-1.11.2.min.js"></script>
+		<script src="../common/tip/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../common/jquery.SuperSlide.2.1.1.js"></script>
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script src="js/ajaxfileupload.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			setTitle("申请售后");
+			//setRefreshOnResume();//刷新界面
+			//判断在手机设备上使用一下代码 
+			var $windowWidth = $(window).width();
+			setTimeout(function() {
+				$windowWidth = $(window).width();
+				if($windowWidth > 640) {
+					$windowWidth = 640; //限定最大宽度为640
+				}
+				$("html").css("font-size", (100 / 320) * $windowWidth + "px");
+			}, 100);
+			var $windowHeight = $(window).height();
+			$(window).resize(function() {
+				$windowWidth = $(window).width();
+				if($windowWidth > 640) {
+					$windowWidth = 640;
+				}
+				$("html").css("font-size", (100 / 320) * $windowWidth + "px");
+				if($windowHeight <= $(window).height()) {
+					/* 			location.reload(); */
+					$('.act_method').css({
+						'position': 'fixed',
+						'bottom': '0'
+					});
+
+				}
+			});
+		</script>
+		<script type="text/javascript">
+			//获取URL参数
+			function GetURLParameter(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if(r != null) return unescape(r[2]);
+				return null;
+			}
+			var pageSize = 0;
+			var pageNum = 0;
+			var orderNo = GetURLParameter("orderNo");
+			var token = GetURLParameter("token");
+			var orderNum = GetURLParameter("orderStatus");
+			if(orderNum == null)
+				orderNum = "-1";
+			//获取时间戳
+			var currentDate = new Date();
+			var yyyy = currentDate.getFullYear().toString(); //获取当前年份(2位)
+			var MM = (currentDate.getMonth() + 1).toString(); //获取当前月份(0-11,0代表1月)
+			if(MM.length == 1)
+				MM = "0" + MM;
+			var DD = currentDate.getDate().toString(); //获取当前日(1-31)
+			if(DD.length == 1)
+				DD = "0" + DD;
+			var HH = currentDate.getHours().toString(); //获取当前小时数(0-23)
+			if(HH.length == 1)
+				HH = "0" + HH;
+			var mm = currentDate.getMinutes().toString(); //获取当前分钟数(0-59)
+			if(mm.length == 1)
+				mm = "0" + mm;
+			var ss = currentDate.getSeconds().toString(); //获取当前秒数(0-59)
+			if(ss.length == 1)
+				ss = "0" + ss;
+			var time_stamp = yyyy + MM + DD + HH + mm + ss;
+			$(window).load(function() {
+				setTimeout("showView()", 100); //延迟显示，先加载页面框架
+			});
+			var order_list = "";
+			//显示页面
+			function showView() {
+				//progressBegin(); //显示进度条
+				getData(); //获取服务器数据
+			}
+			//显示进度条     
+//			function progressBegin() {
+//				if($("#progress").hasClass("done")) {
+//					$("#progress").removeClass("done")
+//				}
+//				$({
+//					property: 0
+//				}).animate({
+//					property: 75
+//				}, {
+//					duration: 2000,
+//					step: function() {
+//						var percentage = Math.round(this.property);
+//						$('#progress').css('width', percentage + "%");
+//						if(percentage == 100) {
+//							$("#progress").addClass("done"); //完成，隐藏进度条
+//						}
+//					}
+//				});
+//			}
+
+			function getData() {
+				var orderStatus = "-1";
+				//var str = "{\"body\":{\"orderStatus\":\"-1\",\"orderNo\":\"" + orderNo + "\"},\"header\":{\"token\":\"" + token + "\",\"time_stamp\":\"" + time_stamp + "\"}}";
+				var str = "{\"body\":{\"orderStatus\":\"" + orderStatus + "\",\"orderDetailNo\":\"" + orderNo + "\",\"pageSize\":" + pageSize + ",\"pageNum\":" + pageNum + "}," +
+					"\"header\":{\"token\":\"" + token + "\",\"time_stamp\":\" " + time_stamp + " \"}" +
+					"}";
+				var requestURL = host + "/mms/servlet/getCommodityOrderList?str=" + str;
+				$.ajax({
+					type: "get", //jquey是不支持post方式跨域的 	
+					async: false,
+					url: requestURL, //跨域请求的URL 	
+					dataType: "jsonp",
+					//传递给请求处理程序，用以获得jsonp回调函数名的参数名(默认为:callback) 	
+					jsonp: "jsoncallback",
+					//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名 	
+					jsonpCallback: "success_jsonpCallback",
+					//成功获取跨域服务器上的json数据后,会动态执行这个callback函数 	
+					success: function(json) {
+						console.debug("json:" + JSON.stringify(json));
+						var list = json;
+						showData(json);
+						//progressEnd(); //隐藏进度条
+					}
+				});
+			}
+			var orderStatus = "";
+			var sellerID = "";
+
+			function showData(json) {
+				var orderStatus = "";
+				var order_str = "";
+				var type = "";
+				var o = json.orderDetail;
+				var obj = o.commodityOrderList;
+				order_str = order_str + "<li class='clearfix'><div class='number'><p>订单编号：<span>" + o.orderNo + "</span></p></div>";
+				for(j in obj) {
+					order_str = order_str + "<div class='goods_info'><div class='GoodPic'><a href='javascript:;'><img src='" + obj[j].thumbLogo + "'></a></div><p class='ShuoMing'><span>" + obj[j].commodityName + "</span><span class='shop_size'>" + obj[j].commodityDetails + "</span></p><div class='pri'><div class='price'>¥" + obj[j].commitPrice + "</div><div class='num'>x" + obj[j].counts + "</div></div></div>"
+						//order_str = order_str + "<div class='goods_info'><div class='GoodPic'><a href='javascript:;'><img src='" + obj[j].thumLogo + "'></a></div><p class='ShuoMing'><span>" + obj[j].commodityName + "</span><span class='property'>" + obj[j].commodityDetails + "</span></p><div class='pri'><div class='price'>￥" + obj[j].commitPrice + "</div><div class='price del'>￥" + obj[j].originalPrice + "</div><div class='num'>x" + obj[j].counts + "</div><!--<a href='javascript:;' class='refund'>退款</a>--></div></div>"
+				}
+				order_str = order_str + "</li>"
+				type=o.type;
+				$("#order_list_content").html(order_str);
+				if(type == 3) {
+					$(".ShuoMing .shop_size").hide();
+				}
+			}
+			//获取商家信息数据         
+			var shopTel = "";
+			var feedBackImages = [];
+
+			function imageUpload() {
+				var picturenum = $("#picture").children("div").length;
+				var maxPicture = 3 - parseInt(picturenum);
+				if(maxPicture > 0) {
+					//document.write("+++++++++$$$$$$$$$$$$$$$$$==="+maxSelect);
+					//JS调用原生   android调用格式为window.jsInterfaceName.methodName(parameterValues),此处是已经封装好的公共方法
+					selectPicture(maxPicture);
+				}
+			}
+
+			function onPictureSelected(json) {
+				var josnObj = JSON.parse(json);
+				if(josnObj.result == '0') {
+					var imageArray = josnObj.list;
+					if(imageArray.length > 0) {
+						// 获取到上传图片的路径
+						for(var i = 0; i < imageArray.length; i++) {
+							feedBackImages.push(imageArray[i]);
+							var o_path = imageArray[i].o_path; // 原图路径
+							var t_path = imageArray[i].t_path; // 缩略图路径
+							var picturefirst = "<div  name=\'" + o_path + "'\" style='background-image:url(" + o_path + ")'></div>";
+							//getimgWidthHeight(t_path);
+							$("#picture").append(picturefirst);
+							var picturenum = $("#picture").children("div").length;
+							if(picturenum >= 3) {
+								$(".addpicture").css("display", "none");
+							}
+						}
+					}
+				}
+			}
+
+			function ajaxFormCommit() {
+				var flag = 5;
+				var feedBackContent = $("#feedBackContent").val();
+				var str = "{\"body\":{\"orderNo\":\"" + orderNo + "\",\"flag\":\"" + flag + "\",\"imgUrlList\":\"" + JSON.stringify(feedBackImages).replace(/o_path/g, "imgUrl").replace(/t_path/g, "thumImgUrl").replace(/\"/g, "'") + "\",\"content\":\"" + feedBackContent + "\"},\"header\":{\"token\":\"" + token + "\",\"time_stamp\":\"" + time_stamp + "\"}}";
+				var requestURL = host + "/mms/servlet/operateOrders?str=" + str;
+				$.ajax({
+					type: "get", //jquey是不支持post方式跨域的 	
+					async: false,
+					url: requestURL, //跨域请求的URL 	
+					dataType: "jsonp",
+					//传递给请求处理程序，用以获得jsonp回调函数名的参数名(默认为:callback) 	
+					jsonp: "jsoncallback",
+					//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名 	
+					jsonpCallback: "success_jsonpCallback",
+					//成功获取跨域服务器上的json数据后,会动态执行这个callback函数 	
+					success: function(json) {
+						//提示框还没出来，暂时不添加
+						if(json.result == 0) {
+							$("#submit").removeAttr("onclick", "ajaxFormCommit()");
+							$(".act_method").hide();
+							showActivity(host + "/mms/html5/personal/my_order.htm?orderStatus=4&token=" + token, "售后订单");
+						}
+					}
+				});
+			}
+
+			function onfocusopen() {
+				$('.act_method').css('position', 'static');
+				//				$("html").css("overflow-x", "hidden");
+				//				$("body").css("overflow-x", "hidden");
+			}
+
+			function onbluropen() {
+				$('.act_method').css({
+					'position': 'fixed',
+					'bottom': '0'
+				});
+				//				window.scroll(0, 0);
+				//				$("html").css("overflow-x", "hidden");
+				//				$("body").css("overflow-x", "hidden");
+			}
+
+			function newviewopen(x) {
+				setTimeout(function() {
+					var viewBottom = window.innerHeight;
+					var weizhi;
+					//输出viewBottom
+					var element = document.getElementById(x);
+					var getElementPosition = function(elem) {
+						var defaultRect = {
+							top: 0,
+							left: 0
+						};
+						weizhi = elem.getBoundingClientRect();
+					}
+					getElementPosition(element);
+					//var footheight = $(".act_method").height();
+					//var elementBottom = weizhi.bottom + footheight;
+					var elementBottom = weizhi.bottom;
+					if(viewBottom >= elementBottom) {
+
+					} else {
+						var vuleheight = elementBottom - viewBottom + 50;
+						$(window).scrollTop(vuleheight);
+						window.scrollTo(0, vuleheight);
+					}
+				}, 300);
+			}
+		</script>
+	</head>
+
+	<body class="bgcolor">
+		<!--header s-->
+		<!--进度条 b-->
+		<!--<div id="progress">-->
+			<!--<span></span>-->
+		<!--</div>-->
+		<!--商品信息 S-->
+		<div class="order_shop clearfix">
+			<ul class="ul01" id="order_list_content">
+
+			</ul>
+
+		</div>
+
+		<!--问题描述 S-->
+		<form method="post">
+			<div class="clearfix">
+				<div class="form-div-title">
+					备注留言：
+				</div>
+				<div class="main-second">
+					<textarea id="feedBackContent" name="feedBackContent" rows="5" onclick="newviewopen(this.id)" onfocus="onfocusopen()" onblur="onbluropen()" placeholder="选填  限制300字 请在此描述详细问题" maxlength="300" onkeyup="value=value.replace(/[\&\%\#]/g,'')" onpaste="value=value.replace(/[\&\%\#]/g,'')" oncontextmenu="value=value.replace(/[\&\%\#]/g,'')" /></textarea>
+				</div>
+				<div class="form-div-title">
+					上传图片
+				</div>
+				<div class="main-third">
+					<div class="picture" id="picture">
+						<!-- <img alt="" src="">  -->
+					</div>
+					<!--<div class="input-file-img">-->
+					<div class="addpicture">
+						<img src="images/btn_add@3x.png" onclick="imageUpload()" />
+					</div>
+					<!--</div>-->
+
+				</div>
+				<div class="picture-warning">
+					<strong style="color: #ec584e;">*</strong>最多只上传3张，每张不超过5M，仅支持JPG、PNG、BMP
+				</div>
+
+			</div>
+
+			<div class="act_method">
+				<input type="button" value="提交申请" class="act_pay" id="submit" onclick="ajaxFormCommit()" />
+			</div>
+
+		</form>
+		<div id="div-none" style="height: 0.5rem;width: 100%;padding: 0;margin: 0;opacity: 0;">
+
+		</div>
+
+	</body>
+
+</html>

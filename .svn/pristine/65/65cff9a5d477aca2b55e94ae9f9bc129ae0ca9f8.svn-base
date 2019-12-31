@@ -1,0 +1,64 @@
+.emptyRecord{
+	width: 100%;
+	padding-top: 1.13rem;
+	display: -webkit-flex;
+	-webkit-align-items: center;
+	-webkit-flex-direction: column;
+}
+.emptyRecord img{
+	width: 1.8rem;
+	height: 1.8rem;
+	display: block;	
+	-webkit-flex-shrink: 0;
+}
+.emptyRecord span{
+	font-size: 0.17rem;
+	color: #ccc;
+	line-height: 1;
+	padding-top: 0.14rem;
+	text-align: center;
+	width: 100%;
+}
+
+.main{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0 0.14rem;
+	background-color: #fff;
+}
+.recordItemBox{
+	width: 100%;
+}
+.recordItem{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0.15rem 0.06rem;
+	display: -webkit-flex;
+	-webkit-justify-content: space-between;
+	-webkit-align-items: center;
+}
+
+.recordItem .recordInfo{
+	
+}
+.recordText{
+	color: #333;
+	font-size: 0.16rem;
+	line-height: 1;
+}
+.recordTime{
+	color: #ccc;
+	font-size: 0.13rem;	
+	line-height: 1;
+	padding-top: 0.12rem;
+}
+.recordItem span{
+	color: #333;
+	font-size: 0.15rem;
+}
+.recordItem .redClor{
+	color: #ff525d;
+}
+.recordItem .taobClor{
+	color: #FC9153;
+}

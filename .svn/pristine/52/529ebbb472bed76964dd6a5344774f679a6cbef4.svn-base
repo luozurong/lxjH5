@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection"  content="telephone=no">
+        <meta  http-equiv="x-rim-auto-match" content="none">
+		<title>详情</title>
+		<link rel="stylesheet" href="../common/reset.css">
+		<link rel="stylesheet" type="text/css" href="css/specialtydetails.css" />
+		<script src="../common/jquery-1.7.2.min.js"></script>
+	   <script type="text/javascript" src="../common/interface.js"></script>
+		<script src="js/specialtydetailpicture.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/common.js"></script>
+		<script src="../mall/js/underscore.js"></script>
+	</head>
+
+	<body>
+
+
+		<div>
+			<ul class="main">
+				<script id="foodpicture" type="text/html">
+					<li class="picture">
+						<%=commodityParamDetail%>
+					</li>
+
+
+					<li class="padding-left border_bottom_s" >
+						<span class="taocan">
+						套餐
+					</span>
+					</li>
+					<li class="padding-left dish-list">
+						<ul id="sellfoodlist">
+
+						</ul>
+					</li>
+				</script>
+				<script id="foodlist" type="text/html">
+					<li>
+						<span class="dish-name">
+								<%=name%>
+							</span>
+						<span class="dish-right">
+								<span  class="dish-number">
+									<%=num%><%=unit%>
+								</span>
+						<span class="dish-price">
+									<%=price%>元
+								</span>
+						</span>
+					</li>
+				</script>
+				<script id="foodrule" type="text/html">
+
+				
+					<li class="padding-left border_bottom_s border_top_s" style="color: #888888;">
+						购买须知：</li>
+					<li class="padding-left use-rule ">
+						
+						<ul id="rule-info">
+							<li>
+								<div>
+									有效期
+								</div>
+								<div class="nyuseTime">
+									<%=validityDate%>
+								</div>
+							</li>
+							<li>
+								<div id="">
+									不可用日期
+								</div>
+								<div class="nyuseTime">
+									<%=disabledDate%>
+								</div>
+							</li>
+							<li>
+								<div id="">
+									使用规则
+								</div>
+								<ul>
+									<li>
+										<%=rule%>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</script>
+
+			</ul>
+
+		</div>
+
+		<footer>
+			<div class="qiang-gou" id="qiang-gou">
+				<script id="shopprice" type="text/html">
+					<div class="buy-left">
+						<span class="new-prices"><span class="font_size2">¥</span>
+						<span id="new-prices"><%=currentPrice%></span>
+						</span>
+						<span class="old-prices"><span class="font_size2">¥</span>
+						<span id="old-prices"><%=originalPrice%></span>
+						</span>
+					</div>
+					<div id="open" class="buy-right" onclick="doSubmit()">
+						<span>马上抢购</span>
+					</div>
+				</script>
+			</div>
+		</footer>
+
+	</body>
+
+</html>

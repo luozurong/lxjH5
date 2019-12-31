@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" href="../../common/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/ordersCentre.css" />
+		<script src="../../common/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/interface.js" type="text/javascript" charset="utf-8"></script>
+		<title>团购订单</title>
+	</head>
+	<style type="text/css">
+		body,
+		html {
+			font-family: "PingFang SC", Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+			background-color: #f3f4f5;
+		}
+		
+		body {
+			font-size: 14px;
+		}
+		
+		input {
+			outline: none;
+			/*去ios内阴影、圆角*/
+			-webkit-appearance: none;
+			border-radius: 0;
+			border: none;
+			margin: 0;
+			padding: 0;
+			font-weight: normal;
+		}
+		
+		input,
+		textarea,
+		a {
+			-webkit-tap-highlight-color: transparent;
+		}
+		
+		* {
+			-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+		}
+		
+		[v-cloak] {
+			display: none!important;
+		}
+		
+		#app {
+			width: 100%;
+			position: relative;
+			/*background-image: url('11.png');
+			background-position: 0 0;
+			background-size: 100% auto;
+			background-repeat: no-repeat;*/
+		}
+		
+		.line_01 {
+			width: 100%;
+			height: 1px;
+			background-color: #eee;
+			/*transform: scaleY(0.5);
+		-webkit-transform: scaleY(0.5)*/
+		}
+		
+		.fade-enter-active {
+			transition: all 1.5s ease;
+		}
+		
+		.fade-leave-active {
+			transition: opacity 1s;
+		}
+		
+		.fade-enter {
+			transform: translateX(-100%);
+		}
+		
+		.fade-leave-to {
+			opacity: 0;
+		}
+	</style>
+
+	<body style="width: 100%;">
+		<div id="app" v-cloak>
+			<div class="memberInfo" style="opacity: 0;z-index: -1;">
+				<div class="memberImgBox">
+					<div class="memberImg">
+						<img src="" />
+					</div>
+				</div>
+				<div class="memberInfoBox">
+					<div class="memberName">
+						黄
+					</div>
+					<div class="memberJoinTime">
+						加入时间：2018-12-10
+					</div>
+				</div>
+			</div>
+			<div class="menusBox" style="opacity: 0;z-index: -1;">
+				<div class="menu" v-on:click="orderStatus=-1">
+					<img src="../member/images/ic_all@3x.png" />
+					<span>全部订单</span>
+					<span v-show="orderStatus==-1"></span>
+				</div>
+				<div class="menu" v-on:click="orderStatus=0">
+					<img src="../member/images/btn_ic_pay@3x.png" />
+					<span>待付款</span>
+					<span v-show="orderStatus==0"></span>
+				</div>
+				<div class="menu" v-on:click="orderStatus=1">
+					<img src="../member/images/btn_ic_receive@3x.png" />
+					<span>待发货</span>
+					<span v-show="orderStatus==1"></span>
+				</div>
+				<div class="menu" v-on:click="orderStatus=2">
+					<img src="../member/images/btn_ic_car@3x.png" />
+					<span>待收货</span>
+					<span v-show="orderStatus==2"></span>
+				</div>
+				<div class="menu" v-on:click="orderStatus=4">
+					<img src="../member/images/btn_ic_refund@3x.png" />
+					<span>售后/退货</span>
+					<span v-show="orderStatus==4"></span>
+				</div>
+			</div>
+			<!--顶部忽略-->
+			<div id="headerTop">
+				<div class="memberInfo">
+					<div class="memberImgBox">
+						<div class="memberImg">
+							<div :style="{ backgroundImage: 'url('+pImg+')' }"></div>
+						</div>
+					</div>
+					<div class="memberInfoBox">
+						<div class="memberName">
+							{{pName}}
+						</div>
+						<div class="memberJoinTime" v-if="jsondate.peopleJoinTime">
+							加入时间：{{jsondate.peopleJoinTime}}
+						</div>
+					</div>
+				</div>
+				<div class="menusBox">
+					<div class="menu" v-on:click="orderStatus=-1">
+						<img src="../member/images/ic_all@3x.png" />
+						<span>全部订单</span>
+						<span v-show="orderStatus==-1"></span>
+					</div>
+					<div class="menu" v-on:click="orderStatus=0">
+						<img src="../member/images/btn_ic_pay@3x.png" />
+						<span>待付款</span>
+						<span v-show="orderStatus==0"></span>
+					</div>
+					<div class="menu" v-on:click="orderStatus=1">
+						<img src="../member/images/btn_ic_receive@3x.png" />
+						<span>待发货</span>
+						<span v-show="orderStatus==1"></span>
+					</div>
+					<div class="menu" v-on:click="orderStatus=2">
+						<img src="../member/images/btn_ic_car@3x.png" />
+						<span>待收货</span>
+						<span v-show="orderStatus==2"></span>
+					</div>
+					<div class="menu" v-on:click="orderStatus=4">
+						<img src="../member/images/btn_ic_refund@3x.png" />
+						<span>售后/退货</span>
+						<span v-show="orderStatus==4"></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="emptyRecord" v-if="jsondate!=null&&orderList.length==0">
+				<img src="../commander/img/empty.png" />
+				<span>暂无订单记录</span>
+			</div>
+
+			<div class="orderCommodities" v-if="orderStatus!=4">
+				<div class="commoditiesItem" v-if="orderList.length>0" v-for="(items,index) in orderList">
+					<div class="sellerName">
+						<img src="../member/images/ic_shop@3x.png" />
+						<span>{{items.sellerName}}</span>
+						<span class="colorTaob" v-if="items.status==0">待付款</span>
+						<span class="colorTaob" v-if="items.status==1">待发货</span>
+						<span class="colorTaob" v-if="items.status==2">待收货</span>
+						<span class="colorTaob" v-if="items.status==3">退款中</span>
+						<span class="colorTaob" v-if="items.status==4">售后处理中</span>
+						<span class="" v-if="items.status==5">已完成</span>
+						<span class="" v-if="items.status==6">交易关闭</span>
+						<span class="" v-if="items.status==7">已拒收</span>
+					</div>
+					<div class="commoditiesItemOrderNum">
+						订单编号：{{items.orderNo}}
+					</div>
+					<div class="commoditiesList" v-on:click="goOrderDetail(items.totalOrderNo)">
+						<div class="commodityBox" v-for="(item,indexi) in items.commodityList">
+							<div class="commodity">
+								<div class="commodityImg">
+									<img v-bind:src="item.thumbLogo" />
+								</div>
+								<div class="commodityInfo">
+									<div class="commodityName">
+										<div class="commodityName">
+											{{item.commodityName}}
+										</div>
+										<!--<div class="commodityProfit" v-if="items.groupLeaderKey==0">
+											预计利润 ¥ {{item.profit}}/份
+										</div>-->
+									</div>
+
+									<div class="commodityPrice">
+										<span class="commodityPriceBox">
+										<span>¥{{String(item.commodityPrice).split('.')[0]}}.</span><span>{{String(item.commodityPrice).split('.')[1]}}</span>
+										</span>
+										<span class="commodityNum">x{{item.counts}}</span>
+									</div>
+								</div>
+							</div>
+							<!--<div class="serviceButtonBox">
+								<span class="serviceButtonDis">申请售后</span>								
+							</div>-->
+						</div>
+
+					</div>
+					<div class="commoditiesItemPrice">
+						<div class="commoditiesItemPriceBox">
+							<span>共{{items.commodityCounts}}件商品  合计：</span><span>¥{{String(items.totalPrice).split('.')[0]}}.</span><span>{{String(items.totalPrice).split('.')[1]}}</span><!--<span v-if="items.groupLeaderKey==0">&nbsp;&nbsp;&nbsp;预计利润合计 ¥ {{items.orderProfit}}</span>-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/ordersCentre.js" type="text/javascript" charset="utf-8"></script>
+
+	</body>
+
+</html>

@@ -1,0 +1,199 @@
+var scrollTop = "";
+
+var isWxBrowser = true;
+var ua = navigator.userAgent.toLowerCase();
+if(ua.match(/MicroMessenger/i) == "micromessenger") {
+	isWxBrowser = true;
+} else {
+	isWxBrowser = false;
+}
+
+mmsHost = host;
+
+mmsHost = "https://tt.hori-gz.com:8443";
+host = mmsHost;
+commodityId = "1540187623912ff3ae4f815742bcbb5a";
+organizationSeq = "4400100183";
+token = "_15444060121896d708361a0d43a68164";
+
+var vue = new Vue({
+	el: '#app',
+	data: {
+		transitionShow: false,
+		transitionShow2: false,
+		transitionShow3: false,
+		isWxBrowser: isWxBrowser,
+		chairmanMoreInfoState: false,
+		activityNoticeState: false,
+		countDownTimeStamp: 10,
+		countDown: ["00", "00", "00", "00"],
+		countonw: [1, 2, 3, 4, 5]
+	},
+	filters: {
+		//状态过滤
+
+	},
+	mounted: function() {
+		this.$nextTick(function() {
+			this.getbasicData();
+		});
+
+	},
+	methods: {
+		getCouponData: function() {
+			var that = this;
+			var params = {
+				body: {
+					commodityId: this.commodityId
+				},
+				header: {
+					token: this.token,
+					time_stamp: new Date().getTime()
+				}
+			}
+			axios.post(this.mmsHost + "/mms/servlet/getCommodityCoupons", params).then(function(res) {
+				console.log(res);
+				that.couponList = res.data.list ? res.data.list : [];
+			}, function(res) {})
+
+		},
+
+		reducebugNumber: function() {
+			if(this.bugNumber <= 1) {
+				this.bugNumber = 1;
+			} else {
+				this.bugNumber = this.bugNumber - 1;
+			}
+		},
+		addbugNumber: function() {
+			if(this.maxstockQuantity > 0) {
+				if(this.bugNumber < this.maxstockQuantity) {
+					this.bugNumber++;
+				} else {
+					this.bugNumber = this.maxstockQuantity;
+				}
+			} else {
+				this.bugNumber == 1;
+			}
+		},
+
+		GetURLParameter: function(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+			var r = window.location.search.substr(1).match(reg);
+			if(r != null) return decodeURI(r[2]);
+			return null;
+
+		},
+		animateStart: function() {
+			var timeStat2 = setInterval(function() {
+				if(vue.transitionShow) {
+					vue.transitionShow = false;
+				} else {
+					//clearInterval(timeStat);
+					vue.transitionShow = true;
+					if (!vue.transitionShow2) {
+						setTimeout("vue.transitionShow3=true",100)
+					}
+					
+				}
+			}, 3000)
+		},
+		animateStart2: function() {
+			var timeStat2 = setInterval(function() {
+				if(vue.transitionShow3) {
+					if(vue.transitionShow2) {
+						vue.transitionShow2 = false;
+					} else {
+						//clearInterval(timeStat);
+						vue.transitionShow2 = true;
+					}
+				}
+
+			}, 3000)
+		},
+		countdownStart: function() {
+			var timeStat = setInterval(function() {
+				if(vue.countDownTimeStamp > 0) {
+					vue.countDownTimeStamp = vue.countDownTimeStamp - 1;
+				} else {
+					clearInterval(timeStat);
+				}
+			}, 1000)
+		},
+		getCountdown: function(num) {
+			var dayNum = parseInt(num / 86400);
+			if(dayNum < 10) dayNum = "0" + dayNum;
+			var dayNum2 = num % 86400;
+
+			var hoursNum = parseInt(dayNum2 / 3600);
+			if(hoursNum < 10) hoursNum = "0" + hoursNum;
+			var hoursNum2 = dayNum2 % 3600;
+
+			var MMNum = parseInt(hoursNum2 / 60);
+			if(MMNum < 10) MMNum = "0" + MMNum;
+
+			var SSNum = hoursNum2 % 60;
+			if(SSNum < 10) SSNum = "0" + SSNum;
+
+			Vue.set(this.countDown, 0, dayNum);
+			Vue.set(this.countDown, 1, hoursNum);
+			Vue.set(this.countDown, 2, MMNum);
+			Vue.set(this.countDown, 3, SSNum);
+
+		},
+
+		aminateFun: function() {
+			var eleG = document.getElementById("chairmanMoreInfo");
+			eleG.style.maxHeight = "0";
+		},
+		getbasicData: function() {
+			this.getCountdown(this.countDownTimeStamp);
+			this.countdownStart()
+			this.animateStart()
+			this.animateStart2()
+
+			var that = this;
+			if(isWxBrowser) {
+				this.wxJsdkConfig();
+			}
+		},
+	},
+	watch: {
+		countDownTimeStamp: function(newVal, oldVal) {
+			vue.getCountdown(newVal);
+		},
+		chairmanMoreInfoState: function(newVal, oldVal) {
+			var eleG = document.getElementById("chairmanMoreInfo");
+			var eleG2 = document.getElementById("chairmanMoreInfo2");
+
+			if(newVal) {
+				//vue.couponMoreState2 = true;
+				setTimeout(function() {
+					eleG.style.maxHeight = "9rem";
+					eleG2.style.maxHeight = "9rem";
+				}, 10)
+			} else {
+				//vue.couponMoreState2 = false;
+				setTimeout(function() {
+					eleG.style.maxHeight = "0";
+					eleG2.style.maxHeight = "0";
+				}, 10)
+			}
+		},
+	}
+});
+
+//获取URL参数
+function GetURLParameter(name) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	var r = window.location.search.substr(1).match(reg);
+	if(r != null) return decodeURI(r[2]);
+	return null;
+}
+
+function refreshData() {
+	setTimeout(function() {
+
+	}, 0);
+	return 1;
+}

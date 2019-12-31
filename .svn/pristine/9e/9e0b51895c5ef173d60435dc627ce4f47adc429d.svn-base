@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8" />
+    <title>联享家</title>
+    <meta name="keywords" content="广州合立正通信息科技有限公司" />
+    <meta name="description" content="广州合立正通信息科技有限公司，，主营智能家居、智能小区、智慧城市业务" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+    <meta name="copyright" content="Copyright tigo_network.com 版权所有" />
+    <link href="../templets/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="../templets/Content/index.min.css" rel="stylesheet" />
+    <script src="../templets/Scripts/jquery.min.js"></script>
+    <script src="../templets/Scripts/index.min.js"></script>
+</head>
+
+<body>
+<header>
+    <div class="logo">
+        <img src="../templets/Picture/logo.png" alt="广州合立正通信息科技有限公司" class="img-responsive" />
+    </div>
+    <strong class="words">专注客户需求</strong>
+    <nav class="menu">
+        <ul class="list-inline">
+            <li class="active"><a>首页</a></li>
+            <li><a>业务</a></li>
+            <li><a>案例</a></li>
+            <li><a>品质</a></li>
+            <li><a>关于</a></li>
+            <li><a>联系</a></li>
+        </ul>
+    </nav>
+    <div class="hotline">
+        <a href="tel:020-39383939" title="网站建设免费咨询热线"><span>TEL:020-39383939</span></a><u></u>
+    </div>
+    <div class="menu-icon">
+        <a href="tel:020-39383939" title="点击直拨网站建设热线"><span class="glyphicon glyphicon-earphone"></span></a>
+        <span class="glyphicon glyphicon-th-large"></span>
+    </div>
+</header>
+
+<div class="welcome"><p><u>Loading . . .</u></p></div>
+<!--轮番图-->
+<section class="video">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide nth1">
+                <div class="box">
+
+                    <div class="right">
+                        <span>联享家</span>
+                        <a href="/a/job" style="text-decoration: none; color:#fff;z-index:999;">
+                        <!--<i></i>-->
+                        </a>
+                        <p><a href="/a/job" style="text-decoration: none; color:#666;z-index:999;">运营部、程序员、产品部 测试部 猛戳应聘</a></p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="swiper-slide nth2">
+                <div class="box">
+                    <span>没最好的技术，却有更好的程序猿。</span>
+                    <!--<i></i>-->
+                    <p>技术高于市场，我们注重技术，更注重技术人才</p>
+                </div>
+            </div>
+            <div class="swiper-slide nth3">
+                <div class="box">
+                    <div class="top">追求效率</div>
+                    <!--<div class="mid"></div>-->
+                    <div class="bottom" style="color:#666">只为得到客户多一份惊叹</div>
+                </div>
+            </div>
+            <div class="swiper-slide nth4">
+                <div class="box">
+                    <div class="top">
+                        <span>醉心于设计</span>
+                        <!--<i></i>-->
+                    </div>
+                    <div class="bottom">只为展示出多一份用心凝聚的作品</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="innerBox">
+        <div class="news">
+            <span>NEWS :</span>
+            <a href="/a/news/" title="更多文章动态" class="more" target="_blank">more</a>
+            <ul>
+                <li><a href="/a/news/experience/2017/0526/269.html" target="_blank" title="百度语音系统与人接近 可“完美”模仿各">百度语音系统与人接近 可“完美”模仿各...</a></li>
+                <li><a href="/a/news/experience/2017/0227/229.html" target="_blank" title="为什么一些创业公司能成功，而大部分却">为什么一些创业公司能成功，而大部分却...</a></li>
+                <li><a href="/a/news/experience/2017/0224/228.html" target="_blank" title="打造创业公司文化，请小心这七个坑">打造创业公司文化，请小心这七个坑...</a></li>
+                <li><a href="/a/news/experience/2017/0223/227.html" target="_blank" title="那些公司高官定下的“延伸目标”">那些公司高官定下的“延伸目标”...</a></li>
+                <li><a href="/a/news/experience/2017/0222/226.html" target="_blank" title="怎样处理联合创始人冲突？最佳CP是这样">怎样处理联合创始人冲突？最佳CP是这样...</a></li>
+
+            </ul>
+        </div>
+        <div class="guide"></div>
+        <a class="movedown"></a>
+    </div>
+</section>
+<!--业务-->
+<section class="business active" style="height: 949px;">
+    <div class="box" style="top: 319px;">
+        <div class="caption">
+            <i></i><span>微信平台开发的正确打开</span>
+            <br class="clear">
+        </div>
+        <ul class="items list-inline" style="width: 918px;">
+            <li class="pc"><u class="cl"></u><u class="cr"></u>
+                <i></i><strong>移动应用开发</strong>
+                <p>专业打造<br>移动应用智能终端</p>
+            </li>
+            <li class="mobi"><u class="cl"></u><u class="cr"></u>
+                <i></i><strong>网站建设</strong>
+                <p>为企业量身定制集营<br>管理与一体的互联网产品</p>
+            </li>
+            <!--<li class="sys"><u class="cl"></u><u class="cr"></u>-->
+                <!--<i></i><strong>智能社区</strong>-->
+                <!--<p>智能遥控<br>其他智能家居</p>-->
+            <!--</li>-->
+            <li class="app"><u class="cl"></u><u class="cr"></u>
+                <i></i><strong>微信平台开发</strong>
+                <p>提供基于微信公众号的个性化功能开发</p>
+            </li>
+            <li class="host"><u class="cl"></u><u class="cr"></u>
+                <i></i><strong>解决方案</strong>
+                <p>针对企业的互联网产品化需求<br>提供一站式的产品解决方案</p>
+            </li>
+        </ul>
+        <!--<label></label>-->
+    </div>
+</section>
+<!--案例介绍-->
+<section class="cases"style="padding-top:80px;">
+    <div class="box" >
+        <div class="caption">
+            <i></i><span>部分案例欣赏</span>
+            <br class="clear" />
+        </div>
+        <div class="swiper-container items">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="../cases/about0.jpg" target="_blank">
+                        <img src="../uploads/about0.jpg" alt="联享家生活" />
+                        <p>联享家生活<br /><strong>联享家生活</strong><br />联享家生活</p></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="../cases/app11.jpg" target="_blank">
+                        <img src="../uploads/app11.jpg" alt="门口机" />
+                        <p>开门机<br /><strong>门口机</strong><br />门口机</p></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="../cases/appp44.jpg" target="_blank">
+                        <img src="../uploads/appp44.jpg" alt="拨号显示" />
+                        <p>物业管理<br /><strong>拨号显示</strong><br />拨号显示</p></a>
+                </div>
+
+            </div>
+        </div>
+        <a href="http://lxjapp.com/app.htm" title="欣赏更多联享家案例" class="more" target="_blank">MORE</a>
+    </div>
+</section>
+
+<section class="quality" style="padding-top: 70px;">
+    <div class="box">
+        <div class="caption">
+            <i></i><span>云平台，物联网</span>
+            <br class="clear" />
+        </div>
+        <div class="swiper-container items">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide nth1">
+                    <ul class="list-inline">
+                        <li class="mobi"><span>基于云平台、物联网技术的移动式可视对讲门禁系统</span></li><li class="pad"><span>小区业主通过手机APP,</span></li><li class="pc"><span>能够很方便快捷的为用户提供小区门禁监控画面</span></li>
+                    </ul>
+                    <p>随时随地<br/>可视对讲开门<br />毫无顾忌地通过任何终端<br />呈现在客户的眼前</p>
+                </div>
+                <div class="swiper-slide nth2">
+                    <ul class="list-inline">
+                        <li class="ie"><span>与访客进行音视频对讲沟通确认，并能实现一键手机开门</span></li><li class="chrome"><span>物业通知先知道：社区服务、物业通知百分百送达</span></li><li class="firefox"><span>让您随时掌握小区新情况。便利业主报修</span></li><li class="safari"><span>随时随地与物业互动等多项超便利的智能生活</span></li>
+                    </ul>
+                    <p>与访客进行音视频对讲沟通确认<br />让您随时掌握小区新情况<br />为用户提供小区门禁监控画面</p>
+                </div>
+                <div class="swiper-slide nth3">
+                    <ul class="list-inline">
+                        <li class="windows"><span>结合了物联网与互联网和云平台三方</span></li><li class="ios"><span>拥有智能的云对讲功能</span></li><li class="andriod"><span>而小区门禁系统则是其优势之一</span></li>
+                    </ul>
+                    <p>智能门禁管理系统<br />对于小区来说用处是非常大的<br />联享家更是具有多种优势，是新型小区改革的首选</p>
+                </div>
+            </div>
+        </div>
+        <a href="" class="lookall" target="_blank">了解更多联享家信息</a>
+    </div>
+</section>
+
+<section class="aboutus" style="padding-top: 260px;">
+    <ul class="menu"><li>理论</li><li>关于</li><li>团队</li></ul>
+    <div class="swiper-container items">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide nth1">
+                <strong style="color:#ff7d3d;">联享家</strong>
+                <p style="text-indent:28px;">联享家是一款专为用户提供对讲服务的智能家居软件，能够很方便地为用户提供小区门禁监控画面，实时了解是否有客人来访，可以与来访者进行音视频对讲，并能通过手机进行开门。</p>
+            </div>
+            <div class="swiper-slide nth2">
+                <strong style="text-indent:0px;">合立正通</strong>
+                <p>一家集网站、微信、B2B、B2C、C2C开发、推广、运营、维护等服务于一体的创新型科技公司。公司由一群年轻充满活力、创意、又具有个性的大学生组成的团队。拥有高逼格的“程序猿”，高大上的“射鸡师”，时尚的视觉品味，丰富的广告营销，熟练的运营管理。 致力于为企业提供个性化、高品质的产品服务，以客户与市场需求相结合为导向，有计划地创造、实践、反馈、调整、实践，如此循环式地服务好每个客户，力求做出最好的成果。</p>
+
+            </div>
+            <div class="swiper-slide nth3">
+                <strong>我们</strong>
+                <p>公司长期致力于智慧产业方向的技术研究及产品开发，凭借丰厚的技术积累和强大的研发力量，积极参与智慧产业标准研究制定工作，是我国IGRS国际标准的重要支撑单位，公司结合云计算、物联网等先进技术，逐步构建和形成了智慧城市、智慧建筑、智慧社区、智慧家庭的完整解决方案。</p>
+            </div>
+        </div>
+    </div>
+    <table class="exp">
+        <tr>
+            <td><u></u></td>
+            <td><u></u></td>
+            <td><u></u></td>
+            <td><u></u></td>
+            <td><u></u></td>
+        </tr>
+    </table>
+</section>
+
+<section class="contact" style="padding-top: 240px;">
+    <div class="box">
+        <div class="above">
+            <div class="wechat"><img src="../templets/Picture/wechat.jpg" alt="扫描关注联享家微信公众账号" /></div>
+            <div class="left">
+                <!--<a href="tel:0769-33680668" title="网站制作咨询热线" class="tel"></a>-->
+                <p>中国广东<br/>公司名称：广州合立正通信息科技有限公司<br/>联系电话：020-39383939<br />地址：广州市番禺区大学城北智慧之城青蓝街28号<br />邮编：510006<br/>邮箱：commerce@hori-gz.com</p>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+<div style="height:38px;line-height:18px;width:100%;text-align:center;padding-top:18px;position:fixed;bottom:0;background:#ccc;opacity:0.7;z-index:9999;">
+            Copyright © 广州合立正通信息科技有限公司<br /><a href="http://www.miitbeian.gov.cn">粤ICP备11032073号-2</a><br />
+</div>
+
+
+
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?a821a161aa4214f5ff5b8ca372960ebb";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+        setTimeout(function(){
+            $(".active").click()
+        },1000);
+    })();
+</script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+	<header>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="../../common/reset.css" />
+		<link rel="stylesheet" href="css/commanderOrder.css">
+		<script src="../../common/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/vue/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../common/js/wxJSDK.js" type="text/javascript" charset="utf-8"></script>
+		<title>订单</title>
+		<style type="text/css">
+			body,
+			html {
+				font-family: "PingFang SC", Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+				background-color: #f3f4f5;
+			}
+			
+			body {
+				font-size: 14px;
+			}
+			
+			input {
+				outline: none;
+				/*去ios内阴影、圆角*/
+				-webkit-appearance: none;
+				border-radius: 0;
+				border: none;
+				margin: 0;
+				padding: 0;
+				font-weight: normal;
+			}
+		</style>
+	</header>
+
+	<body>
+		<div id="app">
+
+			<div class="searchByPhone">
+				<input type="search" placeholder="请输入手机号码" maxlength="11">
+				<span>搜索</span>
+			</div>
+			<div class="menusBox">
+				<div class="menu">
+					<img src="../member/images/ic_all@3x.png" />
+					<span>全部订单</span>
+					<span></span>
+				</div>
+				<div class="menu">
+					<img src="../member/images/btn_ic_pay@3x.png" />
+					<span>待付款</span>
+					<span></span>
+				</div>
+				<div class="menu">
+					<img src="../member/images/btn_ic_receive@3x.png" />
+					<span>待发货</span>
+					<span></span>
+				</div>
+				<div class="menu">
+					<img src="../member/images/btn_ic_car@3x.png" />
+					<span>待收货</span>
+					<span></span>
+				</div>
+				<div class="menu">
+					<img src="../member/images/btn_ic_refund@3x.png" />
+					<span>售后/退货</span>
+					<span></span>
+				</div>
+			</div>
+			<div class="orderCommodities">
+				<div class="commoditiesItem">
+					<div class="sellerName">
+						<img src="../member/images/ic_shop@3x.png" />
+						<span>活动名称杀菌的骄傲加速度</span>
+						<span class="colorTaob">待发货</span>
+					</div>
+					<div class="commoditiesItemOrderNum">
+						订单编号：1321231231313
+					</div>
+					<div class="commoditiesList">
+						<div class="commodityBox">
+							<div class="commodity">
+								<div class="commodityImg">
+									<img src="../member/images/7.jpg" />
+								</div>
+								<div class="commodityInfo">
+									<div class="commodityName">
+										<div class="commodityName">
+											活动名称杀菌的骄傲加速度活动名称杀菌的骄傲加速度
+										</div>
+										<div class="commodityProfit">
+											预计利润 ¥ 9.30/份
+										</div>
+									</div>
+
+									<div class="commodityPrice">
+										<span class="commodityPriceBox">
+										<span>¥9.</span><span>99</span>
+										</span>
+										<span class="commodityNum">x1</span>
+									</div>
+								</div>
+							</div>
+							<div class="serviceButtonBox">
+								<span class="serviceButtonDis">申请售后</span>
+								
+							</div>
+
+						</div>
+						<div class="commodityBox">
+							<div class="commodity">
+								<div class="commodityImg">
+									<img src="../member/images/7.jpg" />
+								</div>
+								<div class="commodityInfo">
+									<div class="commodityName">
+										<div class="commodityName">
+											活动名称杀菌的骄傲加速度活动名称杀菌的骄傲加速度
+										</div>
+										<div class="commodityProfit">
+											预计利润 ¥ 9.30/份
+										</div>
+									</div>
+
+									<div class="commodityPrice">
+										<span class="commodityPriceBox">
+										<span>¥9.</span><span>99</span>
+										</span>
+										<span class="commodityNum">x1</span>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="commoditiesItemPrice">
+						<div class="commoditiesItemPriceBox">
+							<span>共1件商品  合计：</span><span>¥209.</span><span>97</span>&nbsp;&nbsp;&nbsp;<span>预计利润合计 ¥ 209.33</span>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+			
+			<div class="grouponActivity-nav">
+				<div class="grouponActivity-nav-item">
+					<img src="img/nav_btn_ic_pintuan_nor@3x.png" alt="">
+					<div >拼团</div>
+				</div>
+				<div class="grouponActivity-nav-item">
+					<img src="img/nav_btn_ic_order_pre@3x.png" alt="">
+					<div class="grouponActivity-nav-active">订单</div>
+				</div>
+				<div class="grouponActivity-nav-item">
+					<img src="img/nav_btn_ic_mine_nor@3x.png" alt="">
+					<div>我的</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/commanderOrder.js"></script>
+	</body>
+
+</html>

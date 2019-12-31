@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>母亲节广告跳转内页</title>
+<link rel="stylesheet" href="../common/reset.css">
+<script src="../common/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../common/interface.js"></script>
+<style type="text/css">
+img {
+	float: left;
+}
+</style>
+<script type="text/javascript">
+	function goUrl(ele) {
+		showActivity($(ele).attr("id"), "");
+	}
+</script>
+</head>
+
+<body>
+	<p>
+		<img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170511/201705111155501888827.jpg"
+			title="" alt="商城内页_01.jpg" /><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=149066981547847cac61347947a08c2e"
+			target="_blank" title="单品花套餐"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170511/201705111155529776072.jpg"
+			title="" alt="商城内页_02.jpg" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=149017289623cbe3a2880af446bdbfd6"
+			target="_blank" title="100元美心饼卡"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170511/201705111158165837146.jpg"
+			title="" alt="商城内页_03.jpg" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=1487147292641c43200d5daa434d9e74"
+			target="_blank" title="10斤米"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170511/201705111159114806730.jpg"
+			title="" alt="商城内页_04.jpg" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=148852526711c81827f36d154745ba84"
+			target="_blank" title="20斤米"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170511/201705111200180584371.jpg"
+			title="" alt="商城内页_05.jpg" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/supermarket/ProductDetail.htm?commodityId=149248397047ea2cc655dbee49828fe8"
+			target="_blank" title="一日游"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170511/201705111200532802622.jpg"
+			title="" alt="商城内页_06.jpg" /></a><a onclick="goUrl(this)"
+			id="https://mms.hori-gz.com:8443/mms/html5/mall/serviceList.htm?activityId=1487646855153142c378342142c08ea6"
+			target="_blank" title="清洗服务"><img style="max-width: 100%;"
+			src="http://115.28.114.204:8090/upload/images/20170511/201705111506513218974.jpg"
+			title="" alt="内页.jpg" /></a>
+	</p>
+	<style type="text/css">
+body {
+	margin: 0px;
+}
+</style>
+</body>
+
+</html>

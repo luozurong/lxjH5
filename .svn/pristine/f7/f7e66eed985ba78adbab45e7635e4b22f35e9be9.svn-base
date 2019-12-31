@@ -1,0 +1,34 @@
+body{
+    height:100%;
+    width:100%;
+}
+
+input,button{
+    display:block;
+    width:80%;
+    height:30px;
+    border-radius:0.02rem;
+    border:none;
+    position: relative;
+    left:10%;
+}
+.primaryNum{
+    top:0.12rem;
+}
+p{
+    position: relative;
+    margin-top:0.16rem;
+    margin-left:10%;
+    color:darkred;
+}
+.newNum{
+    margin-top:0.16rem;
+}
+.newNum2{
+    margin-top:0.12rem;
+}
+button{
+    margin-top:0.12rem;
+    background: red;
+    color:#fff;
+}

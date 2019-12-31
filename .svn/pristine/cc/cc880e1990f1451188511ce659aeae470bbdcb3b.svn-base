@@ -1,0 +1,132 @@
+<template>
+	<div class="communitySelect">
+		<div class="searchCommunity clearfix">
+			<div class="fl">
+				<input type="search" name="" id="" placeholder="搜索小区" @click="oninput"/>
+			</div>
+			<div class="fr" @click="goCitySelect">
+				<span class="icon"></span>
+				{{$store.state.city.name}}
+			</div>
+		</div>
+		<div class="myAddressBox" v-show='$store.state.city.isLocation'>
+			<div class="myAddress">
+				<div class="myAddressTitle">所在位置</div>
+				<div class="myAddressValBox">
+					<div class="myAddressVal">{{myAddress}}</div>
+				</div>
+			</div>
+			<div class="myAddress">
+				<div class="myAddressTitle">我的小区</div>
+				<div class="myAddressValBox">
+					<div class="myAddressVal" v-for='myCommunity in myCommunitys'>{{myCommunity}}</div>
+					<div class="myAddressVal null" v-show='myCommunitys.length === 0'>暂无小区</div>
+				</div>
+			</div>
+			<div class="myAddress">
+				<div class="myAddressTitle">附近的小区</div>
+				<div class="myAddressValBox">
+					<div class="myAddressVal" v-for='neighborCommunity in neighborCommunitys' @click='selectCommunnity'>{{neighborCommunity}}</div>
+					<div class="myAddressVal null" v-show='neighborCommunitys.length === 0'>暂无小区</div>
+				</div>
+			</div>
+		</div>
+		<div class="myAddressBox" v-show='!$store.state.city.isLocation'>
+			<div class="myAddress">
+				<div class="myAddressTitle">所有小区</div>
+				<div class="myAddressValBox">
+					<div class="myAddressVal" v-for='allCommunity in allCommunitys' @click='selectCommunnity'>{{allCommunity}}</div>
+					<div class="myAddressVal null" v-show='allCommunitys.length === 0'>暂无小区</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+<script type="text/javascript">
+	export default{
+		name:'communitySelect',
+		data(){
+			return{
+				allCommunityShow:false,
+				address:'广州市',
+				myAddress:'广东省广州市番禺区青蓝街',
+				myCommunitys:[],
+				neighborCommunitys:['附近小区0','附近小区1'],
+				allCommunitys:['合作城市所有小区1','合作城市所有小区11']
+			}
+		},
+		mounted(){
+			
+		},
+		methods:{
+			goCitySelect(){
+				this.$router.push({path:'/citySelect'})
+			},
+			oninput(){
+				this.$router.push({path:'/communitySearch'})
+//				this.myAddressBoxShow = false	
+			},
+			selectCommunnity(e){
+				this.$store.commit('changeCommuinty',e.target.innerText)//修改x小区
+				this.$router.go(-1)
+			}
+		}
+	}
+</script>
+<style scoped="scoped">
+	.searchCommunity{
+		padding: 0.05rem 0.07rem 0.05rem  0.14rem;
+	}
+	.fl{
+		width: 80%;
+	}
+	.fl input{
+		height: 0.3rem;
+		width: 100%;
+		border-radius: 0.04rem;
+		padding-left: .42rem;
+		box-sizing: border-box;
+		background: url(../../../static/images/btn_ic_search@3x.png) 0.14rem center no-repeat;
+		background-size: 0.14rem;
+		background-color: #FFFFFF;
+	}
+	.fr{
+		width: 20%;
+		text-align: center;
+		color: #333333;
+		font-size: 0.16rem;
+		line-height: .3rem;
+	}
+	.icon{
+		display: inline-block;
+		width: 0.14rem;
+		height: 0.3rem;
+		background: url(../../../static/images/nav_btn_ic_location@3x.png) left 0.06rem no-repeat;
+		background-size: 0.14rem 0.14rem;
+		vertical-align: middle;
+	}
+	.myAddress{
+	}
+	.myAddressTitle,.myAddressVal{
+		padding: 0 0.14rem;
+		height: .4rem;
+		line-height: .4rem;
+		color: #FC9153;
+		font-size: .16rem;
+	}
+	.myAddressValBox{
+		background-color: #FFFFFF;
+	}
+	.myAddressVal{
+		padding: 0;
+		margin: 0 0.14rem;
+		color: #333333;
+		border-top: 1px solid #F1F2F3;
+	}
+	.myAddressVal:first-child{
+		border: none;
+	}
+	.null{
+		color: #CCCCCC;
+	}
+</style>

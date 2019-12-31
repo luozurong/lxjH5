@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>卡券</title>
+		<link rel="stylesheet" href="../common/reset.css" />
+		<script type="text/javascript" src="../common/interface.js"></script>
+		<script src="../common/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			a {
+				text-decoration: none;
+				color: #000;
+			}
+			
+			html {
+				font-size: 100px;
+				width: 100%;
+				height: 100%;
+			}
+			
+			body {
+				/*font-family: "Microsoft Yahe;*/
+				background: #f0f0f0;
+				width: 100%;
+				height: 100%;
+			}
+			
+			@media(max-device-width: 340px) {
+				html {
+					font-size: 100px;
+				}
+			}
+			
+			@media (min-device-width: 340px) and (max-device-width: 380px) {
+				html {
+					font-size: 120px;
+				}
+			}
+			
+			@media (min-device-width: 380px) and (max-device-width: 420px) {
+				html {
+					font-size: 140px;
+				}
+			}
+			
+			@media (min-device-width: 420px) and (max-device-width: 450px) {
+				html {
+					font-size: 140px;
+				}
+			}
+			
+			@media (min-device-width: 450px) {
+				html {
+					font-size: 160px;
+				}
+			}
+			
+			
+			body {
+				font-size: 0.13rem;
+			}
+			
+			.classifylist {
+				height: 0.36rem;
+			    line-height: 0.36rem;
+			    padding: 0.11rem 0;
+				border-bottom: 1px solid #f0f0f0;
+			}
+			
+			.imgBox {
+				float: left;
+				height: 100%;
+				padding-left: 3.5%;
+			}
+			
+			.imgBox img {
+				height: 100%;
+			}
+			
+			.name {
+				float: left;
+				padding-left: 6%;
+				font-size: 0.13rem;
+			}
+			
+			.backgr {
+				float: right;
+				padding-right: 10%;
+				background: url(images/ic_more-@3x.png) 86.5% 50% no-repeat;
+				background-size: 20%;
+				font-size: 0.12rem;
+				color: #6a6a6a;
+			}
+		</style>
+		<script type="text/javascript">
+			function GetURLParameter(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if(r != null) return unescape(r[2]);
+				return null;
+			}
+			var token = GetURLParameter("token");
+//			host="http://114.215.94.79:8090";
+//			token="147996825582950d88d2c8474deba65e";
+			$(function() {
+				setTitle("我的卡券");
+				setRefreshOnResume();
+				$("#coupons_1").click(function() {
+					showActivity(host + "/mms/html5/personal/sales_coupons.htm?label=favoured", "优惠券");
+				})
+				$("#coupons_2").click(function() {
+					showActivity(host + "/mms/html5/personal/sales_coupons.htm?label=group", "团购券");
+				})
+				$("#coupons_3").click(function() {
+					showActivity(host + "/mms/html5/personal/sales_coupons.htm?label=exchange", "兑奖券");
+				})
+				var countFlag = 1;
+				var couponType = 0;
+				var time_stamp = Date.parse(new Date());
+				var data = "{\"body\":{\"countFlag\":" + countFlag + ",\"couponType\":" + couponType + "},\"header\":{\"token\":\"" + token + "\",\"time_stamp\":\"" + time_stamp + "\"}}";
+				var requestURL = host + "/mms/servlet/getAllCoupons?str=" + data;
+				$.ajax({
+					type: "post",
+					url: requestURL,
+					async: true,
+					dataType: "jsonp",
+					jsonp: "jsoncallback",
+					jsonpCallback: "success_jsonpCallback",
+					success: function(data) {
+						
+						if(data.result == 0) {
+							$("#couponCount").html(data.couponCount);
+							$("#groupCouponCount").html(data.groupCouponCount);
+							$("#voucherCount").html(data.exchangeCount);
+						}
+					}
+				});
+			})
+		</script>
+	</head>
+
+	<body>
+		<div style="height: 10px;"></div>
+		<ul style="background: #fff;">
+			<li class="classifylist" id="coupons_1">
+				<div class="imgBox">
+					<img src="images/ic_youhui@2x.png" />
+				</div>
+				<div class="name">
+					优惠券
+				</div>
+				<div class="backgr">
+					<span id="couponCount"></span>张可用
+				</div>
+			</li>
+			<li class="classifylist" id="coupons_2">
+				<div class="imgBox">
+					<img src="images/ic_tuangou@2x.png" />
+				</div>
+				<div class="name">
+					团购券
+				</div>
+				<div class="backgr">
+					<span id="groupCouponCount"></span>张可用
+				</div>
+			</li>
+			<li class="classifylist" id="coupons_3">
+				<div class="imgBox">
+					<img src="images/ic_duihuan@2x.png" />
+				</div>
+				<div class="name">
+					兑换券
+				</div>
+				<div class="backgr">
+					<span id="voucherCount"></span>张可用
+				</div>
+			</li>
+		</ul>
+	</body>
+
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" />
+		<title>预约配送</title>
+		<link rel="stylesheet" href="../reset.css">
+		<link rel="stylesheet" type="text/css" href="css/Successful-appointment.css" />
+		<script src="../jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="../interface.js"></script>
+		<script src="../common.js "></script>
+		<script type="text/javascript">
+		var token=GetURLParameter("token");
+		var orderNo=GetURLParameter("orderNo");
+		function seeOrder(){
+			try{
+				showActivity(host+"/mms/html5/personal/my_order.htm?backHomePage=1&orderStatus=1"+"&token="+token,"待发货订单");
+			}catch(e){
+				
+			}
+		}
+			$(document).ready(function() {
+				try{
+					setTitle("订单支付结果");
+					 backToHomePage();
+				}catch(e){
+					
+				}
+			});
+		</script>
+	</head>
+	<!--<style type="text/css">-->
+		<!--body {-->
+			<!--margin: 0px;-->
+			<!--padding: 0px;-->
+			<!--font-family: "微软雅黑", "黑体", "宋体";-->
+			<!--font-size: 16px;-->
+		<!--}-->
+		<!-- -->
+		<!--ul li.img-min {-->
+			<!--padding: .9rem .3rem .1rem .3rem;-->
+		<!--}-->
+		<!-- -->
+		<!--ul li {-->
+			<!--overflow: hidden;-->
+			<!--background: #fff;-->
+			<!--box-sizing: border-box;-->
+			<!-&#45;&#45;webkit-box-sizing: border-box;-->
+		<!--}-->
+		<!-- -->
+		<!--img {-->
+			<!--clear: both;-->
+			<!--display: block;-->
+			<!--margin: auto;-->
+			<!--/*margin-top: 1.5rem;*/-->
+			<!--width: 35%;-->
+		<!--}-->
+		<!-- -->
+		<!--.success-title {-->
+			<!--text-align: center;-->
+			<!--/* margin-top: .2rem; */-->
+			<!--font-size: 0.4rem;-->
+			<!--/* font-weight: 900; */-->
+			<!--color: #222222;-->
+			<!--overflow: hidden;-->
+			<!--text-overflow: ellipsis;-->
+			<!--display: -webkit-box;-->
+			<!-&#45;&#45;webkit-line-clamp: 2;-->
+			<!-&#45;&#45;webkit-box-orient: vertical;-->
+		<!--}-->
+		<!-- -->
+		<!--.time {-->
+			<!--text-align: center;-->
+			<!--padding-top: .16rem;-->
+			<!--font-size: 0.27rem;-->
+			<!--color: #999999;-->
+			<!--text-overflow: ellipsis;-->
+			<!--display: -webkit-box;-->
+			<!-&#45;&#45;webkit-line-clamp: 2;-->
+			<!-&#45;&#45;webkit-box-orient: vertical;-->
+		<!--}-->
+	<!--</style>-->
+
+	<body>
+		<ul>
+			<li class="img-min"><img src="../images/picture_success@3x.png" /></li>
+			<li class="success-title">
+				支付成功
+			</li>
+			<li class="time">
+				我们将尽快为您发出您购买的商品
+			</li>
+			<li class="lookOrders"><a onclick="seeOrder()">查看订单</a>
+		</li>
+		</ul>
+	</body>
+</html>
